@@ -1,5 +1,6 @@
 import mongoose from 'mongoose'
 import express, { Request, Response } from 'express'
+import bodyParser from 'body-parser'
 
 // importing routes
 import user from './routes/api/user_auth'
@@ -24,6 +25,11 @@ const app = express()
 
 const port = process.env.PORT || 8000
 
+// body parser middleware
+app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.json())
+
+// app routes
 app.use('/api/user', user)
 app.use('/api/posts', posts)
 app.use('/api/profiles', profiles)
