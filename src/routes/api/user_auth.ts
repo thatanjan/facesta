@@ -40,6 +40,11 @@ const create_new_user = (request: Request, response: Response) => {
     bcryptjs.hash(new_user_password, salt, (err, hash) => {
       if (err) throw err
       new_user_password = hash
+
+      // making the new user password to the hashed password
+
+      new_user.password = new_user_password
+      console.log(new_user_password)
       new_user
         .save()
         .then((user: {}) => response.json(user))
@@ -58,6 +63,50 @@ router.post('/register', (req: Request, res: Response) => {
       // console.log(124)
       // create_new_user
     }
+  })
+})
+
+// @route GET api/posts/test
+// @description register user
+// @access Public
+
+// @route GET api/posts/test
+// @description Login User / Returning JWT Token
+// @access Public
+
+router.post('/login', ({ body }: Request, res: Response) => {
+  const email = body.email
+  const password = body.password
+
+  // console.log(email, password)
+  // // find user by email
+
+  User.findOne({ email }).then((user: any) => {
+    if (!user) {
+      console.log('not found')
+      return res.status(404).json({ email: 'user not found' })
+    }
+    // check password is same or not
+
+    // password === user.password
+    //   ? res.json({
+    //       msg: 'success',
+    //     })
+    //   : null
+
+    bcryptjs
+      .compare(password, user.password)
+      .then((isMatch) => {
+        console.log(isMatch)
+        if (isMatch) {
+          res.json({
+            msg: 'success',
+          })
+        } else {
+          return res.status(404).json({ password: 'password incorrect' })
+        }
+      })
+      .catch((err) => console.log(err))
   })
 })
 
