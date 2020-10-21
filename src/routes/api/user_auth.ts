@@ -1,8 +1,17 @@
 import express, { Request, Response } from 'express'
 import gravatar from 'gravatar'
 import bcryptjs from 'bcryptjs'
+import jwt from 'jsonwebtoken'
 
 import User from '../../models/User'
+import { secretKey } from '../../config/keys'
+
+// interface for payload object for jwt
+interface Payload {
+  id: string
+  name: string
+  avatar: any
+}
 
 const router = express.Router()
 
@@ -79,7 +88,7 @@ router.post('/login', ({ body }: Request, res: Response) => {
   const password = body.password
 
   // console.log(email, password)
-  // // find user by email
+  // // find user by <email  />
 
   User.findOne({ email }).then((user: any) => {
     if (!user) {
@@ -88,19 +97,28 @@ router.post('/login', ({ body }: Request, res: Response) => {
     }
     // check password is same or not
 
-    // password === user.password
-    //   ? res.json({
-    //       msg: 'success',
-    //     })
-    //   : null
-
     bcryptjs
       .compare(password, user.password)
       .then((isMatch) => {
         console.log(isMatch)
         if (isMatch) {
-          res.json({
-            msg: 'success',
+          // user matched
+
+          const payload: Payload = {
+            id: user.id,
+            name: user.name,
+            avatar: user.avatar,
+          }
+
+          // sign token
+          jwt.sign(payload, secretKey, { expiresIn: 3600 }, (err, token) => {
+            if (err) {
+              console.log(err)
+            }
+            res.json({
+              success: true,
+              token: 'Bearer' + token,
+            })
           })
         } else {
           return res.status(404).json({ password: 'password incorrect' })
