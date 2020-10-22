@@ -1,11 +1,15 @@
 import mongoose from 'mongoose'
 import express, { Request, Response } from 'express'
 import bodyParser from 'body-parser'
+import passport from 'passport'
 
 // importing routes
 import user from './routes/api/user_auth'
 import posts from './routes/api/posts'
 import profiles from './routes/api/profile'
+
+// importing passport strategy
+import { JWT_strategy } from './config/passport'
 
 // mongoose key
 import mongoURI from './config/keys'
@@ -29,14 +33,15 @@ const port = process.env.PORT || 8000
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 
+// passport config
+app.use(passport.initialize())
+
+JWT_strategy(passport)
+
 // app routes
 app.use('/api/user', user)
 app.use('/api/posts', posts)
 app.use('/api/profiles', profiles)
-
-app.get('/', (req: Request, res: Response) => {
-  res.send('hello world')
-})
 
 // starting express server
 app.listen(port, () => {

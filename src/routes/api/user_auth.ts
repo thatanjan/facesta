@@ -2,12 +2,13 @@ import express, { Request, Response } from 'express'
 import gravatar from 'gravatar'
 import bcryptjs from 'bcryptjs'
 import jwt from 'jsonwebtoken'
+import passport from 'passport'
 
 import User from '../../models/User'
 import { secretKey } from '../../config/keys'
 
 // interface for payload object for jwt
-interface Payload {
+export interface Payload {
   id: string
   name: string
   avatar: any
@@ -117,7 +118,7 @@ router.post('/login', ({ body }: Request, res: Response) => {
             }
             res.json({
               success: true,
-              token: 'Bearer' + token,
+              token: 'Bearer ' + token,
             })
           })
         } else {
@@ -127,5 +128,20 @@ router.post('/login', ({ body }: Request, res: Response) => {
       .catch((err) => console.log(err))
   })
 })
+
+// @route GET api/users/current
+// @description  return current user
+// @access  Private
+
+router.get(
+  '/current',
+  passport.authenticate('jwt', { session: false }),
+  (req: any, res: Response) => {
+    res.json({
+      id: req._id,
+      name: req.name,
+    })
+  }
+)
 
 export default router
