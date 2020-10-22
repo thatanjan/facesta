@@ -7,6 +7,8 @@ import passport from 'passport'
 import User from '../../models/User'
 import { secretKey } from '../../config/keys'
 
+import validate_register_input from '../../validation/register'
+
 // interface for payload object for jwt
 export interface Payload {
   id: string
@@ -64,6 +66,13 @@ const create_new_user = (request: Request, response: Response) => {
 }
 
 router.post('/register', (req: Request, res: Response) => {
+  const { errors, isValid } = validate_register_input(req.body)
+
+  // check validation
+  if (!isValid) {
+    return res.status(400).json(errors)
+  }
+
   User.findOne({ email: req.body.email }).then((user) => {
     if (user) {
       return res.status(400).json({ email: 'email already exist' })
