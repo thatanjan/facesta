@@ -1,8 +1,24 @@
-import mongoose from 'mongoose'
+import mongoose, { SchemaDefinition } from 'mongoose'
 
 const Schema = mongoose.Schema
 
-const Profile_Schema = new Schema({
+// interface Profile_Schema_interface {
+//     user: object
+//     handle: object
+//     company: object
+//     website: object
+//     location: object
+//     status: object
+//     skills: object
+//     bio: object
+//     github_user_name: object
+//     experience: object[]
+//     education: object
+//     social: object
+//     date: object
+// }
+
+const data: SchemaDefinition = {
     user: {
         type: String,
     },
@@ -110,7 +126,9 @@ const Profile_Schema = new Schema({
         type: Date,
         default: Date.now,
     },
-})
+}
+
+const Profile_Schema = new Schema(data)
 
 const Profile_model = mongoose.model('profile', Profile_Schema)
 
