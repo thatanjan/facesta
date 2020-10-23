@@ -164,8 +164,8 @@ router.get(
     passport.authenticate('jwt', { session: false }),
     (req: any, res: Response) => {
         res.json({
-            id: req._id,
-            name: req.name,
+            id: req.user._id,
+            name: req.user.name,
         })
     }
 )

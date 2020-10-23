@@ -8,6 +8,16 @@ const router = express.Router()
 import Profile from '../../models/Profile'
 import User from '../../models/User'
 
+import validate_profile_input from '../../validation/profile'
+
+export const socials: string[] = [
+    'youtube',
+    'twitter',
+    'facebook',
+    'linkedin',
+    'instagram',
+]
+
 // @route GET api/profile/test
 // @description tests profile route
 // @access private
@@ -57,11 +67,16 @@ const profile_fields_arr: string[] = [
     'date',
 ]
 
-router.get(
+router.post(
     '/',
     passport.authenticate('jwt', { session: false }),
     (req: any, res: Response) => {
-        const errors: any = {}
+        const { errors, isValid } = validate_profile_input(req.body)
+
+        if (!isValid) {
+            res.status(400).json(errors)
+        }
+
         const profile_fields: any = {}
 
         profile_fields.user = req.user.id
@@ -79,14 +94,6 @@ router.get(
                 }
             } else if (property === 'social') {
                 profile_fields[property as keyof SchemaDefinition] = {}
-
-                const socials: string[] = [
-                    'youtube',
-                    'twitter',
-                    'facebook',
-                    'linkedin',
-                    'instagram',
-                ]
 
                 socials.map((item) => {
                     if (req.body[item]) {
