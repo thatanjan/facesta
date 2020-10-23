@@ -78,10 +78,7 @@ const validate_register_input = (data: validator_data) => {
     // check if two password is matched
     if (!Validator.equals(data.password, data.password2)) {
         errors.password2 = 'passwords must match'
-    } else {
-        errors.password2 = "didn't matched"
     }
-
     return {
         errors,
         isValid: is_empty(errors),
