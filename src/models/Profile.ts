@@ -2,22 +2,6 @@ import mongoose, { SchemaDefinition } from 'mongoose'
 
 const Schema = mongoose.Schema
 
-// interface Profile_Schema_interface {
-//     user: object
-//     handle: object
-//     company: object
-//     website: object
-//     location: object
-//     status: object
-//     skills: object
-//     bio: object
-//     github_user_name: object
-//     experience: object[]
-//     education: object
-//     social: object
-//     date: object
-// }
-
 const data: SchemaDefinition = {
     user: {
         type: String,

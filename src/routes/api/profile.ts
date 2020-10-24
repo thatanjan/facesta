@@ -9,6 +9,8 @@ import Profile from '../../models/Profile'
 import User from '../../models/User'
 
 import validate_profile_input from '../../validation/profile'
+import validate_experience_input from '../../validation/experience'
+import validate_education_input from '../../validation/education'
 
 export const socials: string[] = [
     'youtube',
@@ -194,6 +196,72 @@ router.post(
                     }
                 )
             }
+        })
+    }
+)
+
+// @route POST  api/profile/experience
+// @description  Add experience to profile
+// @access private
+
+router.post(
+    '/experience',
+    passport.authenticate('jwt', { session: false }),
+    (req: any, res: Response) => {
+        const { errors, isValid } = validate_experience_input(req.body)
+
+        // check validation
+        if (!isValid) {
+            return res.status(400).json(errors)
+        }
+
+        Profile.findOne({ user: req.user.id }).then((profile: any) => {
+            const newExp = {
+                title: req.body.title,
+                company: req.body.company,
+                location: req.body.location,
+                from: req.body.from,
+                to: req.body.req,
+                current: req.body.current,
+                description: req.body.description,
+            }
+
+            // add to experience array
+            profile.experience.unshift(newExp)
+            profile.save().then((profile: object) => res.json(profile))
+        })
+    }
+)
+
+// @route POST  api/profile/education
+// @description  Add education to profile
+// @access private
+
+router.post(
+    '/education',
+    passport.authenticate('jwt', { session: false }),
+    (req: any, res: Response) => {
+        const { errors, isValid } = validate_education_input(req.body)
+
+        // check validation
+        if (!isValid) {
+            return res.status(400).json(errors)
+        }
+
+        Profile.findOne({ user: req.user.id }).then((profile: any) => {
+            const newEdu = {
+                school: req.body.school,
+                degree: req.body.degree,
+                fieldOfStudy: req.body.fieldOfStudy,
+                from: req.body.from,
+                to: req.body.req,
+                current: req.body.current,
+                description: req.body.description,
+            }
+
+            // add to experience array
+            profile.education.unshift(newEdu)
+            profile.save().then((profile: object) => res.json(profile))
         })
     }
 )
