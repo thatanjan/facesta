@@ -36,6 +36,7 @@ router.get(
     (req: any, res: Response) => {
         const errors: any = {}
         Profile.findOne({ user: req.user.id })
+            .populate('user', ['name', 'avatar'])
             .then((profile) => {
                 if (!profile) {
                     errors.no_profile = 'There is no profile for theis user'
@@ -47,9 +48,75 @@ router.get(
     }
 )
 
+// @route GET api/profile/all
+//  @description get all profile
+// @access public
+
+router.get('/all', (req: Request, res: Response) => {
+    const errors = { no_profile: '' }
+    Profile.find()
+        .populate('user', ['name', 'avatar'])
+        .then((profiles) => {
+            if (!profiles) {
+                errors.no_profile = 'There are no profile'
+                return res.status(404).json(errors)
+            }
+            res.json(profiles)
+        })
+        .catch(() =>
+            res
+                .status(404)
+                .json({ profile: 'There is no profile for this user' })
+        )
+})
+
+// @route GET api/profile/handle/:handle
+//  @description get profile by handle
+// @access public
+
+router.get('/handle/:handle', (req: Request, res: Response) => {
+    const errors = {
+        no_profile: '',
+    }
+    Profile.findOne({ handle: req.params.handle })
+        .populate('user', ['name', 'avatar'])
+        .then((profile) => {
+            if (!profile) {
+                errors.no_profile = 'There is no profile'
+                res.status(404).json(errors)
+            }
+            res.json(profile)
+        })
+        .catch((error) => res.status(404).json(error))
+})
+
 // @route POST api/profile
 //  @description create or update user profile
 // @access private
+//
+// @route GET api/profile/user/:user_id
+//  @description get profile by user ID
+// @access public
+
+router.get('/user/:user_id', (req: Request, res: Response) => {
+    const errors = {
+        no_profile: '',
+    }
+    Profile.findOne({ user: req.params.user_id })
+        .populate('user', ['name', 'avatar'])
+        .then((profile) => {
+            if (!profile) {
+                errors.no_profile = 'There is no profile'
+                res.status(404).json(errors)
+            }
+            res.json(profile)
+        })
+        .catch((error) =>
+            res
+                .status(404)
+                .json({ profile: 'There is no profile for this user' })
+        )
+})
 
 const profile_fields_arr: string[] = [
     'user',
