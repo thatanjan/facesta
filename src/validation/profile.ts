@@ -30,7 +30,17 @@ const validate_profile_input = (data: validator_data) => {
     // the error object
     let errors: error_data = {}
 
-    const validator_properties: string[] = ['email', 'password']
+    const validator_properties: string[] = [
+        'handle',
+        'status',
+        'skills',
+        'website',
+        'youtube',
+        'twitter',
+        'linkedin',
+        'facebook',
+        'instagram',
+    ]
 
     // if the property is empty then turn into empty string otherwise no change.
     for (const property of validator_properties) {
@@ -45,7 +55,7 @@ const validate_profile_input = (data: validator_data) => {
         errors.handle = 'handle needs to be 2 and 4 characters'
     }
 
-    if (Validator.isEmpty(data.status)) {
+    if (Validator.isEmpty(data.handle)) {
         errors.handle = 'Profile handle is required'
     }
 
