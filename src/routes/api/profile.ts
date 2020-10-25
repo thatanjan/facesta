@@ -136,6 +136,10 @@ const profile_fields_arr: string[] = [
     'date',
 ]
 
+// @route POST api/profile
+//  @description create or update user profile
+// @access private
+
 router.post(
     '/',
     passport.authenticate('jwt', { session: false }),
@@ -266,4 +270,64 @@ router.post(
     }
 )
 
+// @route DELETE api/profile/experience/:exp_id
+// @description  delete experience to profile
+// @access private
+
+router.delete(
+    '/experience/:exp_id',
+    passport.authenticate('jwt', { session: false }),
+    (req: any, res: Response) => {
+        Profile.findOne({ user: req.user.id }).then((profile: any) => {
+            // get remove index
+            const remove_index = profile.experience
+                .map((item: any) => item.id)
+                .indexOf(req.params.exp_id)
+
+            // profile.experience.splice (remov)
+            profile.experience.splice(remove_index, 1)
+
+            //save
+            profile.save().then((profile: object) => res.json(profile))
+        })
+    }
+)
+
+// @route DELETE api/profile/education/:edu_id
+// @description  delete education to profile
+// @access private
+
+router.delete(
+    '/education/:edu_id',
+    passport.authenticate('jwt', { session: false }),
+    (req: any, res: Response) => {
+        Profile.findOne({ user: req.user.id }).then((profile: any) => {
+            // get remove index
+            const remove_index = profile.education
+                .map((item: any) => item.id)
+                .indexOf(req.params.exp_id)
+
+            profile.education.splice(remove_index, 1)
+
+            //save
+            profile.save().then((profile: object) => res.json(profile))
+        })
+    }
+)
+
+// @route DELETE api/profile/
+// @description  delete profile
+// @access private
+
+router.delete(
+    '/',
+    passport.authenticate('jwt', { session: false }),
+    (req: any, res: Response) => {
+        Profile.findOneAndRemove({ user: req.user.id }).then(() => {
+            User.findOneAndRemove({ _id: req.user.id }).then(() => {
+                res.json({ msg: 'successfully deleted' })
+            })
+        })
+    }
+)
 export default router
