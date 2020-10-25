@@ -25,10 +25,33 @@ router.get(
     '/',
     passport.authenticate('jwt', { session: false }),
     (req: any, res: Response) => {
+        const errors = {
+            msg: 'no post found',
+        }
+
         Post.find()
             .sort({ date: -1 })
             .then((posts) => res.json(posts))
-            .catch((error) => res.status(404))
+            .catch(() => res.status(404).json(errors))
+    }
+)
+
+// @route GET api/posts/:id
+// @description  get post by id
+// @access public
+
+router.get(
+    '/:post_id',
+    passport.authenticate('jwt', { session: false }),
+
+    (req: Request, res: Response) => {
+        const errors = {
+            msg: 'no post found',
+        }
+
+        Post.findById(req.params.post_id)
+            .then((post) => res.json(post))
+            .catch(() => res.status(404).json(errors))
     }
 )
 
