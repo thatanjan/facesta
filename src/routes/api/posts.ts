@@ -13,9 +13,24 @@ const router = express.Router()
 // @description tests posts route
 // @access private
 
-router.get('/', (req: Request, res: Response) => {
-    res.json({ msg: 'posts works' })
-})
+// router.get('/', (req: Request, res: Response) => {
+//     res.json({ msg: 'posts works' })
+// })
+
+// @route GET api/posts
+// @description  get post
+// @access public
+
+router.get(
+    '/',
+    passport.authenticate('jwt', { session: false }),
+    (req: any, res: Response) => {
+        Post.find()
+            .sort({ date: -1 })
+            .then((posts) => res.json(posts))
+            .catch((error) => res.status(404))
+    }
+)
 
 // @route POST api/posts
 // @description  create post
