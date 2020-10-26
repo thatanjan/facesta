@@ -96,23 +96,23 @@ router.delete(
         }
 
         Profile.findOne({ user: req.user.id }).then((profile: any) => {
-            console.log(profile)
             Post.findById(req.params.post_id)
                 .then((post: any) => {
                     // check for post owner
-                    // if (post.user.toString() !== req.user.id) {
-                    //     return res.status(401).json({ msg: errors.not_authorized })
-                    // }
+                    if (post.user.toString() !== req.user.id) {
+                        return res
+                            .status(401)
+                            .json({ msg: errors.not_authorized })
+                    }
 
-                    console.log(req.user.id)
-                    console.log(post)
-                    // post.remove()
-                    //     .then(() => {
-                    //         res.json({ msg: 'post successfully deleted' })
-                    //     })
-                    //     .catch(() => {
-                    //         res.status(404).json({ msg: errors.post_not_found })
-                    //     })
+                    // delete a post
+                    post.remove()
+                        .then(() => {
+                            res.json({ msg: 'post successfully deleted' })
+                        })
+                        .catch(() => {
+                            res.status(404).json({ msg: errors.post_not_found })
+                        })
                 })
                 .catch((err) => console.log(err))
         })
