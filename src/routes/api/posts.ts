@@ -152,4 +152,43 @@ router.post(
     }
 )
 
+// @route POST api/posts/unlike/:post_id
+// @description remove like a post by id
+// @access private
+
+router.delete(
+    '/unlike/:post_id',
+    passport.authenticate('jwt', { session: false }),
+    (req: any, res) => {
+        const errors = {
+            not_liked: 'user has not liked this post',
+        }
+
+        Profile.findOne({ user: req.user.id }).then((profile: any) => {
+            Post.findById(req.params.post_id)
+                .then((post: any) => {
+                    if (
+                        post.likes.filter(
+                            (like: any) => like.user.toString() === req.user.id
+                        ).length === 0
+                    ) {
+                        return res.status(400).json({ msg: errors.not_liked })
+                    }
+
+                    // get remove index
+                    const remove_index = post.likes
+                        .map((item: any) => item.user.toString())
+                        .indexOf(req.user.id)
+
+                    // splice out of array
+                    post.likes.splice(remove_index, 1)
+
+                    // save
+                    post.save().then((post: any) => res.json(post))
+                })
+                .catch((err) => console.log(err))
+        })
+    }
+)
+
 export default router
