@@ -191,4 +191,42 @@ router.delete(
     }
 )
 
+// @route POST api/posts/comment/:post_id
+// @description  comment a post by id
+// @access private
+
+router.post(
+    '/comment/:post_id',
+    passport.authenticate('jwt', { session: false }),
+    (req: any, res) => {
+        // comment validation
+        const { errors, isValid } = validate_post_input(req.body)
+
+        if (!isValid) {
+            return res.status(400).json(errors)
+        }
+
+        const error = {
+            no_post: 'no post found',
+        }
+
+        Post.findById(req.params.post_id)
+            .then((post: any) => {
+                const new_comment = {
+                    text: req.body.text,
+                    name: req.body.name,
+                    avatar: req.body.avatar,
+                    user: req.user.id,
+                }
+
+                // add to comments
+                post.comments.push(new_comment)
+
+                //save
+                post.save().then((post: any) => res.json(post))
+            })
+            .catch(() => res.status(404).json({ msg: error.no_post }))
+    }
+)
+
 export default router
