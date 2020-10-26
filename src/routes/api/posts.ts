@@ -2,7 +2,9 @@ import express, { Request, Response } from 'express'
 import mongoose from 'mongoose'
 import passport from 'passport'
 
+// importing models
 import Post from '../../models/Posts'
+import Profile from '../../models/Profile'
 
 // validation
 import validate_post_input from '../../validation/post'
@@ -77,6 +79,43 @@ router.post(
         })
 
         new_post.save().then((post: object) => res.json(post))
+    }
+)
+
+// @route DELETE api/posts/:id
+// @description  delete post by id
+// @access private
+
+router.delete(
+    '/:post_id',
+    passport.authenticate('jwt', { session: false }),
+    (req: any, res) => {
+        const errors = {
+            not_authorized: 'User not not authorized',
+            post_not_found: 'no post found',
+        }
+
+        Profile.findOne({ user: req.user.id }).then((profile: any) => {
+            console.log(profile)
+            Post.findById(req.params.post_id)
+                .then((post: any) => {
+                    // check for post owner
+                    // if (post.user.toString() !== req.user.id) {
+                    //     return res.status(401).json({ msg: errors.not_authorized })
+                    // }
+
+                    console.log(req.user.id)
+                    console.log(post)
+                    // post.remove()
+                    //     .then(() => {
+                    //         res.json({ msg: 'post successfully deleted' })
+                    //     })
+                    //     .catch(() => {
+                    //         res.status(404).json({ msg: errors.post_not_found })
+                    //     })
+                })
+                .catch((err) => console.log(err))
+        })
     }
 )
 
