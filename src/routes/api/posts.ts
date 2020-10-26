@@ -229,4 +229,41 @@ router.post(
     }
 )
 
+// @route POST api/posts/comment/:post_id/:comment_id
+// @description  delte a comment from a post by id
+// @access private
+
+router.delete(
+    '/delete_comment/:post_id/:comment_id',
+    passport.authenticate('jwt', { session: false }),
+    (req: any, res) => {
+        Post.findById(req.params.post_id).then((post: any) => {
+            const error = {
+                no_comment: 'no comment found',
+            }
+
+            // check if comment exist
+            if (
+                post.comments.filter(
+                    (comment: any) =>
+                        comment._id.toString() === req.params.comment_id
+                ).length === 0
+            ) {
+                return res.status(404).json({ msg: error.no_comment })
+            }
+
+            // getting the remove index
+            const remove_index = post.comments
+                .map((item: any) => item._id.toString())
+                .indexOf(req.params.comment_id)
+
+            // splice out of array
+            post.comments.splice(remove_index, 1)
+
+            // save
+            post.save().then((post: any) => res.json(post))
+        })
+    }
+)
+
 export default router
