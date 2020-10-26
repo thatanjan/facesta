@@ -119,4 +119,37 @@ router.delete(
     }
 )
 
+// @route POST api/posts/like/:post_id
+// @description  like a post by id
+// @access private
+
+router.post(
+    '/like/:post_id',
+    passport.authenticate('jwt', { session: false }),
+    (req: any, res) => {
+        const errors = {
+            already_liked: 'user is already liked this post',
+        }
+
+        Profile.findOne({ user: req.user.id }).then((profile: any) => {
+            Post.findById(req.params.post_id)
+                .then((post: any) => {
+                    if (
+                        post.likes.filter(
+                            (like: any) => like.user.toString() === req.user.id
+                        ).length > 0
+                    ) {
+                        return res
+                            .status(400)
+                            .json({ msg: errors.already_liked })
+                    }
+                    console.log(post)
+                    post.likes.push({ user: req.user.id })
+                    post.save().then((post: any) => res.json(post))
+                })
+                .catch((err) => console.log(err))
+        })
+    }
+)
+
 export default router
