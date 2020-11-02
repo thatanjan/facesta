@@ -5,14 +5,14 @@ export interface validator_data {
     name: string
     email: string
     password: string
-    password2: string
+    confirmPassword: string
 }
 
 interface error_data {
     name?: string
     email?: string
     password?: string
-    password2?: string
+    confirmPassword?: string
 }
 
 const validate_register_input = (data: validator_data) => {
@@ -23,7 +23,7 @@ const validate_register_input = (data: validator_data) => {
         'name',
         'email',
         'password',
-        'password2',
+        'confirmPassword',
     ]
 
     // if the property is empty then turn into empty string otherwise no change.
@@ -70,14 +70,14 @@ const validate_register_input = (data: validator_data) => {
     }
 
     // check if password2 is empty
-    if (Validator.isEmpty(data.password2)) {
-        errors.password2 = 'confirm password field is required'
-        errors.password2[0].toUpperCase()
+    if (Validator.isEmpty(data.confirmPassword)) {
+        errors.confirmPassword = 'confirm password field is required'
+        errors.confirmPassword[0].toUpperCase()
     }
 
     // check if two password is matched
-    if (!Validator.equals(data.password, data.password2)) {
-        errors.password2 = 'passwords must match'
+    if (!Validator.equals(data.password, data.confirmPassword)) {
+        errors.confirmPassword = 'passwords must match'
     }
     return {
         errors,
