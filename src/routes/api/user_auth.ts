@@ -48,7 +48,6 @@ const create_new_user = (request: Request, response: Response) => {
 
     const new_user: any = new User(user_model_data)
     let new_user_password = new_user.password
-    console.log(new_user_password, typeof new_user_password)
 
     bcryptjs.genSalt(10, (err, salt) => {
         bcryptjs.hash(new_user_password, salt, (err, hash) => {
