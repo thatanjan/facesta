@@ -32,7 +32,7 @@ const signUpUser = (signUpInformation) => {
 	axios
 		.post('/api/user/register', signUpInformation)
 		.then((res) => console.log(res))
-		.catch((err) => console.log('err'))
+		.catch((err) => console.log(err))
 }
 
 const SignUpForm = () => {
@@ -66,6 +66,10 @@ const SignUpForm = () => {
 
 						if (!password) {
 							errors.password = 'Required'
+						}
+
+						if (password.length < 6) {
+							errors.password = 'password must be 6 characters long'
 						}
 
 						if (!confirmPassword) {
