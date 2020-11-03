@@ -1,6 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { BrowserRouter as Router } from 'react-router-dom'
+import { Provider } from 'react-redux'
 
 import CssBaseline from '@material-ui/core/CssBaseline'
 import DarkLightModeTheme from 'themes/dark_light_mode'
@@ -8,13 +9,17 @@ import App from 'App'
 import * as serviceWorkerRegistration from './serviceWorkerRegistration'
 // import reportWebVitals from './reportWebVitals'
 
+import store from 'redux/store/store'
+
 ReactDOM.render(
 	<React.StrictMode>
 		<CssBaseline>
 			<DarkLightModeTheme>
-				<Router>
-					<App />
-				</Router>
+				<Provider strore={store}>
+					<Router>
+						<App />
+					</Router>
+				</Provider>
 			</DarkLightModeTheme>
 		</CssBaseline>
 	</React.StrictMode>,
