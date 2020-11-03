@@ -15,7 +15,7 @@ ReactDOM.render(
 	<React.StrictMode>
 		<CssBaseline>
 			<DarkLightModeTheme>
-				<Provider strore={store}>
+				<Provider store={store}>
 					<Router>
 						<App />
 					</Router>
