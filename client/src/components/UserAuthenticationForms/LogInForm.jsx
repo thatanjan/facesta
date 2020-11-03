@@ -11,10 +11,7 @@ import axios from 'axios'
 const useStyles = makeStyles((theme) => ({}))
 
 const logInUser = (logInData) => {
-	axios
-		.post('/api/user/login', logInData)
-		.then((result) => console.log(result))
-		.catch((error) => console.log('error'))
+	return axios.post('/api/user/login', logInData)
 }
 
 const LogInForm = () => {
@@ -38,8 +35,10 @@ const LogInForm = () => {
 					}
 					return errors
 				}}
-				onSubmit={(values, { setSubmitting }) => {
+				onSubmit={(values, { setSubmitting, resetForm }) => {
 					logInUser(values)
+						.then(() => resetForm())
+						.catch((error) => console.log(error.response))
 
 					setTimeout(() => {
 						setSubmitting(false)
