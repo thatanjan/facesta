@@ -5,10 +5,11 @@ import Box from '@material-ui/core/Box'
 import { makeStyles } from '@material-ui/core/styles'
 // import TypoGraphy from '@material-ui/core/Typography'
 import Paper from '@material-ui/core/Paper'
+import Grid from '@material-ui/core/Grid'
 
 import backgroundImageLogin from 'assets/images/log_in_background_image.jpg'
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
 	boxContainerStyle: {
 		maxWidth: '100vw',
 		height: '100vh',
@@ -33,7 +34,22 @@ const useStyles = makeStyles({
 		opacity: '0.7',
 		zIndex: '-1',
 	},
-})
+	formContainer: {
+		height: '40vh',
+		width: '80vw',
+		background: `${theme.palette.primary.contrastText}`,
+		justifyContent: 'center',
+		alignContent: 'center',
+
+		// to center horizontally
+		margin: '0 auto',
+
+		// to center vertically
+		top: '50%',
+		position: 'relative',
+		transform: 'translateY(-50%)',
+	},
+}))
 
 const LogInForm = lazy(() =>
 	import('components/UserAuthenticationForms/LogInForm')
@@ -51,6 +67,7 @@ const LogInPage = () => {
 		logInBackground,
 		boxContainerStyle,
 		backgroundImageOverlay,
+		formContainer,
 	} = useStyles()
 
 	return (
@@ -67,8 +84,10 @@ const LogInPage = () => {
 				<Paper className={backgroundImageOverlay} />
 
 				<Suspense fallback={<div> hello world </div>}>
-					{auth === 'login' && <LogInForm />}
-					{auth === 'sign_up' && <SignUpForm />}
+					<Grid container className={formContainer}>
+						{auth === 'login' && <LogInForm />}
+						{auth === 'sign_up' && <SignUpForm />}
+					</Grid>
 				</Suspense>
 			</Box>
 		</>

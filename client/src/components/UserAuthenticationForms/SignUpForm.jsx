@@ -87,7 +87,6 @@ const SignUpForm = () => {
 						console.log(values)
 						setTimeout(() => {
 							setSubmitting(false)
-							// alert(JSON.stringify(values, null, 2))
 						}, 500)
 					}}
 				>
@@ -117,14 +116,19 @@ const SignUpForm = () => {
 								disabled={isSubmitting}
 								onClick={submitForm}
 							>
-								Submit
+								Register
 							</Button>
 
 							<br />
 						</Form>
 					)}
 				</Formik>
-				<Button color='primary' size='small' component={RouterLink} to='/login'>
+				<Button
+					color='primary'
+					size='small'
+					component={RouterLink}
+					to='/authentication/login'
+				>
 					have an account?
 				</Button>
 			</Grid>
