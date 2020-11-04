@@ -2,6 +2,7 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import { BrowserRouter as Router } from 'react-router-dom'
 import { Provider } from 'react-redux'
+import jwt_decode from 'jwt-decode'
 
 import CssBaseline from '@material-ui/core/CssBaseline'
 import DarkLightModeTheme from 'themes/dark_light_mode'
@@ -10,6 +11,21 @@ import * as serviceWorkerRegistration from './serviceWorkerRegistration'
 // import reportWebVitals from './reportWebVitals'
 
 import store from 'redux/store/store'
+
+import setAuthToken from 'redux/utils/setAuthToken'
+import { setCurrentUser } from 'redux/actions/authActions'
+
+const token = localStorage.jwtToken
+
+// check for token
+if (token) {
+	// set auth token header auth
+	setAuthToken(token)
+
+	// decode token and get user info
+	const decodedToken = jwt_decode(token)
+	store.dispatch(setCurrentUser(decodedToken))
+}
 
 ReactDOM.render(
 	<React.StrictMode>
