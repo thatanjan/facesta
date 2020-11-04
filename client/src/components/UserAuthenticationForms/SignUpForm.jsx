@@ -1,5 +1,5 @@
 import React from 'react'
-
+import { connect } from 'react-redux'
 import { Formik, Form, Field } from 'formik'
 import { Button, LinearProgress } from '@material-ui/core'
 import Container from '@material-ui/core/Container'
@@ -7,8 +7,9 @@ import { Link as RouterLink } from 'react-router-dom'
 import Grid from '@material-ui/core/Grid'
 import { makeStyles } from '@material-ui/core/styles'
 import { TextField } from 'formik-material-ui'
-
 import axios from 'axios'
+
+import { registerUser } from 'redux/actions/authActions'
 
 const useStyles = makeStyles((theme) => ({
 	formContainer: {
@@ -28,14 +29,15 @@ const useStyles = makeStyles((theme) => ({
 	},
 }))
 
-const signUpUser = (signUpInformation) => {
-	axios
-		.post('/api/user/register', signUpInformation)
-		.then((res) => console.log(res))
-		.catch((err) => console.log(err))
+const signUpUser = (registerAction, signUpInformation) => {
+	registerAction(signUpInformation)
+	// axios
+	// 	.post('/api/user/register', signUpInformation)
+	// 	.then((res) => console.log(res))
+	// 	.catch((err) => console.log(err))
 }
 
-const SignUpForm = () => {
+const SignUpForm = ({ registerUser }) => {
 	const { formContainer } = useStyles()
 	return (
 		<>
@@ -83,8 +85,8 @@ const SignUpForm = () => {
 						return errors
 					}}
 					onSubmit={(values, { setSubmitting }) => {
-						signUpUser(values)
-						console.log(values)
+						signUpUser(registerUser, values)
+						// console.log(values)
 						setTimeout(() => {
 							setSubmitting(false)
 						}, 500)
@@ -136,4 +138,4 @@ const SignUpForm = () => {
 	)
 }
 
-export default SignUpForm
+export default connect(null, { registerUser })(SignUpForm)
