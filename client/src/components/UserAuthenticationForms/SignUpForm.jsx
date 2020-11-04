@@ -11,7 +11,7 @@ import axios from 'axios'
 
 import { registerUser } from 'redux/actions/authActions'
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
 	formContainer: {
 		height: '40vh',
 		width: '80vw',
@@ -31,10 +31,10 @@ const useStyles = makeStyles((theme) => ({
 
 const signUpUser = (registerAction, signUpInformation) => {
 	registerAction(signUpInformation)
-	// axios
-	// 	.post('/api/user/register', signUpInformation)
-	// 	.then((res) => console.log(res))
-	// 	.catch((err) => console.log(err))
+	axios
+		.post('/api/user/register', signUpInformation)
+		.then(res => console.log(res))
+		.catch(err => console.log(err))
 }
 
 const SignUpForm = ({ registerUser }) => {
