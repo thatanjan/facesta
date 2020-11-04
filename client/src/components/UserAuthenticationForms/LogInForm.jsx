@@ -1,4 +1,5 @@
 import React from 'react'
+import { connect } from 'react-redux'
 import { Formik, Form, Field } from 'formik'
 import { Button, LinearProgress } from '@material-ui/core'
 import Container from '@material-ui/core/Container'
@@ -8,15 +9,16 @@ import { makeStyles } from '@material-ui/core/styles'
 import { TextField } from 'formik-material-ui'
 import axios from 'axios'
 
-const useStyles = makeStyles((theme) => ({}))
+import { loginUserAction } from 'redux/actions/authActions'
 
-const logInUser = (logInData) => {
-	return axios.post('/api/user/login', logInData)
+const useStyles = makeStyles(theme => ({}))
+
+const logInUser = logInData => {
+	loginUserAction(logInData)
 }
 
-const LogInForm = () => {
+const LogInForm = ({ logInUser, auth }) => {
 	// const { formContainer } = useStyles()
-
 	return (
 		<>
 			<Formik
@@ -24,7 +26,7 @@ const LogInForm = () => {
 					email: '',
 					password: '',
 				}}
-				validate={(values) => {
+				validate={values => {
 					const errors = {}
 					if (!values.email) {
 						errors.email = 'Required'
@@ -37,8 +39,8 @@ const LogInForm = () => {
 				}}
 				onSubmit={(values, { setSubmitting, resetForm }) => {
 					logInUser(values)
-						.then(() => resetForm())
-						.catch((error) => console.log(error.response))
+					// .then(() => resetForm())
+					// .catch(error => console.log(error.response))
 
 					setTimeout(() => {
 						setSubmitting(false)
@@ -82,4 +84,12 @@ const LogInForm = () => {
 	)
 }
 
-export default LogInForm
+const mapStateToProps = state => ({
+	authState: state.auth,
+})
+
+const mapDispatchToProps = dispatch => ({
+	// logInUser,
+	logInUser: data => dispatch(loginUserAction(data)),
+})
+export default connect(mapStateToProps, mapDispatchToProps)(LogInForm)

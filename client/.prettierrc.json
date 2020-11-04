@@ -3,5 +3,6 @@
 	"useTabs": true,
 	"tabWidth": 1,
 	"semi": false,
-	"jsxSingleQuote": true
+	"jsxSingleQuote": true,
+	"arrowParens": "avoid"
 }
