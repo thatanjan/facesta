@@ -5,12 +5,12 @@ import passport from 'passport'
 
 const router = express.Router()
 
-import Profile from '../../models/Profile'
-import User from '../../models/User'
+import Profile from 'models/Profile'
+import User from 'models/User'
 
-import validate_profile_input from '../../validation/profile'
-import validate_experience_input from '../../validation/experience'
-import validate_education_input from '../../validation/education'
+import validate_profile_input from 'validation/profile'
+import validate_experience_input from 'validation/experience'
+import validate_education_input from 'validation/education'
 
 export const socials: string[] = [
     'youtube',

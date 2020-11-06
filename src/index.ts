@@ -4,15 +4,15 @@ import bodyParser from 'body-parser'
 import passport from 'passport'
 
 // importing routes
-import user from './routes/api/user_auth'
-import posts from './routes/api/posts'
-import profiles from './routes/api/profile'
+import user from 'routes/api/user_auth'
+import posts from 'routes/api/posts'
+import profiles from 'routes/api/profile'
 
 // importing passport strategy
-import { JWT_strategy } from './config/passport'
+import { JWT_strategy } from 'config/passport'
 
 // mongoose key
-import mongoURI from './config/keys'
+import mongoURI from 'config/keys'
 
 // connect to mongoose
 mongoose

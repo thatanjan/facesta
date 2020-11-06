@@ -3,11 +3,11 @@ import mongoose from 'mongoose'
 import passport from 'passport'
 
 // importing models
-import Post from '../../models/Posts'
-import Profile from '../../models/Profile'
+import Post from 'models/Posts'
+import Profile from 'models/Profile'
 
 // validation
-import validate_post_input from '../../validation/post'
+import validate_post_input from 'validation/post'
 
 const router = express.Router()
 
