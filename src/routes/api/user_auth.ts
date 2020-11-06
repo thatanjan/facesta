@@ -28,13 +28,13 @@ const logInUser = (user: any , res: Response)  => {
                         avatar: user.avatar,
                     }
 
- jwt.sign( payload,
-                        secretKey,
+                    jwt.sign( payload, secretKey,
                         { expiresIn: 3600 },
                         (err, token) => {
                             if (err) {
                                 console.log(err)
                             }
+                            console.log(token)
                             res.json({
                                 success: true,
                                 token: 'Bearer ' + token,
@@ -106,11 +106,11 @@ router.post('/register', (req: Request, res: Response) => {
             return res.status(400).json({ email: 'email already exist' })
         } else {
             // create a new user
-create_new_user(req, res, logInUser )
+            create_new_user(req, res, logInUser )
 
             // logInUser(user, res)
 
-// log in the new created user
+            // log in the new created user
         }
     })
 })
@@ -151,10 +151,10 @@ router.post('/login', ({ body }: Request, res: Response) => {
                 console.log(isMatch)
                 if (isMatch) {
                     // user matched
+                    logInUser(user, res)
 
-logInUser(user, res)
+                    } else {
 
-                                   } else {
                     errors.password = 'Password incorrect'
                     errors.password[0].toUpperCase()
                     return res.status(404).json(errors)
@@ -179,4 +179,4 @@ router.get(
     }
 )
 
-                export default router
+export default router

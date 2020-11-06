@@ -9,7 +9,7 @@ import { makeStyles } from '@material-ui/core/styles'
 import { TextField } from 'formik-material-ui'
 import axios from 'axios'
 
-import { registerUser } from 'redux/actions/authActions'
+import { registerUserAction } from 'redux/actions/authActions'
 
 const useStyles = makeStyles(theme => ({
 	formContainer: {
@@ -29,15 +29,15 @@ const useStyles = makeStyles(theme => ({
 	},
 }))
 
+// signing up the user
 const signUpUser = (registerAction, signUpInformation) => {
+	console.log(registerAction, signUpInformation)
 	registerAction(signUpInformation)
-	axios
-		.post('/api/user/register', signUpInformation)
-		.then(res => console.log(res))
-		.catch(err => console.log(err))
 }
 
 const SignUpForm = ({ registerUser }) => {
+	console.log(registerUser)
+
 	const { formContainer } = useStyles()
 	return (
 		<>
@@ -86,7 +86,6 @@ const SignUpForm = ({ registerUser }) => {
 					}}
 					onSubmit={(values, { setSubmitting }) => {
 						signUpUser(registerUser, values)
-						// console.log(values)
 						setTimeout(() => {
 							setSubmitting(false)
 						}, 500)
@@ -138,4 +137,8 @@ const SignUpForm = ({ registerUser }) => {
 	)
 }
 
-export default connect(null, { registerUser })(SignUpForm)
+const mapDispatchToProps = dispatch => ({
+	registerUser: payload => dispatch(registerUserAction(payload)),
+})
+
+export default connect(null, mapDispatchToProps)(SignUpForm)

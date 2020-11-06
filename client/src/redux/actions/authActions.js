@@ -1,12 +1,7 @@
-import { GET_USER, SET_CURRENT_USER } from 'redux/actions/types'
+import { SET_CURRENT_USER } from 'redux/actions/types'
 import setAuthToken from 'redux/utils/setAuthToken'
 import axios from 'axios'
 import jwt_decode from 'jwt-decode'
-
-export const registerUser = userData => ({
-	type: GET_USER,
-	payload: userData,
-})
 
 export const setCurrentUser = decoded => {
 	return {
@@ -15,21 +10,30 @@ export const setCurrentUser = decoded => {
 	}
 }
 
+const loginUser = (token, dispatch) => {
+	localStorage.setItem('jwtToken', token)
+	setAuthToken(token)
+	// decode token
+	const decoded = jwt_decode(token)
+	// set current user
+	dispatch(setCurrentUser(decoded))
+}
+
 export const loginUserAction = userData => dispatch => {
 	axios
 		.post('/api/user/login', userData)
-		.then(response => {
-			// save token to local storage
-			const { token } = response.data
-
-			localStorage.setItem('jwtToken', token)
-			setAuthToken(token)
-
-			// decode token
-			const decoded = jwt_decode(token)
-
-			// set current user
-			dispatch(setCurrentUser(decoded))
+		.then(({ data: { token } }) => {
+			loginUser(token, dispatch)
 		})
-		.catch(({ response }) => console.log(response))
+		.catch(response => console.log(response))
+}
+
+export const registerUserAction = userData => dispatch => {
+	axios
+		.post('/api/user/register', userData)
+		.then(({ data: { token } }) => {
+			console.log('token  ', token)
+			loginUser(token, dispatch)
+		})
+		.catch(response => console.log('error'))
 }

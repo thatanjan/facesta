@@ -39,7 +39,7 @@
     },
     "scripts": {
         "start": "node dist/index.js",
-        "dev": "nodemon src/index.ts",
+        "dev": "NODE_PATH=./src nodemon src/index.ts",
         "build": "tsc -p .",
         "client-dev": "yarn --cwd client start",
         "client-install": "yarn --cwd client install",
