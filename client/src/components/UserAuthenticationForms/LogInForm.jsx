@@ -89,7 +89,6 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-	// logInUser,
 	logInUser: data => dispatch(loginUserAction(data)),
 })
 export default connect(mapStateToProps, mapDispatchToProps)(LogInForm)
