@@ -4,12 +4,12 @@ import bcryptjs from 'bcryptjs'
 import jwt from 'jsonwebtoken'
 import passport from 'passport'
 
-import User from '../../models/User'
-import { secretKey } from '../../config/keys'
+import User from 'models/User'
+import { secretKey } from 'config/keys'
 
 // load input validation
-import validate_register_input from '../../validation/register'
-import validate_login_input from '../../validation/login'
+import validate_register_input from 'validation/register'
+import validate_login_input from 'validation/login'
 
 // interface for payload object for jwt
 export interface Payload {
@@ -20,19 +20,46 @@ export interface Payload {
 
 const router = express.Router()
 
+
+const logInUser = (user: any , res: Response)  => {
+       const payload: Payload = {
+                        id: user._id,
+                        name: user.name,
+                        avatar: user.avatar,
+                    }
+
+ jwt.sign( payload,
+                        secretKey,
+                        { expiresIn: 3600 },
+                        (err, token) => {
+                            if (err) {
+                                console.log(err)
+                            }
+                            res.json({
+                                success: true,
+                                token: 'Bearer ' + token,
+                            })
+                        }
+                    )
+
+}
+
+
+
 // @route GET api/posts/test
 // @description tests post route
 // @access Public
 
 router.get('/', (req: Request, res: Response) => {
     res.json({ msg: 'user_auth works' })
+
 })
 
 // @route GET api/posts/test
 // @description register user
 // @access Public
 
-const create_new_user = (request: Request, response: Response) => {
+const create_new_user = (request: Request, response: Response, logInUser:Function) => {
     const avatar = gravatar.url(request.body.email, {
         s: '200',
         r: 'pg',
@@ -60,7 +87,7 @@ const create_new_user = (request: Request, response: Response) => {
             console.log(new_user_password)
             new_user
                 .save()
-                .then((user: {}) => response.json(user))
+                .then((user: {}) =>logInUser(user, response))
                 .catch((error: any) => console.log(error, 12))
         })
     })
@@ -79,9 +106,11 @@ router.post('/register', (req: Request, res: Response) => {
             return res.status(400).json({ email: 'email already exist' })
         } else {
             // create a new user
-            create_new_user(req, res)
-            // console.log(124)
-            // create_new_user
+create_new_user(req, res, logInUser )
+
+            // logInUser(user, res)
+
+// log in the new created user
         }
     })
 })
@@ -123,28 +152,9 @@ router.post('/login', ({ body }: Request, res: Response) => {
                 if (isMatch) {
                     // user matched
 
-                    const payload: Payload = {
-                        id: user.id,
-                        name: user.name,
-                        avatar: user.avatar,
-                    }
+logInUser(user, res)
 
-                    // sign token
-                    jwt.sign(
-                        payload,
-                        secretKey,
-                        { expiresIn: 3600 },
-                        (err, token) => {
-                            if (err) {
-                                console.log(err)
-                            }
-                            res.json({
-                                success: true,
-                                token: 'Bearer ' + token,
-                            })
-                        }
-                    )
-                } else {
+                                   } else {
                     errors.password = 'Password incorrect'
                     errors.password[0].toUpperCase()
                     return res.status(404).json(errors)
@@ -169,4 +179,4 @@ router.get(
     }
 )
 
-export default router
+                export default router

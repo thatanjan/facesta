@@ -1,5 +1,5 @@
 import Validator from 'validator'
-import is_empty from './is_empty'
+import is_empty from 'validation/is_empty'
 
 export interface validator_data {
     school: string

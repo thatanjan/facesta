@@ -1,9 +1,9 @@
 import passportJwt from 'passport-jwt'
 import mongoose from 'mongoose'
 
-import { Payload } from '../routes/api/user_auth'
+import { Payload } from 'routes/api/user_auth'
 
-import { secretKey } from './keys'
+import { secretKey } from 'config/keys'
 
 const Strategy = passportJwt.Strategy
 const ExtractJwt = passportJwt.ExtractJwt
