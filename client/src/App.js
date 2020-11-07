@@ -1,5 +1,6 @@
 import React, { Suspense, lazy } from 'react'
-import { Route, Switch, withRouter } from 'react-router-dom'
+import { Route, Switch, withRouter, Redirect } from 'react-router-dom'
+import { connect } from 'react-redux'
 // import Paper from '@material-ui/core/Paper'
 // import SwitchButton from '@material-ui/core/Switch'
 // import Container from '@material-ui/core/Container'
@@ -41,8 +42,7 @@ const Authentication = lazy(() =>
 	import('pages/userAuthenticationPages/userAuthenticationPage')
 )
 
-const App = () => {
-	// console.log(props)
+const App = ({ authenticated }) => {
 	// const {
 	// 	toggleButton,
 	// 	toolbarStyle,
@@ -76,13 +76,22 @@ const App = () => {
 
 			<Switch>
 				<Route exact path='/authentication/:auth'>
-					<Suspense fallback={<div>Loading...</div>}>
-						<Authentication />
-					</Suspense>
+					{/* cannot access user authentication route if a user is alerady login */}
+					{authenticated ? (
+						<Redirect to='/' />
+					) : (
+						<Suspense fallback={<div>Loading...</div>}>
+							<Authentication />
+						</Suspense>
+					)}
 				</Route>
 			</Switch>
 		</>
 	)
 }
 
-export default withRouter(App)
+const mapStateToProps = ({ auth: { isAuthenticated } }) => ({
+	authenticated: isAuthenticated,
+})
+
+export default connect(mapStateToProps)(withRouter(App))
