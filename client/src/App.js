@@ -42,6 +42,10 @@ const Authentication = lazy(() =>
 	import('pages/userAuthenticationPages/userAuthenticationPage')
 )
 
+const UserProfilePage = lazy(() =>
+	import('pages/userProfilePage/UserProfilePage')
+)
+
 const App = ({ authenticated }) => {
 	// const {
 	// 	toggleButton,
@@ -83,6 +87,16 @@ const App = ({ authenticated }) => {
 						<Suspense fallback={<div>Loading...</div>}>
 							<Authentication />
 						</Suspense>
+					)}
+				</Route>
+
+				<Route exact path='/profile/:user'>
+					{authenticated ? (
+						<Suspense fallback={<div>Loading...</div>}>
+							<UserProfilePage />
+						</Suspense>
+					) : (
+						<Redirect to='/authentication/login' />
 					)}
 				</Route>
 			</Switch>
