@@ -77,6 +77,9 @@ const LogInForm = ({ logInUser, auth }) => {
 				size='small'
 				component={RouterLink}
 				to='/authentication/sign_up'
+				style={{
+					paddingBottom: '1rem',
+				}}
 			>
 				Don&apos;t have an account?
 			</Button>

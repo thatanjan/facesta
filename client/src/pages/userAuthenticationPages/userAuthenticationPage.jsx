@@ -9,7 +9,7 @@ import Grid from '@material-ui/core/Grid'
 
 import backgroundImageLogin from 'assets/images/log_in_background_image.jpg'
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
 	boxContainerStyle: {
 		maxWidth: '100vw',
 		height: '100vh',
@@ -35,8 +35,9 @@ const useStyles = makeStyles((theme) => ({
 		zIndex: '-1',
 	},
 	formContainer: {
-		height: '40vh',
+		// height: '40vh',
 		width: '80vw',
+		maxWidth: '30rem',
 		background: `${theme.palette.primary.contrastText}`,
 		justifyContent: 'center',
 		alignContent: 'center',
@@ -48,6 +49,19 @@ const useStyles = makeStyles((theme) => ({
 		top: '50%',
 		position: 'relative',
 		transform: 'translateY(-50%)',
+
+		'& >  form': {
+			width: '80%',
+			padding: '2rem 0 ',
+
+			'& > a ': {
+				paddingBottom: '1rem',
+			},
+			'& > div': {
+				width: '100%',
+				paddingBottom: '1rem',
+			},
+		},
 	},
 }))
 
