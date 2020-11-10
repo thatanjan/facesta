@@ -30,13 +30,13 @@ if (token) {
 ReactDOM.render(
 	<React.StrictMode>
 		<CssBaseline>
-			<DarkLightModeTheme>
+			{/* <DarkLightModeTheme> */}
 				<Provider store={store}>
 					<Router>
 						<App />
 					</Router>
 				</Provider>
-			</DarkLightModeTheme>
+			{/* </DarkLightModeTheme> */}
 		</CssBaseline>
 	</React.StrictMode>,
 	document.getElementById('root')
