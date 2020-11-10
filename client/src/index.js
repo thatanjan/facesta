@@ -5,7 +5,6 @@ import { Provider } from 'react-redux'
 import jwt_decode from 'jwt-decode'
 
 import CssBaseline from '@material-ui/core/CssBaseline'
-import DarkLightModeTheme from 'themes/dark_light_mode'
 import App from 'App'
 import * as serviceWorkerRegistration from './serviceWorkerRegistration'
 // import reportWebVitals from './reportWebVitals'
@@ -30,13 +29,11 @@ if (token) {
 ReactDOM.render(
 	<React.StrictMode>
 		<CssBaseline>
-			{/* <DarkLightModeTheme> */}
-				<Provider store={store}>
-					<Router>
-						<App />
-					</Router>
-				</Provider>
-			{/* </DarkLightModeTheme> */}
+			<Provider store={store}>
+				<Router>
+					<App />
+				</Router>
+			</Provider>
 		</CssBaseline>
 	</React.StrictMode>,
 	document.getElementById('root')
