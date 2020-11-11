@@ -34,8 +34,10 @@ const PrivateRoutes = ({ authenticated, location }) => {
 	const { fullBodyBackground } = useStyles()
 	return (
 		<>
-			{location.pathname === '/' && authenticated && <AppBar />}
-
+			{authenticated &&
+				location.pathname !== '/authentication/login' &&
+				location.pathname !== '/authentication/sign_up' && <AppBar />}
+			{/* {location.pathname === '/' && authenticated && <AppBar />} */}
 			<Paper className={fullBodyBackground}>
 				{!authenticated &&
 					location.pathname !== '/authentication/login' &&
