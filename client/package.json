@@ -11,6 +11,7 @@
 		"axios": "^0.21.0",
 		"formik": "^2.2.1",
 		"formik-material-ui": "^3.0.0",
+		"nanoid": "^3.1.16",
 		"prop-types": "^15.7.2",
 		"react": "^17.0.1",
 		"react-dom": "^17.0.1",
@@ -44,7 +45,18 @@
 		"extends": [
 			"react-app",
 			"react-app/jest"
-		]
+		],
+		"rules": {
+			"no-restricted-imports": [
+				"error",
+				{
+					"patterns": [
+						"@material-ui/*/*/*",
+						"!@material-ui/core/test-utils/*"
+					]
+				}
+			]
+		}
 	},
 	"browserslist": {
 		"production": [
