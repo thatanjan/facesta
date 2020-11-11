@@ -37,3 +37,14 @@ export const registerUserAction = userData => dispatch => {
 		})
 		.catch(response => console.log('error'))
 }
+
+export const logoutUser = () => dispatch => {
+	// remove token from localStorage
+	localStorage.removeItem('jwtToken')
+
+	// remove the auth token header
+	setAuthToken(false)
+
+	// set the current user to empty
+	dispatch(setCurrentUser({}))
+}
