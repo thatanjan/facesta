@@ -4,6 +4,8 @@ import { Switch, Route, withRouter, Redirect } from 'react-router-dom'
 import { makeStyles } from '@material-ui/core/styles'
 import Paper from '@material-ui/core/Paper'
 
+import AppBar from 'components/AppHeader/AppHeader'
+
 const UserProfilePage = lazy(() =>
 	import('pages/UserProfilePage/UserProfilePage')
 )
@@ -32,33 +34,15 @@ const PrivateRoutes = ({ authenticated, location }) => {
 	const { fullBodyBackground } = useStyles()
 	return (
 		<>
-			{location.pathname !== '/authentication/login' &&
-			location.pathname !== '/authentication/sign_up' ? (
-				<Paper className={fullBodyBackground}>
-					hello world this is a world
-					<Switch>
-						<Route exact path='/profile/:user'>
-							{authenticated ? (
-								<Suspense fallback={<div>Loading...</div>}>
-									<UserProfilePage />
-								</Suspense>
-							) : (
-								<Redirect to='/authentication/login' />
-							)}
-						</Route>
+			{location.pathname === '/' && authenticated && <AppBar />}
 
-						<Route exact path='/profile/:user/edit_profile'>
-							{authenticated ? (
-								<Suspense fallback={<div>Loading...</div>}>
-									<UserEditProfilePage />
-								</Suspense>
-							) : (
-								<Redirect to='/authentication/login' />
-							)}
-						</Route>
-					</Switch>
-				</Paper>
-			) : null}
+			<Paper className={fullBodyBackground}>
+				{!authenticated &&
+					location.pathname !== '/authentication/login' &&
+					location.pathname !== '/authentication/sign_up' && (
+						<Redirect to='/authentication/login' />
+					)}
+			</Paper>
 		</>
 	)
 }
