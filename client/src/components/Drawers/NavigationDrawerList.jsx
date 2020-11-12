@@ -18,6 +18,9 @@ import SvgSupport from 'HOC/svgSupport'
 import { ReactComponent as FriendRequests } from 'assets/svgs/friendRequest.svg'
 import { ReactComponent as Discover } from 'assets/svgs/discover.svg'
 
+// action
+import { logoutUser } from 'redux/actions/authActions'
+
 const FriendRequestsIcon = SvgSupport(FriendRequests)
 const DiscoverIcon = SvgSupport(Discover)
 
@@ -72,6 +75,7 @@ const listComponents = [
 ]
 
 const NavigationList = ({
+	logoutUser,
 	auth: {
 		user: { name },
 	},
@@ -83,11 +87,23 @@ const NavigationList = ({
 		listItemTextStyle,
 	} = useStyles()
 
+	const logoutHandeler = event => {
+		event.preventDefault()
+
+		logoutUser()
+	}
+
 	return (
 		<div className={drawerStyle}>
 			<List component='nav'>
 				{listComponents.map(({ Component, title, link }, index) => (
-					<ListItem button key={nanoid()} component={RouterLink} to={`${link}`}>
+					<ListItem
+						button
+						key={nanoid()}
+						component={RouterLink}
+						to={`${link}`}
+						onClick={index === listComponents.length - 1 ? logoutHandeler : null}
+					>
 						<ListItemIcon>
 							<Component
 								className={title === 'log out' ? logOutIconStyle : iconStyle}
@@ -107,6 +123,6 @@ const NavigationList = ({
 
 const mapStateToProps = state => ({ auth: state.auth })
 
-const mapDispatchToProps = {}
+const mapDispatchToProps = { logoutUser }
 
 export default connect(mapStateToProps, mapDispatchToProps)(NavigationList)

@@ -1,17 +1,14 @@
 import React from 'react'
 import { connect } from 'react-redux'
 
-import DarkModeThemeProvider from 'themes/dark_light_mode'
+import Paper from '@material-ui/core/Paper'
 import PrivateRoutes from 'routes/PrivateRoutes'
 import PrivateAuthRoutes from 'routes/PrivateAuthRoutes'
 
 const App = () => {
 	return (
 		<>
-			<DarkModeThemeProvider>
-				<PrivateRoutes />
-			</DarkModeThemeProvider>
-
+			<PrivateRoutes />
 			<PrivateAuthRoutes />
 		</>
 	)
