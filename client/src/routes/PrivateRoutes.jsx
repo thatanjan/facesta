@@ -4,6 +4,7 @@ import { Switch, Route, withRouter, Redirect } from 'react-router-dom'
 import { makeStyles } from '@material-ui/core/styles'
 import Paper from '@material-ui/core/Paper'
 
+import DarkModeThemeProvider from 'themes/dark_light_mode'
 import AppBar from 'components/AppHeader/AppHeader'
 
 const UserProfilePage = lazy(() =>
@@ -14,37 +15,34 @@ const UserEditProfilePage = lazy(() => {
 	return import('pages/UserEditProfilePage/userEditProfilePage')
 })
 
-const useStyles = makeStyles(
-	({
-		palette: {
-			background: { paper },
-		},
-	}) => {
-		return {
-			fullBodyBackground: {
-				background: paper,
-				borderRadius: '0',
-				minHeight: '100vh',
-			},
-		}
-	}
-)
+const useStyles = makeStyles({
+	fullBodyBackground: {
+		// background: theme.palette.background.paper,
+		borderRadius: '0',
+		minHeight: '100vh',
+	},
+})
 
 const PrivateRoutes = ({ authenticated, location }) => {
 	const { fullBodyBackground } = useStyles()
 	return (
 		<>
+			{/* if authenticated and not any auth pages then show AppBar */}
 			{authenticated &&
 				location.pathname !== '/authentication/login' &&
-				location.pathname !== '/authentication/sign_up' && <AppBar />}
-			{/* {location.pathname === '/' && authenticated && <AppBar />} */}
-			<Paper className={fullBodyBackground}>
-				{!authenticated &&
-					location.pathname !== '/authentication/login' &&
-					location.pathname !== '/authentication/sign_up' && (
+				location.pathname !== '/authentication/sign_up' && (
+					<DarkModeThemeProvider>
+						<AppBar />
+					</DarkModeThemeProvider>
+				)}
+
+			{!authenticated &&
+				location.pathname !== '/authentication/login' &&
+				location.pathname !== '/authentication/sign_up' && (
+					<DarkModeThemeProvider>
 						<Redirect to='/authentication/login' />
-					)}
-			</Paper>
+					</DarkModeThemeProvider>
+				)}
 		</>
 	)
 }
