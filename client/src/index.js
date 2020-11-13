@@ -27,15 +27,13 @@ if (token) {
 }
 
 ReactDOM.render(
-	<React.StrictMode>
-		<CssBaseline>
-			<Provider store={store}>
-				<Router>
-					<App />
-				</Router>
-			</Provider>
-		</CssBaseline>
-	</React.StrictMode>,
+	<CssBaseline>
+		<Provider store={store}>
+			<Router>
+				<App />
+			</Router>
+		</Provider>
+	</CssBaseline>,
 	document.getElementById('root')
 )
 
