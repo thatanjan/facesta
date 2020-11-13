@@ -5,7 +5,10 @@ import { makeStyles } from '@material-ui/core/styles'
 import Paper from '@material-ui/core/Paper'
 
 import DarkModeThemeProvider from 'themes/dark_light_mode'
-import AppBar from 'components/AppHeader/AppHeader'
+
+import PrivateRoute from 'HOC/PrivateRoute'
+
+const AppHeader = lazy(() => import('components/AppHeader/AppHeader'))
 
 const UserProfilePage = lazy(() =>
 	import('pages/UserProfilePage/UserProfilePage')
@@ -15,34 +18,32 @@ const UserEditProfilePage = lazy(() => {
 	return import('pages/UserEditProfilePage/userEditProfilePage')
 })
 
-const useStyles = makeStyles({
-	fullBodyBackground: {
-		// background: theme.palette.background.paper,
-		borderRadius: '0',
-		minHeight: '100vh',
-	},
+const HomePage = lazy(() => {
+	return import('pages/HomePage/HomePage')
 })
 
-const PrivateRoutes = ({ authenticated, location }) => {
-	const { fullBodyBackground } = useStyles()
+const PrivateRoutes = ({ location }) => {
 	return (
 		<>
-			{/* if authenticated and not any auth pages then show AppBar */}
-			{authenticated &&
-				location.pathname !== '/authentication/login' &&
-				location.pathname !== '/authentication/sign_up' && (
-					<DarkModeThemeProvider>
-						<AppBar />
-					</DarkModeThemeProvider>
-				)}
+			<Suspense fallback={() => <div children='hello world' />}>
+				<DarkModeThemeProvider>
+					<Switch>
+						<PrivateRoute path='/' component={AppHeader} />
+						<PrivateRoute exact path='/' component={HomePage} />
+						<PrivateRoute exact path='/profile/:user' component={UserProfilePage} />
+						<PrivateRoute
+							exact
+							path='/profile/:user/edit-profile'
+							component={UserEditProfilePage}
+						/>
 
-			{!authenticated &&
-				location.pathname !== '/authentication/login' &&
-				location.pathname !== '/authentication/sign_up' && (
-					<DarkModeThemeProvider>
-						<Redirect to='/authentication/login' />
-					</DarkModeThemeProvider>
-				)}
+						{/* redirects to homepage if not route matches */}
+						<Route exact path='*'>
+							<Redirect to='/' />
+						</Route>
+					</Switch>
+				</DarkModeThemeProvider>
+			</Suspense>
 		</>
 	)
 }
