@@ -5,8 +5,6 @@ import { makeStyles } from '@material-ui/core/styles'
 import NavigationDrawerList from 'components/Drawers/NavigationDrawerList'
 
 export const NavigationDrawer = ({ toggleDrawer, toggleState }) => {
-	console.log(toggleState)
-
 	return (
 		<>
 			<SwipeableDrawer
@@ -15,7 +13,7 @@ export const NavigationDrawer = ({ toggleDrawer, toggleState }) => {
 				onClose={toggleDrawer(false)}
 				onOpen={toggleDrawer(true)}
 			>
-				<NavigationDrawerList />
+				<NavigationDrawerList toggleDrawer={toggleDrawer} />
 			</SwipeableDrawer>
 		</>
 	)

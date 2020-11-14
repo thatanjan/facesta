@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { withRouter, Link as RouterLink } from 'react-router-dom'
+import { styled } from '@material-ui/core/styles'
 import AppBar from '@material-ui/core/AppBar'
 import Toolbar from '@material-ui/core/Toolbar'
 import Typography from '@material-ui/core/Typography'
@@ -23,6 +24,7 @@ const useStyles = makeStyles(theme => ({
 	},
 	headerTitle: {
 		textTransform: 'capitalize',
+		flexGrow: 1,
 	},
 }))
 
@@ -35,7 +37,13 @@ const urlLastURLSegment = () => {
 	return result
 }
 
-const AppHeader = ({ location: { pathname }, history: { goBack } }) => {
+const ToolbarContainer = styled(({ direction, ...props }) => (
+	<Toolbar {...props} />
+))({
+	flexDirection: props => (props.direction === 'reverse' ? 'row-reverse' : null),
+})
+
+const AppHeader = ({ location: { pathname }, history: { goBack, push } }) => {
 	const { headerTitle, menuButton, title } = useStyles()
 	const [state, setState] = useState(false)
 
@@ -54,49 +62,41 @@ const AppHeader = ({ location: { pathname }, history: { goBack } }) => {
 			return
 		}
 
-		console.log(state)
+		console.log('state')
 
 		setState(open)
 	}
 	return (
 		<>
 			<AppBar>
-				<Toolbar>
-					{pathname === '/' ? (
-						<>
-							<IconButton
-								edge='start'
-								className={menuButton}
-								onClick={toggleDrawer(!state)}
-								color='inherit'
-								aria-label='menu'
-								aria-controls='menu-appbar'
-								aria-haspopup='true'
-							>
-								<MenuIcon />
-							</IconButton>
-							<NavigationDrawer toggleDrawer={toggleDrawer} toggleState={state} />
+				<ToolbarContainer direction={pathname !== '/' ? 'reverse' : null}>
+					<IconButton
+						edge='end'
+						className={menuButton}
+						onClick={toggleDrawer(!state)}
+						color='inherit'
+						aria-label='menu'
+						aria-controls='menu-appbar'
+						aria-haspopup='true'
+					>
+						<MenuIcon />
+					</IconButton>
+					<NavigationDrawer toggleDrawer={toggleDrawer} toggleState={state} />
 
-							<Typography variant='h6' className={title}>
-								Facebook
-							</Typography>
+					<Typography variant='h6' className={title}>
+						{pathname === '/' ? 'DevBook' : lastURLSegment}
+					</Typography>
 
-							<IconButton>
-								<TelegramIcon edge='end' color='secondary' />
-							</IconButton>
-						</>
-					) : (
-						<>
-							<IconButton onClick={() => goBack()}>
-								<ArrowBackIcon />
-							</IconButton>
-
-							<Typography component='h3' className={headerTitle}>
-								{lastURLSegment}
-							</Typography>
-						</>
-					)}
-				</Toolbar>
+					<IconButton
+						onClick={() => (pathname === '/' ? push('/message') : goBack())}
+					>
+						{pathname === '/' ? (
+							<TelegramIcon edge='end' color='secondary' />
+						) : (
+							<ArrowBackIcon />
+						)}
+					</IconButton>
+				</ToolbarContainer>
 			</AppBar>
 		</>
 	)

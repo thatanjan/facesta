@@ -84,7 +84,7 @@ const listComponents = [
 	},
 ]
 
-const NavigationList = ({ logoutUser, name }) => {
+const NavigationList = ({ logoutUser, name, toggleDrawer }) => {
 	const {
 		drawerStyle,
 		iconStyle,
@@ -98,6 +98,12 @@ const NavigationList = ({ logoutUser, name }) => {
 		logoutUser()
 	}
 
+	const itemClickHandler = () => {
+		console.log('clicked')
+		toggleDrawer(false)
+	}
+
+	// onClick={index === listComponents.length - 1 ? logoutHandeler : null}
 	return (
 		<div className={drawerStyle}>
 			<List component='nav'>
@@ -107,7 +113,7 @@ const NavigationList = ({ logoutUser, name }) => {
 						key={nanoid()}
 						component={RouterLink}
 						to={index === 1 ? `${link}/${convertSpaceToDash(name)}` : link}
-						onClick={index === listComponents.length - 1 ? logoutHandeler : null}
+						onClick={() => itemClickHandler()}
 					>
 						<ListItemIcon>
 							<Component
