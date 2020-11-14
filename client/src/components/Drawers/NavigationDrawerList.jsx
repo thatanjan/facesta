@@ -1,6 +1,6 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { connect } from 'react-redux'
-import { withRouter, Link as RouterLink } from 'react-router-dom'
+import { Link as RouterLink } from 'react-router-dom'
 import { nanoid } from 'nanoid'
 import { makeStyles } from '@material-ui/core/styles'
 import List from '@material-ui/core/List'
@@ -12,17 +12,22 @@ import ExitToAppIcon from '@material-ui/icons/ExitToApp'
 import SettingsIcon from '@material-ui/icons/Settings'
 import TrendingUpIcon from '@material-ui/icons/TrendingUp'
 import VideoLibraryIcon from '@material-ui/icons/VideoLibrary'
+import HomeIcon from '@material-ui/icons/Home'
 
 import SvgSupport from 'HOC/svgSupport'
 
 import { ReactComponent as FriendRequests } from 'assets/svgs/friendRequest.svg'
-import { ReactComponent as Discover } from 'assets/svgs/discover.svg'
 
 // action
 import { logoutUser } from 'redux/actions/authActions'
 
 const FriendRequestsIcon = SvgSupport(FriendRequests)
-const DiscoverIcon = SvgSupport(Discover)
+
+export const convertSpaceToDash = text => {
+	if (typeof text === 'string') {
+		return text.replace(/\s/g, '-')
+	}
+}
 
 const useStyles = makeStyles({
 	drawerStyle: {
@@ -42,6 +47,11 @@ const useStyles = makeStyles({
 })
 
 const listComponents = [
+	{
+		title: 'Home',
+		Component: HomeIcon,
+		link: '/',
+	},
 	{
 		title: 'user',
 		Component: AccountCircleIcon,
@@ -74,12 +84,7 @@ const listComponents = [
 	},
 ]
 
-const NavigationList = ({
-	logoutUser,
-	auth: {
-		user: { name },
-	},
-}) => {
+const NavigationList = ({ logoutUser, name }) => {
 	const {
 		drawerStyle,
 		iconStyle,
@@ -101,7 +106,7 @@ const NavigationList = ({
 						button
 						key={nanoid()}
 						component={RouterLink}
-						to={`${link}`}
+						to={index === 1 ? `${link}/${convertSpaceToDash(name)}` : link}
 						onClick={index === listComponents.length - 1 ? logoutHandeler : null}
 					>
 						<ListItemIcon>
@@ -110,9 +115,10 @@ const NavigationList = ({
 								color='secondary'
 							/>
 						</ListItemIcon>
+
 						<ListItemText
 							className={listItemTextStyle}
-							primary={index === 0 ? name : title}
+							primary={index === 1 ? name : title}
 						/>
 					</ListItem>
 				))}
@@ -121,7 +127,7 @@ const NavigationList = ({
 	)
 }
 
-const mapStateToProps = state => ({ auth: state.auth })
+const mapStateToProps = state => ({ name: state.auth.user.name })
 
 const mapDispatchToProps = { logoutUser }
 

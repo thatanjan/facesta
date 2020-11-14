@@ -1,8 +1,9 @@
 import React from 'react'
-import Paper from '@material-ui/core/Paper'
+
+import BackgroundPaper from 'HOC/BackgroundPaper'
 
 const HomePage = () => {
-	return <Paper>this is home page</Paper>
+	return <BackgroundPaper>this is home page </BackgroundPaper>
 }
 
 export default HomePage
