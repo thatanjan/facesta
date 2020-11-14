@@ -2,6 +2,8 @@ import React, { Suspense, lazy } from 'react'
 import { Switch, Route, Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
 
+import { PrivateAuthRoute } from 'HOC/PrivateRoute'
+
 const AuthenticationPage = lazy(() =>
 	import('pages/UserAuthenticationPages/UserAuthenticationPage')
 )
@@ -9,18 +11,15 @@ const AuthenticationPage = lazy(() =>
 export const PrivateAuthRoutes = ({ authenticated }) => {
 	return (
 		<>
-			<Switch>
-				<Route exact path='/authentication/:auth'>
-					{/* cannot access user authentication route if a user is alerady login */}
-					{authenticated ? (
-						<Redirect to='/' />
-					) : (
-						<Suspense fallback={<div>Loading...</div>}>
-							<AuthenticationPage />
-						</Suspense>
-					)}
-				</Route>
-			</Switch>
+			<Suspense fallback={<div>Loading...</div>}>
+				<Switch>
+					<PrivateAuthRoute
+						exact
+						path='/authentication/:auth'
+						Component={AuthenticationPage}
+					/>
+				</Switch>
+			</Suspense>
 		</>
 	)
 }

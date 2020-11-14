@@ -22,13 +22,13 @@ const HomePage = lazy(() => {
 	return import('pages/HomePage/HomePage')
 })
 
-const PrivateRoutes = ({ location }) => {
+const PrivateRoutes = ({ location, authenticated }) => {
 	return (
 		<>
 			<Suspense fallback={() => <div children='hello world' />}>
 				<DarkModeThemeProvider>
+					<PrivateRoute path='/' component={AppHeader} />
 					<Switch>
-						<PrivateRoute path='/' component={AppHeader} />
 						<PrivateRoute exact path='/' component={HomePage} />
 						<PrivateRoute exact path='/profile/:user' component={UserProfilePage} />
 						<PrivateRoute
@@ -37,11 +37,15 @@ const PrivateRoutes = ({ location }) => {
 							component={UserEditProfilePage}
 						/>
 
+						{/* <Route render={() => <Redirect to='/' />} /> */}
+						{/* <Route render={() => <div children='invalid route' />} /> */}
+
 						{/* redirects to homepage if not route matches */}
-						<Route exact path='*'>
-							<Redirect to='/' />
-						</Route>
+						{/* <Route exact path='*'> */}
+						{/* 	<Redirect to='/' /> */}
+						{/* </Route> */}
 					</Switch>
+					{/* {authenticated && <AppHeader />} */}
 				</DarkModeThemeProvider>
 			</Suspense>
 		</>
