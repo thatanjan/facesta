@@ -2,9 +2,11 @@ import React, { Suspense, lazy } from 'react'
 import { connect } from 'react-redux'
 import { Switch, Route, useLocation, Redirect } from 'react-router-dom'
 
-import DarkModeThemeProvider from 'themes/dark_light_mode'
+// import DarkModeThemeProvider from 'themes/dark_light_mode'
 
 import PrivateRoute from 'HOC/PrivateRoute'
+
+const DarkModeThemeProvider = lazy(() => import('themes/DarkTheme'))
 
 const AppHeader = lazy(() => import('components/AppHeader/AppHeader'))
 
