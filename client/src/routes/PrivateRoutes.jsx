@@ -1,8 +1,6 @@
 import React, { Suspense, lazy } from 'react'
 import { connect } from 'react-redux'
-import { Switch, Route, withRouter, Redirect } from 'react-router-dom'
-import { makeStyles } from '@material-ui/core/styles'
-import Paper from '@material-ui/core/Paper'
+import { Switch, Route, useLocation, Redirect } from 'react-router-dom'
 
 import DarkModeThemeProvider from 'themes/dark_light_mode'
 
@@ -22,7 +20,9 @@ const HomePage = lazy(() => {
 	return import('pages/HomePage/HomePage')
 })
 
-const PrivateRoutes = ({ location, authenticated }) => {
+const PrivateRoutes = ({ authenticated }) => {
+	const location = useLocation()
+	console.log(location)
 	return (
 		<>
 			<Suspense fallback={() => <div children='hello world' />}>
@@ -37,15 +37,9 @@ const PrivateRoutes = ({ location, authenticated }) => {
 							component={UserEditProfilePage}
 						/>
 
-						{/* <Route render={() => <Redirect to='/' />} /> */}
-						{/* <Route render={() => <div children='invalid route' />} /> */}
-
-						{/* redirects to homepage if not route matches */}
-						{/* <Route exact path='*'> */}
-						{/* 	<Redirect to='/' /> */}
-						{/* </Route> */}
+						{/* redirects to homepage if no route matches */}
+						{authenticated && <Route render={() => <Redirect to='/' />} />}
 					</Switch>
-					{/* {authenticated && <AppHeader />} */}
 				</DarkModeThemeProvider>
 			</Suspense>
 		</>
@@ -56,4 +50,4 @@ const mapStateToProps = ({ auth: { isAuthenticated } }) => ({
 	authenticated: isAuthenticated,
 })
 
-export default connect(mapStateToProps)(withRouter(PrivateRoutes))
+export default connect(mapStateToProps)(PrivateRoutes)

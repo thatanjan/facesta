@@ -1,5 +1,5 @@
 import React, { Suspense, lazy } from 'react'
-import { Switch, Route, Redirect } from 'react-router-dom'
+import { Switch } from 'react-router-dom'
 import { connect } from 'react-redux'
 
 import { PrivateAuthRoute } from 'HOC/PrivateRoute'
