@@ -40,7 +40,7 @@ const NavigationDrawerList = ({ list, name, logoutUser, toggleDrawer }) => {
 	const itemClickHandler = index => {
 		if (index === list.length - 1) {
 			return logoutHandeler
-		} else if (location.pathname === '/') {
+		} else if (location.pathname === '/' && toggleDrawer) {
 			return toggleDrawer(false)
 		}
 	}
