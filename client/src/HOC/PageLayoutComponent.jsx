@@ -10,8 +10,6 @@ const useStyles = makeStyles(theme => ({}))
 const PageLayoutComponent = ({ Drawer, Content, RightSection }) => {
 	const matches = useMediaQuery('(min-width:600px)')
 
-	console.log(matches)
-
 	return (
 		<BackgroundPaper>
 			<Grid container spacing={2}>

@@ -4,6 +4,25 @@ import { makeStyles } from '@material-ui/core/styles'
 
 import NavigationDrawerList from 'components/Drawers/NavigationDrawerList'
 
+import listComponents from './NavigationDrawerListData'
+
+const useStyles = makeStyles({
+	drawerStyle: {
+		width: '70vw',
+		paddingTop: '1rem',
+	},
+})
+
+const NavigationDrawerContainer = ({ toggleDrawer }) => {
+	const { drawerStyle } = useStyles()
+
+	return (
+		<div className={drawerStyle}>
+			<NavigationDrawerList toggleDrawer={toggleDrawer} list={listComponents} />
+		</div>
+	)
+}
+
 export const NavigationDrawer = ({ toggleDrawer, toggleState }) => {
 	return (
 		<>
@@ -13,7 +32,7 @@ export const NavigationDrawer = ({ toggleDrawer, toggleState }) => {
 				onClose={toggleDrawer(false)}
 				onOpen={toggleDrawer(true)}
 			>
-				<NavigationDrawerList toggleDrawer={toggleDrawer} />
+				<NavigationDrawerContainer toggleDrawer={toggleDrawer} />
 			</SwipeableDrawer>
 		</>
 	)
