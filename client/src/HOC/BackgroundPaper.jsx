@@ -4,7 +4,7 @@ import Paper from '@material-ui/core/Paper'
 import { makeStyles } from '@material-ui/core/'
 
 const useStyles = makeStyles(theme => ({
-	paperPositon: {
+	paperStyle: {
 		maxWidth: '100vw',
 		position: 'relative',
 		top: theme.mixins.toolbar.minHeight,
@@ -23,9 +23,8 @@ const useStyles = makeStyles(theme => ({
 }))
 
 const BackgroundPaper = props => {
-	console.log(props)
-	const { paperPositon } = useStyles()
-	return <Paper square elevation={0} {...props} className={paperPositon} />
+	const { paperStyle } = useStyles()
+	return <Paper square elevation={0} {...props} className={paperStyle} />
 }
 
 export default BackgroundPaper
