@@ -7,21 +7,12 @@ import List from '@material-ui/core/List'
 import ListItem from '@material-ui/core/ListItem'
 import ListItemIcon from '@material-ui/core/ListItemIcon'
 import ListItemText from '@material-ui/core/ListItemText'
-import AccountCircleIcon from '@material-ui/icons/AccountCircle'
-import ExitToAppIcon from '@material-ui/icons/ExitToApp'
-import SettingsIcon from '@material-ui/icons/Settings'
-import TrendingUpIcon from '@material-ui/icons/TrendingUp'
-import VideoLibraryIcon from '@material-ui/icons/VideoLibrary'
-import HomeIcon from '@material-ui/icons/Home'
 
-import SvgSupport from 'HOC/svgSupport'
-
-import { ReactComponent as FriendRequests } from 'assets/svgs/friendRequest.svg'
+// data
+import listComponents from './NavigationDrawerListData'
 
 // action
 import { logoutUser } from 'redux/actions/authActions'
-
-const FriendRequestsIcon = SvgSupport(FriendRequests)
 
 export const convertSpaceToDash = text => {
 	if (typeof text === 'string') {
@@ -46,44 +37,6 @@ const useStyles = makeStyles({
 	},
 })
 
-const listComponents = [
-	{
-		title: 'Home',
-		Component: HomeIcon,
-		link: '/',
-	},
-	{
-		title: 'user',
-		Component: AccountCircleIcon,
-		link: '/profile',
-	},
-	{
-		title: 'Trending',
-		Component: TrendingUpIcon,
-		link: '/trending',
-	},
-	{
-		title: 'Videos',
-		Component: VideoLibraryIcon,
-		link: '/videos',
-	},
-	{
-		title: 'Friend Requests',
-		Component: FriendRequestsIcon,
-		link: '/friend-request',
-	},
-	{
-		title: 'Settings',
-		Component: SettingsIcon,
-		link: '/settings',
-	},
-	{
-		title: 'Log Out',
-		Component: ExitToAppIcon,
-		link: '',
-	},
-]
-
 const NavigationList = ({ logoutUser, name, toggleDrawer }) => {
 	const {
 		drawerStyle,
@@ -98,12 +51,14 @@ const NavigationList = ({ logoutUser, name, toggleDrawer }) => {
 		logoutUser()
 	}
 
-	const itemClickHandler = () => {
-		console.log('clicked')
-		toggleDrawer(false)
+	const itemClickHandler = index => {
+		if (index === listComponents.length - 1) {
+			return logoutHandeler
+		} else {
+			return toggleDrawer(false)
+		}
 	}
 
-	// onClick={index === listComponents.length - 1 ? logoutHandeler : null}
 	return (
 		<div className={drawerStyle}>
 			<List component='nav'>
@@ -113,7 +68,7 @@ const NavigationList = ({ logoutUser, name, toggleDrawer }) => {
 						key={nanoid()}
 						component={RouterLink}
 						to={index === 1 ? `${link}/${convertSpaceToDash(name)}` : link}
-						onClick={() => itemClickHandler()}
+						onClick={itemClickHandler(index)}
 					>
 						<ListItemIcon>
 							<Component

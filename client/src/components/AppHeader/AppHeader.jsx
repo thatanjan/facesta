@@ -62,7 +62,7 @@ const AppHeader = ({ location: { pathname }, history: { goBack, push } }) => {
 			return
 		}
 
-		console.log('state')
+		console.log('drawer clicked')
 
 		setState(open)
 	}
