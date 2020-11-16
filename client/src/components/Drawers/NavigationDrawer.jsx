@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import SwipeableDrawer from '@material-ui/core/SwipeableDrawer'
 import { makeStyles } from '@material-ui/core/styles'
 

@@ -1,14 +1,11 @@
 import React from 'react'
-import { makeStyles } from '@material-ui/core/'
 import useMediaQuery from '@material-ui/core/useMediaQuery'
 import Grid from '@material-ui/core/Grid'
 
 import BackgroundPaper from 'HOC/BackgroundPaper'
 
-const useStyles = makeStyles(theme => ({}))
-
 const PageLayoutComponent = ({ Drawer, Content, RightSection }) => {
-	const matches = useMediaQuery('(min-width:600px)')
+	const matches = useMediaQuery('(min-width:960px)')
 
 	return (
 		<BackgroundPaper>

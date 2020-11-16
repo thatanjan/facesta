@@ -2,36 +2,10 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { Formik, Form, Field } from 'formik'
 import { Button, LinearProgress } from '@material-ui/core'
-import Container from '@material-ui/core/Container'
 import { Link as RouterLink } from 'react-router-dom'
-import Grid from '@material-ui/core/Grid'
-import { makeStyles } from '@material-ui/core/styles'
 import { TextField } from 'formik-material-ui'
-import axios from 'axios'
 
 import { registerUserAction } from 'redux/actions/authActions'
-
-const useStyles = makeStyles(theme => ({
-	formContainer: {
-		// height: '40vh',
-		// width: '80vw',
-		// background: `${theme.palette.primary.contrastText}`,
-		// justifyContent: 'center',
-		// alignContent: 'center',
-
-		// // to center horizontally
-		// margin: '0 auto',
-
-		// // to center vertically
-		// top: '50%',
-		// position: 'relative',
-		// transform: 'translateY(-50%)',
-		width: '80%',
-		// '&  .MuiTextField-root': {
-		// 	width: '100%',
-		// },
-	},
-}))
 
 // signing up the user
 const signUpUser = (registerAction, signUpInformation) => {
@@ -40,9 +14,6 @@ const signUpUser = (registerAction, signUpInformation) => {
 }
 
 const SignUpForm = ({ registerUser }) => {
-	console.log(registerUser)
-
-	const { formContainer, formInputs } = useStyles()
 	return (
 		<>
 			{/* <Grid container className={formContainer}> */}
