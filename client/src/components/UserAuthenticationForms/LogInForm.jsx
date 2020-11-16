@@ -2,23 +2,12 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { Formik, Form, Field } from 'formik'
 import { Button, LinearProgress } from '@material-ui/core'
-import Container from '@material-ui/core/Container'
 import { Link as RouterLink } from 'react-router-dom'
-import Grid from '@material-ui/core/Grid'
-import { makeStyles } from '@material-ui/core/styles'
 import { TextField } from 'formik-material-ui'
-import axios from 'axios'
 
 import { loginUserAction } from 'redux/actions/authActions'
 
-const useStyles = makeStyles(theme => ({}))
-
-const logInUser = logInData => {
-	loginUserAction(logInData)
-}
-
 const LogInForm = ({ logInUser, auth }) => {
-	// const { formContainer } = useStyles()
 	return (
 		<>
 			<Formik

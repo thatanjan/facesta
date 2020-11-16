@@ -8,8 +8,6 @@ import listComponents from 'components/Drawers/NavigationDrawerListData'
 import ActiveFriends from 'components/Chat/ActiveFriends'
 
 const content = () => <div children='content' />
-const drawer = () => <div children='content' />
-const right = () => <div children='content' />
 
 const HomePage = () => {
 	return (
