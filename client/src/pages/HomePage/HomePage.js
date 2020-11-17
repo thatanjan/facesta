@@ -6,14 +6,13 @@ import PageLayoutComponent from 'HOC/PageLayoutComponent'
 import NavigationDrawerList from 'components/Drawers/NavigationDrawerList'
 import listComponents from 'components/Drawers/NavigationDrawerListData'
 import ActiveFriends from 'components/Chat/ActiveFriends'
-
-const content = () => <div children='content' />
+import HomepageComponent from './HomepageComponent'
 
 const HomePage = () => {
 	return (
 		<PageLayoutComponent
 			Drawer={() => <NavigationDrawerList list={listComponents} />}
-			Content={content}
+			Content={HomepageComponent}
 			RightSection={() => <ActiveFriends />}
 		/>
 	)
