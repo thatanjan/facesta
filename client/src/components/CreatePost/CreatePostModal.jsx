@@ -13,6 +13,7 @@ import ImageIcon from '@material-ui/icons/Image'
 import PhotoCameraIcon from '@material-ui/icons/PhotoCamera'
 import GifIcon from '@material-ui/icons/Gif'
 import MovieIcon from '@material-ui/icons/Movie'
+import { nanoid } from 'nanoid'
 
 import PrivacyMenu from './PrivacyMenu'
 
@@ -120,9 +121,8 @@ const CreatePostModal = ({ isClicked, setIsClicked }) => {
 								<Typography variant='button'>Add to post</Typography>
 							</Grid>
 
-							{/* <Grid container item> */}
 							{mediaType.map(({ accept, id, Component, name }, index) => (
-								<Grid item>
+								<Grid item key={nanoid()}>
 									<input
 										className={uploadInput}
 										id={id}
@@ -137,7 +137,6 @@ const CreatePostModal = ({ isClicked, setIsClicked }) => {
 									</label>
 								</Grid>
 							))}
-							{/* </Grid> */}
 						</Grid>
 
 						<PrivacyMenu />
