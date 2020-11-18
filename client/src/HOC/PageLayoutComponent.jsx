@@ -11,17 +11,17 @@ const PageLayoutComponent = ({ Drawer, Content, RightSection }) => {
 		<BackgroundPaper>
 			<Grid container spacing={2} justify='space-evenly'>
 				{matches && Drawer && (
-					<Grid item sm={3}>
+					<Grid item md={3}>
 						<Drawer />
 					</Grid>
 				)}
 				{Content && (
-					<Grid item sm={6}>
+					<Grid item xs={10} md={6}>
 						<Content />
 					</Grid>
 				)}
 				{matches && RightSection && (
-					<Grid item sm={3}>
+					<Grid item md={3}>
 						<RightSection />
 					</Grid>
 				)}

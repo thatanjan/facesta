@@ -12,7 +12,7 @@ import { useHistory } from 'react-router-dom'
 
 const DropDownMenu = lazy(() =>
 	/* webpackChunkName: "my-component" */ import(
-		'components/AppHeader/DropDownMenu'
+		'components/DropDownMenu/DropDownMenu'
 	)
 )
 
@@ -24,16 +24,7 @@ const useStyles = makeStyles(theme => ({
 
 const AppHeaderMenus = ({ userName }) => {
 	// for dropDownMenu
-	const [anchorEl, setAnchorEl] = useState(null)
-	const open = Boolean(anchorEl)
-
-	const handleClick = event => {
-		setAnchorEl(event.currentTarget)
-	}
-
-	const handleClose = () => {
-		setAnchorEl(null)
-	}
+	const options = ['settings & privacy', 'help and support', 'logout']
 
 	const { AccountIconTextStyle } = useStyles()
 
@@ -54,22 +45,12 @@ const AppHeaderMenus = ({ userName }) => {
 			<IconButton>
 				<NotificationsIcon />
 			</IconButton>
-			<IconButton
+			<DropDownMenu
+				options={options}
 				aria-controls='fade-menu'
 				aria-haspopup='true'
-				onClick={handleClick}
-			>
-				<ArrowDropDownCircleIcon />
-			</IconButton>
-
-			<Suspense fallback={<div children='hello' />}>
-				<DropDownMenu
-					anchorEl={anchorEl}
-					setAnchorEl={setAnchorEl}
-					handleClose={handleClose}
-					open={open}
-				/>
-			</Suspense>
+				IconComponent={ArrowDropDownCircleIcon}
+			/>
 		</>
 	)
 }
