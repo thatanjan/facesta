@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import Modal from '@material-ui/core/Modal'
+import TextareaAutosize from '@material-ui/core/TextareaAutosize'
 import Backdrop from '@material-ui/core/Backdrop'
 import Fade from '@material-ui/core/Fade'
 import Paper from '@material-ui/core/Paper'
@@ -9,6 +10,7 @@ import Divider from '@material-ui/core/Divider'
 import Typography from '@material-ui/core/Typography'
 import Grid from '@material-ui/core/Grid'
 import IconButton from '@material-ui/core/IconButton'
+import Button from '@material-ui/core/Button'
 import ImageIcon from '@material-ui/icons/Image'
 import PhotoCameraIcon from '@material-ui/icons/PhotoCamera'
 import GifIcon from '@material-ui/icons/Gif'
@@ -37,16 +39,26 @@ const useStyles = makeStyles(theme => ({
 		display: 'flex',
 		alignItems: 'center',
 		justifyContent: 'center',
+		overflowY: 'scroll',
 	},
 	paper: {
 		// backgroundColor: theme.palette.background.paper,
 		boxShadow: theme.shadows[5],
 		padding: theme.spacing(2, 4, 3),
 		border: 'none',
-		minWidth: '20rem',
-		width: '30vw',
+		maxWidth: '40rem',
+		width: '80vw',
+		[theme.breakpoints.down('xs')]: {
+			minWidth: '15rem',
+		},
 	},
-	textFieldStyle: {},
+	textFieldStyle: {
+		'& > label': {
+			[theme.breakpoints.down('xs')]: {
+				fontSize: theme.typography.body2.fontSize,
+			},
+		},
+	},
 	dividerStyle: {
 		margin: '10px 0px',
 	},
@@ -61,23 +73,81 @@ const useStyles = makeStyles(theme => ({
 	uploadInput: {
 		display: 'none',
 	},
+	headerStyle: {
+		[theme.breakpoints.down('xs')]: {
+			fontSize: theme.typography.h5.fontSize,
+		},
+	},
 }))
 
 const mediaType = [image, gif, video]
+
+const TextFieldComponent = () => {
+	const { textFieldStyle } = useStyles()
+
+	const [inputText, setInputText] = useState('')
+
+	function getScrollHeight(elm) {
+		var savedValue = elm.value
+		elm.value = ''
+		elm._baseScrollHeight = elm.scrollHeight
+		elm.value = savedValue
+	}
+
+	// const inputChangeHandler = ({target}) => console.log(target)
+
+	const inputChangeHandler = ({ target }) => {
+		setInputText(target.value)
+		// make sure the input event originated from a textarea and it's desired to be auto-expandable
+		if (
+			!target.classList.contains('autoExpand') ||
+			!target.nodeName == 'TEXTAREA'
+		)
+			return
+
+		var minRows = target.getAttribute('data-min-rows') | 0,
+			rows
+		!target._baseScrollHeight && getScrollHeight(target)
+
+		target.rows = minRows
+		rows = Math.ceil((target.scrollHeight - target._baseScrollHeight) / 16)
+		target.rows = minRows + rows
+	}
+	return (
+		<TextField
+			className={textFieldStyle}
+			id='filled-multiline-static'
+			label='Write Your Feelings'
+			fullWidth
+			multiline
+			variant='filled'
+			color='secondary'
+			value={inputText}
+			inputProps={{
+				onChange: inputChangeHandler,
+
+				className: 'autoExpand',
+				rows: '3',
+				dataMinRows: '3',
+			}}
+		/>
+	)
+}
 
 const CreatePostModal = ({ isClicked, setIsClicked }) => {
 	const {
 		modal,
 		paper,
 		uploadInput,
-		textFieldStyle,
 		dividerStyle,
 		addToPostGrid,
+		headerStyle,
 	} = useStyles()
 
 	const handleClose = () => {
 		setIsClicked(false)
 	}
+
 	return (
 		<>
 			<Modal
@@ -94,20 +164,14 @@ const CreatePostModal = ({ isClicked, setIsClicked }) => {
 			>
 				<Fade in={isClicked}>
 					<Paper className={paper}>
-						<Typography className={dividerStyle} align='center' variant='h4'>
+						<Typography className={headerStyle} align='center' variant='h4'>
 							Create Post{' '}
 						</Typography>
 						<Divider variant='middle' className={dividerStyle} />
-						<TextField
-							className={textFieldStyle}
-							id='filled-multiline-static'
-							label='Write Your Feelings'
-							fullWidth
-							multiline
-							rows={4}
-							variant='filled'
-							color='secondary'
-						/>
+
+						{/* <TextareaAutosize aria-label='empty textarea' placeholder='Empty' /> */}
+
+						<TextFieldComponent />
 
 						<Divider variant='middle' className={dividerStyle} />
 
@@ -139,7 +203,14 @@ const CreatePostModal = ({ isClicked, setIsClicked }) => {
 							))}
 						</Grid>
 
-						<PrivacyMenu />
+						<Grid container alignItems='flex-end' justify='space-between'>
+							<Grid item>
+								<PrivacyMenu />
+							</Grid>
+							<Grid item>
+								<Button variant='contained' color='secondary' children='submit' />
+							</Grid>
+						</Grid>
 					</Paper>
 				</Fade>
 			</Modal>
