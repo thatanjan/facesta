@@ -7,6 +7,7 @@ import Tab from '@material-ui/core/Tab'
 import { nanoid } from 'nanoid'
 
 import AboutSection from 'components/AboutSection/AboutSection'
+import PostsSection from 'components/PostsSection/PostsSection'
 
 // const tabOption = [
 // 	'About',
@@ -29,11 +30,13 @@ class OptionBuilder {
 
 const About = new OptionBuilder('About', AboutSection)
 
-// const Posts = new OptionBuilder('Posts', PostSectionr)
+const PostsSectionr = () => <div children='hello ' />
+const Posts = new OptionBuilder('Posts', PostsSection)
 
-const tabOptions = [About]
+const tabOptions = [About, Posts]
 
 const TabPanel = ({ children, value, ...other }) => {
+	const Component = tabOptions[value].Component
 	return (
 		<div
 			role='tabpanel'
@@ -41,7 +44,7 @@ const TabPanel = ({ children, value, ...other }) => {
 			aria-labelledby={`scrollable-auto-tab-${value}`}
 			{...other}
 		>
-			{tabOptions[value].Component()}
+			<Component />
 		</div>
 	)
 }
