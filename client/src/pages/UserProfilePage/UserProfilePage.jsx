@@ -11,11 +11,15 @@ const HorizontalMenu = lazy(() =>
 	import('components/HorizontalMenu/HorizontalMenu')
 )
 
+const AboutSection = lazy(() => import('components/AboutSection/AboutSection'))
+
 const Content = () => {
 	return (
 		<>
 			<Suspense fallback={<CircularProgress />}>
-				<ProfileCover /> <HorizontalMenu />
+				<ProfileCover />
+				<HorizontalMenu />
+				<AboutSection />
 			</Suspense>
 		</>
 	)
