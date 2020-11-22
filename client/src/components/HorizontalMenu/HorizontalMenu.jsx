@@ -6,17 +6,45 @@ import Tabs from '@material-ui/core/Tabs'
 import Tab from '@material-ui/core/Tab'
 import { nanoid } from 'nanoid'
 
-const tabOption = [
-	'About',
-	'Follwers',
-	'Follwing',
-	'Posts',
-	'Videos',
-	'Shared',
-	'Page',
-	'Group',
-	'Favorite',
-]
+import AboutSection from 'components/AboutSection/AboutSection'
+
+// const tabOption = [
+// 	'About',
+// 	'Follwers',
+// 	'Follwing',
+// 	'Posts',
+// 	'Videos',
+// 	'Shared',
+// 	'Page',
+// 	'Group',
+// 	'Favorite',
+// ]
+
+class OptionBuilder {
+	constructor(name, Component) {
+		this.name = name
+		this.Component = Component
+	}
+}
+
+const About = new OptionBuilder('About', AboutSection)
+
+// const Posts = new OptionBuilder('Posts', PostSectionr)
+
+const tabOptions = [About]
+
+const TabPanel = ({ children, value, ...other }) => {
+	return (
+		<div
+			role='tabpanel'
+			id={`scrollable-auto-tabpanel-${value}`}
+			aria-labelledby={`scrollable-auto-tab-${value}`}
+			{...other}
+		>
+			{tabOptions[value].Component()}
+		</div>
+	)
+}
 
 const a11yProps = index => {
 	return {
@@ -38,7 +66,6 @@ const HorizontalMenu = () => {
 	const [value, setValue] = React.useState(0)
 
 	const handleChange = (event, newValue) => {
-		console.log(newValue)
 		setValue(newValue)
 	}
 
@@ -54,11 +81,13 @@ const HorizontalMenu = () => {
 					scrollButtons='auto'
 					aria-label='scrollable auto tabs example'
 				>
-					{tabOption.map((item, index) => (
-						<Tab key={nanoid()} label={item} {...a11yProps(index)} />
+					{tabOptions.map((item, index) => (
+						<Tab key={nanoid()} label={item.name} {...a11yProps(index)} />
 					))}
 				</Tabs>
 			</AppBar>
+
+			<TabPanel value={value} />
 		</div>
 	)
 }

@@ -19,7 +19,7 @@ const Content = () => {
 			<Suspense fallback={<CircularProgress />}>
 				<ProfileCover />
 				<HorizontalMenu />
-				<AboutSection />
+				{/* <AboutSection /> */}
 			</Suspense>
 		</>
 	)
