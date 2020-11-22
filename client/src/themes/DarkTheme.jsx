@@ -1,11 +1,17 @@
 import React from 'react'
-import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles'
+import {
+	createMuiTheme,
+	responsiveFontSizes,
+	ThemeProvider,
+} from '@material-ui/core/styles'
 
-export const darkTheme = createMuiTheme({
+let darkTheme = createMuiTheme({
 	palette: {
 		type: 'dark',
 	},
 })
+
+darkTheme = responsiveFontSizes(darkTheme)
 
 export const DarkModeThemeProvider = ({ children }) => {
 	return <ThemeProvider theme={darkTheme}>{children}</ThemeProvider>
