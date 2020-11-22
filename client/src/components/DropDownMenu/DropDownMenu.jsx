@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, Suspense, lazy } from 'react'
 import { NavLink as Link } from 'react-router-dom'
 import Menu from '@material-ui/core/Menu'
 import MenuItem from '@material-ui/core/MenuItem'
@@ -22,26 +22,29 @@ const DropDownMenu = ({ options, IconComponent, ...props }) => {
 			<IconButton onClick={handleClick} {...props}>
 				<IconComponent />
 			</IconButton>
-			<Menu
-				id='fade-menu'
-				anchorEl={anchorEl}
-				keepMounted
-				open={open}
-				onClose={handleClose}
-				TransitionComponent={Fade}
-			>
-				{options.map((item, index) => (
-					<MenuItem
-						key={nanoid()}
-						component={Link}
-						to='/shit'
-						onClick={handleClose}
-						style={{ textTransform: 'capitalize' }}
-					>
-						{item}
-					</MenuItem>
-				))}
-			</Menu>
+
+			<Suspense fallback={<div children='hello' />}>
+				<Menu
+					id='fade-menu'
+					anchorEl={anchorEl}
+					keepMounted
+					open={open}
+					onClose={handleClose}
+					TransitionComponent={Fade}
+				>
+					{options.map((item, index) => (
+						<MenuItem
+							key={nanoid()}
+							component={Link}
+							to='/shit'
+							onClick={handleClose}
+							style={{ textTransform: 'capitalize' }}
+						>
+							{item}
+						</MenuItem>
+					))}
+				</Menu>
+			</Suspense>
 		</>
 	)
 }
