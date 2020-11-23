@@ -1,13 +1,37 @@
-import React from 'react'
+import React, { Suspense, lazy } from 'react'
 import { connect } from 'react-redux'
 import { makeStyles } from '@material-ui/core/styles'
 import AppBar from '@material-ui/core/AppBar'
 import Tabs from '@material-ui/core/Tabs'
 import Tab from '@material-ui/core/Tab'
+import CircularProgress from '@material-ui/core/CircularProgress'
 import { nanoid } from 'nanoid'
 
-import AboutSection from 'components/AboutSection/AboutSection'
-import PostsSection from 'components/PostsSection/PostsSection'
+const AboutSection = lazy(() => import('components/AboutSection/AboutSection'))
+
+const PostsSection = lazy(() => import('components/PostsSection/PostsSection'))
+
+const FollowSection = lazy(() =>
+	import('components/FollowComponent/FollowComponent')
+)
+
+const arr = [
+	{
+		name: 'Ed Sheeran',
+		details: 'Artist of Perfect',
+		avatar: 'https://a.wattpad.com/cover/5678567-256-k470580.jpg',
+	},
+	{
+		name: 'Ed Sheeran',
+		details: 'Artist of Perfect',
+		avatar: 'https://a.wattpad.com/cover/5678567-256-k470580.jpg',
+	},
+	{
+		name: 'Ed Sheeran',
+		details: 'Artist of Perfect',
+		avatar: 'https://a.wattpad.com/cover/5678567-256-k470580.jpg',
+	},
+]
 
 // const tabOption = [
 // 	'About',
@@ -22,21 +46,26 @@ import PostsSection from 'components/PostsSection/PostsSection'
 // ]
 
 class OptionBuilder {
-	constructor(name, Component) {
+	constructor(name, Component, data) {
 		this.name = name
 		this.Component = Component
+		this.data = data
 	}
 }
 
 const About = new OptionBuilder('About', AboutSection)
 
-const PostsSectionr = () => <div children='hello ' />
 const Posts = new OptionBuilder('Posts', PostsSection)
 
-const tabOptions = [About, Posts]
+const Followers = new OptionBuilder('Follwers', FollowSection, arr)
+
+const Following = new OptionBuilder('Following', FollowSection, arr)
+
+const tabOptions = [About, Posts, Followers, Following]
 
 const TabPanel = ({ children, value, ...other }) => {
 	const Component = tabOptions[value].Component
+	const data = tabOptions[value].data
 	return (
 		<div
 			role='tabpanel'
@@ -44,7 +73,9 @@ const TabPanel = ({ children, value, ...other }) => {
 			aria-labelledby={`scrollable-auto-tab-${value}`}
 			{...other}
 		>
-			<Component />
+			<Suspense fallback={<CircularProgress />}>
+				<Component data={data} />
+			</Suspense>
 		</div>
 	)
 }
