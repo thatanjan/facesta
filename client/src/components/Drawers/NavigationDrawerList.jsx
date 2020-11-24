@@ -37,15 +37,11 @@ const NavigationDrawerList = ({ list, name, logoutUser, toggleDrawer }) => {
 
 	const location = useLocation()
 
-	const logoutHandeler = event => {
-		event.preventDefault()
-
-		logoutUser()
-	}
-
-	const itemClickHandler = index => {
+	const itemClickHandler = (event, index) => {
 		if (index === list.length - 1) {
-			return logoutHandeler
+			event.preventDefault()
+
+			return logoutUser()
 		}
 		if (location.pathname === '/' && toggleDrawer) {
 			return toggleDrawer(false)
@@ -61,7 +57,7 @@ const NavigationDrawerList = ({ list, name, logoutUser, toggleDrawer }) => {
 					key={nanoid()}
 					component={RouterLink}
 					to={index === 1 ? `${link}/${convertSpaceToDash(name)}` : link}
-					onClick={itemClickHandler(index)}
+					onClick={event => itemClickHandler(event, index)}
 				>
 					<ListItemIcon>
 						<Component
