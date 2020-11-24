@@ -6,7 +6,7 @@ const INITIAL_STATE = {
 	user: {},
 }
 
-export const authReducer = (state = INITIAL_STATE, { type, payload }) => {
+const authReducer = (state = INITIAL_STATE, { type, payload }) => {
 	switch (type) {
 		case SET_CURRENT_USER:
 			return {
@@ -19,3 +19,5 @@ export const authReducer = (state = INITIAL_STATE, { type, payload }) => {
 			return state
 	}
 }
+
+export default authReducer

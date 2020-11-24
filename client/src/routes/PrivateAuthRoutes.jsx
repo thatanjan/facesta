@@ -8,7 +8,7 @@ const AuthenticationPage = lazy(() =>
 	import('pages/UserAuthenticationPages/UserAuthenticationPage')
 )
 
-export const PrivateAuthRoutes = ({ authenticated }) => {
+export const PrivateAuthRoutes = () => {
 	return (
 		<>
 			<Suspense fallback={<div>Loading...</div>}>

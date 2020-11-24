@@ -1,15 +1,14 @@
 import React, { Suspense, lazy, useState } from 'react'
 import { connect } from 'react-redux'
 import { makeStyles } from '@material-ui/core/styles'
-import useMediaQuery from '@material-ui/core/useMediaQuery'
 import clsx from 'clsx'
 import Card from '@material-ui/core/Card'
+import CircularProgress from '@material-ui/core/CircularProgress'
 import CardHeader from '@material-ui/core/CardHeader'
 import CardMedia from '@material-ui/core/CardMedia'
 import CardContent from '@material-ui/core/CardContent'
 import CardActions from '@material-ui/core/CardActions'
 import Collapse from '@material-ui/core/Collapse'
-import Avatar from '@material-ui/core/Avatar'
 import IconButton from '@material-ui/core/IconButton'
 import Typography from '@material-ui/core/Typography'
 import { red } from '@material-ui/core/colors'
@@ -85,7 +84,7 @@ const SinglePost = () => {
 			<CardHeader
 				className={cardHeaderStyle}
 				action={
-					<Suspense fallback={<div children='cuk' />}>
+					<Suspense fallback={<CircularProgress />}>
 						<DropDownMenu
 							aria-controls='fade-menu'
 							aria-haspopup='true'
@@ -135,7 +134,7 @@ const SinglePost = () => {
 	)
 }
 
-const mapStateToProps = state => ({})
+const mapStateToProps = ()=> ({})
 
 const mapDispatchToProps = {}
 

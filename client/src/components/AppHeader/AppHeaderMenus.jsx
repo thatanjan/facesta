@@ -1,4 +1,5 @@
-import React, { useState, Suspense, lazy } from 'react'
+import React, { Suspense, lazy } from 'react'
+import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import AddIcon from '@material-ui/icons/Add'
 import Typography from '@material-ui/core/Typography'
@@ -7,6 +8,7 @@ import NotificationsIcon from '@material-ui/icons/Notifications'
 import AccountCircleIcon from '@material-ui/icons/AccountCircle'
 import TelegramIcon from '@material-ui/icons/Telegram'
 import ArrowDropDownCircleIcon from '@material-ui/icons/ArrowDropDownCircle'
+import CircularProgress from '@material-ui/core/CircularProgress'
 import { makeStyles } from '@material-ui/core/styles'
 import { useHistory } from 'react-router-dom'
 
@@ -45,14 +47,20 @@ const AppHeaderMenus = ({ userName }) => {
 			<IconButton>
 				<NotificationsIcon />
 			</IconButton>
-			<DropDownMenu
-				options={options}
-				aria-controls='fade-menu'
-				aria-haspopup='true'
-				IconComponent={ArrowDropDownCircleIcon}
-			/>
+			<Suspense fallback={<CircularProgress />}>
+				<DropDownMenu
+					options={options}
+					aria-controls='fade-menu'
+					aria-haspopup='true'
+					IconComponent={ArrowDropDownCircleIcon}
+				/>
+			</Suspense>
 		</>
 	)
+}
+
+AppHeaderMenus.propTypes = {
+	userName: PropTypes.string.isRequired,
 }
 
 const mapStateToProps = state => ({

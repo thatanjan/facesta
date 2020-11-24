@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import SwipeableDrawer from '@material-ui/core/SwipeableDrawer'
 import { makeStyles } from '@material-ui/core/styles'
 
@@ -14,6 +15,7 @@ const useStyles = makeStyles({
 })
 
 const NavigationDrawerContainer = ({ toggleDrawer }) => {
+	console.log(toggleDrawer)
 	const { drawerStyle } = useStyles()
 
 	return (
@@ -23,12 +25,16 @@ const NavigationDrawerContainer = ({ toggleDrawer }) => {
 	)
 }
 
-export const NavigationDrawer = ({ toggleDrawer, toggleState }) => {
+NavigationDrawerContainer.propTypes = {
+	toggleDrawer: PropTypes.func.isRequired,
+}
+
+export const NavigationDrawer = ({ toggleDrawer, toggleButtonState }) => {
 	return (
 		<>
 			<SwipeableDrawer
 				anchor='left'
-				open={toggleState}
+				open={toggleButtonState}
 				onClose={toggleDrawer(false)}
 				onOpen={toggleDrawer(true)}
 			>
@@ -36,6 +42,11 @@ export const NavigationDrawer = ({ toggleDrawer, toggleState }) => {
 			</SwipeableDrawer>
 		</>
 	)
+}
+
+NavigationDrawer.propTypes = {
+	toggleDrawer: PropTypes.func.isRequired,
+	toggleButtonState: PropTypes.bool.isRequired,
 }
 
 export default NavigationDrawer

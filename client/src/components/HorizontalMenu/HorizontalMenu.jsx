@@ -1,4 +1,5 @@
 import React, { Suspense, lazy } from 'react'
+import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { makeStyles } from '@material-ui/core/styles'
 import AppBar from '@material-ui/core/AppBar'
@@ -33,18 +34,6 @@ const arr = [
 	},
 ]
 
-// const tabOption = [
-// 	'About',
-// 	'Follwers',
-// 	'Follwing',
-// 	'Posts',
-// 	'Videos',
-// 	'Shared',
-// 	'Page',
-// 	'Group',
-// 	'Favorite',
-// ]
-
 class OptionBuilder {
 	constructor(name, Component, data) {
 		this.name = name
@@ -63,9 +52,9 @@ const Following = new OptionBuilder('Following', FollowSection, arr)
 
 const tabOptions = [About, Posts, Followers, Following]
 
-const TabPanel = ({ children, value, ...other }) => {
-	const Component = tabOptions[value].Component
-	const data = tabOptions[value].data
+const TabPanel = ({ value, ...other }) => {
+	const { Component } = tabOptions[value]
+	const { data } = tabOptions[value]
 	return (
 		<div
 			role='tabpanel'
@@ -78,6 +67,10 @@ const TabPanel = ({ children, value, ...other }) => {
 			</Suspense>
 		</div>
 	)
+}
+
+TabPanel.propTypes = {
+	value: PropTypes.number.isRequired,
 }
 
 const a11yProps = index => {
@@ -125,7 +118,7 @@ const HorizontalMenu = () => {
 		</div>
 	)
 }
-const mapStateToProps = state => ({})
+const mapStateToProps = () => ({})
 
 const mapDispatchToProps = {}
 

@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
+import PropTypes from 'prop-types'
 import { makeStyles } from '@material-ui/core/styles'
 import Modal from '@material-ui/core/Modal'
-import TextareaAutosize from '@material-ui/core/TextareaAutosize'
 import Backdrop from '@material-ui/core/Backdrop'
 import Fade from '@material-ui/core/Fade'
 import Paper from '@material-ui/core/Paper'
@@ -12,7 +12,6 @@ import Grid from '@material-ui/core/Grid'
 import IconButton from '@material-ui/core/IconButton'
 import Button from '@material-ui/core/Button'
 import ImageIcon from '@material-ui/icons/Image'
-import PhotoCameraIcon from '@material-ui/icons/PhotoCamera'
 import GifIcon from '@material-ui/icons/Gif'
 import MovieIcon from '@material-ui/icons/Movie'
 import { nanoid } from 'nanoid'
@@ -87,31 +86,36 @@ const TextFieldComponent = () => {
 
 	const [inputText, setInputText] = useState('')
 
-	function getScrollHeight(elm) {
-		var savedValue = elm.value
-		elm.value = ''
-		elm._baseScrollHeight = elm.scrollHeight
-		elm.value = savedValue
+	const getScrollHeight = elm => {
+		const element = elm
+
+		const savedValue = elm.value
+		element.value = ''
+		element.baseScrollHeight = elm.scrollHeight
+		element.value = savedValue
 	}
 
 	// const inputChangeHandler = ({target}) => console.log(target)
 
 	const inputChangeHandler = ({ target }) => {
-		setInputText(target.value)
+		const targetElement = target
+
+		setInputText(targetElement.value)
 		// make sure the input event originated from a textarea and it's desired to be auto-expandable
 		if (
-			!target.classList.contains('autoExpand') ||
-			!target.nodeName == 'TEXTAREA'
+			!targetElement.classList.contains('autoExpand') ||
+			!targetElement.nodeName === 'TEXTAREA'
 		)
 			return
 
-		var minRows = target.getAttribute('data-min-rows') | 0,
-			rows
-		!target._baseScrollHeight && getScrollHeight(target)
+		const minRows = targetElement.getAttribute('data-min-rows') || 0
+		let rows = !targetElement.baseScrollHeight && getScrollHeight(targetElement)
 
-		target.rows = minRows
-		rows = Math.ceil((target.scrollHeight - target._baseScrollHeight) / 16)
-		target.rows = minRows + rows
+		targetElement.rows = minRows
+		rows = Math.ceil(
+			(targetElement.scrollHeight - targetElement.baseScrollHeight) / 16
+		)
+		targetElement.rows = minRows + rows
 	}
 	return (
 		<TextField
@@ -125,10 +129,9 @@ const TextFieldComponent = () => {
 			value={inputText}
 			inputProps={{
 				onChange: inputChangeHandler,
-
 				className: 'autoExpand',
 				rows: '3',
-				dataMinRows: '3',
+				dataminrows: '3',
 			}}
 		/>
 	)
@@ -185,7 +188,7 @@ const CreatePostModal = ({ isClicked, setIsClicked }) => {
 								<Typography variant='button'>Add to post</Typography>
 							</Grid>
 
-							{mediaType.map(({ accept, id, Component, name }, index) => (
+							{mediaType.map(({ accept, id, Component, name }) => (
 								<Grid item key={nanoid()}>
 									<input
 										className={uploadInput}
@@ -208,7 +211,9 @@ const CreatePostModal = ({ isClicked, setIsClicked }) => {
 								<PrivacyMenu />
 							</Grid>
 							<Grid item>
-								<Button variant='contained' color='secondary' children='submit' />
+								<Button variant='contained' color='secondary'>
+									Submit{' '}
+								</Button>
 							</Grid>
 						</Grid>
 					</Paper>
@@ -216,6 +221,11 @@ const CreatePostModal = ({ isClicked, setIsClicked }) => {
 			</Modal>
 		</>
 	)
+}
+
+CreatePostModal.propTypes = {
+	isClicked: PropTypes.bool.isRequired,
+	setIsClicked: PropTypes.func.isRequired,
 }
 
 export default CreatePostModal

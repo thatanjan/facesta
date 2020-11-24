@@ -1,41 +1,3 @@
-// import React from 'react'
-// import { connect } from 'react-redux'
-// import Card from '@material-ui/core/Card'
-// import Grid from '@material-ui/core/Grid'
-// import ListItem from '@material-ui/core/ListItem'
-// import ListItemText from '@material-ui/core/ListItemText'
-// import List from '@material-ui/core/List'
-// import { nanoid } from 'nanoid'
-
-// export const AboutSection = () => {
-// 	return (
-// 		<>
-// 			<Card>
-// 				<Grid container>
-// 					<Grid xs={4} item>
-// 						<List component='nav' aria-label='main mailbox folders'>
-// 							{options.map(item => (
-// 								<ListItem button key={nanoid()}>
-// 									<ListItemText primary={item} />
-// 								</ListItem>
-// 							))}
-// 						</List>
-// 					</Grid>
-// 					<Grid xs={8} item>
-// 						2{' '}
-// 					</Grid>
-// 				</Grid>
-// 			</Card>
-// 		</>
-// 	)
-// }
-
-// const mapStateToProps = state => ({})
-
-// const mapDispatchToProps = {}
-
-// export default connect(mapStateToProps, mapDispatchToProps)(AboutSection)
-
 import React from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import Accordion from '@material-ui/core/Accordion'
@@ -58,7 +20,7 @@ const useStyles = makeStyles(theme => ({
 	},
 }))
 
-export default function SimpleAccordion() {
+const SimpleAccordion = () => {
 	const { root, heading } = useStyles()
 
 	return (
@@ -80,3 +42,5 @@ export default function SimpleAccordion() {
 		</div>
 	)
 }
+
+export default SimpleAccordion

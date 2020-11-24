@@ -13,7 +13,7 @@ const PostsSection = () => {
 	)
 }
 
-const mapStateToProps = state => ({})
+const mapStateToProps = () => ({})
 
 const mapDispatchToProps = {}
 

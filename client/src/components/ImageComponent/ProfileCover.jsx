@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import CardMedia from '@material-ui/core/CardMedia'
 import Paper from '@material-ui/core/Paper'
@@ -49,13 +50,15 @@ export const ProfileCover = ({ userName }) => {
 			<Paper elevation={0}>
 				<Card className={container}>
 					<CardMedia className={media} image={imagelink}>
-						<CardMedia className={test} image={profileImageLink}></CardMedia>
+						<CardMedia className={test} image={profileImageLink} />
 					</CardMedia>
 
-					<Typography variant='h6' children={userName} align='center' />
+					<Typography variant='h6' align='center'>
+						{userName}
+					</Typography>
 					<Grid container>
 						<Grid container item justify='center'>
-							<Button children='Add Bio' />
+							<Button>Add Bio </Button>
 						</Grid>
 					</Grid>
 					<Divider />
@@ -63,6 +66,10 @@ export const ProfileCover = ({ userName }) => {
 			</Paper>
 		</>
 	)
+}
+
+ProfileCover.propTypes = {
+	userName: PropTypes.string.isRequired,
 }
 
 const mapStateToProps = state => ({
