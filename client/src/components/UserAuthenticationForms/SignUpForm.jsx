@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { Formik, Form, Field } from 'formik'
 import { Button, LinearProgress } from '@material-ui/core'
@@ -9,7 +10,6 @@ import { registerUserAction } from 'redux/actions/authActions'
 
 // signing up the user
 const signUpUser = (registerAction, signUpInformation) => {
-	console.log(registerAction, signUpInformation)
 	registerAction(signUpInformation)
 }
 
@@ -113,6 +113,10 @@ const SignUpForm = ({ registerUser }) => {
 			{/*  	</Grid> */}
 		</>
 	)
+}
+
+SignUpForm.propTypes = {
+	registerUser: PropTypes.func.isRequired,
 }
 
 const mapDispatchToProps = dispatch => ({

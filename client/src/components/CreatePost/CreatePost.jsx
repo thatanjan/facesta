@@ -44,7 +44,6 @@ export const CreatePost = () => {
 
 	const inputClickHandler = () => {
 		setIsClicked(!isClicked)
-		console.log(isClicked)
 	}
 
 	return (
@@ -93,8 +92,8 @@ export const CreatePost = () => {
 	)
 }
 
-const mapStateToProps = state => ({})
-
 const mapDispatchToProps = {}
 
-export default connect(mapStateToProps, mapDispatchToProps)(CreatePost)
+const createPostComponent = connect(null, mapDispatchToProps)(CreatePost)
+
+export default createPostComponent

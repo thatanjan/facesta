@@ -1,10 +1,9 @@
 import React, { useState, useEffect, lazy } from 'react'
 import { useHistory, useLocation } from 'react-router-dom'
-import { styled } from '@material-ui/core/styles'
+import { styled, makeStyles } from '@material-ui/core/styles'
 import AppBar from '@material-ui/core/AppBar'
 import Toolbar from '@material-ui/core/Toolbar'
 import MenuIcon from '@material-ui/icons/Menu'
-import { makeStyles } from '@material-ui/core/styles'
 import TelegramIcon from '@material-ui/icons/Telegram'
 import ArrowBackIcon from '@material-ui/icons/ArrowBack'
 import useMediaQuery from '@material-ui/core/useMediaQuery'
@@ -29,7 +28,7 @@ const useStyles = makeStyles(theme => ({
 
 const urlLastURLSegment = () => {
 	const pageURL = window.location.href
-	let lastURLSegment = pageURL.substr(pageURL.lastIndexOf('/') + 1)
+	const lastURLSegment = pageURL.substr(pageURL.lastIndexOf('/') + 1)
 
 	let result = lastURLSegment.replace(/-/g, ' ')
 
@@ -68,8 +67,6 @@ const AppHeader = () => {
 			return
 		}
 
-		console.log('drawer clicked')
-
 		setState(open)
 	}
 	return (
@@ -91,7 +88,10 @@ const AppHeader = () => {
 							>
 								<MenuIcon />
 							</IconButton>
-							<NavigationDrawer toggleDrawer={toggleDrawer} toggleState={state} />
+							<NavigationDrawer
+								toggleDrawer={toggleDrawer}
+								toggleButtonState={state}
+							/>
 						</>
 					)}
 					<Typography

@@ -2,17 +2,18 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import { BrowserRouter as Router } from 'react-router-dom'
 import { Provider } from 'react-redux'
-import jwt_decode from 'jwt-decode'
+import jwtDecode from 'jwt-decode'
 
 import CssBaseline from '@material-ui/core/CssBaseline'
 import App from 'App'
-import * as serviceWorkerRegistration from './serviceWorkerRegistration'
 // import reportWebVitals from './reportWebVitals'
 
 import store from 'redux/store/store'
 
 import setAuthToken from 'redux/utils/setAuthToken'
 import { setCurrentUser } from 'redux/actions/authActions'
+
+import * as serviceWorkerRegistration from './serviceWorkerRegistration'
 
 const token = localStorage.jwtToken
 
@@ -22,7 +23,7 @@ if (token) {
 	setAuthToken(token)
 
 	// decode token and get user info
-	const decodedToken = jwt_decode(token)
+	const decodedToken = jwtDecode(token)
 	store.dispatch(setCurrentUser(decodedToken))
 }
 

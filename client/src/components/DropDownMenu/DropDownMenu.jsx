@@ -1,5 +1,7 @@
-import React, { useState, Suspense, lazy } from 'react'
+import React, { useState, Suspense } from 'react'
+import PropTypes from 'prop-types'
 import { NavLink as Link } from 'react-router-dom'
+import CircularProgress from '@material-ui/core/CircularProgress'
 import Menu from '@material-ui/core/Menu'
 import MenuItem from '@material-ui/core/MenuItem'
 import Fade from '@material-ui/core/Fade'
@@ -23,7 +25,7 @@ const DropDownMenu = ({ options, IconComponent, ...props }) => {
 				<IconComponent />
 			</IconButton>
 
-			<Suspense fallback={<div children='hello' />}>
+			<Suspense fallback={CircularProgress}>
 				<Menu
 					id='fade-menu'
 					anchorEl={anchorEl}
@@ -32,7 +34,7 @@ const DropDownMenu = ({ options, IconComponent, ...props }) => {
 					onClose={handleClose}
 					TransitionComponent={Fade}
 				>
-					{options.map((item, index) => (
+					{options.map(item => (
 						<MenuItem
 							key={nanoid()}
 							component={Link}
@@ -49,4 +51,8 @@ const DropDownMenu = ({ options, IconComponent, ...props }) => {
 	)
 }
 
+DropDownMenu.propTypes = {
+	options: PropTypes.arrayOf(PropTypes.string).isRequired,
+	IconComponent: PropTypes.elementType.isRequired,
+}
 export default DropDownMenu

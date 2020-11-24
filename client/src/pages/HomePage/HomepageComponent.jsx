@@ -1,13 +1,12 @@
 import React from 'react'
 
-import Container from '@material-ui/core/Container'
-import CreatePost from 'components/CreatePost/CreatePost'
+import CreatePostComponent from 'components/CreatePost/CreatePost'
 import SinglePost from 'components/Post/SinglePost'
 
 const HomepageComponent = () => {
 	return (
 		<>
-			<CreatePost />
+			<CreatePostComponent />
 			<SinglePost />
 			<SinglePost />
 			<SinglePost />

@@ -1,5 +1,7 @@
 import React, { Suspense, lazy } from 'react'
+import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
+import CircularProgress from '@material-ui/core/CircularProgress'
 import { Switch, Route, useLocation, Redirect } from 'react-router-dom'
 
 // import DarkModeThemeProvider from 'themes/dark_light_mode'
@@ -14,30 +16,19 @@ const UserProfilePage = lazy(() =>
 	import('pages/UserProfilePage/UserProfilePage')
 )
 
-const UserEditProfilePage = lazy(() => {
-	return import('pages/UserEditProfilePage/userEditProfilePage')
-})
-
 const HomePage = lazy(() => {
 	return import('pages/HomePage/HomePage')
 })
 
 const PrivateRoutes = ({ authenticated }) => {
-	const location = useLocation()
-	console.log(location)
 	return (
 		<>
-			<Suspense fallback={() => <div children='hello world' />}>
+			<Suspense fallback={<CircularProgress />}>
 				<DarkModeThemeProvider>
-					<PrivateRoute path='/' component={AppHeader} />
+					<PrivateRoute path='/' Component={AppHeader} />
 					<Switch>
-						<PrivateRoute exact path='/' component={HomePage} />
-						<PrivateRoute exact path='/profile/:user' component={UserProfilePage} />
-						<PrivateRoute
-							exact
-							path='/profile/:user/edit-profile'
-							component={UserEditProfilePage}
-						/>
+						<PrivateRoute exact path='/' Component={HomePage} />
+						<PrivateRoute exact path='/profile/:user' Component={UserProfilePage} />
 
 						{/* redirects to homepage if no route matches */}
 						{authenticated && <Route render={() => <Redirect to='/' />} />}
@@ -46,6 +37,10 @@ const PrivateRoutes = ({ authenticated }) => {
 			</Suspense>
 		</>
 	)
+}
+
+PrivateRoutes.propTypes = {
+	authenticated: PropTypes.bool.isRequired,
 }
 
 const mapStateToProps = ({ auth: { isAuthenticated } }) => ({

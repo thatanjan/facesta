@@ -11,8 +11,6 @@ const HorizontalMenu = lazy(() =>
 	import('components/HorizontalMenu/HorizontalMenu')
 )
 
-const AboutSection = lazy(() => import('components/AboutSection/AboutSection'))
-
 const Content = () => {
 	return (
 		<>
@@ -25,7 +23,7 @@ const Content = () => {
 	)
 }
 
-const UserProfilePage = props => {
+const UserProfilePage = () => {
 	return (
 		<>
 			<PageLayoutComponent Content={Content} />{' '}

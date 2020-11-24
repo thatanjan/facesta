@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { Link as RouterLink, useLocation } from 'react-router-dom'
 import { nanoid } from 'nanoid'
@@ -9,12 +10,13 @@ import ListItemIcon from '@material-ui/core/ListItemIcon'
 import ListItemText from '@material-ui/core/ListItemText'
 
 // action
-import { logoutUser } from 'redux/actions/authActions'
+import { logoutUser as logoutUserAction } from 'redux/actions/authActions'
 
 export const convertSpaceToDash = text => {
 	if (typeof text === 'string') {
 		return text.replace(/\s/g, '-')
 	}
+	return false
 }
 
 const useStyles = makeStyles({
@@ -35,20 +37,20 @@ const NavigationDrawerList = ({ list, name, logoutUser, toggleDrawer }) => {
 
 	const location = useLocation()
 
-	console.log(location)
-
-	const itemClickHandler = index => {
-		if (index === list.length - 1) {
-			return logoutHandeler
-		} else if (location.pathname === '/' && toggleDrawer) {
-			return toggleDrawer(false)
-		}
-	}
-
 	const logoutHandeler = event => {
 		event.preventDefault()
 
 		logoutUser()
+	}
+
+	const itemClickHandler = index => {
+		if (index === list.length - 1) {
+			return logoutHandeler
+		}
+		if (location.pathname === '/' && toggleDrawer) {
+			return toggleDrawer(false)
+		}
+		return false
 	}
 
 	return (
@@ -78,9 +80,20 @@ const NavigationDrawerList = ({ list, name, logoutUser, toggleDrawer }) => {
 	)
 }
 
+NavigationDrawerList.defaultProps = {
+	toggleDrawer: undefined,
+}
+
+NavigationDrawerList.propTypes = {
+	list: PropTypes.arrayOf(PropTypes.object).isRequired,
+	name: PropTypes.string.isRequired,
+	logoutUser: PropTypes.func.isRequired,
+	toggleDrawer: PropTypes.func,
+}
+
 const mapStateToProps = state => ({ name: state.auth.user.name })
 
-const mapDispatchToProps = { logoutUser }
+const mapDispatchToProps = { logoutUser: logoutUserAction }
 
 export default connect(
 	mapStateToProps,

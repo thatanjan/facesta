@@ -73,7 +73,7 @@ const SignUpForm = lazy(() =>
 	import('components/UserAuthenticationForms/SignUpForm')
 )
 
-const LogInPage = () => {
+const UserAuthenticationPage = () => {
 	// get url parameter
 	const { auth } = useParams()
 
@@ -108,4 +108,4 @@ const LogInPage = () => {
 	)
 }
 
-export default withRouter(LogInPage)
+export default UserAuthenticationPage

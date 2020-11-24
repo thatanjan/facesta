@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { Route, Redirect } from 'react-router-dom'
 
@@ -6,20 +7,27 @@ import { Route, Redirect } from 'react-router-dom'
 const AuthRoute = ({ isAuthenticated, Component, ...rest }) => {
 	if (isAuthenticated) {
 		return <Redirect to='/' />
-	} else {
-		return <Route component={Component} {...rest} />
 	}
+	return <Route component={Component} {...rest} />
 }
 
 // for other routes
 const PrivateRoute = ({ isAuthenticated, Component, ...rest }) => {
 	if (isAuthenticated) {
 		return <Route component={Component} {...rest} />
-	} else {
-		return <Redirect to='/authentication/login' />
 	}
+	return <Redirect to='/authentication/login' />
 }
 
+AuthRoute.propTypes = {
+	isAuthenticated: PropTypes.bool.isRequired,
+	Component: PropTypes.elementType.isRequired,
+}
+
+PrivateRoute.propTypes = {
+	isAuthenticated: PropTypes.bool.isRequired,
+	Component: PropTypes.elementType.isRequired,
+}
 const mapStateToProps = ({ auth: { isAuthenticated } }) => ({
 	isAuthenticated,
 })

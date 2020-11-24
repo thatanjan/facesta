@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { Formik, Form, Field } from 'formik'
 import { Button, LinearProgress } from '@material-ui/core'
@@ -7,7 +8,7 @@ import { TextField } from 'formik-material-ui'
 
 import { loginUserAction } from 'redux/actions/authActions'
 
-const LogInForm = ({ logInUser, auth }) => {
+const LogInForm = ({ logInUser }) => {
 	return (
 		<>
 			<Formik
@@ -26,7 +27,7 @@ const LogInForm = ({ logInUser, auth }) => {
 					}
 					return errors
 				}}
-				onSubmit={(values, { setSubmitting, resetForm }) => {
+				onSubmit={(values, { setSubmitting }) => {
 					logInUser(values)
 					// .then(() => resetForm())
 					// .catch(error => console.log(error.response))
@@ -74,6 +75,10 @@ const LogInForm = ({ logInUser, auth }) => {
 			</Button>
 		</>
 	)
+}
+
+LogInForm.propTypes = {
+	logInUser: PropTypes.func.isRequired,
 }
 
 const mapStateToProps = state => ({
