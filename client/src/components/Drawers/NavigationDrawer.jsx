@@ -1,52 +1,41 @@
 import React from 'react'
+import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import SwipeableDrawer from '@material-ui/core/SwipeableDrawer'
-import { makeStyles } from '@material-ui/core/styles'
 
 import NavigationDrawerList from 'components/Drawers/NavigationDrawerList'
 
-import listComponents from './NavigationDrawerListData'
+// actions
+import { openDrawer, closeDrawer } from 'redux/actions/drawerActions'
 
-const useStyles = makeStyles({
-	drawerStyle: {
-		width: '70vw',
-		paddingTop: '1rem',
-	},
-})
-
-const NavigationDrawerContainer = ({ toggleDrawer }) => {
-	console.log(toggleDrawer)
-	const { drawerStyle } = useStyles()
-
-	return (
-		<div className={drawerStyle}>
-			<NavigationDrawerList toggleDrawer={toggleDrawer} list={listComponents} />
-		</div>
-	)
-}
-
-NavigationDrawerContainer.propTypes = {
-	toggleDrawer: PropTypes.func.isRequired,
-}
-
-export const NavigationDrawer = ({ toggleDrawer, toggleButtonState }) => {
+export const NavigationDrawer = ({ isDrawerOpen, closeDrawer, openDrawer }) => {
 	return (
 		<>
 			<SwipeableDrawer
 				anchor='left'
-				open={toggleButtonState}
-				onClose={toggleDrawer(false)}
-				onOpen={toggleDrawer(true)}
+				open={isDrawerOpen}
+				onClose={closeDrawer}
+				onOpen={openDrawer}
 			>
-				<NavigationDrawerContainer toggleDrawer={toggleDrawer} />
+				<NavigationDrawerList />
 			</SwipeableDrawer>
 		</>
 	)
 }
 
+const mapStateToProps = state => ({
+	isDrawerOpen: state.drawer.isDrawerOpen,
+})
+
+const mapDispatchToProps = dispatch => ({
+	openDrawer: () => dispatch(openDrawer),
+	closeDrawer: () => dispatch(closeDrawer),
+})
+
 NavigationDrawer.propTypes = {
-	toggleDrawer: PropTypes.func.isRequired,
-	toggleButtonState: PropTypes.bool.isRequired,
+	openDrawer: PropTypes.func.isRequired,
+	closeDrawer: PropTypes.func.isRequired,
+	isDrawerOpen: PropTypes.bool.isRequired,
 }
 
-export default NavigationDrawer
+export default connect(mapStateToProps, mapDispatchToProps)(NavigationDrawer)

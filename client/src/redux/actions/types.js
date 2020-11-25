@@ -7,3 +7,7 @@ export const PROFILE_LOADING = 'PROFILE_LOADING'
 export const PROFILE_NOT_FOUND = 'PROFILE_NOT_FOUND'
 export const CLEAR_CURRENT_PROFILE = 'CLEAR_CURRENT_PROFILE'
 export const GET_ERRORS = 'GET_ERRORS'
+
+// for drawer
+export const OPEN_DRAWER = 'OPEN_DRAWER'
+export const CLOSE_DRAWER = 'CLOSE_DRAWER'
