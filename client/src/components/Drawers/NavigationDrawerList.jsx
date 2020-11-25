@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { Link as RouterLink, useLocation } from 'react-router-dom'
+import { Link as RouterLink } from 'react-router-dom'
 import { nanoid } from 'nanoid'
 import { makeStyles } from '@material-ui/core/styles'
 import List from '@material-ui/core/List'
@@ -10,7 +10,10 @@ import ListItemIcon from '@material-ui/core/ListItemIcon'
 import ListItemText from '@material-ui/core/ListItemText'
 
 // action
+import { openDrawer, closeDrawer } from 'redux/actions/drawerActions'
 import { logoutUser as logoutUserAction } from 'redux/actions/authActions'
+
+import listComponents from './NavigationDrawerListData'
 
 export const convertSpaceToDash = text => {
 	if (typeof text === 'string') {
@@ -30,66 +33,82 @@ const useStyles = makeStyles({
 	listItemTextStyle: {
 		textTransform: 'capitalize',
 	},
+	drawerStyle: {
+		width: '70vw',
+		paddingTop: '1rem',
+	},
 })
 
-const NavigationDrawerList = ({ list, name, logoutUser, toggleDrawer }) => {
-	const { iconStyle, logOutIconStyle, listItemTextStyle } = useStyles()
-
-	const location = useLocation()
+const NavigationDrawerList = ({
+	name,
+	logoutUser,
+	isDrawerOpen,
+	openDrawer,
+	closeDrawer,
+}) => {
+	const {
+		iconStyle,
+		logOutIconStyle,
+		listItemTextStyle,
+		drawerStyle,
+	} = useStyles()
 
 	const itemClickHandler = (event, index) => {
-		if (index === list.length - 1) {
+		if (index === listComponents.length - 1) {
 			event.preventDefault()
+			logoutUser()
+		}
 
-			return logoutUser()
-		}
-		if (location.pathname === '/' && toggleDrawer) {
-			return toggleDrawer(false)
-		}
-		return false
+		isDrawerOpen ? closeDrawer() : openDrawer()
 	}
 
 	return (
-		<List component='nav'>
-			{list.map(({ Component, title, link }, index) => (
-				<ListItem
-					button
-					key={nanoid()}
-					component={RouterLink}
-					to={index === 1 ? `${link}/${convertSpaceToDash(name)}` : link}
-					onClick={event => itemClickHandler(event, index)}
-				>
-					<ListItemIcon>
-						<Component
-							className={title === 'log out' ? logOutIconStyle : iconStyle}
-							color='secondary'
-						/>
-					</ListItemIcon>
+		<div className={drawerStyle}>
+			<List component='nav'>
+				{listComponents.map(({ Component, title, link }, index) => (
+					<ListItem
+						button
+						key={nanoid()}
+						component={RouterLink}
+						to={index === 1 ? `${link}/${convertSpaceToDash(name)}` : link}
+						onClick={event => itemClickHandler(event, index)}
+					>
+						<ListItemIcon>
+							<Component
+								className={title === 'log out' ? logOutIconStyle : iconStyle}
+								color='secondary'
+							/>
+						</ListItemIcon>
 
-					<ListItemText
-						className={listItemTextStyle}
-						primary={index === 1 ? name : title}
-					/>
-				</ListItem>
-			))}
-		</List>
+						<ListItemText
+							className={listItemTextStyle}
+							primary={index === 1 ? name : title}
+						/>
+					</ListItem>
+				))}
+			</List>
+		</div>
 	)
 }
 
-NavigationDrawerList.defaultProps = {
-	toggleDrawer: undefined,
-}
-
 NavigationDrawerList.propTypes = {
-	list: PropTypes.arrayOf(PropTypes.object).isRequired,
 	name: PropTypes.string.isRequired,
 	logoutUser: PropTypes.func.isRequired,
-	toggleDrawer: PropTypes.func,
+	openDrawer: PropTypes.func.isRequired,
+	closeDrawer: PropTypes.func.isRequired,
+	isDrawerOpen: PropTypes.bool.isRequired,
 }
 
-const mapStateToProps = state => ({ name: state.auth.user.name })
+const mapStateToProps = state => ({
+	name: state.auth.user.name,
+	isDrawerOpen: state.drawer.isDrawerOpen,
+})
 
-const mapDispatchToProps = { logoutUser: logoutUserAction }
+const mapDispatchToProps = dispatch => ({
+	logoutUser: () => dispatch(logoutUserAction()),
+	closeDrawer: () => dispatch(closeDrawer),
+	openDrawer: () => dispatch(openDrawer),
+})
 
 export default connect(
 	mapStateToProps,

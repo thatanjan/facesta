@@ -1,4 +1,6 @@
 import React, { useState, useEffect, lazy } from 'react'
+import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
 import { useHistory, useLocation } from 'react-router-dom'
 import { styled, makeStyles } from '@material-ui/core/styles'
 import AppBar from '@material-ui/core/AppBar'
@@ -11,6 +13,9 @@ import Typography from '@material-ui/core/Typography'
 import IconButton from '@material-ui/core/IconButton'
 
 import NavigationDrawer from 'components/Drawers/NavigationDrawer'
+
+// actions
+import { openDrawer, closeDrawer } from 'redux/actions/drawerActions'
 
 const AppHeaderMenus = lazy(() => import('components/AppHeader/AppHeaderMenus'))
 
@@ -43,32 +48,23 @@ const ToolbarContainer = styled(({ direction, ...props }) => (
 	flexDirection: props => (props.direction === 'reverse' ? 'row-reverse' : null),
 })
 
-const AppHeader = () => {
+const AppHeader = ({ isDrawerOpen, openDrawer, closeDrawer }) => {
+	console.log(closeDrawer)
 	const matches = useMediaQuery('(max-width:960px)')
 
 	const { pathname } = useLocation()
 	const { goBack, push } = useHistory()
 
 	const { menuButton, title } = useStyles()
-	const [state, setState] = useState(false)
 
 	const [lastURLSegment, setLastURLSegment] = useState('')
+
+	console.log(useLocation())
 
 	useEffect(() => {
 		setLastURLSegment(urlLastURLSegment())
 	}, [window.location.href])
 
-	const toggleDrawer = open => event => {
-		if (
-			event &&
-			event.type === 'keydown' &&
-			(event.key === 'Tab' || event.key === 'Shift')
-		) {
-			return
-		}
-
-		setState(open)
-	}
 	return (
 		<>
 			<AppBar>
@@ -80,7 +76,7 @@ const AppHeader = () => {
 							<IconButton
 								edge='end'
 								className={menuButton}
-								onClick={toggleDrawer(!state)}
+								onClick={isDrawerOpen ? closeDrawer : openDrawer}
 								color='inherit'
 								aria-label='menu'
 								aria-controls='menu-appbar'
@@ -88,10 +84,7 @@ const AppHeader = () => {
 							>
 								<MenuIcon />
 							</IconButton>
-							<NavigationDrawer
-								toggleDrawer={toggleDrawer}
-								toggleButtonState={state}
-							/>
+							<NavigationDrawer />
 						</>
 					)}
 					<Typography
@@ -122,4 +115,19 @@ const AppHeader = () => {
 	)
 }
 
-export default AppHeader
+const mapStateToProps = state => ({
+	isDrawerOpen: state.drawer.isDrawerOpen,
+})
+
+const mapDispatchToProps = dispatch => ({
+	openDrawer: () => dispatch(openDrawer),
+	closeDrawer: () => dispatch(closeDrawer),
+})
+
+AppHeader.propTypes = {
+	openDrawer: PropTypes.func.isRequired,
+	closeDrawer: PropTypes.func.isRequired,
+	isDrawerOpen: PropTypes.bool.isRequired,
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(AppHeader)
