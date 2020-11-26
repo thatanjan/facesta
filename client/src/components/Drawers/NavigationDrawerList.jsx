@@ -33,10 +33,6 @@ const useStyles = makeStyles({
 	listItemTextStyle: {
 		textTransform: 'capitalize',
 	},
-	drawerStyle: {
-		width: '70vw',
-		paddingTop: '1rem',
-	},
 })
 
 const NavigationDrawerList = ({
@@ -46,12 +42,7 @@ const NavigationDrawerList = ({
 	openDrawer,
 	closeDrawer,
 }) => {
-	const {
-		iconStyle,
-		logOutIconStyle,
-		listItemTextStyle,
-		drawerStyle,
-	} = useStyles()
+	const { iconStyle, logOutIconStyle, listItemTextStyle } = useStyles()
 
 	const itemClickHandler = (event, index) => {
 		if (index === listComponents.length - 1) {
@@ -63,31 +54,29 @@ const NavigationDrawerList = ({
 	}
 
 	return (
-		<div className={drawerStyle}>
-			<List component='nav'>
-				{listComponents.map(({ Component, title, link }, index) => (
-					<ListItem
-						button
-						key={nanoid()}
-						component={RouterLink}
-						to={index === 1 ? `${link}/${convertSpaceToDash(name)}` : link}
-						onClick={event => itemClickHandler(event, index)}
-					>
-						<ListItemIcon>
-							<Component
-								className={title === 'log out' ? logOutIconStyle : iconStyle}
-								color='secondary'
-							/>
-						</ListItemIcon>
-
-						<ListItemText
-							className={listItemTextStyle}
-							primary={index === 1 ? name : title}
+		<List component='nav'>
+			{listComponents.map(({ Component, title, link }, index) => (
+				<ListItem
+					button
+					key={nanoid()}
+					component={RouterLink}
+					to={index === 1 ? `${link}/${convertSpaceToDash(name)}` : link}
+					onClick={event => itemClickHandler(event, index)}
+				>
+					<ListItemIcon>
+						<Component
+							className={title === 'log out' ? logOutIconStyle : iconStyle}
+							color='secondary'
 						/>
-					</ListItem>
-				))}
-			</List>
-		</div>
+					</ListItemIcon>
+
+					<ListItemText
+						className={listItemTextStyle}
+						primary={index === 1 ? name : title}
+					/>
+				</ListItem>
+			))}
+		</List>
 	)
 }
 
