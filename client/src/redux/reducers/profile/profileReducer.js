@@ -1,8 +1,14 @@
-import { GET_PROFILE, PROFILE_LOADING } from 'redux/actions/types'
+import {
+	GET_PROFILE,
+	PROFILE_LOADING,
+	EDIT_PROFILE,
+	DONE_EDITING_PROFILE,
+} from 'redux/actions/types'
 
 const initialState = {
 	profile: null,
 	loading: false,
+	editingProfile: false,
 }
 
 const profileReducer = (state = initialState, { type, payload }) => {
@@ -18,6 +24,18 @@ const profileReducer = (state = initialState, { type, payload }) => {
 				...state,
 				profile: payload,
 				loading: true,
+			}
+
+		case EDIT_PROFILE:
+			return {
+				...state,
+				editingProfile: true,
+			}
+
+		case DONE_EDITING_PROFILE:
+			return {
+				...state,
+				editingProfile: false,
 			}
 
 		default:
