@@ -20,6 +20,10 @@ const HomePage = lazy(() => {
 	return import('pages/HomePage/HomePage')
 })
 
+const UserEditProfilePage = lazy(() =>
+	import('pages/UserEditProfilePage/UserEditProfilePage')
+)
+
 const PrivateRoutes = ({ authenticated }) => {
 	return (
 		<>
@@ -29,6 +33,11 @@ const PrivateRoutes = ({ authenticated }) => {
 					<Switch>
 						<PrivateRoute exact path='/' Component={HomePage} />
 						<PrivateRoute exact path='/profile/:user' Component={UserProfilePage} />
+						<PrivateRoute
+							exact
+							path='/profile/:user/edit_profile'
+							Component={UserEditProfilePage}
+						/>
 
 						{/* redirects to homepage if no route matches */}
 						{authenticated && <Route render={() => <Redirect to='/' />} />}
