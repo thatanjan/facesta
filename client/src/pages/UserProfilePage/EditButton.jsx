@@ -13,7 +13,7 @@ let EditButton = ({ editProfile }) => {
 	return (
 		<Button
 			component={Link}
-			to={`${pathname}/edit-profile`}
+			to={`${pathname}/edit_profile`}
 			startIcon={<EditIcon />}
 			onClick={editProfile}
 		>

@@ -8,6 +8,8 @@ import Tab from '@material-ui/core/Tab'
 import CircularProgress from '@material-ui/core/CircularProgress'
 import { nanoid } from 'nanoid'
 
+import OptionBuilder from 'utils/optionBuilder'
+
 const AboutSection = lazy(() => import('components/AboutSection/AboutSection'))
 
 const PostsSection = lazy(() => import('components/PostsSection/PostsSection'))
@@ -34,21 +36,13 @@ const arr = [
 	},
 ]
 
-class OptionBuilder {
-	constructor(name, Component, data) {
-		this.name = name
-		this.Component = Component
-		this.data = data
-	}
-}
-
 const About = new OptionBuilder('About', AboutSection)
 
 const Posts = new OptionBuilder('Posts', PostsSection)
 
-const Followers = new OptionBuilder('Follwers', FollowSection, arr)
+const Followers = new OptionBuilder('Follwers', FollowSection).addData(arr)
 
-const Following = new OptionBuilder('Following', FollowSection, arr)
+const Following = new OptionBuilder('Following', FollowSection).addData(arr)
 
 const tabOptions = [About, Posts, Followers, Following]
 
