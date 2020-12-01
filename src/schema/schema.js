@@ -12,6 +12,8 @@ import {
 import UserType from 'types/userType'
 import LoginType from 'types/loginType'
 
+import User from 'models/User'
+
 const makeGraphQLNonNull = (type) => new GraphQLNonNull(type)
 
 const logInUser = (user, res) => {
@@ -23,16 +25,23 @@ const logInUser = (user, res) => {
 
     jwt.sign(payload, secretKey, { expiresIn: 3600 }, (err, token) => {
         if (err) {
-            console.log(err)
+            return err
         }
-        res.json({
+        return {
             success: true,
             token: 'Bearer ' + token,
-        })
+        }
     })
 }
 
-// const findUser = () =>
+const findUser = (email, password) => {
+    User.findOne({ email }).then((user) => {
+        if (!user) {
+            errors.email = 'user not found'
+            return res.status(404).json(errors)
+        }
+    })
+}
 
 const RootQuery = new GraphQLObjectType({
     name: 'RootQueryType',
@@ -57,10 +66,7 @@ const Mutation = new GraphQLObjectType({
                 password: { type: GraphQLString },
             },
             resolve: (parent, args, context, info) => {
-                // loginUser()
-                // console.log([parent, args, context, info])
-                // console.log(context.res)
-                console.log(info)
+                console.log(User)
             },
         },
     },
