@@ -1,5 +1,5 @@
 import mongoose from 'mongoose'
-import express, { Request, Response } from 'express'
+import express from 'express'
 import bodyParser from 'body-parser'
 import passport from 'passport'
 
@@ -39,9 +39,9 @@ app.use(passport.initialize())
 JWT_strategy(passport)
 
 // app routes
-app.use('/api/user', user)
-app.use('/api/posts', posts)
-app.use('/api/profile', profiles)
+// app.use('/api/user', user)
+// app.use('/api/posts', posts)
+// app.use('/api/profile', profiles)
 
 // starting express server
 app.listen(port, () => {
