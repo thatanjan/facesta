@@ -31,7 +31,7 @@ const SimpleAccordion = () => {
 
 	return (
 		<div className={root}>
-			{options.map(({ name, Component, props }) => (
+			{options.map(({ name, Component, props, formFields }) => (
 				<Accordion TransitionProps={{ unmountOnExit: true }} key={nanoid()}>
 					<AccordionSummary
 						expandIcon={<ExpandMoreIcon />}
@@ -43,7 +43,7 @@ const SimpleAccordion = () => {
 						</Typography>
 					</AccordionSummary>
 					<AccordionDetails className={accordionDetails}>
-						<Component props={...props} />
+						<Component {...props} formFields={formFields} />
 					</AccordionDetails>
 				</Accordion>
 			))}
