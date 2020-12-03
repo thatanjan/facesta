@@ -21,24 +21,26 @@ const generateHashPassword = (password) => {
     return passwordPromise
 }
 
-const createUser = ({ name, email, password }) => {
-    return generateHashPassword(password).then((hashedPassword) => {
-        const userModelData = {
-            name,
-            email,
-            password: hashedPassword,
-        }
+const createUser = async ({ name, email, password }) => {
+    const hashedPassword = await generateHashPassword(password)
 
-        const newUser = new User(userModelData)
+    const userModelData = {
+        name,
+        email,
+        password: hashedPassword,
+    }
 
-        return newUser.save()
-    })
+    const newUser = new User(userModelData)
+
+    newUser.save()
+
+    return newUser
 }
 
 const registerUser = {
     type: UserType,
     args: authArguments('register'),
-    resolve: (parent, { name, email, password, confirmPassword }) => {
+    resolve: async (parent, { name, email, password, confirmPassword }) => {
         const { errors, isValid } = validateRegisterInput({
             name,
             email,
@@ -50,13 +52,19 @@ const registerUser = {
             return throwError(errors)
         }
 
-        return findUser(email).then((user) => {
+        try {
+            const user = await findUser(email)
+
             if (user) {
-                return new Error('user exist')
+                return throwError('User already exist')
             }
 
-            return createUser({ name, email, password }).then((user) => user)
-        })
+            const newUser = await createUser({ name, email, password })
+
+            return newUser
+        } catch (error) {
+            return throwError(error)
+        }
     },
 }
 
