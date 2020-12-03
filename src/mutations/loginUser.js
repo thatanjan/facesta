@@ -1,15 +1,11 @@
 import { generateToken, findUser, matchPasswords } from 'utils/authentication'
 import LoginType from 'types/loginType'
-import { GraphQLString } from 'graphql'
 
-import { makeGraphQLNonNull } from 'utils/graphql'
+import { authArguments } from 'utils/authentication'
 
 const loginUser = {
     type: LoginType,
-    args: {
-        email: { type: makeGraphQLNonNull(GraphQLString) },
-        password: { type: makeGraphQLNonNull(GraphQLString) },
-    },
+    args: authArguments(),
     resolve: (parent, { email, password }) => {
         return findUser(email)
             .catch((err) => console.log(err))

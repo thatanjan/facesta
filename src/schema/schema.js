@@ -11,6 +11,7 @@ import {
 import UserType from 'types/userType'
 
 import loginUser from 'mutations/loginUser'
+import registerUser from 'mutations/registerUser'
 
 const RootQuery = new GraphQLObjectType({
     name: 'RootQueryType',
@@ -29,6 +30,7 @@ const Mutation = new GraphQLObjectType({
     name: 'MutationType',
     fields: {
         loginUser,
+        registerUser,
     },
 })
 
