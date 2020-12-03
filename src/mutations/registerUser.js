@@ -2,6 +2,7 @@ import UserType from 'types/userType'
 import bcryptjs from 'bcryptjs'
 import { authArguments, findUser } from 'utils/authentication'
 
+import { throwError } from 'utils/error'
 import validateRegisterInput from 'validation/register'
 import User from 'models/User'
 
@@ -46,10 +47,7 @@ const registerUser = {
         })
 
         if (!isValid) {
-            const newError = new Error(errors)
-            newError.message = errors
-
-            throw newError
+            return throwError(errors)
         }
 
         return findUser(email).then((user) => {
