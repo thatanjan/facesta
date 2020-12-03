@@ -1,25 +1,11 @@
 import Validator from 'validator'
 import is_empty from 'validation/is_empty'
 
-export interface validator_data {
-    name: string
-    email: string
-    password: string
-    confirmPassword: string
-}
 
-interface error_data {
-    name?: string
-    email?: string
-    password?: string
-    confirmPassword?: string
-}
+const validate_register_input = (data) => {
+    let errors= {}
 
-const validate_register_input = (data: validator_data) => {
-    // the error object
-    let errors: error_data = {}
-
-    const validator_properties: string[] = [
+    const validatorProperties = [
         'name',
         'email',
         'password',
@@ -27,11 +13,11 @@ const validate_register_input = (data: validator_data) => {
     ]
 
     // if the property is empty then turn into empty string otherwise no change.
-    for (const property of validator_properties) {
-        data[property as keyof validator_data] = !is_empty(
-            data[property as keyof validator_data]
+    for (const property of validatorProperties) {
+        data[property ] = !is_empty(
+            data[property]
         )
-            ? data[property as keyof validator_data]
+            ? data[property]
             : ''
     }
 
