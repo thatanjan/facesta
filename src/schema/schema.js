@@ -1,4 +1,3 @@
-import jwt from 'jsonwebtoken'
 import {
     GraphQLID,
     GraphQLInt,
@@ -10,38 +9,8 @@ import {
 } from 'graphql'
 
 import UserType from 'types/userType'
-import LoginType from 'types/loginType'
 
-import User from 'models/User'
-
-const makeGraphQLNonNull = (type) => new GraphQLNonNull(type)
-
-const logInUser = (user, res) => {
-    const payload = {
-        id: user._id,
-        name: user.name,
-        avatar: user.avatar,
-    }
-
-    jwt.sign(payload, secretKey, { expiresIn: 3600 }, (err, token) => {
-        if (err) {
-            return err
-        }
-        return {
-            success: true,
-            token: 'Bearer ' + token,
-        }
-    })
-}
-
-const findUser = (email, password) => {
-    User.findOne({ email }).then((user) => {
-        if (!user) {
-            errors.email = 'user not found'
-            return res.status(404).json(errors)
-        }
-    })
-}
+import loginUser from 'mutations/loginUser'
 
 const RootQuery = new GraphQLObjectType({
     name: 'RootQueryType',
@@ -59,16 +28,7 @@ const RootQuery = new GraphQLObjectType({
 const Mutation = new GraphQLObjectType({
     name: 'MutationType',
     fields: {
-        login: {
-            type: LoginType,
-            args: {
-                email: { type: GraphQLString },
-                password: { type: GraphQLString },
-            },
-            resolve: (parent, args, context, info) => {
-                console.log(User)
-            },
-        },
+        loginUser,
     },
 })
 

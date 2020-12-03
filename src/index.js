@@ -5,7 +5,7 @@ import passport from 'passport'
 import { graphqlHTTP } from 'express-graphql'
 
 import schema from 'schema/schema'
-// import { JWT_strategy } from 'config/passport'
+import { JWT_strategy } from 'config/passport.js'
 
 import mongoURI from 'config/keys'
 
@@ -35,7 +35,7 @@ app.use(bodyParser.json())
 
 app.use(passport.initialize())
 
-// JWT_strategy(passport)
+JWT_strategy(passport)
 
 app.listen(port, () => {
     console.log(`server is running at ${port}`)
