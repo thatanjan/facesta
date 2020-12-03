@@ -2,6 +2,7 @@ import UserType from 'types/userType'
 import bcryptjs from 'bcryptjs'
 import { authArguments, findUser } from 'utils/authentication'
 
+import validateRegisterInput from 'validation/register'
 import User from 'models/User'
 
 const generateHashPassword = (password) => {
@@ -37,6 +38,20 @@ const registerUser = {
     type: UserType,
     args: authArguments('register'),
     resolve: (parent, { name, email, password, confirmPassword }) => {
+        const { errors, isValid } = validateRegisterInput({
+            name,
+            email,
+            password,
+            confirmPassword,
+        })
+
+        if (!isValid) {
+            const newError = new Error(errors)
+            newError.message = errors
+
+            throw newError
+        }
+
         return findUser(email).then((user) => {
             if (user) {
                 return new Error('user exist')
