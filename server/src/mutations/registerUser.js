@@ -1,6 +1,5 @@
 import bcryptjs from 'bcryptjs'
 
-import UserType from 'types/userType'
 import LoginType from 'types/loginType'
 import {
     authArguments,
@@ -12,10 +11,28 @@ import {
 import { throwError } from 'utils/error'
 import validateRegisterInput from 'validation/register'
 import User from 'models/User'
+import Profile from 'models/Profile'
+
+const createProfile = async (id) => {
+    const profileData = {
+        user: id,
+    }
+
+    try {
+        const profile = new Profile(profileData)
+
+        console.log(profile)
+        profile.save()
+
+        return profile
+    } catch (error) {
+        return error
+    }
+}
 
 const generateHashPassword = (password) => {
     const passwordPromise = new Promise((resolve, reject) => {
-        bcryptjs.genSalt(10, (error, salt) => {
+        bcryptjs.genSalt(10, (_, salt) => {
             bcryptjs.hash(password, salt, (error, hash) => {
                 if (error) reject(error)
 
@@ -37,17 +54,36 @@ const createUser = async ({ name, email, password }) => {
         password: hashedPassword,
     }
 
-    const newUser = new User(userModelData)
+    try {
+        const newUser = new User(userModelData)
 
-    newUser.save()
+        return newUser
+    } catch (error) {
+        return error
+    }
+}
 
-    return newUser
+const isErrorInstance = (instance) => {
+    if (instance instanceof Error) {
+        return true
+    }
+}
+
+const checkError = (instances) => {
+    for (let instance of instances) {
+        console.log(instance)
+        if (isErrorInstance(instance)) {
+            console.log(instance)
+            return instance
+        }
+    }
+    return false
 }
 
 const registerUser = {
     type: LoginType,
     args: authArguments('register'),
-    resolve: async (parent, { name, email, password, confirmPassword }) => {
+    resolve: async (_, { name, email, password, confirmPassword }) => {
         const { errors, isValid } = validateRegisterInput({
             name,
             email,
@@ -68,9 +104,20 @@ const registerUser = {
 
             const newUser = await createUser({ name, email, password })
 
+            const profile = await createProfile(newUser._id)
+
+            const isError = checkError([newUser, profile])
+            console.log(isError)
+
+            if (isError) {
+                return throwError(isError.message)
+            }
+
+            console.log(typeof newUser)
+
             const token = await generateToken(newUser)
 
-            console.log(token)
+            // console.log(token)
 
             return sendSuccessToken(token)
         } catch (error) {
