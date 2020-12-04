@@ -36,8 +36,8 @@
         "start": "yarn run build && node dist/index.js",
         "dev": "nodemon --exec babel-node src/index.js",
         "serve": "node dist/index.js",
-        "client-dev": "yarn --cwd client start",
-        "client-install": "yarn --cwd client install",
+        "client-dev": "yarn --cwd ../client start",
+        "client-install": "yarn --cwd ../client install",
         "both-dev": "concurrently \"yarn run client-dev\" \"yarn run dev \""
     }
 }
