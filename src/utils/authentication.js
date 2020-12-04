@@ -47,3 +47,5 @@ export const authArguments = (authType = '') => {
 
     return args
 }
+
+export const sendSuccessToken = (token) => ({ token, success: true })

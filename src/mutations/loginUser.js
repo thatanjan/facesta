@@ -5,6 +5,8 @@ import { authArguments } from 'utils/authentication'
 import { throwError } from 'utils/error'
 import validateLoginInput from 'validation/login'
 
+import { sendSuccessToken } from 'utils/authentication'
+
 const loginUser = {
     type: LoginType,
     args: authArguments(),
@@ -33,10 +35,7 @@ const loginUser = {
 
             const token = await generateToken(user)
 
-            return {
-                token,
-                success: true,
-            }
+            return sendSuccessToken(token)
         } catch (error) {
             return throwError(error)
         }
