@@ -1,6 +1,13 @@
-import UserType from 'types/userType'
 import bcryptjs from 'bcryptjs'
-import { authArguments, findUser } from 'utils/authentication'
+
+import UserType from 'types/userType'
+import LoginType from 'types/loginType'
+import {
+    authArguments,
+    findUser,
+    generateToken,
+    sendSuccessToken,
+} from 'utils/authentication'
 
 import { throwError } from 'utils/error'
 import validateRegisterInput from 'validation/register'
@@ -38,7 +45,7 @@ const createUser = async ({ name, email, password }) => {
 }
 
 const registerUser = {
-    type: UserType,
+    type: LoginType,
     args: authArguments('register'),
     resolve: async (parent, { name, email, password, confirmPassword }) => {
         const { errors, isValid } = validateRegisterInput({
@@ -61,7 +68,11 @@ const registerUser = {
 
             const newUser = await createUser({ name, email, password })
 
-            return newUser
+            const token = await generateToken(newUser)
+
+            console.log(token)
+
+            return sendSuccessToken(token)
         } catch (error) {
             return throwError(error)
         }
