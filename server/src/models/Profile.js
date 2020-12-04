@@ -1,38 +1,34 @@
-import mongoose, { SchemaDefinition } from 'mongoose'
+import mongoose from 'mongoose'
 
 const Schema = mongoose.Schema
 
-const data: SchemaDefinition = {
+const objectId = Schema.Types.ObjectId
+
+const data = {
     user: {
-        type: String,
-    },
-    handle: {
-        type: String,
-        required: true,
-        max: 40,
-    },
-    company: {
-        type: String,
-    },
-    website: {
-        type: String,
-    },
-    location: {
-        type: String,
-    },
-    status: {
-        type: String,
+        type: objectId,
         required: true,
     },
-    skills: {
-        type: [String],
-        required: true,
-    },
-    bio: {
-        type: String,
-    },
-    github_user_name: {
-        type: String,
+    personal: {
+        dateOfBirth: {
+            type: Date,
+        },
+        website: {
+            type: String,
+        },
+        status: {
+            type: String,
+        },
+        location: {
+            type: String,
+        },
+
+        skills: {
+            type: [String],
+        },
+        bio: {
+            type: String,
+        },
     },
     experience: [
         {
@@ -44,9 +40,6 @@ const data: SchemaDefinition = {
                 type: String,
                 required: true,
             },
-            location: {
-                type: String,
-            },
             from: {
                 type: Date,
                 required: true,
@@ -54,13 +47,9 @@ const data: SchemaDefinition = {
             to: {
                 type: Date,
             },
-            current: {
-                type: Boolean,
-                default: false,
-            },
-            description: String,
         },
     ],
+
     education: [
         {
             school: {
@@ -81,11 +70,6 @@ const data: SchemaDefinition = {
             to: {
                 type: Date,
             },
-            current: {
-                type: Boolean,
-                default: false,
-            },
-            description: String,
         },
     ],
 
@@ -112,7 +96,7 @@ const data: SchemaDefinition = {
     },
 }
 
-const Profile_Schema = new Schema(data)
+const Profile_Schema = new Schema(data, { versionKey: '1' })
 
 const Profile_model = mongoose.model('profile', Profile_Schema)
 
