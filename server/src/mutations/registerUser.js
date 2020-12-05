@@ -13,20 +13,15 @@ import validateRegisterInput from 'validation/register'
 import User from 'models/User'
 import Profile from 'models/Profile'
 
-const createProfile = async (id) => {
-    const profileData = {
-        user: id,
-    }
+const createProfile = async () => {
+    const profileData = {}
 
     try {
         const profile = new Profile(profileData)
 
-        console.log(profile)
-        profile.save()
-
         return profile
     } catch (error) {
-        return error
+        throw Error(error.message)
     }
 }
 
@@ -48,18 +43,27 @@ const generateHashPassword = (password) => {
 const createUser = async ({ name, email, password }) => {
     const hashedPassword = await generateHashPassword(password)
 
+    console.log(hashedPassword)
+    const profile = await createProfile()
+
     const userModelData = {
         name,
         email,
         password: hashedPassword,
+        profile: profile._id,
     }
 
     try {
         const newUser = new User(userModelData)
 
-        return newUser
+        profile.user = newUser._id
+
+        profile.save()
+
+        return newUser.save()
     } catch (error) {
-        return error
+        console.log(error)
+        throw Error(error.message)
     }
 }
 
@@ -67,17 +71,6 @@ const isErrorInstance = (instance) => {
     if (instance instanceof Error) {
         return true
     }
-}
-
-const checkError = (instances) => {
-    for (let instance of instances) {
-        console.log(instance)
-        if (isErrorInstance(instance)) {
-            console.log(instance)
-            return instance
-        }
-    }
-    return false
 }
 
 const registerUser = {
@@ -104,20 +97,9 @@ const registerUser = {
 
             const newUser = await createUser({ name, email, password })
 
-            const profile = await createProfile(newUser._id)
+            const { _id } = newUser
 
-            const isError = checkError([newUser, profile])
-            console.log(isError)
-
-            if (isError) {
-                return throwError(isError.message)
-            }
-
-            console.log(typeof newUser)
-
-            const token = await generateToken(newUser)
-
-            // console.log(token)
+            const token = await generateToken({ _id, name, email })
 
             return sendSuccessToken(token)
         } catch (error) {

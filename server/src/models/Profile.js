@@ -7,7 +7,7 @@ const objectId = Schema.Types.ObjectId
 const data = {
     user: {
         type: objectId,
-        required: true,
+        default: null,
     },
     personal: {
         dateOfBirth: {

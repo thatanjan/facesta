@@ -2,6 +2,8 @@ import mongoose from 'mongoose'
 
 const Schema = mongoose.Schema
 
+const objectId = mongoose.Schema.Types.ObjectId
+
 const User_Schema = new Schema({
     name: {
         type: String,
@@ -17,6 +19,10 @@ const User_Schema = new Schema({
     },
     avatar: {
         type: String,
+    },
+    profile: {
+        type: objectId,
+        required: true,
     },
     date: {
         type: Date,
