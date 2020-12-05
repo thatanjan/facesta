@@ -18,10 +18,9 @@ const createProfile = async () => {
 
     try {
         const profile = new Profile(profileData)
-
         return profile
     } catch (error) {
-        throw Error(error.message)
+        throw error
     }
 }
 
@@ -62,14 +61,7 @@ const createUser = async ({ name, email, password }) => {
 
         return newUser.save()
     } catch (error) {
-        console.log(error)
-        throw Error(error.message)
-    }
-}
-
-const isErrorInstance = (instance) => {
-    if (instance instanceof Error) {
-        return true
+        throw error
     }
 }
 
@@ -96,6 +88,12 @@ const registerUser = {
             }
 
             const newUser = await createUser({ name, email, password })
+
+            if (!newUser) {
+                return throwError(
+                    'Registering user failed. Please try again later.'
+                )
+            }
 
             const { _id } = newUser
 
