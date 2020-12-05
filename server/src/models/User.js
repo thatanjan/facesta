@@ -4,7 +4,7 @@ const Schema = mongoose.Schema
 
 const objectId = mongoose.Schema.Types.ObjectId
 
-const User_Schema = new Schema({
+const schema = {
     name: {
         type: String,
         required: true,
@@ -23,13 +23,16 @@ const User_Schema = new Schema({
     profile: {
         type: objectId,
         required: true,
+        ref: 'profile',
     },
     date: {
         type: Date,
         default: Date.now,
     },
-})
+}
 
-const User = mongoose.model('user', User_Schema)
+const UserSchema = new Schema(schema, { versionKey: '1' })
+
+const User = mongoose.model('user', UserSchema)
 
 export default User

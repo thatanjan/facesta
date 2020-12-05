@@ -8,6 +8,7 @@ const data = {
     user: {
         type: objectId,
         default: null,
+        ref: 'user',
     },
     personal: {
         dateOfBirth: {
@@ -96,8 +97,8 @@ const data = {
     },
 }
 
-const Profile_Schema = new Schema(data, { versionKey: '1' })
+const ProfileSchema = new Schema(data, { versionKey: '1' })
 
-const Profile_model = mongoose.model('profile', Profile_Schema)
+const ProfileModel = mongoose.model('profile', ProfileSchema)
 
-export default Profile_model
+export default ProfileModel
