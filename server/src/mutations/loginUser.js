@@ -1,16 +1,20 @@
-import { generateToken, findUser, matchPasswords } from 'utils/authentication'
+import {
+    generateToken,
+    findUser,
+    matchPasswords,
+    authArguments,
+    sendSuccessToken,
+} from 'utils/authentication'
+
 import LoginType from 'types/loginType'
 
-import { authArguments } from 'utils/authentication'
 import { throwError } from 'utils/error'
 import validateLoginInput from 'validation/login'
-
-import { sendSuccessToken } from 'utils/authentication'
 
 const loginUser = {
     type: LoginType,
     args: authArguments(),
-    resolve: async (parent, { email, password }) => {
+    resolve: async (_, { email, password }) => {
         const { errors, isValid } = validateLoginInput({ email, password })
 
         if (!isValid) {
