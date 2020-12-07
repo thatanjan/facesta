@@ -76,6 +76,8 @@ const registerUser = {
             confirmPassword,
         })
 
+        // console.log(context)
+
         if (!isValid) {
             return throwError(errors)
         }

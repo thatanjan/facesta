@@ -1,17 +1,10 @@
-import {
-    GraphQLID,
-    GraphQLInt,
-    GraphQLSchema,
-    GraphQLString,
-    GraphQLObjectType,
-    GraphQLList,
-    GraphQLNonNull,
-} from 'graphql'
+import { GraphQLSchema, GraphQLObjectType } from 'graphql'
 
 import UserType from 'types/userType'
 
 import loginUser from 'mutations/loginUser'
 import registerUser from 'mutations/registerUser'
+import createPost from 'mutations/createPost'
 
 const RootQuery = new GraphQLObjectType({
     name: 'RootQueryType',
@@ -31,6 +24,7 @@ const Mutation = new GraphQLObjectType({
     fields: {
         loginUser,
         registerUser,
+        createPost,
     },
 })
 
