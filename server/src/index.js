@@ -10,6 +10,10 @@ import { JWT_strategy } from 'config/passport.js'
 
 import mongoURI, { secretKey } from 'config/keys'
 
+const { printSchema } = require('graphql')
+
+console.log(printSchema(schema))
+
 mongoose
     .connect(mongoURI)
     .then(() => {
