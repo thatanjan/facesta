@@ -29,6 +29,7 @@ const UserType = gql`
         email: String!
         name: String!
         password: String!
+        confirmPassword: String!
     }
 `
 

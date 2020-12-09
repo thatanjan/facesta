@@ -67,8 +67,10 @@ const createUser = async ({ name, email, password }) => {
 
 const resolver = {
     Mutation: {
-        loginUser: async (_, { registerInput: { email, name, password } }) => {
-            console.log(name, email)
+        registerUser: async (
+            _,
+            { registerInput: { email, name, password, confirmPassword } }
+        ) => {
             const { errors, isValid } = validateRegisterInput({
                 name,
                 email,
