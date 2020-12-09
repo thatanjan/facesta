@@ -7,6 +7,7 @@ const UserType = gql`
 
     extend type Mutation {
         loginUser(loginInput: loginInput): Token
+        registerUser(registerInput: registerInput): Token
     }
 
     type Token {
@@ -21,6 +22,12 @@ const UserType = gql`
 
     input loginInput {
         email: String!
+        password: String!
+    }
+
+    input registerInput {
+        email: String!
+        name: String!
         password: String!
     }
 `
