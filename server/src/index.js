@@ -20,6 +20,11 @@ mongoose
 
 const app = express()
 
+const schema = makeExecutableSchema({
+    typeDefs,
+    resolvers,
+})
+
 app.use(
     jwt({
         secret: secretKey,
@@ -28,15 +33,11 @@ app.use(
     })
 )
 
-const schema = makeExecutableSchema({
-    typeDefs,
-    resolvers,
-})
-
 const server = new ApolloServer({
     schema,
-    context: ({ request }) => {
-        const user = request || null
+    context: (request) => {
+        const user = request.user || 'hel'
+
         return { user }
     },
 })
