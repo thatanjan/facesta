@@ -37,6 +37,6 @@ const schema = {
 
 const UserSchema = new Schema(schema, { versionKey: '1' })
 
-const User = mongoose.model('user', UserSchema)
+const User = mongoose.model('users', UserSchema)
 
 export default User
