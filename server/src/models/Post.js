@@ -1,20 +1,18 @@
 import mongoose from 'mongoose'
 
+import User from 'models/User'
+
 const Schema = mongoose.Schema
 
 const objectId = Schema.Types.ObjectId
 
 const schema = {
-    user: {
-        type: objectId,
-        ref: 'users',
-    },
     text: { type: String, required: true },
     likes: [
         {
             user: {
                 type: objectId,
-                ref: 'users',
+                ref: User,
             },
         },
     ],
@@ -22,7 +20,7 @@ const schema = {
         {
             user: {
                 type: objectId,
-                ref: 'users',
+                ref: User,
             },
             text: { type: String, required: true },
             name: { type: String },
@@ -34,6 +32,12 @@ const schema = {
 
 export const PostSchema = new Schema(schema, { versionKey: '1' })
 
-const Post = mongoose.model('posts', PostSchema)
+const PostModel = (modelName) => {
+    const connection = mongoose.createConnection(process.env.POSTS_DB_URI)
 
-export default Post
+    const Post = connection.model(modelName, PostSchema)
+
+    return Post
+}
+
+export default PostModel
