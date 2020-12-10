@@ -1,6 +1,7 @@
 import mongoose from 'mongoose'
 import express from 'express'
 import { ApolloServer, makeExecutableSchema } from 'apollo-server-express'
+import { applyMiddleware } from 'graphql-middleware'
 import jwt from 'express-jwt'
 import bodyParser from 'body-parser'
 
@@ -35,8 +36,8 @@ app.use(
 
 const server = new ApolloServer({
     schema,
-    context: (request) => {
-        const user = request.user || 'hel'
+    context: ({ req }) => {
+        const user = req.user || 'hel'
 
         return { user }
     },

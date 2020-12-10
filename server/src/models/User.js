@@ -25,6 +25,10 @@ const schema = {
         required: true,
         ref: 'profile',
     },
+    posts: {
+        type: objectId,
+        ref: 'posts',
+    },
     date: {
         type: Date,
         default: Date.now,
