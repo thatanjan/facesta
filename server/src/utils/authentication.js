@@ -4,7 +4,6 @@ import jwt from 'jsonwebtoken'
 import { GraphQLString } from 'graphql'
 
 import { makeGraphQLNonNull } from 'utils/graphql'
-import { secretKey } from 'config/keys'
 
 export const generateToken = (user) => {
     const payload = {
@@ -14,7 +13,7 @@ export const generateToken = (user) => {
     }
 
     const promise = new Promise((response, reject) => {
-        jwt.sign(payload, secretKey, (err, token) => {
+        jwt.sign(payload, process.env.SECRET_KEY, (err, token) => {
             if (err) return reject(err)
 
             response(token)
