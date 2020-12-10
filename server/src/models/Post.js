@@ -32,7 +32,7 @@ const schema = {
     date: { type: Date, default: Date.now() },
 }
 
-const PostSchema = new Schema(schema, { versionKey: '1' })
+export const PostSchema = new Schema(schema, { versionKey: '1' })
 
 const Post = mongoose.model('posts', PostSchema)
 
