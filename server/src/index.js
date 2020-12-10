@@ -4,14 +4,15 @@ import { ApolloServer, makeExecutableSchema } from 'apollo-server-express'
 import { applyMiddleware } from 'graphql-middleware'
 import jwt from 'express-jwt'
 import bodyParser from 'body-parser'
-
-import mongoURI, { secretKey } from 'config/keys'
+import dotenv from 'dotenv'
 
 import typeDefs from 'graphql/typedefs'
 import resolvers from 'graphql/resolvers'
 
+dotenv.config()
+
 mongoose
-    .connect(mongoURI)
+    .connect(process.env.USERS_DB_URI)
     .then(() => {
         console.log('mongoose connected')
     })
@@ -28,7 +29,7 @@ const schema = makeExecutableSchema({
 
 app.use(
     jwt({
-        secret: secretKey,
+        secret: process.env.SECRET_KEY,
         algorithms: ['HS256'],
         credentialsRequired: false,
     })
