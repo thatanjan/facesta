@@ -1,6 +1,7 @@
 import { gql } from 'apollo-server-express'
 
 import { UserTypeDefs } from 'graphql/User/User'
+import { PostTypedefs } from 'graphql/Post/Post'
 
 const Query = gql`
     type Query {
@@ -14,6 +15,6 @@ const Mutation = gql`
     }
 `
 
-const typeDefs = [Query, Mutation, ...UserTypeDefs]
+const typeDefs = [Query, Mutation, ...UserTypeDefs, ...PostTypedefs]
 
 export default typeDefs
