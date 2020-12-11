@@ -91,6 +91,10 @@ const data = {
             type: String,
         },
     },
+    public: {
+        type: Boolean,
+        default: true,
+    },
     date: {
         type: Date,
         default: Date.now,

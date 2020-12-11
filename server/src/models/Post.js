@@ -27,6 +27,10 @@ const schema = {
             date: { type: Date, default: Date.now() },
         },
     ],
+    public: {
+        type: Boolean,
+        default: true,
+    },
     date: { type: Date, default: Date.now() },
 }
 
