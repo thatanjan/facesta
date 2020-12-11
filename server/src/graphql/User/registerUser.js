@@ -1,6 +1,5 @@
 import bcryptjs from 'bcryptjs'
 
-import LoginType from 'types/loginType'
 import {
     authArguments,
     findUser,
@@ -42,7 +41,6 @@ const generateHashPassword = (password) => {
 const createUser = async ({ name, email, password }) => {
     const hashedPassword = await generateHashPassword(password)
 
-    console.log(hashedPassword)
     const profile = await createProfile()
 
     const userModelData = {
