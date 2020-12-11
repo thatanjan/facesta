@@ -2,6 +2,8 @@ import { gql } from 'apollo-server-express'
 
 import { UserTypeDefs } from 'graphql/User/User'
 import { PostTypedefs } from 'graphql/Post/Post'
+import { ProfileTypedefs } from 'graphql/Profile/Profile'
+import { DateTypeDefs } from 'graphql/customScalars/dateScalar'
 
 const Query = gql`
     type Query {
@@ -15,6 +17,13 @@ const Mutation = gql`
     }
 `
 
-const typeDefs = [Query, Mutation, ...UserTypeDefs, ...PostTypedefs]
+const typeDefs = [
+    Query,
+    Mutation,
+    DateTypeDefs,
+    ...UserTypeDefs,
+    ...PostTypedefs,
+    ...ProfileTypedefs,
+]
 
 export default typeDefs
