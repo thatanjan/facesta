@@ -9,6 +9,10 @@ const PostTypedefs = gql`
         text: String!
     }
 
+    type Error {
+        message: String!
+    }
+
     input CreatePostInput {
         text: String!
     }

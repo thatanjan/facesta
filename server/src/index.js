@@ -6,6 +6,8 @@ import jwt from 'express-jwt'
 import bodyParser from 'body-parser'
 import dotenv from 'dotenv'
 
+import permissions from 'config/permissions'
+
 import typeDefs from 'graphql/typedefs'
 import resolvers from 'graphql/resolvers'
 
@@ -22,11 +24,6 @@ mongoose
 
 const app = express()
 
-const schema = makeExecutableSchema({
-    typeDefs,
-    resolvers,
-})
-
 app.use(
     jwt({
         secret: process.env.SECRET_KEY,
@@ -35,12 +32,26 @@ app.use(
     })
 )
 
-const server = new ApolloServer({
-    schema,
-    context: ({ req }) => {
-        const user = req.user || 'hel'
+app.use(function (err, req, _, next) {
+    if (err.name === 'UnauthorizedError') {
+        req.UnauthorizedError = err.message
+    }
+    next()
+})
 
-        return { user }
+const server = new ApolloServer({
+    schema: applyMiddleware(
+        makeExecutableSchema({ typeDefs, resolvers }),
+        permissions
+    ),
+    context: ({ req: { user, UnauthorizedError } }) => {
+        if (user) {
+            return { user }
+        }
+
+        if (UnauthorizedError) {
+            return { error: UnauthorizedError }
+        }
     },
 })
 
