@@ -15,7 +15,6 @@ const ExperienceSchema = new Schema({
     },
     from: {
         type: Date,
-        required: true,
     },
     to: {
         type: Date,
@@ -36,7 +35,6 @@ const EducationSchema = new Schema({
     },
     from: {
         type: Date,
-        required: true,
     },
     to: {
         type: Date,
@@ -91,7 +89,7 @@ const data = {
     experience: [ExperienceSchema],
     education: [EducationSchema],
 
-    social: [SocialSchema],
+    social: SocialSchema,
     public: {
         type: Boolean,
         default: true,
