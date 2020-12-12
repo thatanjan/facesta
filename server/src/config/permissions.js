@@ -10,8 +10,13 @@ const isAuthenticated = rule()((_, __, { user, error }) => {
     }
 })
 
-export default shield({
-    Mutation: {
-        createPost: isAuthenticated,
+export default shield(
+    {
+        Mutation: {
+            createPost: isAuthenticated,
+        },
     },
-})
+    {
+        allowExternalErrors: true,
+    }
+)
