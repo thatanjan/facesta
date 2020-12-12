@@ -4,6 +4,63 @@ const Schema = mongoose.Schema
 
 const objectId = Schema.Types.ObjectId
 
+const ExperienceSchema = new Schema({
+    title: {
+        type: String,
+        required: true,
+    },
+    company: {
+        type: String,
+        required: true,
+    },
+    from: {
+        type: Date,
+        required: true,
+    },
+    to: {
+        type: Date,
+    },
+})
+
+const EducationSchema = new Schema({
+    school: {
+        type: String,
+        required: true,
+    },
+    degree: {
+        type: String,
+        required: true,
+    },
+    field_of_study: {
+        type: String,
+    },
+    from: {
+        type: Date,
+        required: true,
+    },
+    to: {
+        type: Date,
+    },
+})
+
+const SocialSchema = new Schema({
+    youtube: {
+        type: String,
+    },
+    twitter: {
+        type: String,
+    },
+    facebook: {
+        type: String,
+    },
+    linkedin: {
+        type: String,
+    },
+    instagram: {
+        type: String,
+    },
+})
+
 const data = {
     user: {
         type: objectId,
@@ -31,66 +88,10 @@ const data = {
             type: String,
         },
     },
-    experience: [
-        {
-            title: {
-                type: String,
-                required: true,
-            },
-            company: {
-                type: String,
-                required: true,
-            },
-            from: {
-                type: Date,
-                required: true,
-            },
-            to: {
-                type: Date,
-            },
-        },
-    ],
+    experience: [ExperienceSchema],
+    education: [EducationSchema],
 
-    education: [
-        {
-            school: {
-                type: String,
-                required: true,
-            },
-            degree: {
-                type: String,
-                required: true,
-            },
-            field_of_study: {
-                type: String,
-            },
-            from: {
-                type: Date,
-                required: true,
-            },
-            to: {
-                type: Date,
-            },
-        },
-    ],
-
-    social: {
-        youtube: {
-            type: String,
-        },
-        twitter: {
-            type: String,
-        },
-        facebook: {
-            type: String,
-        },
-        linkedin: {
-            type: String,
-        },
-        instagram: {
-            type: String,
-        },
-    },
+    social: [SocialSchema],
     public: {
         type: Boolean,
         default: true,
