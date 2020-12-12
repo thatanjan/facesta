@@ -6,6 +6,7 @@ const ProfileMutationTypeDefs = gql`
         updateEducation(Input: EducationInput): Education!
         addExperience(Input: ExperienceInput): Experience!
         addEducation(Input: EducationInput): Education!
+        addSocial(Input: SocialInput): Social!
     }
 `
 
@@ -25,6 +26,7 @@ const InputTypedefs = gql`
     }
 
     input ExperienceInput {
+        id: ID!
         title: String!
         company: String!
         from: Date
@@ -32,14 +34,16 @@ const InputTypedefs = gql`
     }
 
     input EducationInput {
+        id: ID!
         school: String!
         degree: String!
         fieldOfStudy: String!
-        from: Date!
+        from: Date
         to: Date
     }
 
     input SocialInput {
+        id: ID!
         youtube: String
         twitter: String
         facebook: String
@@ -71,7 +75,7 @@ const ProfileTypedefs = gql`
         school: String!
         degree: String!
         fieldOfStudy: String!
-        from: Date!
+        from: Date
         to: Date
     }
 
