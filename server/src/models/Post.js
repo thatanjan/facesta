@@ -6,27 +6,26 @@ const Schema = mongoose.Schema
 
 const objectId = Schema.Types.ObjectId
 
+const user = {
+    type: objectId,
+    ref: User,
+}
+
+const LikedUserSchema = new Schema({
+    user,
+})
+
+const CommentedUserSchema = new Schema({
+    user,
+    text: { type: String, required: true },
+    name: { type: String },
+    date: { type: Date, default: Date.now() },
+})
+
 const schema = {
     text: { type: String, required: true },
-    likes: [
-        {
-            user: {
-                type: objectId,
-                ref: User,
-            },
-        },
-    ],
-    comments: [
-        {
-            user: {
-                type: objectId,
-                ref: User,
-            },
-            text: { type: String, required: true },
-            name: { type: String },
-            date: { type: Date, default: Date.now() },
-        },
-    ],
+    likes: [LikedUserSchema],
+    comments: [CommentedUserSchema],
     public: {
         type: Boolean,
         default: true,
