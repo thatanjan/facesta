@@ -10,6 +10,10 @@ const ProfileMutationTypeDefs = gql`
 `
 
 const InputTypedefs = gql`
+    input ProfileIdInput {
+        id: ID!
+    }
+
     input PersonalInput {
         dateOfBirth: Date
         website: String
@@ -45,7 +49,7 @@ const InputTypedefs = gql`
 
 const ProfileTypedefs = gql`
     extend type Query {
-        getPersonal: Personal!
+        getPersonal(Input: ProfileIdInput): Personal!
         getExperience: [Experience!]
         getEducation: [Education!]
         getSocial: [Social!]
