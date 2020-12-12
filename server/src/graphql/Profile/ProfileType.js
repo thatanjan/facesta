@@ -3,10 +3,10 @@ import { gql } from 'apollo-server-express'
 const ProfileMutationTypeDefs = gql`
     extend type Mutation {
         updatePersonal(Input: PersonalInput): Personal!
+        updateSocial(Input: SocialInput): Social!
         updateEducation(Input: EducationInput): Education!
         addExperience(Input: ExperienceInput): Experience!
         addEducation(Input: EducationInput): Education!
-        addSocial(Input: SocialInput): Social!
     }
 `
 
