@@ -15,11 +15,12 @@ const InputTypedefs = gql`
     }
 
     input PersonalInput {
+        id: ID!
         dateOfBirth: Date
         website: String
         status: String
         location: String
-        skills: String
+        skills: [String!]
         bio: String
     }
 
@@ -91,7 +92,7 @@ const ProfileTypedefs = gql`
         website: String
         status: String
         location: String
-        skills: String
+        skills: [String!]
         bio: String
     }
 `
