@@ -4,6 +4,8 @@ import jwt from 'jsonwebtoken'
 import { GraphQLString } from 'graphql'
 
 import { makeGraphQLNonNull } from 'utils/graphql'
+import Profile from 'models/Profile'
+import Follow from 'models/Follow'
 
 export const generateToken = (user) => {
     const payload = {
@@ -56,3 +58,38 @@ export const sendSuccessToken = (token) => ({
     token: 'Bearer ' + token,
     success: true,
 })
+
+export const createProfile = async () => {
+    const profileData = {}
+
+    try {
+        const profile = new Profile(profileData)
+        return profile
+    } catch (error) {
+        throw error
+    }
+}
+
+export const createFollowCollection = async (id) => {
+    try {
+        return new Follow({ user: id })
+    } catch (error) {
+        console.log(error)
+        throwError
+    }
+}
+
+export const generateHashPassword = (password) => {
+    const passwordPromise = new Promise((resolve, reject) => {
+        bcryptjs.genSalt(10, (_, salt) => {
+            bcryptjs.hash(password, salt, (error, hash) => {
+                if (error) reject(error)
+
+                password = hash
+                resolve(password)
+            })
+        })
+    })
+
+    return passwordPromise
+}
