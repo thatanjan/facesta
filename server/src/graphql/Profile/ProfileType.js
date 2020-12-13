@@ -7,7 +7,8 @@ const ProfileMutationTypeDefs = gql`
         updateEducation(Input: EducationInput): Education!
         addExperience(Input: ExperienceInput): Experience!
         addEducation(Input: EducationInput): Education!
-        updateExperience(Input: ExperienceInput): Experience
+        updateExperience(Input: ExperienceInput): Experience!
+        updatePrivacy(Input: PrivacyInput): Privacy!
     }
 `
 
@@ -51,6 +52,11 @@ const InputTypedefs = gql`
         linkedin: String
         instagram: String
     }
+
+    input PrivacyInput {
+        id: ID!
+        public: Boolean!
+    }
 `
 
 const ProfileTypedefs = gql`
@@ -91,7 +97,7 @@ const ProfileTypedefs = gql`
     }
 
     type Privacy {
-        Public: Boolean!
+        public: Boolean!
     }
 
     type Personal {
