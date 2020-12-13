@@ -13,7 +13,7 @@ const schema = {
         type: objectId,
         required: true,
     },
-    follwers: [user],
+    followers: [user],
     following: [user],
 }
 
