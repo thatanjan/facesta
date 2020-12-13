@@ -89,7 +89,9 @@ const data = {
     experience: [ExperienceSchema],
     education: [EducationSchema],
 
-    social: SocialSchema,
+    social: {
+        type: SocialSchema,
+    },
     public: {
         type: Boolean,
         default: true,

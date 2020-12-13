@@ -5,6 +5,10 @@ const resolver = {
         updateSocial: async (_, { Input: { id, ...data } }) => {
             const query = await Profile.findOne({ user: id }, 'social')
 
+            if (!query.social) {
+                query.social = {}
+            }
+
             for (let property in data) {
                 query.social[property] = data[property]
             }
