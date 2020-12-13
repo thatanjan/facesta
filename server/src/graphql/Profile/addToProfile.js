@@ -5,8 +5,6 @@ const addFields = async (field, Input) => {
 
     const result = await Profile.findOne({ user: id }, field)
 
-    delete data.id
-
     result[field].push(data)
 
     result.save()

@@ -7,6 +7,7 @@ const ProfileMutationTypeDefs = gql`
         updateEducation(Input: EducationInput): Education!
         addExperience(Input: ExperienceInput): Experience!
         addEducation(Input: EducationInput): Education!
+        updateExperience(Input: ExperienceInput): Experience
     }
 `
 
@@ -65,6 +66,7 @@ const ProfileTypedefs = gql`
     ${InputTypedefs}
 
     type Experience {
+        id: ID!
         title: String!
         company: String!
         from: Date
@@ -72,6 +74,7 @@ const ProfileTypedefs = gql`
     }
 
     type Education {
+        id: ID!
         school: String!
         degree: String!
         fieldOfStudy: String!
