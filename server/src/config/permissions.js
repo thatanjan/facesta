@@ -20,6 +20,10 @@ export default shield(
             updateSocial: isAuthenticated,
             updatePrivacy: isAuthenticated,
         },
+        Query: {
+            getFollowers: isAuthenticated,
+            getFollowing: isAuthenticated,
+        },
     },
     {
         allowExternalErrors: true,
