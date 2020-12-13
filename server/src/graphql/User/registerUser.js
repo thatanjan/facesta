@@ -1,42 +1,15 @@
-import bcryptjs from 'bcryptjs'
-
 import {
-    authArguments,
     findUser,
     generateToken,
     sendSuccessToken,
+    createProfile,
+    createFollowCollection,
+    generateHashPassword,
 } from 'utils/authentication'
 
 import { throwError } from 'utils/error'
 import validateRegisterInput from 'validation/register'
 import User from 'models/User'
-import Profile from 'models/Profile'
-
-const createProfile = async () => {
-    const profileData = {}
-
-    try {
-        const profile = new Profile(profileData)
-        return profile
-    } catch (error) {
-        throw error
-    }
-}
-
-const generateHashPassword = (password) => {
-    const passwordPromise = new Promise((resolve, reject) => {
-        bcryptjs.genSalt(10, (_, salt) => {
-            bcryptjs.hash(password, salt, (error, hash) => {
-                if (error) reject(error)
-
-                password = hash
-                resolve(password)
-            })
-        })
-    })
-
-    return passwordPromise
-}
 
 const createUser = async ({ name, email, password }) => {
     const hashedPassword = await generateHashPassword(password)
@@ -56,6 +29,10 @@ const createUser = async ({ name, email, password }) => {
         profile.user = newUser._id
 
         profile.save()
+
+        const followCollection = await createFollowCollection(newUser._id)
+
+        followCollection.save()
 
         return newUser.save()
     } catch (error) {
