@@ -4,6 +4,7 @@ import { UserTypeDefs } from 'graphql/User/User'
 import { PostTypedefs } from 'graphql/Post/Post'
 import { ProfileTypedefs } from 'graphql/Profile/Profile'
 import { DateTypeDefs } from 'graphql/customScalars/dateScalar'
+import { FollowTypedefs } from 'graphql/Follow/Follow'
 
 const Query = gql`
     type Query {
@@ -24,6 +25,7 @@ const typeDefs = [
     ...UserTypeDefs,
     ...PostTypedefs,
     ...ProfileTypedefs,
+    ...FollowTypedefs,
 ]
 
 export default typeDefs
