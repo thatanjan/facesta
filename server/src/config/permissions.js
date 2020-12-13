@@ -14,6 +14,11 @@ export default shield(
     {
         Mutation: {
             createPost: isAuthenticated,
+            updatePersonal: isAuthenticated,
+            addExperience: isAuthenticated,
+            addEducation: isAuthenticated,
+            updateSocial: isAuthenticated,
+            updatePrivacy: isAuthenticated,
         },
     },
     {
