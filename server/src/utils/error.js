@@ -3,3 +3,8 @@ export const throwError = (message) => {
     error.message = message
     return error
 }
+
+export const sendMessage = (success, message) => ({
+    success,
+    message,
+})
