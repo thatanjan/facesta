@@ -18,6 +18,10 @@ const sameId = (id1, id2) => {
     }
 }
 
+const saveDocuments = (documents) => {
+    documents.forEach((document) => document.save())
+}
+
 const resolver = {
     Mutation: {
         followUser: async (_, { input: { id } }, { user: { id: ownerId } }) => {
@@ -39,8 +43,7 @@ const resolver = {
             followers.push(ownerId)
             following.push(id)
 
-            ownerData.save()
-            otherUserData.save()
+            saveDocuments([ownerData, otherUserData])
 
             return sendMessage(true, 'you are now following this user')
         },
@@ -68,8 +71,7 @@ const resolver = {
             followers.remove(ownerId)
             following.remove(id)
 
-            ownerData.save()
-            otherUserData.save()
+            saveDocuments([ownerData, otherUserData])
 
             return sendMessage(true, 'you have unfollowed this user')
         },
