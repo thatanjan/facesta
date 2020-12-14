@@ -21,6 +21,7 @@ const FollowType = gql`
     }
 
     type Success {
+        message: String!
         success: Boolean!
     }
 
