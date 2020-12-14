@@ -36,9 +36,8 @@ const schema = {
 export const PostSchema = new Schema(schema, { versionKey: '1' })
 
 const PostModel = (modelName) => {
-    const connection = mongoose.createConnection(process.env.POSTS_DB_URI)
-
-    const Post = connection.model(modelName, PostSchema)
+    const PostConnection = mongoose.createConnection(process.env.POSTS_DB_URI)
+    const Post = PostConnection.model(modelName, PostSchema)
 
     return Post
 }

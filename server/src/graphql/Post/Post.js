@@ -1,8 +1,8 @@
 import merge from 'lodash/merge'
 
 import PostType from 'graphql/Post/PostType'
-import createPost from 'graphql/Post/createPost'
+import createDeletePost from 'graphql/Post/createDeletePost'
 
 export const PostTypedefs = [PostType]
 
-export const PostResolvers = merge(createPost)
+export const PostResolvers = merge(createDeletePost)
