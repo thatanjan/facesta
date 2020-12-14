@@ -19,6 +19,8 @@ export default shield(
             addEducation: isAuthenticated,
             updateSocial: isAuthenticated,
             updatePrivacy: isAuthenticated,
+            followUser: isAuthenticated,
+            unfollowUser: isAuthenticated,
         },
         Query: {
             getFollowers: isAuthenticated,

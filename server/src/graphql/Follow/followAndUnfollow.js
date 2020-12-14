@@ -1,9 +1,5 @@
 import Follow from 'models/Follow'
-
-const sendMessage = (success, message) => ({
-    success,
-    message,
-})
+import { sendMessage } from 'utils/error'
 
 const getQuery = async (id, projection) => {
     return await Follow.findOne({ user: id }, projection)
