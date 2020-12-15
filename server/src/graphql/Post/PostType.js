@@ -1,8 +1,11 @@
 import { gql } from 'apollo-server-express'
 
+const text = `text: String!`
+const id = `id: ID!`
+
 const PostTypedefs = gql`
     extend type Query {
-        getSinglePost(input: PostId): Post!
+        getSinglePost(input: getSinglePost): Post!
         getAllPost(input: getAllPostInput!): AllPost!
     }
 
@@ -12,7 +15,7 @@ const PostTypedefs = gql`
     }
 
     type Post {
-        text: String!
+       ${text} 
     }
 
     type AllPost {
@@ -20,15 +23,22 @@ const PostTypedefs = gql`
     }
 
     input CreatePostInput {
-        text: String!
+        ${text}
     }
 
     input PostId {
-        id: ID!
+        ${id}
     }
+
+    input getSinglePost{
+        user: ID!
+        post: ID!
+    }
+
 
     input getAllPostInput {
         start: Int!
+        ${id}
     }
 `
 
