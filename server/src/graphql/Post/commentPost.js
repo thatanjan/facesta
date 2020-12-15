@@ -8,6 +8,8 @@ const findPost = async (model, id) => {
     return post
 }
 
+// const findComment =
+
 const addComment = (comments, { id, text }) => {
     const commentObject = {
         user: id,
@@ -42,6 +44,27 @@ const mainResolver = (operation) => {
 const resolver = {
     Mutation: {
         commentPost: mainResolver(ADD_COMMENT),
+        removeCommentPost: async (
+            _,
+            { input: { postId, commentId } },
+            { user: { id } }
+        ) => {
+            const Post = createPostModel(id)
+
+            const post = await findPost(Post, postId)
+
+            if (!post) {
+                return sendMessage(false, 'no post found')
+            }
+
+            const { comments } = post
+
+            comments.id(commentId).remove()
+
+            post.save()
+
+            return sendMessage(true, 'you remove comment from the post')
+        },
     },
 }
 

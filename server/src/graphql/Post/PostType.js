@@ -3,6 +3,11 @@ import { gql } from 'apollo-server-express'
 const text = `text: String!`
 const id = `id: ID!`
 
+const userAndPostId = `
+        user: ID!
+        post: ID!
+`
+
 const PostTypedefs = gql`
     extend type Query {
         getSinglePost(input: getSinglePost): Post!
@@ -15,6 +20,7 @@ const PostTypedefs = gql`
         likePost(input:PostId): Success!
         removeLike(input: PostId): Success!
         commentPost(input: commentInput): Success!
+            removeCommentPost(input: removeCommentInput ): Success!
     }
 
     type Post {
@@ -34,8 +40,7 @@ const PostTypedefs = gql`
     }
 
     input getSinglePost{
-        user: ID!
-        post: ID!
+        ${userAndPostId}
     }
 
 
@@ -47,6 +52,11 @@ const PostTypedefs = gql`
     input commentInput{
         ${id}
         ${text}
+    }
+
+    input removeCommentInput {
+        postId: ID!
+        commentId: ID!
     }
 `
 export default PostTypedefs
