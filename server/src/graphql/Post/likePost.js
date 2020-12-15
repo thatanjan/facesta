@@ -10,7 +10,7 @@ const resolver = {
         likePost: async (_, { input: { id: postId } }, { user: { id } }) => {
             const Post = createPostModel(id)
 
-            const likesQuery = queryPostLikes(Post, postId)
+            const likesQuery = await queryPostLikes(Post, postId)
 
             const { likes } = likesQuery
 
@@ -25,10 +25,10 @@ const resolver = {
 
             return sendMessage(true, 'you have liked this post')
         },
-        unlikePost: async (_, { input: { id: postId } }, { user: { id } }) => {
+        removeLike: async (_, { input: { id: postId } }, { user: { id } }) => {
             const Post = createPostModel(id)
 
-            const likesQuery = queryPostLikes(Post, postId)
+            const likesQuery = await queryPostLikes(Post, postId)
 
             const { likes } = likesQuery
 

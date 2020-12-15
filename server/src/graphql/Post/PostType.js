@@ -12,8 +12,8 @@ const PostTypedefs = gql`
     extend type Mutation {
         createPost(input: CreatePostInput): Post!
         deletePost(input: PostId): Success!
-            likePost(input:PostId): Success!
-            unlikePost(input: PostId): Success!
+        likePost(input:PostId): Success!
+        removeLike(input: PostId): Success!
     }
 
     type Post {
