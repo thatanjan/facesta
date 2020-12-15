@@ -14,6 +14,7 @@ export default shield(
     {
         Mutation: {
             createPost: isAuthenticated,
+            deletePost: isAuthenticated,
             updatePersonal: isAuthenticated,
             addExperience: isAuthenticated,
             addEducation: isAuthenticated,
@@ -21,10 +22,22 @@ export default shield(
             updatePrivacy: isAuthenticated,
             followUser: isAuthenticated,
             unfollowUser: isAuthenticated,
+            likePost: isAuthenticated,
+            removeLike: isAuthenticated,
+            commentPost: isAuthenticated,
+            removeCommentPost: isAuthenticated,
         },
         Query: {
+            getSinglePost: isAuthenticated,
+            getAllPost: isAuthenticated,
+            getPersonal: isAuthenticated,
+            getExperience: isAuthenticated,
+            getEducation: isAuthenticated,
+            getSocial: isAuthenticated,
+            getPrivacy: isAuthenticated,
             getFollowers: isAuthenticated,
             getFollowing: isAuthenticated,
+            isFollowing: isAuthenticated,
         },
     },
     {
