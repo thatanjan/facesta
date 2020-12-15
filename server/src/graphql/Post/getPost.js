@@ -1,9 +1,19 @@
 import createPostModel from 'models/Post'
-import { sendMessage } from 'utils/error'
+import { sendMessage, throwError } from 'utils/error'
 
 const resolver = {
     Query: {
-        getSinglePost: async () => {},
+        getSinglePost: async (_, { input: { post, user } }) => {
+            const Post = createPostModel(user)
+
+            const singlePost = await Post.findById(post, 'text')
+
+            if (!singlePost) {
+                return throwError('no post found')
+            }
+
+            return singlePost
+        },
         getAllPost: async (_, { input: { start } }, { user: { id } }) => {
             const Post = createPostModel(id)
 
