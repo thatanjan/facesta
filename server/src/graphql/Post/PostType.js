@@ -14,6 +14,7 @@ const PostTypedefs = gql`
         deletePost(input: PostId): Success!
         likePost(input:PostId): Success!
         removeLike(input: PostId): Success!
+        commentPost(input: commentInput): Success!
     }
 
     type Post {
@@ -43,7 +44,9 @@ const PostTypedefs = gql`
         ${id}
     }
 
-
+    input commentInput{
+        ${id}
+        ${text}
+    }
 `
-
 export default PostTypedefs
