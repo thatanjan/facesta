@@ -11,10 +11,6 @@ const user = {
     ref: User,
 }
 
-const LikedUserSchema = new Schema({
-    user,
-})
-
 const CommentedUserSchema = new Schema({
     user,
     text: { type: String, required: true },
@@ -24,7 +20,7 @@ const CommentedUserSchema = new Schema({
 
 const schema = {
     text: { type: String, required: true },
-    likes: [LikedUserSchema],
+    likes: [user],
     comments: [CommentedUserSchema],
     public: {
         type: Boolean,
