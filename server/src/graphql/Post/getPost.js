@@ -3,10 +3,14 @@ import { sendMessage, throwError } from 'utils/error'
 
 const resolver = {
     Query: {
-        getSinglePost: async (_, { input: { post, user } }) => {
-            const Post = createPostModel(user)
+        getSinglePost: async (
+            _,
+            { input: { postId, userId } },
+            { user: { id } }
+        ) => {
+            const Post = createPostModel(userId || id)
 
-            const singlePost = await Post.findById(post, 'text')
+            const singlePost = await Post.findById(postId, 'text')
 
             if (!singlePost) {
                 return throwError('no post found')

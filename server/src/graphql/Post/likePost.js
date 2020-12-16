@@ -1,59 +1,61 @@
 import createPostModel from 'models/Post'
 import { sendMessage } from 'utils/error'
 
-const queryPostLikes = async (model, id) => await model.findById(id, 'likes')
+const LIKE = 'like'
+const REMOVE_LIKE = 'removeLike'
+const LIKES = 'likes'
+
+const queryPostLikes = async (model, id) => await model.findById(id, LIKES)
 
 const hasLiked = (array, id) => array.includes(id)
 
-const operationCheck = (operation) => {
-    if (operation === 'like') {
-        return true
-    }
+const modifyLikes = ({ operation, likes, id }) => {
+    switch (operation) {
+        case LIKE:
+            likes.push(id)
 
-    if (operation === 'removeLike') {
-        return false
-    }
-}
+            break
 
-const modifyLikes = (operation, array, id) => {
-    if (operationCheck(operation)) {
-        array.push(id)
-        console.log(array)
-    }
+        case REMOVE_LIKE:
+            likes.pull(id)
 
-    if (!operationCheck(operation)) {
-        console.table([operation, array, id])
-        array.pull(id)
+        default:
+            return false
     }
 }
 
 const responseMessage = (operation) => {
-    if (operationCheck(operation)) {
-        return sendMessage(true, 'you have liked this post')
-    }
+    switch (operation) {
+        case LIKE:
+            return sendMessage(true, 'you have liked this post')
 
-    if (!operationCheck(operation)) {
-        return sendMessage(true, 'you have remove like from the post')
+        case REMOVE_LIKE:
+            return sendMessage(true, 'you have remove like from the post')
+
+        default:
+            return false
     }
 }
 
 const mainFunction = (operation) => {
-    return async (_, { input: { id: postId } }, { user: { id } }) => {
+    return async (_, { input: { postId } }, { user: { id } }) => {
         const Post = createPostModel(id)
 
         const likesQuery = await queryPostLikes(Post, postId)
 
         const { likes } = likesQuery
 
-        if (operation === 'like' && hasLiked(likes, id)) {
+        if (operation === LIKE && hasLiked(likes, id)) {
             return sendMessage(false, 'you have already liked this post')
         }
 
-        if (operation === 'removeLike' && !hasLiked(likes, id)) {
+        if (operation === REMOVE_LIKE && !hasLiked(likes, id)) {
             return sendMessage(false, 'you have not liked this post.')
         }
 
-        modifyLikes(operation, likes, id)
+        modifyLikes({ operation, likes, id })
+
+        console.log(likes)
 
         likesQuery.save()
 
@@ -63,8 +65,8 @@ const mainFunction = (operation) => {
 
 const resolver = {
     Mutation: {
-        likePost: mainFunction('like'),
-        removeLike: mainFunction('removeLike'),
+        likePost: mainFunction(LIKE),
+        removeLikePost: mainFunction(REMOVE_LIKE),
     },
 }
 
