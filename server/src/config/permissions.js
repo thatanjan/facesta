@@ -23,7 +23,7 @@ export default shield(
             followUser: isAuthenticated,
             unfollowUser: isAuthenticated,
             likePost: isAuthenticated,
-            removeLike: isAuthenticated,
+            removeLikePost: isAuthenticated,
             commentPost: isAuthenticated,
             removeCommentPost: isAuthenticated,
         },

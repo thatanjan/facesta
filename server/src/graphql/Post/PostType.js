@@ -2,7 +2,7 @@ import { gql } from 'apollo-server-express'
 
 const text = `text: String!`
 const postId = `postId: ID!`
-const userId = `userId: ID!`
+const userId = `userId: ID`
 
 const userAndPostId = `
         ${postId}
@@ -19,7 +19,7 @@ const PostTypedefs = gql`
         createPost(input: CreatePostInput!): Post!
         deletePost(input: PostId!): Success!
         likePost(input:PostId!): Success!
-        removeLike(input: PostId!): Success!
+        removeLikePost(input: PostId!): Success!
         commentPost(input: commentInput!): Success!
         removeCommentPost(input: removeCommentInput! ): Success!
     }
@@ -47,7 +47,7 @@ const PostTypedefs = gql`
 
     input getAllPostInput {
         start: Int!
-        ${postId}
+        ${userId}
     }
 
     input commentInput{
@@ -56,7 +56,7 @@ const PostTypedefs = gql`
     }
 
     input removeCommentInput {
-        ${postId}
+        ${userAndPostId}
         commentId: ID!
     }
 `
