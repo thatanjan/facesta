@@ -19,12 +19,7 @@ const CommentedUserSchema = new Schema({
 
 const schema = {
     text: { type: String, required: true },
-    likes: [
-        {
-            type: user,
-            date: { type: Date, default: Date.now() },
-        },
-    ],
+    likes: [user],
     comments: [CommentedUserSchema],
     public: {
         type: Boolean,
