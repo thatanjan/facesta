@@ -1,11 +1,16 @@
 import createPostModel from 'models/Post'
-import { sendMessage } from 'utils/error'
+import { sendMessage, throwError } from 'utils/error'
 
 const ADD_COMMENT = 'addComment'
 const REMOVE_COMMENT = 'removeComment'
 
 const ADD_COMMENT_MESSAGE = 'you have commented on this post'
 const REMOVE_COMMENT_MESSAGE = 'you remove comment from the post'
+
+const findComment = ({ comments, commentId }) => comments.id(commentId)
+
+const ownsComment = ({ userId, id, commentedUser }) =>
+    commentedUser === userId || commentedUser === id
 
 const findPost = async (model, id) => {
     const post = await model.findById(id, 'comments')
@@ -21,13 +26,10 @@ const addComment = (comments, { id, text }) => {
     comments.push(commentObject)
 }
 
-const removeComment = ({ comments, commentId }) =>
-    comments.id(commentId).remove()
-
 const mainResolver = (operation) => {
     return async (
         _,
-        { input: { id: postId, text, commentId } },
+        { input: { postId, text, commentId, userId } },
         { user: { id } }
     ) => {
         let returnMessage = ''
@@ -50,7 +52,20 @@ const mainResolver = (operation) => {
                 break
 
             case REMOVE_COMMENT:
-                removeComment({ comments, commentId })
+                const comment = findComment({ comments, commentId })
+
+                if (!comment) {
+                    return sendMessage(false, 'no comment found')
+                }
+
+                const commentedUser = comment.user.toString()
+
+                if (!ownsComment({ id, userId, commentedUser })) {
+                    return throwError('not authorized')
+                }
+
+                comment.remove()
+
                 returnMessage = REMOVE_COMMENT_MESSAGE
                 break
 
