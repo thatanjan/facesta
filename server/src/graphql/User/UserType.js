@@ -8,6 +8,7 @@ const UserType = gql`
     extend type Mutation {
         loginUser(loginInput: loginInput): Token
         registerUser(registerInput: registerInput): Token
+        deleteUser: Success!
     }
 
     type Token {
