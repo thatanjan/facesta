@@ -4,7 +4,7 @@ import { UserResolvers } from './User/User'
 import { PostResolvers } from './Post/Post'
 import { ProfileResolvers } from './Profile/Profile'
 import { FollowResolvers } from './Follow/Follow'
-import { DateResolvers } from 'graphql/customScalars/dateScalar'
+import { DateResolvers } from 'graphql/customScalars'
 
 const resolvers = merge(
     DateResolvers,
