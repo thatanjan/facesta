@@ -30,15 +30,9 @@
         "graphql-middleware": "^4.0.2",
         "graphql-scalars": "^1.6.1",
         "graphql-shield": "^7.4.3",
-        "graphql-tag": "^2.11.0",
-        "graphql-tools": "^7.0.2",
-        "gravatar": "^1.8.1",
         "jsonwebtoken": "^8.5.1",
-        "jwt-decode": "^3.0.0",
         "lodash": "^4.17.20",
         "mongoose": "^5.10.9",
-        "passport": "^0.4.1",
-        "passport-jwt": "^4.0.0",
         "validator": "^13.1.17"
     },
     "scripts": {
@@ -46,8 +40,8 @@
         "start": "yarn run build && node dist/index.js",
         "dev": "nodemon --exec babel-node src/index.js",
         "serve": "node dist/index.js",
-        "client-dev": "yarn --cwd ../client start",
-        "client-install": "yarn --cwd ../client install",
+        "client-dev": "yarn --cwd ../client-next dev",
+        "client-install": "yarn --cwd ../client-next install",
         "both-dev": "concurrently \"yarn run client-dev\" \"yarn run dev \""
     }
 }
