@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "lint": "eslint . --ext ts --ext tsx --ext js",
     "start": "next start"
   },
   "dependencies": {
