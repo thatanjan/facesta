@@ -37,7 +37,7 @@ const useStyles = makeStyles((theme: Theme) =>
 		formContainer: {
 			width: '80vw',
 			maxWidth: '30rem',
-			background: `${theme.palette.primary.contrastText}`,
+			background: `${theme.palette.background.paper}`,
 			justifyContent: 'center',
 			alignContent: 'center',
 
