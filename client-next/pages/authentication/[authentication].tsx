@@ -1,8 +1,9 @@
+import dynamic from 'next/dynamic'
 import { useRouter } from 'next/router'
 import Image from 'next/image'
 
 import React from 'react'
-import Container from '@material-ui/core/Container'
+import CircularProgress from '@material-ui/core/CircularProgress'
 import Box from '@material-ui/core/Box'
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles'
 
@@ -62,22 +63,31 @@ const useStyles = makeStyles((theme: Theme) =>
 	})
 )
 
-// const LogInForm = lazy(
-// 	() => import('components/UserAuthenticationForms/LogInForm')
-// )
+const LogInForm = dynamic(
+	() => import('components/UserAuthenticationForms/LogInForm'),
+	{
+		loading: () => <CircularProgress />,
+		ssr: false,
+	}
+)
 
-// const SignUpForm = lazy(
-// 	() => import('components/UserAuthenticationForms/SignUpForm')
-// )
+const SignUpForm = dynamic(
+	() => import('components/UserAuthenticationForms/SignUpForm'),
+	{
+		loading: () => <CircularProgress />,
+		ssr: false,
+	}
+)
 
 const UserAuthenticationPage = () => {
-	const { auth }: any = useRouter()
+	const {
+		query: { authentication: auth },
+	}: any = useRouter()
 
 	const {
 		logInBackground,
 		boxContainerStyle,
 		backgroundImageOverlay,
-		special,
 		formContainer,
 	} = useStyles()
 
@@ -90,12 +100,10 @@ const UserAuthenticationPage = () => {
 					alt='hello world'
 					layout='fill'
 				/>
-				{/* <Suspense fallback={<div> hello world </div>}>
-					<Grid container className={formContainer}>
-						{auth === 'login' && <LogInForm />}
-						{auth === 'sign_up' && <SignUpForm />}
-					</Grid>
-				</Suspense> */}
+				<Grid container className={formContainer}>
+					{auth === 'login' && <LogInForm />}
+					{auth === 'sign-up' && <SignUpForm />}
+				</Grid>
 			</Box>
 			<Paper className={backgroundImageOverlay} />
 		</>
