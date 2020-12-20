@@ -4,3 +4,8 @@ export interface error {
 	name?: String
 	confirmPassword?: String
 }
+
+export interface LoginData {
+	success: Boolean
+	token: String
+}
