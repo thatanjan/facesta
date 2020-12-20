@@ -5,10 +5,17 @@ import Image from 'next/image'
 import React from 'react'
 import CircularProgress from '@material-ui/core/CircularProgress'
 import Box from '@material-ui/core/Box'
-import { makeStyles, Theme, createStyles } from '@material-ui/core/styles'
+import {
+	makeStyles,
+	Theme,
+	createStyles,
+	ThemeProvider,
+} from '@material-ui/core/styles'
 
 import Paper from '@material-ui/core/Paper'
 import Grid from '@material-ui/core/Grid'
+
+import { lightTheme } from 'themes/theme'
 
 const useStyles = makeStyles((theme: Theme) =>
 	createStyles({
@@ -37,7 +44,6 @@ const useStyles = makeStyles((theme: Theme) =>
 		formContainer: {
 			width: '80vw',
 			maxWidth: '30rem',
-			background: `${theme.palette.background.paper}`,
 			justifyContent: 'center',
 			alignContent: 'center',
 
@@ -93,19 +99,21 @@ const UserAuthenticationPage = () => {
 
 	return (
 		<>
-			<Box className={boxContainerStyle}>
-				<Image
-					className={logInBackground}
-					src='/images/log_in_background_image.jpg'
-					alt='hello world'
-					layout='fill'
-				/>
-				<Grid container className={formContainer}>
-					{auth === 'login' && <LogInForm />}
-					{auth === 'sign-up' && <SignUpForm />}
-				</Grid>
-			</Box>
-			<Paper className={backgroundImageOverlay} />
+			<ThemeProvider theme={lightTheme}>
+				<Box className={boxContainerStyle}>
+					<Image
+						className={logInBackground}
+						src='/images/log_in_background_image.jpg'
+						alt='hello world'
+						layout='fill'
+					/>
+					<Grid container className={formContainer}>
+						{auth === 'login' && <LogInForm />}
+						{auth === 'sign-up' && <SignUpForm />}
+					</Grid>
+				</Box>
+				<Paper className={backgroundImageOverlay} />
+			</ThemeProvider>
 		</>
 	)
 }
