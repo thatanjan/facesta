@@ -7,22 +7,16 @@ import CircularProgress from '@material-ui/core/CircularProgress'
 import Box from '@material-ui/core/Box'
 import {
 	makeStyles,
-	Theme,
 	createStyles,
 	ThemeProvider,
 } from '@material-ui/core/styles'
 
 import Paper from '@material-ui/core/Paper'
-import Grid from '@material-ui/core/Grid'
 
 import { lightTheme } from 'themes/theme'
 
-const useStyles = makeStyles((theme: Theme) =>
+const useStyles = makeStyles(() =>
 	createStyles({
-		special: {
-			opacity: 0.3,
-			height: '100vh',
-		},
 		boxContainerStyle: {
 			maxWidth: '100vw',
 			height: '100vh',
@@ -42,6 +36,7 @@ const useStyles = makeStyles((theme: Theme) =>
 			zIndex: -1,
 		},
 		formContainer: {
+			display: 'grid',
 			width: '80vw',
 			maxWidth: '30rem',
 			justifyContent: 'center',
@@ -54,7 +49,6 @@ const useStyles = makeStyles((theme: Theme) =>
 			transform: 'translateY(-50%)',
 
 			'& >  form': {
-				width: '80%',
 				padding: '2rem 0 ',
 
 				'& > a ': {
@@ -107,10 +101,10 @@ const UserAuthenticationPage = () => {
 						alt='hello world'
 						layout='fill'
 					/>
-					<Grid container className={formContainer}>
+					<Paper className={formContainer}>
 						{auth === 'login' && <LogInForm />}
 						{auth === 'sign-up' && <SignUpForm />}
-					</Grid>
+					</Paper>
 				</Box>
 				<Paper className={backgroundImageOverlay} />
 			</ThemeProvider>

@@ -3,21 +3,12 @@ import React from 'react'
 import { Formik, Form, Field } from 'formik'
 import Button from '@material-ui/core/Button'
 import LinearProgress from '@material-ui/core/LinearProgress'
-import { makeStyles, Theme } from '@material-ui/core/styles'
 import { TextField } from 'formik-material-ui'
 
 import { error } from 'interfaces/authentication'
 // import { loginUserAction } from 'redux/actions/authActions'
 
-export const useStyles = makeStyles((theme: Theme) => ({
-	submitButtonStyle: {
-		color: `${theme.palette.primary.light}`,
-	},
-}))
-
 const LogInForm = () => {
-	const { submitButtonStyle } = useStyles()
-
 	return (
 		<>
 			<Formik
@@ -72,7 +63,6 @@ const LogInForm = () => {
 				)}
 			</Formik>
 			<Button
-				className={submitButtonStyle}
 				size='small'
 				href='/authentication/sign-up'
 				style={{
