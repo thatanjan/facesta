@@ -6,6 +6,9 @@ export interface error {
 }
 
 export interface LoginData {
-	success: Boolean
-	token: String
+	logInUser: {
+		success: Boolean
+		token: String | null
+		message: String | null
+	}
 }
