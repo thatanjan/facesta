@@ -6,14 +6,15 @@ const UserType = gql`
     }
 
     extend type Mutation {
-        loginUser(loginInput: loginInput): Token
-        registerUser(registerInput: registerInput): Token
+        loginUser(loginInput: loginInput): Login
+        registerUser(registerInput: registerInput): Login
         deleteUser: Success!
     }
 
-    type Token {
-        token: String!
+    type Login {
+        token: String
         success: Boolean!
+        message: String
     }
 
     type User {
