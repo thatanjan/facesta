@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { gql } from 'graphql-request'
 import { Formik, Form, Field } from 'formik'
 import Button from '@material-ui/core/Button'
@@ -13,19 +13,23 @@ const loginMutation = gql`
 		loginUser(loginInput: { email: $email, password: $password }) {
 			success
 			token
+			message
 		}
 	}
 `
 
 const LogInForm = () => {
+	const [errorMessage, setErrorMessage] = useState('')
+
 	const logInUser = async (values: any) => {
 		try {
 			const data: LoginData = await graphQLClient.request(loginMutation, values)
-
-			console.log(data)
+			return data
 		} catch (err: any) {
 			console.log(err)
 		}
+
+		return false
 	}
 
 	return (
@@ -46,8 +50,17 @@ const LogInForm = () => {
 					}
 					return errors
 				}}
-				onSubmit={(values, { setSubmitting }) => {
-					logInUser(values)
+				onSubmit={async (values, { setSubmitting }) => {
+					const {
+						loginUser: { message, token },
+					}: any = await logInUser(values)
+
+					if (message) {
+						setErrorMessage(message)
+					}
+
+					console.log(token)
+
 					// .then(() => resetForm())
 					// .catch(error => console.log(error.response))
 
