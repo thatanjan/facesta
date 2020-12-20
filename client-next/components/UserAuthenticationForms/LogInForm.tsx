@@ -1,14 +1,33 @@
 import React from 'react'
-// import { connect } from 'react-redux'
+import { gql } from 'graphql-request'
 import { Formik, Form, Field } from 'formik'
 import Button from '@material-ui/core/Button'
 import LinearProgress from '@material-ui/core/LinearProgress'
 import { TextField } from 'formik-material-ui'
 
-import { error } from 'interfaces/authentication'
-// import { loginUserAction } from 'redux/actions/authActions'
+import { error, LoginData } from 'interfaces/authentication'
+import graphQLClient from 'graphql/graphqlClient'
+
+const loginMutation = gql`
+	mutation logInUser($email: String!, $password: String!) {
+		loginUser(loginInput: { email: $email, password: $password }) {
+			success
+			token
+		}
+	}
+`
 
 const LogInForm = () => {
+	const logInUser = async (values: any) => {
+		try {
+			const data: LoginData = await graphQLClient.request(loginMutation, values)
+
+			console.log(data)
+		} catch (err: any) {
+			console.log(err)
+		}
+	}
+
 	return (
 		<>
 			<Formik
@@ -28,7 +47,7 @@ const LogInForm = () => {
 					return errors
 				}}
 				onSubmit={(values, { setSubmitting }) => {
-					// logInUser(values)
+					logInUser(values)
 					// .then(() => resetForm())
 					// .catch(error => console.log(error.response))
 
@@ -76,16 +95,4 @@ const LogInForm = () => {
 	)
 }
 
-// LogInForm.propTypes = {
-// 	logInUser: PropTypes.func.isRequired,
-// }
-
-// const mapStateToProps = state => ({
-// 	authState: state.auth,
-// })
-
-// const mapDispatchToProps = dispatch => ({
-// 	logInUser: data => dispatch(loginUserAction(data)),
-// })
-// export default connect(mapStateToProps, mapDispatchToProps)(LogInForm)
 export default LogInForm
