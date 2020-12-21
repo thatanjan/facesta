@@ -21,18 +21,33 @@ const loginMutation = gql`
 	}
 `
 
+const setToken = (token: string) => localStorage.setItem('jwt', token)
+
 const LogInForm = () => {
 	const [errorMessage, setErrorMessage] = useState('')
 
-	const logInUser = async (values: any) => {
+	const loginUser = async (values: any) => {
 		try {
-			const data: LoginData = await graphQLClient.request(loginMutation, values)
-			return data
+			const {
+				loginUser: { message, token },
+			}: LoginData = await graphQLClient.request(loginMutation, values)
+
+			if (message) {
+				setErrorMessage(message)
+
+				setTimeout(() => {
+					setErrorMessage('')
+				}, 3000)
+
+				return false
+			}
+
+			setToken(token)
 		} catch (err: any) {
 			console.log(err)
 		}
 
-		return false
+		return true
 	}
 
 	return (
@@ -54,19 +69,7 @@ const LogInForm = () => {
 					return errors
 				}}
 				onSubmit={async (values, { setSubmitting }) => {
-					const {
-						loginUser: { message, token },
-					}: any = await logInUser(values)
-
-					if (message) {
-						setErrorMessage(message)
-
-						setTimeout(() => {
-							setErrorMessage('')
-						}, 3000)
-					}
-
-					console.log(token)
+					loginUser(values)
 
 					// .then(() => resetForm())
 					// .catch(error => console.log(error.response))
