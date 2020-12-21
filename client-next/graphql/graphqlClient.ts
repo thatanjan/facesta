@@ -7,10 +7,11 @@ const token = () => {
 	return jwtToken || ''
 }
 
-const graphQlClient = new GraphQLClient(endpoint, {
-	headers: {
-		authorization: token(),
-	},
-})
+const graphQlClient = () =>
+	new GraphQLClient(endpoint, {
+		headers: {
+			authorization: token(),
+		},
+	})
 
 export default graphQlClient
