@@ -1,8 +1,9 @@
 import dynamic from 'next/dynamic'
+import Head from 'next/head'
 import { useRouter } from 'next/router'
 import Image from 'next/image'
 
-import React from 'react'
+import React, { useState } from 'react'
 import CircularProgress from '@material-ui/core/CircularProgress'
 import Box from '@material-ui/core/Box'
 import {
@@ -14,6 +15,7 @@ import {
 import Paper from '@material-ui/core/Paper'
 
 import { lightTheme } from 'themes/theme'
+import capitalize from 'utils/capitalize'
 
 const useStyles = makeStyles(() =>
 	createStyles({
@@ -84,6 +86,8 @@ const UserAuthenticationPage = () => {
 		query: { authentication: auth },
 	}: any = useRouter()
 
+	const [pageTitle, setPageTitle] = useState('Loading')
+
 	const {
 		logInBackground,
 		boxContainerStyle,
@@ -91,8 +95,19 @@ const UserAuthenticationPage = () => {
 		formContainer,
 	} = useStyles()
 
+	React.useEffect(() => {
+		if (auth) {
+			const capitalizeTitle = capitalize(auth)
+			setPageTitle(capitalizeTitle)
+		}
+	}, [auth])
+
 	return (
 		<>
+			<Head>
+				<title>{pageTitle}</title>
+			</Head>
+
 			<ThemeProvider theme={lightTheme}>
 				<Box className={boxContainerStyle}>
 					<Image
@@ -105,6 +120,7 @@ const UserAuthenticationPage = () => {
 						{auth === 'login' && <LogInForm />}
 						{auth === 'sign-up' && <SignUpForm />}
 					</Paper>
+					hell
 				</Box>
 				<Paper className={backgroundImageOverlay} />
 			</ThemeProvider>
