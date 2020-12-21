@@ -30,7 +30,7 @@ const LogInForm = () => {
 		try {
 			const {
 				loginUser: { message, token },
-			}: LoginData = await graphQLClient.request(loginMutation, values)
+			}: LoginData = await graphQLClient().request(loginMutation, values)
 
 			if (message) {
 				setErrorMessage(message)
