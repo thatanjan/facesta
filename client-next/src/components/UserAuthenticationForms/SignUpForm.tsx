@@ -1,5 +1,4 @@
 import React, { useContext } from 'react'
-import { gql } from 'graphql-request'
 import { Formik, Form, Field } from 'formik'
 import { Button, LinearProgress } from '@material-ui/core'
 import { TextField } from 'formik-material-ui'
@@ -7,14 +6,30 @@ import { TextField } from 'formik-material-ui'
 import { useRouter } from 'next/router'
 import { UserContext } from 'context/userContext'
 
-import { error } from 'interfaces/authentication'
+import { Error, RegisterInput, RegisterOutput } from 'interfaces/authentication'
 
 import login from 'utils/login'
-import graphQLClient from 'graphql/graphqlClient'
+import createRequest from 'utils/createRequest'
 
 import { registerMutation } from 'mutations/authMutations'
 
 const SignUpForm = () => {
+	const registerUser = async (values: RegisterInput) => {
+		try {
+			const {
+				registerUser: { token, message },
+			}: RegisterOutput = await createRequest({
+				mutation: registerMutation,
+				values,
+			})
+
+			console.log(token)
+		} catch (error) {
+			return false
+		}
+
+		return true
+	}
 	return (
 		<>
 			<Formik
@@ -25,7 +40,7 @@ const SignUpForm = () => {
 					confirmPassword: '',
 				}}
 				validate={({ email, password, confirmPassword, name }) => {
-					const errors: error = {}
+					const errors: Error = {}
 
 					if (!name) {
 						errors.name = 'Required'
@@ -60,6 +75,7 @@ const SignUpForm = () => {
 					return errors
 				}}
 				onSubmit={(values, { setSubmitting }) => {
+					registerUser(values)
 					setTimeout(() => {
 						setSubmitting(false)
 					}, 500)
