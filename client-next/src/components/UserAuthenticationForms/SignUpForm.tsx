@@ -1,9 +1,11 @@
-import React, { useContext } from 'react'
+import React, { useContext, useState } from 'react'
 import { Formik, Form, Field } from 'formik'
 import { Button, LinearProgress } from '@material-ui/core'
 import { TextField } from 'formik-material-ui'
 
 import { useRouter } from 'next/router'
+import dynamic from 'next/dynamic'
+
 import { UserContext } from 'context/userContext'
 
 import { Error, RegisterInput, RegisterOutput } from 'interfaces/authentication'
@@ -13,7 +15,13 @@ import createRequest from 'utils/createRequest'
 
 import { registerMutation } from 'mutations/authMutations'
 
+const Alert = dynamic(() => import('@material-ui/lab/Alert'))
+
 const SignUpForm = () => {
+	const [, setUser]: any = useContext(UserContext)
+
+	const [errorMessage, setErrorMessage] = useState('')
+
 	const registerUser = async (values: RegisterInput) => {
 		try {
 			const {
@@ -22,6 +30,11 @@ const SignUpForm = () => {
 				mutation: registerMutation,
 				values,
 			})
+
+			if (message) {
+				setErrorMessage(message)
+				return false
+			}
 
 			console.log(token)
 		} catch (error) {
@@ -125,6 +138,12 @@ const SignUpForm = () => {
 			>
 				have an account?
 			</Button>
+
+			{errorMessage && (
+				<Alert variant='filled' severity='error'>
+					{errorMessage}
+				</Alert>
+			)}
 		</>
 	)
 }
