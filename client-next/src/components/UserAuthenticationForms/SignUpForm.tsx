@@ -1,20 +1,22 @@
-import React from 'react'
-// import { connect } from 'react-redux'
+import React, { useContext } from 'react'
+import { gql } from 'graphql-request'
 import { Formik, Form, Field } from 'formik'
 import { Button, LinearProgress } from '@material-ui/core'
 import { TextField } from 'formik-material-ui'
 
-import { error } from 'interfaces/authentication'
-// import { registerUserAction } from 'redux/actions/authActions'
+import { useRouter } from 'next/router'
+import { UserContext } from 'context/userContext'
 
-// const signUpUser = (registerAction, signUpInformation) => {
-// 	registerAction(signUpInformation)
-// }
+import { error } from 'interfaces/authentication'
+
+import login from 'utils/login'
+import graphQLClient from 'graphql/graphqlClient'
+
+import { registerMutation } from 'mutations/authMutations'
 
 const SignUpForm = () => {
 	return (
 		<>
-			{/* <Grid container className={formContainer}> */}
 			<Formik
 				initialValues={{
 					name: '',
@@ -58,7 +60,6 @@ const SignUpForm = () => {
 					return errors
 				}}
 				onSubmit={(values, { setSubmitting }) => {
-					// signUpUser(registerUser, values)
 					setTimeout(() => {
 						setSubmitting(false)
 					}, 500)
@@ -108,18 +109,8 @@ const SignUpForm = () => {
 			>
 				have an account?
 			</Button>
-			{/*  	</Grid> */}
 		</>
 	)
 }
 
-// SignUpForm.propTypes= {
-// 	registerUser: PropTypes.func.isRequired,
-// }
-
-// const mapDispatchToProps = dispatch => ({
-// 	registerUser: payload => dispatch(registerUserAction(payload)),
-// })
-
-// export default connect(null, mapDispatchToProps)(SignUpForm)
 export default SignUpForm
