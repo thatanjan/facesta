@@ -12,6 +12,7 @@ import { UserContext } from 'context/userContext'
 import { loginMutation } from 'mutations/authMutations'
 
 import login from 'utils/login'
+import redirectConditionally from 'utils/redirectConditionally'
 import createRequest from 'utils/createRequest'
 
 const Alert = dynamic(() => import('@material-ui/lab/Alert'))
@@ -19,7 +20,7 @@ const Alert = dynamic(() => import('@material-ui/lab/Alert'))
 const setToken = (token: string) => localStorage.setItem('jwt', token)
 
 const LogInForm = () => {
-	const router = useRouter()
+	const { push } = useRouter()
 	const [, setUser]: any = useContext(UserContext)
 
 	const [errorMessage, setErrorMessage] = useState('')
@@ -44,12 +45,8 @@ const LogInForm = () => {
 			}
 
 			setToken(token)
-			const loginSuccessful = await login({ setUser })
 
-			if (loginSuccessful) {
-				router.push('/')
-				return true
-			}
+			return await login({ setUser })
 		} catch (err: any) {
 			console.log(err)
 		}
@@ -76,7 +73,9 @@ const LogInForm = () => {
 					return errors
 				}}
 				onSubmit={async (values, { setSubmitting }) => {
-					loginUser(values)
+					const successful = await loginUser(values)
+
+					redirectConditionally({ successful, redirect: push })
 
 					// .then(() => resetForm())
 					// .catch(error => console.log(error.response))
