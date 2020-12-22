@@ -4,11 +4,16 @@ interface params {
 	setUser: Function
 }
 
-const login = ({ setUser }: params) => {
-	const token = localStorage.jwt
-	const decoded = jwtDecode(token)
+const login = async ({ setUser }: params) => {
+	try {
+		const token = localStorage.jwt
+		const decoded = jwtDecode(token)
 
-	setUser(decoded)
+		setUser(decoded)
+		return true
+	} catch (err) {
+		return false
+	}
 }
 
 export default login
