@@ -33,6 +33,11 @@ const SignUpForm = () => {
 
 			if (message) {
 				setErrorMessage(message)
+
+				setTimeout(() => {
+					setErrorMessage('')
+				}, 3000)
+
 				return false
 			}
 
