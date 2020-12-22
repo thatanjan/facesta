@@ -28,3 +28,9 @@ export interface RegisterInput extends LoginInput {
 export interface RegisterOutput extends Error {
 	registerUser: Output
 }
+
+export interface RedirectLogin {
+	successful: boolean
+	redirect: Function
+	path?: String
+}
