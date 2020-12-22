@@ -1,13 +1,15 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import { gql } from 'graphql-request'
 import { Formik, Form, Field } from 'formik'
 import Button from '@material-ui/core/Button'
 import LinearProgress from '@material-ui/core/LinearProgress'
 import { TextField } from 'formik-material-ui'
 import dynamic from 'next/dynamic'
+import login from 'utils/login'
 
 import { error, LoginData } from 'interfaces/authentication'
 import graphQLClient from 'graphql/graphqlClient'
+import { UserContext } from 'context/userContext'
 
 const Alert = dynamic(() => import('@material-ui/lab/Alert'))
 
@@ -24,6 +26,8 @@ const loginMutation = gql`
 const setToken = (token: string) => localStorage.setItem('jwt', token)
 
 const LogInForm = () => {
+	const [, setUser]: any = useContext(UserContext)
+
 	const [errorMessage, setErrorMessage] = useState('')
 
 	const loginUser = async (values: any) => {
@@ -43,6 +47,9 @@ const LogInForm = () => {
 			}
 
 			setToken(token)
+			login({ setUser })
+
+			return true
 		} catch (err: any) {
 			console.log(err)
 		}
