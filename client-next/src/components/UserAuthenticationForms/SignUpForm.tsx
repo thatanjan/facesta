@@ -18,6 +18,8 @@ import { registerMutation } from 'mutations/authMutations'
 const Alert = dynamic(() => import('@material-ui/lab/Alert'))
 
 const SignUpForm = () => {
+	const router = useRouter()
+
 	const [, setUser]: any = useContext(UserContext)
 
 	const [errorMessage, setErrorMessage] = useState('')
@@ -42,6 +44,13 @@ const SignUpForm = () => {
 			}
 
 			console.log(token)
+
+			const loginSuccessful = await login({ setUser })
+
+			if (loginSuccessful) {
+				router.push('/')
+				return true
+			}
 		} catch (error) {
 			return false
 		}
