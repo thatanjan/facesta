@@ -6,7 +6,7 @@ import { TextField } from 'formik-material-ui'
 import dynamic from 'next/dynamic'
 import { useRouter } from 'next/router'
 
-import { error, LoginData } from 'interfaces/authentication'
+import { Error, LoginInput, LoginOutput } from 'interfaces/authentication'
 import { UserContext } from 'context/userContext'
 
 import { loginMutation } from 'mutations/authMutations'
@@ -24,11 +24,14 @@ const LogInForm = () => {
 
 	const [errorMessage, setErrorMessage] = useState('')
 
-	const loginUser = async (values: any) => {
+	const loginUser = async (values: LoginInput) => {
 		try {
 			const {
 				loginUser: { message, token },
-			}: LoginData = await createRequest({ mutation: loginMutation, values })
+			}: LoginOutput = await createRequest({
+				mutation: loginMutation,
+				values,
+			})
 
 			if (message) {
 				setErrorMessage(message)
@@ -62,7 +65,7 @@ const LogInForm = () => {
 					password: '',
 				}}
 				validate={values => {
-					const errors: error = {}
+					const errors: Error = {}
 					if (!values.email) {
 						errors.email = 'Required'
 					} else if (
