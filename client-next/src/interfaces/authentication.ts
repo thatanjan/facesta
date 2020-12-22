@@ -5,14 +5,14 @@ export interface Error {
 	confirmPassword?: String
 }
 
-interface output {
+interface Output {
 	success: Boolean
 	token: string
 	message: string | null
 }
 
 export interface LoginOutput extends Error {
-	loginUser: output
+	loginUser: Output
 }
 
 export interface LoginInput {
@@ -20,11 +20,11 @@ export interface LoginInput {
 	password: string
 }
 
-export interface registerInput extends LoginInput {
+export interface RegisterInput extends LoginInput {
 	name: string
 	confirmPassword: string
 }
 
-export interface registerOutput extends Error {
-	registerUser: output
+export interface RegisterOutput extends Error {
+	registerUser: Output
 }
