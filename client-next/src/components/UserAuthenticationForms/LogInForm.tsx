@@ -5,10 +5,11 @@ import Button from '@material-ui/core/Button'
 import LinearProgress from '@material-ui/core/LinearProgress'
 import { TextField } from 'formik-material-ui'
 import dynamic from 'next/dynamic'
-import login from 'utils/login'
+import { useRouter } from 'next/router'
 
 import { error, LoginData } from 'interfaces/authentication'
 import graphQLClient from 'graphql/graphqlClient'
+import login from 'utils/login'
 import { UserContext } from 'context/userContext'
 
 const Alert = dynamic(() => import('@material-ui/lab/Alert'))
@@ -26,6 +27,7 @@ const loginMutation = gql`
 const setToken = (token: string) => localStorage.setItem('jwt', token)
 
 const LogInForm = () => {
+	const router = useRouter()
 	const [, setUser]: any = useContext(UserContext)
 
 	const [errorMessage, setErrorMessage] = useState('')
@@ -47,9 +49,12 @@ const LogInForm = () => {
 			}
 
 			setToken(token)
-			login({ setUser })
+			const loginSuccessful = await login({ setUser })
 
-			return true
+			if (loginSuccessful) {
+				router.push('/')
+				return true
+			}
 		} catch (err: any) {
 			console.log(err)
 		}
