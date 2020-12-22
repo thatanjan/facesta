@@ -7,7 +7,7 @@ import {
     generateHashPassword,
 } from 'utils/authentication'
 
-import { throwError } from 'utils/error'
+import { throwError, sendMessage } from 'utils/error'
 import validateRegisterInput from 'validation/register'
 import User from 'models/User'
 
@@ -61,13 +61,14 @@ const resolver = {
                 const user = await findUser(email)
 
                 if (user) {
-                    return throwError('User already exist')
+                    return sendMessage(false, 'User already exist')
                 }
 
                 const newUser = await createUser({ name, email, password })
 
                 if (!newUser) {
-                    return throwError(
+                    return sendMessage(
+                        false,
                         'Registering user failed. Please try again later.'
                     )
                 }
