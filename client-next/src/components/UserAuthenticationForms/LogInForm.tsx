@@ -1,5 +1,4 @@
 import React, { useState, useContext } from 'react'
-import { gql } from 'graphql-request'
 import { Formik, Form, Field } from 'formik'
 import Button from '@material-ui/core/Button'
 import LinearProgress from '@material-ui/core/LinearProgress'
@@ -12,17 +11,9 @@ import graphQLClient from 'graphql/graphqlClient'
 import login from 'utils/login'
 import { UserContext } from 'context/userContext'
 
-const Alert = dynamic(() => import('@material-ui/lab/Alert'))
+import { loginMutation } from 'mutations/authMutations'
 
-const loginMutation = gql`
-	mutation logInUser($email: String!, $password: String!) {
-		loginUser(loginInput: { email: $email, password: $password }) {
-			success
-			token
-			message
-		}
-	}
-`
+const Alert = dynamic(() => import('@material-ui/lab/Alert'))
 
 const setToken = (token: string) => localStorage.setItem('jwt', token)
 
