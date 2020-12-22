@@ -7,11 +7,12 @@ import dynamic from 'next/dynamic'
 import { useRouter } from 'next/router'
 
 import { error, LoginData } from 'interfaces/authentication'
-import graphQLClient from 'graphql/graphqlClient'
-import login from 'utils/login'
 import { UserContext } from 'context/userContext'
 
 import { loginMutation } from 'mutations/authMutations'
+
+import login from 'utils/login'
+import createRequest from 'utils/createRequest'
 
 const Alert = dynamic(() => import('@material-ui/lab/Alert'))
 
@@ -27,7 +28,7 @@ const LogInForm = () => {
 		try {
 			const {
 				loginUser: { message, token },
-			}: LoginData = await graphQLClient().request(loginMutation, values)
+			}: LoginData = await createRequest({ mutation: loginMutation, values })
 
 			if (message) {
 				setErrorMessage(message)
