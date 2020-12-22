@@ -1,23 +1,30 @@
-export interface error {
+export interface Error {
 	email?: String
 	password?: String
 	name?: String
 	confirmPassword?: String
 }
 
-export interface LoginData {
-	loginUser: {
-		success: Boolean
-		token: string
-		message: string | null
-	}
+interface output {
+	success: Boolean
+	token: string
+	message: string | null
 }
 
-interface registerData {
-	registerUser: {
-		name: string
-		email: string
-		password: string
-		confirmPassword: string
-	}
+export interface LoginOutput extends Error {
+	loginUser: output
+}
+
+export interface LoginInput {
+	email: string
+	password: string
+}
+
+export interface registerInput extends LoginInput {
+	name: string
+	confirmPassword: string
+}
+
+export interface registerOutput extends Error {
+	registerUser: output
 }
