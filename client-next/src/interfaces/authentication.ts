@@ -12,3 +12,12 @@ export interface LoginData {
 		message: string | null
 	}
 }
+
+interface registerData {
+	registerUser: {
+		name: string
+		email: string
+		password: string
+		confirmPassword: string
+	}
+}
