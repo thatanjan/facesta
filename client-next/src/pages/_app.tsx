@@ -5,12 +5,17 @@ import { ThemeProvider } from '@material-ui/core/styles'
 import CssBaseline from '@material-ui/core/CssBaseline'
 import theme from 'themes/theme'
 import UserContextProvider from 'context/userContext'
+import parseCookies from 'utils/parseCookies'
+import serverRedirect from 'utils/serverRedirect'
 
-export default function MyApp(props: AppProps) {
-	const { Component, pageProps } = props
+interface NewAppProps extends AppProps {
+	jwt: string
+}
+
+export default function MyApp(props: NewAppProps) {
+	const { Component, pageProps, jwt } = props
 
 	React.useEffect(() => {
-		// Remove the server-side injected CSS.
 		const jssStyles: any = document.querySelector('#jss-server-side')
 		if (jssStyles) {
 			jssStyles.parentElement.removeChild(jssStyles)
@@ -26,7 +31,6 @@ export default function MyApp(props: AppProps) {
 				/>
 			</Head>
 			<ThemeProvider theme={theme}>
-				{/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
 				<CssBaseline />
 				<UserContextProvider>
 					<Component {...pageProps} />
@@ -34,4 +38,18 @@ export default function MyApp(props: AppProps) {
 			</ThemeProvider>
 		</>
 	)
+}
+
+MyApp.getInitialProps = async ({
+	ctx: { req, res },
+	router: { query },
+}: any) => {
+	const { jwt }: { [key: string]: string } = parseCookies(req)
+
+	if (!jwt) {
+		serverRedirect({ res, query })
+		return {}
+	}
+
+	return { token: jwt }
 }
