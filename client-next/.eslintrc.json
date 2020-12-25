@@ -56,7 +56,10 @@
 			}
 		],
 		"no-console": 1,
-		"import/prefer-default-export": 1
+		"import/prefer-default-export": 1,
+		"no-shadow": 1,
+		"prefer-const": 1,
+		"prefer-spread": 1
 	},
 	"settings": {
 		"import/resolver": {
