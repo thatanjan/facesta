@@ -3,17 +3,21 @@ import React from 'react'
 import Head from 'next/head'
 import { ThemeProvider } from '@material-ui/core/styles'
 import CssBaseline from '@material-ui/core/CssBaseline'
+import jwtDecode from 'jwt-decode'
+
 import theme from 'themes/theme'
 import UserContextProvider from 'context/userContext'
 import parseCookies from 'utils/parseCookies'
 import redirectToAuth, { redirectToHome } from 'utils/serverRedirect'
 
 interface NewAppProps extends AppProps {
-	jwt: string
+	userData: {
+		[key: string]: any
+	}
 }
 
 export default function MyApp(props: NewAppProps) {
-	const { Component, pageProps } = props
+	const { Component, pageProps, userData } = props
 
 	React.useEffect(() => {
 		const jssStyles: any = document.querySelector('#jss-server-side')
@@ -32,7 +36,7 @@ export default function MyApp(props: NewAppProps) {
 			</Head>
 			<ThemeProvider theme={theme}>
 				<CssBaseline />
-				<UserContextProvider>
+				<UserContextProvider userData={userData}>
 					<Component {...pageProps} />
 				</UserContextProvider>
 			</ThemeProvider>
@@ -51,7 +55,9 @@ MyApp.getInitialProps = async ({
 		return {}
 	}
 
+	const decodedToken: { [key: string]: any } = jwtDecode(jwt)
+
 	redirectToHome({ res, asPath })
 
-	return { token: jwt }
+	return { userData: decodedToken }
 }
