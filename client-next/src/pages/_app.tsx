@@ -6,14 +6,14 @@ import CssBaseline from '@material-ui/core/CssBaseline'
 import theme from 'themes/theme'
 import UserContextProvider from 'context/userContext'
 import parseCookies from 'utils/parseCookies'
-import serverRedirect from 'utils/serverRedirect'
+import redirectToAuth, { redirectToHome } from 'utils/serverRedirect'
 
 interface NewAppProps extends AppProps {
 	jwt: string
 }
 
 export default function MyApp(props: NewAppProps) {
-	const { Component, pageProps, jwt } = props
+	const { Component, pageProps } = props
 
 	React.useEffect(() => {
 		const jssStyles: any = document.querySelector('#jss-server-side')
@@ -42,14 +42,16 @@ export default function MyApp(props: NewAppProps) {
 
 MyApp.getInitialProps = async ({
 	ctx: { req, res },
-	router: { query },
+	router: { asPath },
 }: any) => {
 	const { jwt }: { [key: string]: string } = parseCookies(req)
 
 	if (!jwt) {
-		serverRedirect({ res, query })
+		redirectToAuth({ res, asPath })
 		return {}
 	}
+
+	redirectToHome({ res, asPath })
 
 	return { token: jwt }
 }
