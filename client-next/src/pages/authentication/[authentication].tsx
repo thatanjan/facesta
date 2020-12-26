@@ -118,7 +118,7 @@ const UserAuthenticationPage = () => {
 					/>
 					<Paper className={formContainer}>
 						{auth === 'login' && <LogInForm />}
-						{auth === 'sign-up' && <SignUpForm />}
+						{auth === 'sign_up' && <SignUpForm />}
 					</Paper>
 					hell
 				</Box>
