@@ -14,10 +14,9 @@ import { loginMutation } from 'mutations/authMutations'
 import login from 'utils/login'
 import redirectConditionally from 'utils/redirectConditionally'
 import createRequest from 'utils/createRequest'
+import { setToken } from 'utils/cookieToken'
 
 const Alert = dynamic(() => import('@material-ui/lab/Alert'))
-
-const setToken = (token: string) => localStorage.setItem('jwt', token)
 
 const LogInForm = () => {
 	const { push } = useRouter()
@@ -46,7 +45,12 @@ const LogInForm = () => {
 
 			setToken(token)
 
-			return await login({ setUser })
+			const loginSuccessful = await login({ setUser })
+
+			if (loginSuccessful) {
+				push('/')
+				return true
+			}
 		} catch (err: any) {
 			console.log(err)
 		}
@@ -73,12 +77,7 @@ const LogInForm = () => {
 					return errors
 				}}
 				onSubmit={async (values, { setSubmitting }) => {
-					const successful = await loginUser(values)
-
-					redirectConditionally({ successful, redirect: push })
-
-					// .then(() => resetForm())
-					// .catch(error => console.log(error.response))
+					loginUser(values)
 
 					setTimeout(() => {
 						setSubmitting(false)
