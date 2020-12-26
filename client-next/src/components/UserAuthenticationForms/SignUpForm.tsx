@@ -43,9 +43,7 @@ const SignUpForm = () => {
 				return false
 			}
 
-			console.log(token)
-
-			const loginSuccessful = await login({ setUser })
+			const loginSuccessful = await login({ setUser, token })
 
 			if (loginSuccessful) {
 				router.push('/')

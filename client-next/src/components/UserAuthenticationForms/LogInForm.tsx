@@ -12,9 +12,7 @@ import { UserContext } from 'context/userContext'
 import { loginMutation } from 'mutations/authMutations'
 
 import login from 'utils/login'
-import redirectConditionally from 'utils/redirectConditionally'
 import createRequest from 'utils/createRequest'
-import { setToken } from 'utils/cookieToken'
 
 const Alert = dynamic(() => import('@material-ui/lab/Alert'))
 
@@ -43,9 +41,7 @@ const LogInForm = () => {
 				return false
 			}
 
-			setToken(token)
-
-			const loginSuccessful = await login({ setUser })
+			const loginSuccessful = await login({ setUser, token })
 
 			if (loginSuccessful) {
 				push('/')
