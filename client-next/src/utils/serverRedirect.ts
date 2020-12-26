@@ -3,43 +3,29 @@ interface Redirect {
 		writeHead: Function
 		end: Function
 	}
-	query: {
-		authentication: string
-	}
+	asPath: string
 }
 
-const LOGIN: string = 'login'
-const SIGN_UP: string = 'sign_up'
+const BASE_URL: string = '/authentication/'
 
-const getRedirectPath = (endpoint: string) => {
-	const path = `/authentication/${endpoint}`
+const LOGIN: string = `${BASE_URL}login`
+const SIGN_UP: string = `${BASE_URL}sign_up`
 
-	return path
-}
-
-const getEndPoint = (authentication: string) => {
-	let endpoint: string = ''
-	if (authentication === SIGN_UP) {
-		endpoint = SIGN_UP
-	} else {
-		endpoint = LOGIN
-	}
-
-	return endpoint
-}
-
-const serverRedirect = ({
-	res,
-	query: { authentication },
-}: Redirect): boolean => {
-	if (authentication === LOGIN || authentication === SIGN_UP) {
+const didURLMatch = (asPath: string): boolean => {
+	if (asPath === LOGIN || asPath === SIGN_UP) {
 		return true
 	}
 
-	const endpoint = getEndPoint(authentication)
+	return false
+}
+
+const redirectToAuth = ({ res, asPath }: Redirect): boolean => {
+	if (didURLMatch(asPath)) {
+		return false
+	}
 
 	if (res) {
-		res.writeHead(302, { Location: getRedirectPath(endpoint) })
+		res.writeHead(302, { Location: LOGIN })
 		res.end()
 		return true
 	}
@@ -47,4 +33,18 @@ const serverRedirect = ({
 	return false
 }
 
-export default serverRedirect
+export const redirectToHome = ({ res, asPath }: Redirect): boolean => {
+	if (!didURLMatch(asPath)) {
+		return false
+	}
+
+	if (res) {
+		res.writeHead(302, { Location: '/' })
+		res.end()
+		return true
+	}
+
+	return false
+}
+
+export default redirectToAuth
