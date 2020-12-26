@@ -1,4 +1,10 @@
-import React, { ReactNode, createContext, useState, useEffect } from 'react'
+import React, {
+	ReactNode,
+	createContext,
+	useState,
+	useEffect,
+	useMemo,
+} from 'react'
 
 interface UserInterface {
 	name: string
@@ -11,7 +17,7 @@ interface AnyObject {
 
 interface Props {
 	children: ReactNode
-	userData: AnyObject
+	userData: any
 }
 
 const initialState: UserInterface = {
@@ -24,9 +30,16 @@ export const UserContext = createContext({})
 const UserContextProvider: React.FC = ({ children, userData }: Props) => {
 	const [user, setUser] = useState<AnyObject>(initialState)
 
+	const [num, setNum] = useState(0)
+
+	const userMemoData = useMemo(() => userData, [userData])
+
 	useEffect(() => {
-		setUser(userData)
-	}, [userData])
+		if (!user.name) {
+			setUser(userMemoData)
+			setNum(num + 1)
+		}
+	}, [userMemoData])
 
 	return (
 		<UserContext.Provider value={[user, setUser]}>
