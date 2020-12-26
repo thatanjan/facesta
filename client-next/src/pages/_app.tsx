@@ -55,7 +55,7 @@ MyApp.getInitialProps = async ({
 		return {}
 	}
 
-	const decodedToken: { [key: string]: any } = jwtDecode(jwt)
+	const decodedToken: string = jwtDecode(jwt)
 
 	redirectToHome({ res, asPath })
 
