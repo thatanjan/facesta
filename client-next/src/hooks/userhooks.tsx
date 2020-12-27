@@ -7,4 +7,10 @@ const useGetUser = () => {
 	return user
 }
 
+export const useSetUser = () => {
+	const [, setUser]: any = useContext(UserContext)
+
+	return setUser
+}
+
 export default useGetUser
