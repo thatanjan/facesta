@@ -1,6 +1,7 @@
 import React, { ReactNode } from 'react'
 import useMediaQuery from '@material-ui/core/useMediaQuery'
 import Grid from '@material-ui/core/Grid'
+import { makeStyles } from '@material-ui/core/styles'
 
 import BackgroundPaper from 'HOC/BackgroundPaper'
 
@@ -10,8 +11,17 @@ interface Props {
 	RightSection?: boolean | ReactNode
 }
 
+const useStyles = makeStyles({
+	containerStyle: {
+		marginTop: '0px',
+		marginBottom: '0px',
+	},
+})
+
 const PageLayoutComponent = ({ Drawer, Content, RightSection }: Props) => {
 	const matches = useMediaQuery('(min-width:960px)')
+
+	const { containerStyle } = useStyles()
 
 	const contentWidth = () => {
 		if (Drawer && !RightSection) {
@@ -31,6 +41,7 @@ const PageLayoutComponent = ({ Drawer, Content, RightSection }: Props) => {
 				container
 				spacing={Drawer && RightSection ? 2 : 0}
 				justify='space-evenly'
+				className={containerStyle}
 			>
 				{matches && typeof Drawer === 'function' && (
 					<Grid item md={3}>
