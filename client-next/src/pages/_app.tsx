@@ -10,6 +10,8 @@ import UserContextProvider from 'context/userContext'
 import parseCookies from 'utils/parseCookies'
 import redirectToAuth, { redirectToHome } from 'utils/serverRedirect'
 
+import AppHeaderContainer from 'components/AppHeader/AppHeaderContainer'
+
 interface NewAppProps extends AppProps {
 	userData: {
 		[key: string]: any
@@ -37,6 +39,7 @@ export default function MyApp(props: NewAppProps) {
 			<ThemeProvider theme={theme}>
 				<CssBaseline />
 				<UserContextProvider userData={userData}>
+					<AppHeaderContainer />
 					<Component {...pageProps} />
 				</UserContextProvider>
 			</ThemeProvider>
