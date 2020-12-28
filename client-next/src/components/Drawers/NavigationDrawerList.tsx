@@ -33,9 +33,8 @@ const useStyles = makeStyles({
 const NavigationDrawerList = () => {
 	const { iconStyle, logOutIconStyle, listItemTextStyle } = useStyles()
 
-	const { isDrawerOpen } = useDrawerState()
-
-	const [openDrawer, closeDrawer] = useDrawerDispatch()
+	const drawerState = useDrawerState()
+	const drawerDispatch = useDrawerDispatch()
 
 	const { name } = useGetUser()
 
@@ -44,12 +43,16 @@ const NavigationDrawerList = () => {
 			event.preventDefault()
 		}
 
-		isDrawerOpen ? closeDrawer() : openDrawer()
+		if (drawerState) {
+			const { isDrawerOpen } = drawerState
+			const [openDrawer, closeDrawer] = drawerDispatch
+
+			isDrawerOpen ? closeDrawer() : openDrawer()
+		}
 	}
 
 	return (
 		<List component='nav'>
-			<h3>h3</h3>
 			{listComponents.map(
 				({ Component, title, link }: Components, index: number) => (
 					<ListItem
