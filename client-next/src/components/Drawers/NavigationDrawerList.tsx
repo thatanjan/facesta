@@ -1,4 +1,5 @@
 import React from 'react'
+import { useRouter } from 'next/router'
 import { nanoid } from 'nanoid'
 import { makeStyles } from '@material-ui/core/styles'
 import List from '@material-ui/core/List'
@@ -7,7 +8,8 @@ import ListItemIcon from '@material-ui/core/ListItemIcon'
 import ListItemText from '@material-ui/core/ListItemText'
 
 import { useDrawerState, useDrawerDispatch } from 'hooks/drawerHooks'
-import useGetUser from 'hooks/userhooks'
+import useGetUser, { useSetUser } from 'hooks/userhooks'
+import logout from 'utils/logout'
 import listComponents, { Components } from './NavigationDrawerListData'
 
 export const convertSpaceToDash = (text: string): string | boolean => {
@@ -36,11 +38,15 @@ const NavigationDrawerList = () => {
 	const drawerState = useDrawerState()
 	const drawerDispatch = useDrawerDispatch()
 
+	const setUser = useSetUser()
 	const { name } = useGetUser()
+	const router = useRouter()
 
 	const itemClickHandler = (event: any, index: number) => {
+		event.preventDefault()
 		if (index === listComponents.length - 1) {
-			event.preventDefault()
+			logout(setUser, router)
+			return true
 		}
 
 		if (drawerState) {
@@ -48,7 +54,10 @@ const NavigationDrawerList = () => {
 			const [openDrawer, closeDrawer] = drawerDispatch
 
 			isDrawerOpen ? closeDrawer() : openDrawer()
+			return true
 		}
+
+		return false
 	}
 
 	return (
