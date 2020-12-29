@@ -1,4 +1,4 @@
-import React, { useState, useEffect, lazy } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
 import { styled, makeStyles } from '@material-ui/core/styles'
 import AppBar from '@material-ui/core/AppBar'
