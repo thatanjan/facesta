@@ -1,5 +1,6 @@
 import type { AppProps } from 'next/app'
-import React from 'react'
+import { useRouter } from 'next/router'
+import React, { useEffect } from 'react'
 import Head from 'next/head'
 import { ThemeProvider } from '@material-ui/core/styles'
 import CssBaseline from '@material-ui/core/CssBaseline'
@@ -8,7 +9,10 @@ import jwtDecode from 'jwt-decode'
 import theme from 'themes/theme'
 import UserContextProvider from 'context/userContext'
 import parseCookies from 'utils/parseCookies'
-import redirectToAuth, { redirectToHome } from 'utils/serverRedirect'
+import redirectToAuth, {
+	redirectToHome,
+	didURLMatch as isAuthRoute,
+} from 'utils/serverRedirect'
 
 import AppHeaderContainer from 'components/AppHeader/AppHeaderContainer'
 
@@ -20,6 +24,10 @@ interface NewAppProps extends AppProps {
 
 export default function MyApp(props: NewAppProps) {
 	const { Component, pageProps, userData } = props
+
+	const { asPath } = useRouter()
+
+	console.log(asPath)
 
 	React.useEffect(() => {
 		const jssStyles: any = document.querySelector('#jss-server-side')
@@ -39,7 +47,7 @@ export default function MyApp(props: NewAppProps) {
 			<ThemeProvider theme={theme}>
 				<CssBaseline />
 				<UserContextProvider userData={userData}>
-					<AppHeaderContainer />
+					{!isAuthRoute(asPath) && <AppHeaderContainer />}
 					<Component {...pageProps} />
 				</UserContextProvider>
 			</ThemeProvider>
