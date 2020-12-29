@@ -18,8 +18,10 @@ const useStyles = makeStyles({
 	},
 })
 
+export const screenSizeDrawer: string = '(min-width:960px)'
+
 const PageLayoutComponent = ({ Drawer, Content, RightSection }: Props) => {
-	const matches = useMediaQuery('(min-width:960px)')
+	const matches = useMediaQuery(screenSizeDrawer)
 
 	const { containerStyle } = useStyles()
 
@@ -32,8 +34,6 @@ const PageLayoutComponent = ({ Drawer, Content, RightSection }: Props) => {
 		}
 		return 6
 	}
-
-	contentWidth()
 
 	return (
 		<BackgroundPaper>
