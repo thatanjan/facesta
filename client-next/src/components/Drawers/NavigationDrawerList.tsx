@@ -6,7 +6,9 @@ import List from '@material-ui/core/List'
 import ListItem from '@material-ui/core/ListItem'
 import ListItemIcon from '@material-ui/core/ListItemIcon'
 import ListItemText from '@material-ui/core/ListItemText'
+import useMediaQuery from '@material-ui/core/useMediaQuery'
 
+import { screenSizeDrawer } from 'HOC/PageLayoutComponent'
 import { useDrawerState, useDrawerDispatch } from 'hooks/drawerHooks'
 import useGetUser, { useSetUser } from 'hooks/userhooks'
 import logout from 'utils/logout'
@@ -33,6 +35,8 @@ const useStyles = makeStyles({
 })
 
 const NavigationDrawerList = () => {
+	const matches = useMediaQuery(screenSizeDrawer)
+
 	const { iconStyle, logOutIconStyle, listItemTextStyle } = useStyles()
 
 	const drawerState = useDrawerState()
@@ -49,7 +53,7 @@ const NavigationDrawerList = () => {
 			return true
 		}
 
-		if (drawerState) {
+		if (!matches && drawerState) {
 			const { isDrawerOpen } = drawerState
 			const [openDrawer, closeDrawer] = drawerDispatch
 
