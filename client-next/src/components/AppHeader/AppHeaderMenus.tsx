@@ -1,4 +1,4 @@
-import React, { Suspense, lazy } from 'react'
+import React from 'react'
 import AddIcon from '@material-ui/icons/Add'
 import Typography from '@material-ui/core/Typography'
 import IconButton from '@material-ui/core/IconButton'
@@ -10,6 +10,7 @@ import CircularProgress from '@material-ui/core/CircularProgress'
 import { makeStyles, Theme } from '@material-ui/core/styles'
 import { useRouter } from 'next/router'
 
+import DropDownMenu from 'components/DropDownMenu/DropDownMenu'
 import useGetUser from 'hooks/userhooks'
 import splitText from 'utils/splitText'
 
@@ -27,6 +28,7 @@ const AppHeaderMenus = () => {
 
 	const { push } = useRouter()
 
+	// console.log(useGetUser())
 	const { name } = useGetUser()
 
 	const firstName = splitText({ text: name, position: 0, divider: ' ' })
@@ -47,12 +49,12 @@ const AppHeaderMenus = () => {
 				<NotificationsIcon />
 			</IconButton>
 			{/* <Suspense fallback={<CircularProgress />}> */}
-			{/* 	<DropDownMenu */}
-			{/* 		options={options} */}
-			{/* 		aria-controls='fade-menu' */}
-			{/* 		aria-haspopup='true' */}
-			{/* 		IconComponent={ArrowDropDownCircleIcon} */}
-			{/* 	/> */}
+			<DropDownMenu
+				options={options}
+				aria-controls='fade-menu'
+				aria-haspopup='true'
+				IconComponent={ArrowDropDownCircleIcon}
+			/>
 			{/* </Suspense> */}
 		</>
 	)
