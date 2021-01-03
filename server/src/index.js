@@ -5,6 +5,7 @@ import { applyMiddleware } from 'graphql-middleware'
 import jwt from 'express-jwt'
 import bodyParser from 'body-parser'
 import dotenv from 'dotenv'
+import cors from 'cors'
 
 import permissions from 'config/permissions'
 
@@ -23,6 +24,8 @@ mongoose
     })
 
 const app = express()
+
+app.use(cors())
 
 app.use(
     jwt({
