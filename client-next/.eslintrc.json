@@ -64,7 +64,8 @@
 			"error",
 			{ "allowShortCircuit": true, "allowTernary": true }
 		],
-		"no-return-assign": "off"
+		"no-return-assign": "off",
+		"no-underscore-dangle": "off"
 	},
 	"settings": {
 		"import/resolver": {
