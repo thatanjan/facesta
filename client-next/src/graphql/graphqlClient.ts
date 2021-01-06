@@ -1,16 +1,22 @@
+import Cookies from 'js-cookie'
 import { GraphQLClient } from 'graphql-request'
+
 const endpoint = 'http://localhost:8000/graphql'
 
-const token = () => {
-	const jwtToken = localStorage.getItem('jwt')
+const token = (): string => {
+	let jwtToken: string | undefined = ''
+
+	if (typeof window !== 'undefined') {
+		jwtToken = Cookies.get('jwt')
+	}
 
 	return jwtToken || ''
 }
 
-const graphQlClient = () =>
+const graphQlClient = (reqToken?: string | undefined) =>
 	new GraphQLClient(endpoint, {
 		headers: {
-			authorization: token(),
+			authorization: reqToken || token(),
 		},
 	})
 
