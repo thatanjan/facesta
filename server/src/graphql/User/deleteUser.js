@@ -1,6 +1,6 @@
 import { createConnection } from 'mongoose'
 
-import { sendMessage, throwError } from 'utils/error'
+import { sendMessage } from 'utils/error'
 import User from 'models/User'
 import Profile from 'models/Profile'
 import Follow from 'models/Follow'
@@ -34,12 +34,12 @@ const resolver = {
                 const removedUser = await user.remove()
 
                 if (!removedUser) {
-                    return throwError('user account is not deleted')
+                    return sendMessage(false, 'user account is not deleted')
                 }
 
                 return sendMessage(true, 'your account is successfully deleted')
             } catch (error) {
-                return throwError(error)
+                return sendMessage(false, error)
             }
         },
     },

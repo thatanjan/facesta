@@ -36,7 +36,7 @@ const resolver = {
 
                 return sendSuccessToken(token)
             } catch (error) {
-                return sendMessage(error)
+                return sendMessage(false, error)
             }
         },
     },
