@@ -1,8 +1,10 @@
 import { gql } from 'apollo-server-express'
 
+const id = `id: ID!`
+
 const UserType = gql`
     extend type Query {
-        user(email: String!): User
+        getUser(getUserInput: getUserInput): User
     }
 
     extend type Mutation {
@@ -14,12 +16,12 @@ const UserType = gql`
     type Login {
         token: String
         success: Boolean!
-        message: String
+        errorMessage: String
     }
 
     type User {
         name: String!
-        id: ID!
+        ${id}
     }
 
     input loginInput {
@@ -32,6 +34,11 @@ const UserType = gql`
         name: String!
         password: String!
         confirmPassword: String!
+    }
+
+    input getUserInput {
+        email: String
+        ${id}
     }
 `
 
