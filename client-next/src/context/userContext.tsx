@@ -6,18 +6,16 @@ import React, {
 	useMemo,
 } from 'react'
 
+import { AnyObject } from 'interfaces/global'
+
 interface UserInterface {
 	name: string
 	id: string
 }
 
-interface AnyObject {
-	[key: string]: any
-}
-
 interface Props {
 	children: ReactNode
-	userData: any
+	userData: AnyObject
 }
 
 const initialState: UserInterface = {
@@ -30,14 +28,11 @@ export const UserContext = createContext({})
 const UserContextProvider: React.FC = ({ children, userData }: Props) => {
 	const [user, setUser] = useState<AnyObject>(initialState)
 
-	const [num, setNum] = useState(0)
-
 	const userMemoData = useMemo(() => userData, [userData])
 
 	useEffect(() => {
 		if (!user.name) {
 			setUser(userMemoData)
-			setNum(num + 1)
 		}
 	}, [userMemoData])
 

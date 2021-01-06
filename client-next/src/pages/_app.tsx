@@ -1,6 +1,6 @@
 import type { AppProps } from 'next/app'
 import { useRouter } from 'next/router'
-import React, { useEffect } from 'react'
+import React from 'react'
 import Head from 'next/head'
 import { ThemeProvider } from '@material-ui/core/styles'
 import CssBaseline from '@material-ui/core/CssBaseline'
@@ -16,18 +16,16 @@ import redirectToAuth, {
 
 import AppHeaderContainer from 'components/AppHeader/AppHeaderContainer'
 
+import { AnyObject } from 'interfaces/global'
+
 interface NewAppProps extends AppProps {
-	userData: {
-		[key: string]: any
-	}
+	userData: AnyObject
 }
 
 export default function MyApp(props: NewAppProps) {
 	const { Component, pageProps, userData } = props
 
 	const { asPath } = useRouter()
-
-	console.log(asPath)
 
 	React.useEffect(() => {
 		const jssStyles: any = document.querySelector('#jss-server-side')
@@ -48,7 +46,7 @@ export default function MyApp(props: NewAppProps) {
 				<CssBaseline />
 				<UserContextProvider userData={userData}>
 					{!isAuthRoute(asPath) && <AppHeaderContainer />}
-					<Component {...pageProps} />
+					<Component {...pageProps} /> )
 				</UserContextProvider>
 			</ThemeProvider>
 		</>
@@ -58,8 +56,8 @@ export default function MyApp(props: NewAppProps) {
 MyApp.getInitialProps = async ({
 	ctx: { req, res },
 	router: { asPath },
-}: any) => {
-	const { jwt }: { [key: string]: string } = parseCookies(req)
+}: AnyObject) => {
+	const { jwt }: AnyObject = parseCookies(req)
 
 	if (!jwt) {
 		redirectToAuth({ res, asPath })
