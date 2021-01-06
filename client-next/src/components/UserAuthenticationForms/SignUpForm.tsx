@@ -27,7 +27,7 @@ const SignUpForm = () => {
 	const registerUser = async (values: RegisterInput) => {
 		try {
 			const {
-				registerUser: { token, message },
+				registerUser: { token, errorMessage: message },
 			}: RegisterOutput = await createRequest({
 				mutation: registerMutation,
 				values,

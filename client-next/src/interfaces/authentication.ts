@@ -8,7 +8,7 @@ export interface Error {
 interface Output {
 	success: Boolean
 	token: string
-	message: string | null
+	errorMessage: string | null
 }
 
 export interface LoginOutput extends Error {

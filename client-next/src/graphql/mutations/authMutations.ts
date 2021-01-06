@@ -5,7 +5,7 @@ export const loginMutation = gql`
 		loginUser(loginInput: { email: $email, password: $password }) {
 			success
 			token
-			message
+			errorMessage
 		}
 	}
 `
@@ -27,7 +27,7 @@ export const registerMutation = gql`
 		) {
 			success
 			token
-			message
+			errorMessage
 		}
 	}
 `
