@@ -1,6 +1,6 @@
 import { gql } from 'apollo-server-express'
 
-const id = `id: ID!`
+const id = `id: ID`
 
 const UserType = gql`
     extend type Query {
@@ -20,9 +20,10 @@ const UserType = gql`
     }
 
     type User {
-        name: String!
+        name: String
         ${id}
-        profile: ID!
+        profile: ID
+        errorMessage: String
     }
 
     input loginInput {
