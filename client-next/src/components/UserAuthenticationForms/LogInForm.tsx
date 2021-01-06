@@ -9,7 +9,7 @@ import { useRouter } from 'next/router'
 import { Error, LoginInput, LoginOutput } from 'interfaces/authentication'
 import { UserContext } from 'context/userContext'
 
-import { loginMutation } from 'mutations/authMutations'
+import { loginMutation } from 'graphql/mutations/authMutations'
 
 import login from 'utils/login'
 import createRequest from 'utils/createRequest'
