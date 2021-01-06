@@ -38,6 +38,8 @@ export const matchPasswords = async ({ hashedPassword, plainPassword }) => {
 
 export const findUser = (email) => User.findOne({ email })
 
+export const findUserById = (id) => User.findById(id)
+
 export const authArguments = (authType = '') => {
     const stringType = { type: makeGraphQLNonNull(GraphQLString) }
 
