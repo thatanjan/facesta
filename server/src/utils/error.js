@@ -4,7 +4,7 @@ export const throwError = (message) => {
     return error
 }
 
-export const sendMessage = (success, message) => ({
+export const sendMessage = (success = false, message) => ({
     success,
     errorMessage: typeof message === 'object' ? message.message : message,
 })
