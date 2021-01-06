@@ -6,5 +6,5 @@ export const throwError = (message) => {
 
 export const sendMessage = (success, message) => ({
     success,
-    errorMessage: message,
+    errorMessage: typeof message === 'object' ? message.message : message,
 })
