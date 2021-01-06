@@ -7,8 +7,11 @@ interface input {
 	values: inputValues
 }
 
-const createRequest = async ({ mutation, values }: input) => {
-	const data: any = await graphQLClient().request(mutation, values)
+const createRequest = async (
+	{ mutation, values }: input,
+	reqToken?: string | undefined
+) => {
+	const data: any = await graphQLClient(reqToken).request(mutation, values)
 	return data
 }
 
