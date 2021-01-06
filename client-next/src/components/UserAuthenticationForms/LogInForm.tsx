@@ -25,7 +25,7 @@ const LogInForm = () => {
 	const loginUser = async (values: LoginInput) => {
 		try {
 			const {
-				loginUser: { message, token },
+				loginUser: { errorMessage: message, token },
 			}: LoginOutput = await createRequest({
 				mutation: loginMutation,
 				values,
