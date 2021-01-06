@@ -13,7 +13,7 @@ import { Error, RegisterInput, RegisterOutput } from 'interfaces/authentication'
 import login from 'utils/login'
 import createRequest from 'utils/createRequest'
 
-import { registerMutation } from 'mutations/authMutations'
+import { registerMutation } from 'graphql/mutations/authMutations'
 
 const Alert = dynamic(() => import('@material-ui/lab/Alert'))
 
