@@ -7,6 +7,8 @@ const useGetUser = () => {
 	return user
 }
 
+export const useUserID = () => useGetUser().id
+
 export const useSetUser = () => {
 	const [, setUser]: any = useContext(UserContext)
 
