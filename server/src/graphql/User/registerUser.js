@@ -7,7 +7,7 @@ import {
     generateHashPassword,
 } from 'utils/authentication'
 
-import { throwError, sendMessage } from 'utils/error'
+import { sendMessage } from 'utils/error'
 import validateRegisterInput from 'validation/register'
 import User from 'models/User'
 
@@ -36,7 +36,7 @@ const createUser = async ({ name, email, password }) => {
 
         return newUser.save()
     } catch (error) {
-        throw error
+        sendMessage(false, error)
     }
 }
 
@@ -54,7 +54,7 @@ const resolver = {
             })
 
             if (!isValid) {
-                return throwError(errors)
+                return sendMessage(false, errors)
             }
 
             try {
@@ -79,7 +79,7 @@ const resolver = {
 
                 return sendSuccessToken(token)
             } catch (error) {
-                return throwError(error)
+                return sendMessage(false, error)
             }
         },
     },
