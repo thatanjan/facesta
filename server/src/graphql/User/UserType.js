@@ -22,6 +22,7 @@ const UserType = gql`
     type User {
         name: String!
         ${id}
+        profile: ID!
     }
 
     input loginInput {
