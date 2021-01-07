@@ -30,31 +30,32 @@ const ProfileTabMenu = dynamic(
 
 const EditButton = dynamic(() => import('components/Buttons/EditButton'))
 
-const Content = () => {
+interface ContentProps {
+	bio: string
+}
+
+const Content = ({ bio }: ContentProps) => {
 	const [owner, setOwner] = useState(true)
 	const { buttonGridContainer } = useStyles()
 
+	console.log(bio)
 	return (
 		<>
-			{/* this for all images */}
-			<ProfileCover />
+			<ProfileCover bio={bio} />
 
-			{/* for showing if user can edit their profile or follow */}
 			<Grid container className={buttonGridContainer} justify='flex-end'>
 				<Grid item>{owner ? <EditButton /> : <FollowButton />}</Grid>
 			</Grid>
 
-			{/* horizonal menu ch */}
 			<ProfileTabMenu />
 		</>
 	)
 }
 
-const UserProfilePage = (props: AnyObject) => {
-	console.log(props)
+const UserProfilePage = ({ data: { bio } }: AnyObject) => {
 	return (
 		<>
-			<PageLayoutComponent Content={Content} />
+			<PageLayoutComponent Content={() => <Content bio={bio} />} />
 		</>
 	)
 }
@@ -68,12 +69,10 @@ export const getServerSideProps: GetServerSideProps = async ({
 
 	const mutation: string = getPersonal('bio')
 
-	const {
-		personalData: { getPersonal: data },
-	} = await createRequest({ mutation, values: { userId } }, jwt)
+	const personalData = await createRequest({ mutation, values: { userId } }, jwt)
 
 	return {
-		props: { jwt, data },
+		props: { jwt, data: personalData?.getPersonal },
 	}
 }
 
