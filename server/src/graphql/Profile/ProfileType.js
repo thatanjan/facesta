@@ -18,7 +18,6 @@ const InputTypedefs = gql`
     }
 
     input PersonalInput {
-        id: ID!
         dateOfBirth: Date
         website: String
         status: String
@@ -28,7 +27,6 @@ const InputTypedefs = gql`
     }
 
     input ExperienceInput {
-        id: ID!
         title: String!
         company: String!
         from: Date
@@ -36,7 +34,6 @@ const InputTypedefs = gql`
     }
 
     input EducationInput {
-        id: ID!
         school: String!
         degree: String!
         fieldOfStudy: String!
@@ -45,7 +42,6 @@ const InputTypedefs = gql`
     }
 
     input SocialInput {
-        id: ID!
         youtube: String
         twitter: String
         facebook: String
@@ -54,7 +50,6 @@ const InputTypedefs = gql`
     }
 
     input PrivacyInput {
-        id: ID!
         public: Boolean!
     }
 `
@@ -62,10 +57,10 @@ const InputTypedefs = gql`
 const ProfileTypedefs = gql`
     extend type Query {
         getPersonal(Input: ProfileIdInput): Personal!
-        getExperience: [Experience!]
-        getEducation: [Education!]
-        getSocial: [Social!]
-        getPrivacy: Privacy!
+        getExperience(Input: ProfileIdInput): [Experience!]!
+        getEducation(Input: ProfileIdInput): [Education!]!
+        getSocial(Input: ProfileIdInput): [Social!]!
+        getPrivacy(Input: ProfileIdInput): Privacy!
     }
 
     ${ProfileMutationTypeDefs}
@@ -89,11 +84,11 @@ const ProfileTypedefs = gql`
     }
 
     type Social {
-        youtube: String
-        twitter: String
-        facebook: String
-        linkedin: String
-        instagram: String
+        youtube: String!
+        twitter: String!
+        facebook: String!
+        linkedin: String!
+        instagram: String!
     }
 
     type Privacy {
@@ -101,12 +96,12 @@ const ProfileTypedefs = gql`
     }
 
     type Personal {
-        dateOfBirth: Date
-        website: String
-        status: String
-        location: String
-        skills: [String!]
-        bio: String
+        dateOfBirth: Date!
+        website: String!
+        status: String!
+        location: String!
+        skills: [String!]!
+        bio: String!
     }
 `
 
