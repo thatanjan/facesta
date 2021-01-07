@@ -1,7 +1,7 @@
 import Profile from 'models/Profile'
 
 const updateSingleField = (field) => {
-    return async (_, { Input: { id, ...data } }) => {
+    return async (_, { Input: data }, { user: { id } }) => {
         const update = await Profile.findOneAndUpdate({ user: id }, data, {
             new: true,
             projection: field,
