@@ -96,12 +96,12 @@ const ProfileTypedefs = gql`
     }
 
     type Personal {
-        dateOfBirth: Date!
-        website: String!
-        status: String!
-        location: String!
-        skills: [String!]!
-        bio: String!
+        dateOfBirth: Date
+        website: String
+        status: String
+        location: String
+        skills: [String!]
+        bio: String
     }
 `
 
