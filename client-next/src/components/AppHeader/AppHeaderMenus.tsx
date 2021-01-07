@@ -6,11 +6,11 @@ import NotificationsIcon from '@material-ui/icons/Notifications'
 import AccountCircleIcon from '@material-ui/icons/AccountCircle'
 import TelegramIcon from '@material-ui/icons/Telegram'
 import ArrowDropDownCircleIcon from '@material-ui/icons/ArrowDropDownCircle'
-import CircularProgress from '@material-ui/core/CircularProgress'
 import { makeStyles, Theme } from '@material-ui/core/styles'
 import { useRouter } from 'next/router'
 
 import DropDownMenu from 'components/DropDownMenu/DropDownMenu'
+import MuiLink from 'components/Links/MuiLink'
 import useGetUser from 'hooks/userhooks'
 import splitText from 'utils/splitText'
 
@@ -28,8 +28,7 @@ const AppHeaderMenus = () => {
 
 	const { push } = useRouter()
 
-	// console.log(useGetUser())
-	const { name } = useGetUser()
+	const { name, id } = useGetUser()
 
 	const firstName = splitText({ text: name, position: 0, divider: ' ' })
 
@@ -37,25 +36,33 @@ const AppHeaderMenus = () => {
 		<>
 			<IconButton style={{ borderRadius: '10px' }}>
 				<AccountCircleIcon />
-				<Typography className={AccountIconTextStyle}>{firstName}</Typography>
+				<MuiLink
+					MuiComponent={Typography}
+					href={`/profile/${id}`}
+					className={AccountIconTextStyle}
+				>
+					{firstName}
+				</MuiLink>
 			</IconButton>
+
 			<IconButton>
 				<AddIcon />{' '}
 			</IconButton>
+
 			<IconButton edge='end' onClick={() => push('/message')}>
 				<TelegramIcon color='secondary' />
 			</IconButton>
+
 			<IconButton>
 				<NotificationsIcon />
 			</IconButton>
-			{/* <Suspense fallback={<CircularProgress />}> */}
+
 			<DropDownMenu
 				options={options}
 				aria-controls='fade-menu'
 				aria-haspopup='true'
 				IconComponent={ArrowDropDownCircleIcon}
 			/>
-			{/* </Suspense> */}
 		</>
 	)
 }
