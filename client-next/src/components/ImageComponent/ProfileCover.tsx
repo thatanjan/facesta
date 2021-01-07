@@ -41,7 +41,11 @@ const imagelink =
 const profileImageLink =
 	'https://im0-tub-com.yandex.net/i?id=3824c666facfe5d76794d2fb1ac8943e&n=13&exp=1'
 
-export const ProfileCover = () => {
+interface Props {
+	bio: string
+}
+
+export const ProfileCover = ({ bio }: Props) => {
 	const { container, test, media } = useStyles()
 
 	return (
@@ -58,7 +62,7 @@ export const ProfileCover = () => {
 					</Typography>
 					<Grid container>
 						<Grid container item justify='center'>
-							<Button>Add Bio </Button>
+							{bio ? <Typography>bio</Typography> : <Button>Add Bio </Button>}
 						</Grid>
 					</Grid>
 					<Divider />
