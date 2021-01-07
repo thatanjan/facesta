@@ -1,10 +1,10 @@
 import graphQLClient from 'graphql/graphqlClient'
 
-import { Error as inputValues } from 'interfaces/authentication'
+import { AnyObject } from 'interfaces/global'
 
 interface input {
 	mutation: string
-	values: inputValues
+	values: AnyObject
 }
 
 const createRequest = async (
