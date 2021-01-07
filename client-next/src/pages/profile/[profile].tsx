@@ -41,12 +41,13 @@ const Content = () => {
 			{/* </Grid> */}
 
 			{/* horizonal menu ch */}
-			{/* <ProfileTabMenu /> */}
+			<ProfileTabMenu />
 		</>
 	)
 }
 
-const UserProfilePage = () => {
+const UserProfilePage = props => {
+	console.log(props)
 	return (
 		<>
 			<PageLayoutComponent Content={Content} />
@@ -59,7 +60,7 @@ export const getServerSideProps: GetServerSideProps = async ({
 		cookies: { jwt },
 	},
 }: any) => {
-	const data = await createRequest()
+	// const data = await createRequest()
 	return {
 		props: { jwt },
 	}
