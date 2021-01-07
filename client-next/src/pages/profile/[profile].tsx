@@ -2,13 +2,17 @@ import dynamic from 'next/dynamic'
 import React, { useState } from 'react'
 import { GetServerSideProps } from 'next'
 import PageLayoutComponent from 'HOC/PageLayoutComponent'
-import CircularProgress from '@material-ui/core/CircularProgress'
 import Grid from '@material-ui/core/Grid'
 import { makeStyles } from '@material-ui/core/styles'
+import jwtDecode from 'jwt-decode'
 
 import FollowButton from 'components/Buttons/FollowButton'
 
 import createRequest from 'utils/createRequest'
+
+import { AnyObject } from 'interfaces/global'
+
+import { getPersonal } from 'graphql/queries/profileQueries'
 
 const useStyles = makeStyles(({ spacing }) => ({
 	buttonGridContainer: {
@@ -36,9 +40,9 @@ const Content = () => {
 			<ProfileCover />
 
 			{/* for showing if user can edit their profile or follow */}
-			{/* <Grid container className={buttonGridContainer} justify='flex-end'> */}
-			{/* <Grid item>{owner ? <EditButton /> : <FollowButton />}</Grid> */}
-			{/* </Grid> */}
+			<Grid container className={buttonGridContainer} justify='flex-end'>
+				<Grid item>{owner ? <EditButton /> : <FollowButton />}</Grid>
+			</Grid>
 
 			{/* horizonal menu ch */}
 			<ProfileTabMenu />
@@ -46,7 +50,7 @@ const Content = () => {
 	)
 }
 
-const UserProfilePage = props => {
+const UserProfilePage = (props: AnyObject) => {
 	console.log(props)
 	return (
 		<>
@@ -60,9 +64,16 @@ export const getServerSideProps: GetServerSideProps = async ({
 		cookies: { jwt },
 	},
 }: any) => {
-	// const data = await createRequest()
+	const { id: userId }: any = jwtDecode(jwt)
+
+	const mutation: string = getPersonal('bio')
+
+	const {
+		personalData: { getPersonal: data },
+	} = await createRequest({ mutation, values: { userId } }, jwt)
+
 	return {
-		props: { jwt },
+		props: { jwt, data },
 	}
 }
 
