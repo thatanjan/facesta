@@ -2,7 +2,7 @@ import Profile from 'models/Profile'
 
 const resolver = {
     Mutation: {
-        updateSocial: async (_, { Input: { id, ...data } }) => {
+        updateSocial: async (_, { Input: data }, { user: { id } }) => {
             const query = await Profile.findOne({ user: id }, 'social')
 
             if (!query.social) {
