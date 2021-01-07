@@ -1,8 +1,6 @@
 import Profile from 'models/Profile'
 
-const addFields = async (field, Input) => {
-    const { id, ...data } = Input
-
+const addFields = async ({ field, Input: data, id }) => {
     const result = await Profile.findOne({ user: id }, field)
 
     result[field].push(data)
@@ -14,19 +12,19 @@ const addFields = async (field, Input) => {
     return returnData[returnData.length - 1]
 }
 
+const EXPERIENCE = 'experience'
+const EDUCATION = 'education'
+
+const resolverFunction = (field) => {
+    return async (_, { Input }, { user: { id } }) => {
+        return await addFields({ field, Input, id })
+    }
+}
+
 const resolver = {
     Mutation: {
-        addExperience: async (_, { Input }) => {
-            const field = 'experience'
-
-            return await addFields(field, Input)
-        },
-
-        addEducation: async (_, { Input }) => {
-            const field = 'education'
-
-            return await addFields(field, Input)
-        },
+        addExperience: resolverFunction(EXPERIENCE),
+        addEducation: resolverFunction(EDUCATION),
     },
 }
 
