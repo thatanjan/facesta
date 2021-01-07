@@ -4,12 +4,12 @@ const id = `id: ID`
 
 const UserType = gql`
     extend type Query {
-        getUser(getUserInput: getUserInput): User
+        getUser(Input: getUserInput): User
     }
 
     extend type Mutation {
-        loginUser(loginInput: loginInput): Login
-        registerUser(registerInput: registerInput): Login
+        loginUser(Input: loginInput): Login
+        registerUser(Input: registerInput): Login
         deleteUser: Success!
     }
 

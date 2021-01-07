@@ -9,7 +9,7 @@ import validateLoginInput from 'validation/login'
 
 const resolver = {
     Mutation: {
-        loginUser: async (_, { loginInput: { email, password } }) => {
+        loginUser: async (_, { Input: { email, password } }) => {
             const { errors, isValid } = validateLoginInput({ email, password })
 
             if (!isValid) {

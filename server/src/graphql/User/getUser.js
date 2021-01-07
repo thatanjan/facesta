@@ -3,7 +3,7 @@ import { sendMessage } from 'utils/error'
 
 const resolver = {
     Query: {
-        getUser: async (_, { getUserInput: { id } }) => {
+        getUser: async (_, { Input: { id } }) => {
             try {
                 const user = await findUserById(id)
 

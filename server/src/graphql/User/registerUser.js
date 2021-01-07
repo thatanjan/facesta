@@ -44,7 +44,7 @@ const resolver = {
     Mutation: {
         registerUser: async (
             _,
-            { registerInput: { email, name, password, confirmPassword } }
+            { Input: { email, name, password, confirmPassword } }
         ) => {
             const { errors, isValid } = validateRegisterInput({
                 name,
