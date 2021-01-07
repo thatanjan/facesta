@@ -41,7 +41,7 @@ const EducationSchema = new Schema({
     },
 })
 
-const SocialSchema = new Schema({
+const SocialSchema = {
     youtube: {
         type: String,
     },
@@ -57,7 +57,7 @@ const SocialSchema = new Schema({
     instagram: {
         type: String,
     },
-})
+}
 
 const data = {
     user: {
@@ -89,9 +89,7 @@ const data = {
     experience: [ExperienceSchema],
     education: [EducationSchema],
 
-    social: {
-        type: SocialSchema,
-    },
+    social: SocialSchema,
     public: {
         type: Boolean,
         default: true,
