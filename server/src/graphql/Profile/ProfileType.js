@@ -59,7 +59,7 @@ const ProfileTypedefs = gql`
         getPersonal(Input: ProfileIdInput): Personal!
         getExperience(Input: ProfileIdInput): [Experience!]!
         getEducation(Input: ProfileIdInput): [Education!]!
-        getSocial(Input: ProfileIdInput): [Social!]!
+        getSocial(Input: ProfileIdInput): Social!
         getPrivacy(Input: ProfileIdInput): Privacy!
     }
 
