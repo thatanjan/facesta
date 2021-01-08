@@ -43,9 +43,10 @@ const profileImageLink =
 
 interface Props {
 	bio: string
+	name: string
 }
 
-export const ProfileCover = ({ bio }: Props) => {
+export const ProfileCover = ({ name, bio }: Props) => {
 	const { container, test, media } = useStyles()
 
 	return (
@@ -58,7 +59,7 @@ export const ProfileCover = ({ bio }: Props) => {
 					</CardMedia>
 
 					<Typography variant='h6' align='center'>
-						userName
+						{name}
 					</Typography>
 					<Grid container>
 						<Grid container item justify='center'>
