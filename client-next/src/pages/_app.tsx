@@ -12,7 +12,7 @@ import parseCookies from 'utils/parseCookies'
 import redirectToAuth, {
 	redirectToHome,
 	didURLMatch as isAuthRoute,
-} from 'utils/serverRedirect'
+} from 'utils/authRedirect'
 
 import AppHeaderContainer from 'components/AppHeader/AppHeaderContainer'
 
