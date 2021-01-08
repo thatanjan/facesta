@@ -6,6 +6,7 @@ import jwt from 'express-jwt'
 import bodyParser from 'body-parser'
 import dotenv from 'dotenv'
 import cors from 'cors'
+import jwtoken from 'jsonwebtoken'
 
 import permissions from 'config/permissions'
 
@@ -35,11 +36,27 @@ app.use(
     })
 )
 
-app.use(function (err, req, _, next) {
+app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.json())
+
+app.use(function (err, req, res, next) {
     if (err.name === 'UnauthorizedError') {
         req.UnauthorizedError = err.message
+        console.log(req.UnauthorizedError)
+        res.status(401).send('invalid token...')
     }
+
     next()
+})
+
+app.post('/validate', ({ body }, res) => {
+    const { jwt } = body
+
+    jwtoken.verify(jwt, process.env.SECRET_KEY, (err) => {
+        if (err) {
+            res.status(401).send(err)
+        }
+    })
 })
 
 const server = new ApolloServer({
@@ -61,9 +78,6 @@ const server = new ApolloServer({
 server.applyMiddleware({ app })
 
 const port = process.env.PORT || 8000
-
-app.use(bodyParser.urlencoded({ extended: false }))
-app.use(bodyParser.json())
 
 app.listen({ port }, () => {
     console.log(`server is running at ${port}`)
