@@ -9,11 +9,13 @@ export const getServerSideProps = ({ req, res }: any) => {
 
 	const { id }: any = jwtDecode(jwt)
 
-	const redirectUrl = `/profile/${id}`
+	const redirectUrl = `/profile/${id}?self=${true}`
 
 	serverRedirect(res, redirectUrl)
 
 	return { props: {} }
 }
 
-export default () => null
+const Index = () => null
+
+export default Index
