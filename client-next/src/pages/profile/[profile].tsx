@@ -31,17 +31,18 @@ const ProfileTabMenu = dynamic(
 const EditButton = dynamic(() => import('components/Buttons/EditButton'))
 
 interface ContentProps {
+	name: string
 	bio: string
 }
 
-const Content = ({ bio }: ContentProps) => {
+const Content = ({ bio, name }: ContentProps) => {
 	const [owner, setOwner] = useState(true)
 	const { buttonGridContainer } = useStyles()
 
 	console.log(bio)
 	return (
 		<>
-			<ProfileCover bio={bio} />
+			<ProfileCover bio={bio} name={name} />
 
 			<Grid container className={buttonGridContainer} justify='flex-end'>
 				<Grid item>{owner ? <EditButton /> : <FollowButton />}</Grid>
