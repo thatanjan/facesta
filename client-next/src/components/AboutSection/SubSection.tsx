@@ -2,7 +2,6 @@ import dynamic from 'next/dynamic'
 import React, { useState } from 'react'
 import { makeStyles } from '@material-ui/core'
 import Grid from '@material-ui/core/Grid'
-import CircularProgress from '@material-ui/core/CircularProgress'
 import Divider from '@material-ui/core/Divider'
 import Button from '@material-ui/core/Button'
 
@@ -81,6 +80,10 @@ const SubSection = ({ buttonText, formFields }) => {
 
 const addButtonText = (text: string) => ({ buttonText: `Add a new ${text}` })
 
+const personal = new Section('Personal', SubSection).addProps(
+	addButtonText('Change details')
+)
+
 const education = new Section('Education', SubSection)
 	.addProps(addButtonText('School'))
 	.addFormField(['School'])
@@ -93,6 +96,6 @@ const placesLived = new Section('Places Lived', SubSection)
 	.addProps(addButtonText('Place'))
 	.addFormField(['city', 'town', 'country'])
 
-const options = [education, experience, placesLived]
+const options: Section[] = [personal, education, experience, placesLived]
 
 export default options
