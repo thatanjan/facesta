@@ -9,6 +9,8 @@ import SectionDetails from 'components/AboutSection/SectionDetails'
 
 const NewDetailForm = dynamic(() => import('./NewDetailForm'))
 
+const PERSONAL = 'personal'
+
 class Section {
 	name: string
 
@@ -47,7 +49,7 @@ const useStyles = makeStyles(({ spacing }) => ({
 	},
 }))
 
-const SubSection = ({ buttonText, formFields }) => {
+const SubSection = ({ buttonText, formFields, name }: any) => {
 	const { buttonStyle, dividerStyle } = useStyles()
 
 	const [isAddingNewDetail, setIsAddingNewDetail] = useState(false)
@@ -66,7 +68,7 @@ const SubSection = ({ buttonText, formFields }) => {
 						onClick={() => setIsAddingNewDetail(true)}
 						disabled={isAddingNewDetail}
 					>
-						Add a new {buttonText}
+						{name === PERSONAL ? 'Change Details' : `Add a new ${buttonText}`}
 					</Button>
 				</Grid>
 			</Grid>
@@ -80,7 +82,7 @@ const SubSection = ({ buttonText, formFields }) => {
 
 const addButtonText = (text: string) => ({ buttonText: `Add a new ${text}` })
 
-const personal = new Section('Personal', SubSection).addProps(
+const personal = new Section(PERSONAL, SubSection).addProps(
 	addButtonText('Change details')
 )
 
