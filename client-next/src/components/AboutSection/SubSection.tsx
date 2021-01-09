@@ -11,6 +11,15 @@ import SectionDetails from 'components/AboutSection/SectionDetails'
 const NewDetailForm = dynamic(() => import('./NewDetailForm'))
 
 class Section {
+	name: string
+
+	Component: Function
+
+	// eslint-disable-next-line
+	props: any
+
+	formFields: any
+
 	constructor(name: string, Component: Function) {
 		this.name = name
 		this.Component = Component
