@@ -35,14 +35,13 @@ interface ContentProps {
 	bio: string
 }
 
-const Content = ({ bio, name }: ContentProps) => {
+const Content = (props: ContentProps) => {
 	const [owner, setOwner] = useState(true)
 	const { buttonGridContainer } = useStyles()
 
-	console.log(bio)
 	return (
 		<>
-			<ProfileCover bio={bio} name={name} />
+			<ProfileCover {...props} />
 
 			<Grid container className={buttonGridContainer} justify='flex-end'>
 				<Grid item>{owner ? <EditButton /> : <FollowButton />}</Grid>
@@ -53,10 +52,10 @@ const Content = ({ bio, name }: ContentProps) => {
 	)
 }
 
-const UserProfilePage = ({ data: { bio } }: AnyObject) => {
+const UserProfilePage = ({ data }: AnyObject) => {
 	return (
 		<>
-			<PageLayoutComponent Content={() => <Content bio={bio} />} />
+			<PageLayoutComponent Content={() => <Content {...data} />} />
 		</>
 	)
 }
@@ -68,7 +67,7 @@ export const getServerSideProps: GetServerSideProps = async ({
 }: any) => {
 	const { id: userId }: any = jwtDecode(jwt)
 
-	const mutation: string = getPersonal('bio')
+	const mutation: string = getPersonal('name bio')
 
 	const personalData = await createRequest({ mutation, values: { userId } }, jwt)
 
