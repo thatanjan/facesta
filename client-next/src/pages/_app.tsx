@@ -5,6 +5,8 @@ import Head from 'next/head'
 import { ThemeProvider } from '@material-ui/core/styles'
 import CssBaseline from '@material-ui/core/CssBaseline'
 import jwtDecode from 'jwt-decode'
+import phin, { IJSONResponseOptions } from 'phin'
+import axios from 'axios'
 
 import theme from 'themes/theme'
 import UserContextProvider from 'context/userContext'
@@ -62,6 +64,21 @@ MyApp.getInitialProps = async ({
 	if (!jwt) {
 		redirectToAuth({ res, asPath })
 		return {}
+	}
+
+	if (jwt) {
+		const url = 'http://localhost:8000/validate'
+
+		try {
+			await axios.post(url, { data: { jwt } })
+		} catch (error) {
+			const statusCode = error.response.status
+
+			if (statusCode === 401) {
+				redirectToAuth({ res, asPath })
+				return {}
+			}
+		}
 	}
 
 	const decodedToken: string = jwtDecode(jwt)
