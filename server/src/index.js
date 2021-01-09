@@ -16,7 +16,7 @@ import resolvers from 'graphql/resolvers'
 dotenv.config()
 
 mongoose
-    .connect(process.env.USERS_DB_URI)
+    .connect(process.env.USERS_DB_URI, { useNewUrlParser: true })
     .then(() => {
         console.log('mongoose connected')
     })
