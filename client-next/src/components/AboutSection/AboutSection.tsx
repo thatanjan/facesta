@@ -10,7 +10,7 @@ import Grid from '@material-ui/core/Grid'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 import { nanoid } from 'nanoid'
 
-import options from './SubSection'
+import options, { personal } from './SubSection'
 
 const useStyles = makeStyles(theme => ({
 	root: {
@@ -26,7 +26,14 @@ const useStyles = makeStyles(theme => ({
 	},
 }))
 
-const Accordion = () => {
+interface Props {
+	name: string
+	props: any
+	Component: Function
+	formFields: string[]
+}
+
+const EachAccordion = ({ name, props, Component, formFields }: Props) => {
 	const { heading, accordionDetails } = useStyles()
 
 	return (
@@ -36,23 +43,32 @@ const Accordion = () => {
 				aria-controls='panel1a-content'
 				id='panel1a-header'
 			>
-				{/* <Typography variant='h6' className={heading}> */}
-				{/* 	{name} */}
-				{/* </Typography> */}
+				<Typography variant='h6' className={heading}>
+					{name}
+				</Typography>
 			</AccordionSummary>
 			<AccordionDetails className={accordionDetails}>
-				{/* <Component {...props} formFields={formFields} name={name} /> */}
+				<Component {...props} formFields={formFields} name={name} />
 			</AccordionDetails>
 		</Accordion>
 	)
 }
 
+const pullData = (obj: Props) => {
+	const { name, props, Component, formFields } = obj
+
+	return { name, props, Component, formFields }
+}
+
+const PersonalAccordion = () => {
+	return <EachAccordion {...pullData(personal)} />
+}
+
 const SimpleAccordion = () => {
 	const { root } = useStyles()
-
 	return (
 		<div className={root}>
-			<Accordion />
+			<PersonalAccordion />
 		</div>
 	)
 }
