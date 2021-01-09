@@ -42,19 +42,39 @@ app.use(bodyParser.json())
 app.use(function (err, req, res, next) {
     if (err.name === 'UnauthorizedError') {
         req.UnauthorizedError = err.message
-        console.log(req.UnauthorizedError)
-        res.status(401).send('invalid token...')
     }
 
     next()
 })
 
-app.post('/validate', ({ body }, res) => {
-    const { jwt } = body
+const removeBearer = (token) => {
+    const parts = token.split(' ')
+    if (parts.length === 2) {
+        const scheme = parts[0]
+        const credentials = parts[1]
 
-    jwtoken.verify(jwt, process.env.SECRET_KEY, (err) => {
+        if (/^Bearer$/i.test(scheme)) {
+            const newToken = credentials
+
+            return newToken
+        }
+    }
+}
+
+app.post('/validate', ({ body }, res) => {
+    const {
+        data: { jwt },
+    } = body
+
+    const newToken = removeBearer(jwt)
+
+    console.log(newToken)
+
+    jwtoken.verify(newToken, process.env.SECRET_KEY, (err) => {
         if (err) {
             res.status(401).send(err)
+        } else {
+            res.status(200).send('calm down')
         }
     })
 })
