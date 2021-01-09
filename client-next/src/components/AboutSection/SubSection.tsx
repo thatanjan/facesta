@@ -82,22 +82,22 @@ const SubSection = ({ buttonText, formFields, name }: any) => {
 
 const addButtonText = (text: string) => ({ buttonText: `Add a new ${text}` })
 
-const personal = new Section(PERSONAL, SubSection).addProps(
-	addButtonText('Change details')
-)
+export const personal = new Section(PERSONAL, SubSection)
+	.addProps(addButtonText('Change details'))
+	.addFormField(['date of Birth', 'bio'])
 
-const education = new Section('Education', SubSection)
+export const education = new Section('Education', SubSection)
 	.addProps(addButtonText('School'))
 	.addFormField(['School'])
 
-const experience = new Section('Experience', SubSection)
+export const experience = new Section('Experience', SubSection)
 	.addProps(addButtonText('Experience'))
 	.addFormField(['Company'])
 
-const placesLived = new Section('Places Lived', SubSection)
+export const placesLived = new Section('Places Lived', SubSection)
 	.addProps(addButtonText('Place'))
 	.addFormField(['city', 'town', 'country'])
 
-const options: Section[] = [personal, education, experience, placesLived]
+export const options: Section[] = [personal, education, experience, placesLived]
 
 export default options
