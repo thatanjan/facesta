@@ -63,7 +63,7 @@ export const ProfileCover = ({ name, bio }: Props) => {
 					</Typography>
 					<Grid container>
 						<Grid container item justify='center'>
-							{bio ? <Typography>bio</Typography> : <Button>Add Bio </Button>}
+							{bio ? <Typography>{bio}</Typography> : <Button>Add Bio </Button>}
 						</Grid>
 					</Grid>
 					<Divider />
