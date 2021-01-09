@@ -39,7 +39,7 @@ app.use(
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 
-app.use(function (err, req, res, next) {
+app.use(function (err, req, _, next) {
     if (err.name === 'UnauthorizedError') {
         req.UnauthorizedError = err.message
     }
@@ -67,8 +67,6 @@ app.post('/validate', ({ body }, res) => {
     } = body
 
     const newToken = removeBearer(jwt)
-
-    console.log(newToken)
 
     jwtoken.verify(newToken, process.env.SECRET_KEY, (err) => {
         if (err) {
