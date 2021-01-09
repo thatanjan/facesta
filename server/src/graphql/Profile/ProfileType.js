@@ -102,6 +102,7 @@ const ProfileTypedefs = gql`
         location: String
         skills: [String!]
         bio: String
+        name: String
     }
 `
 
