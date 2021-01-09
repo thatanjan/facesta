@@ -68,7 +68,7 @@ const data = {
     user: {
         type: objectId,
         default: null,
-        ref: 'user',
+        ref: 'users',
     },
     personal: {
         dateOfBirth: {
