@@ -43,7 +43,7 @@ const SimpleAccordion = () => {
 						</Typography>
 					</AccordionSummary>
 					<AccordionDetails className={accordionDetails}>
-						<Component {...props} formFields={formFields} />
+						<Component {...props} formFields={formFields} name={name} />
 					</AccordionDetails>
 				</Accordion>
 			))}
