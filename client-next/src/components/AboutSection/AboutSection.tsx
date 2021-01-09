@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, ChangeEvent } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import Accordion from '@material-ui/core/Accordion'
 import AccordionSummary from '@material-ui/core/AccordionSummary'
@@ -26,27 +26,33 @@ const useStyles = makeStyles(theme => ({
 	},
 }))
 
+const Accordion = () => {
+	const { heading, accordionDetails } = useStyles()
+
+	return (
+		<Accordion TransitionProps={{ unmountOnExit: true }}>
+			<AccordionSummary
+				expandIcon={<ExpandMoreIcon />}
+				aria-controls='panel1a-content'
+				id='panel1a-header'
+			>
+				{/* <Typography variant='h6' className={heading}> */}
+				{/* 	{name} */}
+				{/* </Typography> */}
+			</AccordionSummary>
+			<AccordionDetails className={accordionDetails}>
+				{/* <Component {...props} formFields={formFields} name={name} /> */}
+			</AccordionDetails>
+		</Accordion>
+	)
+}
+
 const SimpleAccordion = () => {
-	const { root, heading, accordionDetails } = useStyles()
+	const { root } = useStyles()
 
 	return (
 		<div className={root}>
-			{options.map(({ name, Component, props, formFields }: any) => (
-				<Accordion TransitionProps={{ unmountOnExit: true }} key={nanoid()}>
-					<AccordionSummary
-						expandIcon={<ExpandMoreIcon />}
-						aria-controls='panel1a-content'
-						id='panel1a-header'
-					>
-						<Typography variant='h6' className={heading}>
-							{name}
-						</Typography>
-					</AccordionSummary>
-					<AccordionDetails className={accordionDetails}>
-						<Component {...props} formFields={formFields} name={name} />
-					</AccordionDetails>
-				</Accordion>
-			))}
+			<Accordion />
 		</div>
 	)
 }
