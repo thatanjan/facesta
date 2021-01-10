@@ -7,7 +7,7 @@ import Button from '@material-ui/core/Button'
 
 import SectionDetails from 'components/AboutSection/SectionDetails'
 
-import { PERSONAL } from './AcoordionOption'
+import { PERSONAL } from './AccordionOption'
 
 const NewDetailForm = dynamic(() => import('./NewDetailForm'))
 

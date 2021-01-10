@@ -8,7 +8,7 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 
 import useGetPersonal from 'hooks/useGetPersonal'
 
-import { personal } from './SubSection'
+import { personal, education, experience } from './AccordionOption'
 
 const Details = dynamic(() => import('./AccordionDetails'))
 
