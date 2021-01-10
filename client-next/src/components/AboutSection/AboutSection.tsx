@@ -10,7 +10,11 @@ import Grid from '@material-ui/core/Grid'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 import { nanoid } from 'nanoid'
 
-import options, { personal } from './SubSection'
+import { AnyObject } from 'interfaces/global'
+
+import useGetPersonal from 'hooks/useGetPersonal'
+
+import { personal } from './SubSection'
 
 const useStyles = makeStyles(theme => ({
 	root: {
@@ -31,10 +35,15 @@ interface Props {
 	props: any
 	Component: Function
 	formFields: string[]
+	hook: Function
 }
 
-const EachAccordion = ({ name, props, Component, formFields }: Props) => {
+const EachAccordion = ({ hook, name, props, Component, formFields }: Props) => {
 	const { heading, accordionDetails } = useStyles()
+	const userId = '5ff9939e53c3e8c7a2c4a833'
+
+	const { data } = hook(userId)
+	console.log(data)
 
 	return (
 		<Accordion TransitionProps={{ unmountOnExit: true }}>
@@ -61,7 +70,7 @@ const pullData = (obj: Props) => {
 }
 
 const PersonalAccordion = () => {
-	return <EachAccordion {...pullData(personal)} />
+	return <EachAccordion hook={useGetPersonal} {...pullData(personal)} />
 }
 
 const SimpleAccordion = () => {
