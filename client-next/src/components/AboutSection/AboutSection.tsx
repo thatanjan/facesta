@@ -26,14 +26,11 @@ const useStyles = makeStyles(theme => ({
 	},
 }))
 
-interface PullData {
+export interface Props {
 	name: string
 	props: any
 	Component: Function
 	formFields: string[]
-}
-
-export interface Props extends PullData {
 	hook: Function
 }
 
@@ -67,14 +64,14 @@ const EachAccordion = ({ hook, name, props, Component, formFields }: Props) => {
 	)
 }
 
-const pullData = (obj: PullData) => {
-	const { name, props, Component, formFields } = obj
+const pullData = (obj: Props) => {
+	const { name, props, Component, formFields, hook } = obj
 
-	return { name, props, Component, formFields }
+	return { name, props, Component, formFields, hook }
 }
 
 const PersonalAccordion = () => {
-	return <EachAccordion hook={useGetPersonal} {...pullData(personal)} />
+	return <EachAccordion {...pullData(personal)} />
 }
 
 const SimpleAccordion = () => {
