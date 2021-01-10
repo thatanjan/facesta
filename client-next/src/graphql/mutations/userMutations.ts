@@ -6,11 +6,10 @@ import { gql } from 'graphql-request'
 // ,$location: String
 // ,$skills: [String!]
 
-export const updatePersonal = (output: string): string => gql`
-	mutation	updatePersonal($bio: String)
-		{
-					  updatePersonal(Input: {bio:$bio}){
-				${output}
-			}
+export const updatePersonal = gql`
+	mutation updatePersonal($bio: String) {
+		updatePersonal(Input: { bio: $bio }) {
+			website
 		}
+	}
 `
