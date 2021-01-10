@@ -60,7 +60,7 @@ export const PersonalDetails = ({ data }: any) => {
 
 	let skillsString: string | undefined
 
-	if (skills && typeof skills === 'array' && skills.length >= 1) {
+	if (skills && Array.isArray(skills) && skills.length >= 1) {
 		skillsString = skills.join(' ')
 	}
 
