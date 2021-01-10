@@ -3,6 +3,9 @@ import { Formik, Form, Field } from 'formik'
 import { Button, LinearProgress } from '@material-ui/core'
 import { TextField } from 'formik-material-ui'
 
+import { updatePersonal } from 'graphql/mutations/userMutations'
+import createRequest from 'utils/createRequest'
+
 const NewDetailForm = ({ formFields, doneAdding }: any) => {
 	const inputValues: any = {}
 
@@ -12,7 +15,10 @@ const NewDetailForm = ({ formFields, doneAdding }: any) => {
 		<Formik
 			initialValues={inputValues}
 			onSubmit={(values, { setSubmitting }) => {
-				console.log(values)
+				const mutation = updatePersonal('website')
+
+				console.log(mutation)
+				createRequest({ mutation, values })
 				setSubmitting(false)
 				doneAdding(false)
 			}}
