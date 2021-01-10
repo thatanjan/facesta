@@ -16,10 +16,20 @@ const Details = ({
 	hook,
 }: Props) => {
 	const userId = '5ff9939e53c3e8c7a2c4a833'
-	const { data } = hook(userId)
+	const { error, data } = hook(userId)
+	console.log(data)
+
+	if (error) return <div>failed to load</div>
+	if (!data) return <div>loading...</div>
+
 	return (
 		<AccordionDetails className={accordionDetails}>
-			<Component {...props} formFields={formFields} name={name} />
+			<Component
+				data={data.getPersonal}
+				{...props}
+				formFields={formFields}
+				name={name}
+			/>
 		</AccordionDetails>
 	)
 }
