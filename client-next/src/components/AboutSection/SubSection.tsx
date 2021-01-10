@@ -11,33 +11,6 @@ const NewDetailForm = dynamic(() => import('./NewDetailForm'))
 
 const PERSONAL = 'personal'
 
-class Section {
-	name: string
-
-	Component: Function
-
-	// eslint-disable-next-line
-	props: any
-
-	formFields: any
-
-	constructor(name: string, Component: Function) {
-		this.name = name
-		this.Component = Component
-	}
-
-	addProps(props: any) {
-		this.props = props
-		this.props.buttonText = this.name
-		return this
-	}
-
-	addFormField(fields: any) {
-		this.formFields = fields
-		return this
-	}
-}
-
 const useStyles = makeStyles(({ spacing }) => ({
 	buttonStyle: {
 		marginTop: spacing(4),
@@ -82,19 +55,53 @@ const SubSection = ({ buttonText, formFields, name }: any) => {
 
 const addButtonText = (text: string) => ({ buttonText: `Add a new ${text}` })
 
-export const personal = new Section(PERSONAL, SubSection)
+class Section {
+	name: string
+
+	Component: Function
+
+	// eslint-disable-next-line
+	props: any
+
+	formFields: any
+
+	hook: Function
+
+	constructor(name: string) {
+		this.name = name
+		this.Component = SubSection
+	}
+
+	addProps(props: any) {
+		this.props = props
+		this.props.buttonText = this.name
+		return this
+	}
+
+	addFormField(fields: any) {
+		this.formFields = fields
+		return this
+	}
+
+	addHook(hook: Function) {
+		this.hook = hook
+		return this
+	}
+}
+
+export const personal = new Section(PERSONAL)
 	.addProps(addButtonText('Change details'))
 	.addFormField(['date of Birth', 'bio'])
 
-export const education = new Section('Education', SubSection)
+export const education = new Section('Education')
 	.addProps(addButtonText('School'))
 	.addFormField(['School'])
 
-export const experience = new Section('Experience', SubSection)
+export const experience = new Section('Experience')
 	.addProps(addButtonText('Experience'))
 	.addFormField(['Company'])
 
-export const placesLived = new Section('Places Lived', SubSection)
+export const placesLived = new Section('Places Lived')
 	.addProps(addButtonText('Place'))
 	.addFormField(['city', 'town', 'country'])
 
