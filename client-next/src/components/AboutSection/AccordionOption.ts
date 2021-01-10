@@ -40,7 +40,7 @@ export const PERSONAL = 'personal'
 
 export const personal = new Section(PERSONAL)
 	.addProps(addButtonText('Change details'))
-	.addFormField(['date of Birth', 'bio'])
+	.addFormField(['dateOfBirth', 'bio'])
 	.addHook(useGetPersonal)
 
 export const education = new Section('Education')
