@@ -5,7 +5,9 @@ import Grid from '@material-ui/core/Grid'
 import Divider from '@material-ui/core/Divider'
 import Button from '@material-ui/core/Button'
 
-import SectionDetails from 'components/AboutSection/SectionDetails'
+import SectionDetails, {
+	PersonalDetails,
+} from 'components/AboutSection/SectionDetails'
 
 import { PERSONAL } from './AccordionOption'
 
@@ -22,14 +24,15 @@ const useStyles = makeStyles(({ spacing }) => ({
 	},
 }))
 
-const SubSection = ({ buttonText, formFields, name }: any) => {
+const SubSection = ({ buttonText, formFields, name, data }: any) => {
 	const { buttonStyle, dividerStyle } = useStyles()
 
 	const [isAddingNewDetail, setIsAddingNewDetail] = useState(false)
 
 	return (
 		<>
-			<SectionDetails />
+			{name === PERSONAL ? <PersonalDetails data={data} /> : <SectionDetails />}
+
 			<Divider className={dividerStyle} />
 
 			<Grid container justify='flex-end'>
