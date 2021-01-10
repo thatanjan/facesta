@@ -15,7 +15,7 @@ const NewDetailForm = ({ formFields, doneAdding }: any) => {
 		<Formik
 			initialValues={inputValues}
 			onSubmit={(values, { setSubmitting }) => {
-				const mutation = updatePersonal('website')
+				const mutation = updatePersonal
 
 				console.log(mutation)
 				createRequest({ mutation, values })
