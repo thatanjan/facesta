@@ -24,10 +24,15 @@ const useStyles = makeStyles(({ spacing }) => ({
 	},
 }))
 
-const SubSection = ({ buttonText, formFields, name, data }: any) => {
+const SubSection = ({
+	isAddingNewDetail,
+	setIsAddingNewDetail,
+	buttonText,
+	formFields,
+	name,
+	data,
+}: any) => {
 	const { buttonStyle, dividerStyle } = useStyles()
-
-	const [isAddingNewDetail, setIsAddingNewDetail] = useState(false)
 
 	return (
 		<>
