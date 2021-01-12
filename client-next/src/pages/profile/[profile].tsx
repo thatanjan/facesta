@@ -37,6 +37,8 @@ const Content = (props: ContentProps) => {
 	const [owner, setOwner] = useState(true)
 	const { buttonGridContainer } = useStyles()
 
+	// console.log(props)
+
 	return (
 		<>
 			<ProfileCover {...props} />
@@ -53,7 +55,14 @@ const Content = (props: ContentProps) => {
 const UserProfilePage = ({ userId, data }: AnyObject) => {
 	const swrOptions = { initialData: data }
 
-	const { data: Data } = useGetPersonal({ userId, swrOptions })
+	let { data: Data } = useGetPersonal({ userId, swrOptions })
+	console.log(Data)
+
+	const { getPersonal } = Data
+
+	if (getPersonal) {
+		Data = getPersonal
+	}
 
 	return (
 		<>
