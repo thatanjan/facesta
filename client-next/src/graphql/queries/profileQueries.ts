@@ -1,12 +1,5 @@
 import { gql } from 'graphql-request'
 
-export const getPersonal = (output: string): string => gql`
-	 query getPersonal($userId: ID!) {
-		 getPersonal(Input: { userId: $userId }) {
-			    ${output}
-		 }
-} `
-
 const expectedOutput = 'dateOfBirth skills name bio'
 
 export const getPersonalData = (output: string | undefined): string => gql`
