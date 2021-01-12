@@ -56,15 +56,13 @@ export const PersonalDetails = ({ data }: any) => {
 	const newData = data
 	const { box } = useStyles()
 
-	const skills: string[] = newData.skill
+	const skills: string[] = newData?.skills
 
 	let skillsString: string | undefined
 
 	if (skills && Array.isArray(skills) && skills.length >= 1) {
 		skillsString = skills.join(' ')
 	}
-
-	newData.skills = skillsString
 
 	return (
 		<Box className={box}>
