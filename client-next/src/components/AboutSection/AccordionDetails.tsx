@@ -30,11 +30,11 @@ const Details = ({
 	if (error) return <div>failed to load</div>
 	if (!data) return <div>loading...</div>
 
-	const { getPersonal } = data
+	const { getPerson } = data
 
 	return (
 		<AccordionDetails className={accordionDetails}>
-			<Component data={getPersonal} {...newProps} />
+			<Component data={getPerson} {...newProps} />
 		</AccordionDetails>
 	)
 }
