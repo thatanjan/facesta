@@ -1,5 +1,5 @@
 import { DependencyList } from 'react'
-import useSWR, { keyInterface } from 'swr'
+import useSWR, { keyInterface, ConfigInterface } from 'swr'
 import useMemoizeSWROption from 'hooks/useMemoizeSWROption'
 
 import { AnyObject } from 'interfaces/global'
@@ -10,9 +10,14 @@ interface Props {
 	mutation: keyInterface
 	options: AnyObject
 	dependencies: DependencyList
+	swrOptions: ConfigInterface | undefined
 }
 
-const useSWRgql = ({ mutation, options, dependencies }: Props) =>
-	useSWR([mutation, useMemoizeSWROption(options, dependencies)], fetcher)
+const useSWRgql = ({ mutation, options, dependencies, swrOptions }: Props) =>
+	useSWR(
+		[mutation, useMemoizeSWROption(options, dependencies)],
+		fetcher,
+		swrOptions
+	)
 
 export default useSWRgql
