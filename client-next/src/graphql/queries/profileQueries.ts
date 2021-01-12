@@ -7,6 +7,13 @@ export const getPersonal = (output: string): string => gql`
 		 }
 } `
 
+export const getPersonalData = (output: string): string => gql`
+	 query getPersonalData($userId: ID!) {
+		 getPersonal(Input: { userId: $userId }) {
+			    ${output}
+		 }
+} `
+
 export const getExperience = (output: string): string => gql`
 	query getExperience($userId: ID!) {
 		getExperience(Input: { userId: $userId }){
