@@ -7,10 +7,12 @@ export const getPersonal = (output: string): string => gql`
 		 }
 } `
 
-export const getPersonalData = (output: string): string => gql`
+const expectedOutput = 'dateOfBirth skills name bio'
+
+export const getPersonalData = (output: string | undefined): string => gql`
 	 query getPersonalData($userId: ID!) {
 		 getPersonal(Input: { userId: $userId }) {
-			    ${output}
+			    ${output || expectedOutput}
 		 }
 } `
 
