@@ -7,12 +7,10 @@ import { makeStyles } from '@material-ui/core/styles'
 import jwtDecode from 'jwt-decode'
 
 import FollowButton from 'components/Buttons/FollowButton'
-
 import createRequest from 'utils/createRequest'
-
 import { AnyObject } from 'interfaces/global'
-
 import { getPersonalData } from 'graphql/queries/profileQueries'
+import useGetPersonal from 'hooks/useGetPersonal'
 
 const useStyles = makeStyles(({ spacing }) => ({
 	buttonGridContainer: {
@@ -52,10 +50,14 @@ const Content = (props: ContentProps) => {
 	)
 }
 
-const UserProfilePage = ({ data }: AnyObject) => {
+const UserProfilePage = ({ userId, data }: AnyObject) => {
+	const swrOptions = { initialData: data }
+
+	const { data: Data } = useGetPersonal({ userId, swrOptions })
+
 	return (
 		<>
-			<PageLayoutComponent Content={() => <Content {...data} />} />
+			<PageLayoutComponent Content={() => <Content {...Data} />} />
 		</>
 	)
 }
@@ -72,7 +74,7 @@ export const getServerSideProps: GetServerSideProps = async ({
 	const personalData = await createRequest({ mutation, values: { userId } }, jwt)
 
 	return {
-		props: { jwt, data: personalData?.getPersonal },
+		props: { userId, data: personalData?.getPersonal },
 	}
 }
 
