@@ -12,7 +12,7 @@ import createRequest from 'utils/createRequest'
 
 import { AnyObject } from 'interfaces/global'
 
-import { getPersonal } from 'graphql/queries/profileQueries'
+import { getPersonalData } from 'graphql/queries/profileQueries'
 
 const useStyles = makeStyles(({ spacing }) => ({
 	buttonGridContainer: {
@@ -67,7 +67,7 @@ export const getServerSideProps: GetServerSideProps = async ({
 }: any) => {
 	const { id: userId }: any = jwtDecode(jwt)
 
-	const mutation: string = getPersonal('name bio')
+	const mutation: string = getPersonalData('name bio')
 
 	const personalData = await createRequest({ mutation, values: { userId } }, jwt)
 
