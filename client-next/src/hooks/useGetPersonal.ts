@@ -8,7 +8,7 @@ interface Props {
 }
 
 const useGetPersonal = ({ userId, swrOptions }: Props) => {
-	const mutation = getPersonalData('name bio skills')
+	const mutation = getPersonalData()
 	const options = { userId }
 	const dependencies = [userId]
 
