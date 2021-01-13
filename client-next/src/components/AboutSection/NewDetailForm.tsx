@@ -7,6 +7,7 @@ import { getPersonalData } from 'graphql/queries/profileQueries'
 
 import { updatePersonal } from 'graphql/mutations/userMutations'
 import createRequest from 'utils/createRequest'
+import ChipsForm from 'components/arrayChips/chipsForm'
 
 const NewDetailForm = ({ formFields, doneAdding }: any) => {
 	const inputValues: any = {}
@@ -44,6 +45,8 @@ const NewDetailForm = ({ formFields, doneAdding }: any) => {
 					))}
 
 					{isSubmitting && <LinearProgress />}
+
+					<ChipsForm />
 
 					<br />
 
