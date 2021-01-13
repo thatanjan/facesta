@@ -1,5 +1,6 @@
 import useGetPersonal from 'hooks/useGetPersonal'
 import SubSection from './SubSection'
+
 const addButtonText = (text: string) => ({ buttonText: `Add a new ${text}` })
 
 class Section {
