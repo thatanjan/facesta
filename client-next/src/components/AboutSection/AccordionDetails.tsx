@@ -14,17 +14,15 @@ const Details = ({
 	hook,
 	...others
 }: Props) => {
-	const [isAddingNewDetail, setIsAddingNewDetail] = useState(false)
-
 	const userId = '5ff9939e53c3e8c7a2c4a833'
 	const { data, error } = hook({ userId })
 
 	const newProps = {
 		...props,
-		isAddingNewDetail,
-		setIsAddingNewDetail,
 		...others,
 	}
+
+	console.log(error)
 
 	if (error) return <div>failed to load</div>
 	if (!data) return <div>loading...</div>
