@@ -2,7 +2,7 @@ import { gql } from 'graphql-request'
 
 const expectedOutput = 'dateOfBirth skills name bio'
 
-export const getPersonalData = (output: string | undefined): string => gql`
+export const getPersonalData = (output?: string | undefined): string => gql`
 	 query getPersonalData($userId: ID!) {
 		 getPersonal(Input: { userId: $userId }) {
 			    ${output || expectedOutput}
