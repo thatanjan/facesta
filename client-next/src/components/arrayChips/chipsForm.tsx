@@ -3,9 +3,11 @@ import { Formik, Field } from 'formik'
 import { Button, LinearProgress } from '@material-ui/core'
 import { TextField } from 'formik-material-ui'
 import useGetPersonal from 'hooks/useGetPersonal'
+import createRequest from 'utils/createRequest'
+import { mutation } from 'components/AboutSection/NewDetailForm'
 
 interface Values {
-	skill: string
+	skills: string
 }
 
 const ChipsForm = () => {
@@ -28,19 +30,22 @@ const ChipsForm = () => {
 		<>
 			<Formik
 				initialValues={{
-					skill: '',
+					skills: '',
 				}}
 				validate={values => {
 					const errors: Partial<Values> = {}
-					if (!values.skill) {
-						errors.skill = 'Required'
+					if (!values.skills) {
+						errors.skills = 'Required'
 					}
 					return errors
 				}}
-				onSubmit={({ skill }, { setSubmitting }) => {
+				onSubmit={(values, { setSubmitting }) => {
+					createRequest({
+						mutation,
+						values: { skills: [...allSkills, values.skills] },
+					})
+
 					setTimeout(() => {
-						setAllSkills([...allSkills, skill])
-						allSkills.push(skill)
 						setSubmitting(false)
 					}, 500)
 				}}
@@ -51,7 +56,7 @@ const ChipsForm = () => {
 							component={TextField}
 							type='text'
 							label='add a new skill'
-							name='skill'
+							name='skills'
 						/>
 						{isSubmitting && <LinearProgress />}
 						<br />
