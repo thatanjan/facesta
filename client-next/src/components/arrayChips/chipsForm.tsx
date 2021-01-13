@@ -1,15 +1,29 @@
-import React, { useState } from 'react'
-import { Formik, Form, Field } from 'formik'
+import React, { useState, useEffect } from 'react'
+import { Formik, Field } from 'formik'
 import { Button, LinearProgress } from '@material-ui/core'
 import { TextField } from 'formik-material-ui'
-import { List } from 'immutable'
+import useGetPersonal from 'hooks/useGetPersonal'
 
 interface Values {
 	skill: string
 }
 
 const ChipsForm = () => {
+	const userId = '5ff9939e53c3e8c7a2c4a833'
+	const {
+		data: {
+			getPersonal: { skills },
+		},
+	} = useGetPersonal({ userId })
+
 	const [allSkills, setAllSkills] = useState<string[]>([])
+
+	useEffect(() => {
+		if (skills) {
+			setAllSkills([...skills])
+		}
+	}, [])
+
 	return (
 		<>
 			<Formik
@@ -28,9 +42,6 @@ const ChipsForm = () => {
 						setAllSkills([...allSkills, skill])
 						allSkills.push(skill)
 						setSubmitting(false)
-
-						// eslint-disable-next-line no-alert
-						alert(JSON.stringify(skill, null, 2))
 					}, 500)
 				}}
 			>
@@ -55,6 +66,7 @@ const ChipsForm = () => {
 					</>
 				)}
 			</Formik>
+
 			{allSkills.map((x, y) => (
 				<div key={x}>{x}</div>
 			))}
