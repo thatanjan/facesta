@@ -24,7 +24,7 @@ const NewDetailForm = ({ formFields, doneAdding }: any) => {
 
 				console.log(mutation)
 				createRequest({ mutation, values })
-				mutate(queries)
+				mutate([queries, userId])
 				setSubmitting(false)
 				doneAdding(false)
 			}}
