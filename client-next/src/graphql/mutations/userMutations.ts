@@ -6,9 +6,24 @@ import { gql } from 'graphql-request'
 // ,$location: String
 // ,$skills: [String!]
 
+// eslint-disable-next-line
 export const updatePersonal = gql`
-	mutation updatePersonal($bio: String) {
-		updatePersonal(Input: { bio: $bio }) {
+	mutation updatePersonal(
+		$bio: String
+		$website: String
+		$status: String
+		$location: String
+		$skills: [String!]
+	) {
+		updatePersonal(
+			Input: {
+				bio: $bio
+				skills: $skills
+				website: $website
+				status: $status
+				location: $location
+			}
+		) {
 			website
 		}
 	}
