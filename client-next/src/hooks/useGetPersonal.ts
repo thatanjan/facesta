@@ -4,15 +4,14 @@ import useSWRgql from 'hooks/useSWRgql'
 
 interface Props {
 	userId: string
-	swrOptions: ConfigInterface | undefined
+	swrOptions?: ConfigInterface | undefined
 }
 
 const useGetPersonal = ({ userId, swrOptions }: Props) => {
 	const mutation = getPersonalData()
 	const options = { userId }
-	const dependencies = [userId]
 
-	return useSWRgql({ mutation, options, dependencies, swrOptions })
+	return useSWRgql({ mutation, options, swrOptions })
 }
 
 export default useGetPersonal
