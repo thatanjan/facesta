@@ -25,7 +25,7 @@ const initialState: UserInterface = {
 
 export const UserContext = createContext({})
 
-const UserContextProvider: React.FC = ({ children, userData }: Props) => {
+const UserContextProvider = ({ children, userData }: Props) => {
 	const [user, setUser] = useState<AnyObject>(initialState)
 
 	const userMemoData = useMemo(() => userData, [userData])
