@@ -12,6 +12,6 @@ interface Props {
 }
 
 const useSWRgql = ({ mutation, options, swrOptions, swrDependencies }: Props) =>
-	useSWR(mutation, fetcher({ mutation, options }), swrOptions)
+	useSWR([mutation, swrDependencies], fetcher({ mutation, options }), swrOptions)
 
 export default useSWRgql
