@@ -1,6 +1,6 @@
 import createRequest from 'utils/createRequest'
 
-const fetcher = async (mutation: string, { jwt, ...data }: any) =>
+const fetcher = ({ mutation, options: { jwt, ...data } }: any) => async () =>
 	createRequest({ mutation, values: data }, jwt)
 
 export default fetcher
