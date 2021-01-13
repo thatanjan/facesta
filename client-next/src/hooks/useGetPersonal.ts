@@ -11,7 +11,7 @@ const useGetPersonal = ({ userId, swrOptions }: Props) => {
 	const mutation = getPersonalData()
 	const options = { userId }
 
-	return useSWRgql({ mutation, options, swrOptions })
+	return useSWRgql({ mutation, options, swrOptions, swrDependencies: userId })
 }
 
 export default useGetPersonal
