@@ -6,6 +6,7 @@ import Grid from '@material-ui/core/Grid'
 import { makeStyles } from '@material-ui/core/styles'
 import jwtDecode from 'jwt-decode'
 
+import ProfileContextProvider from 'context/profileContext'
 import FollowButton from 'components/Buttons/FollowButton'
 import createRequest from 'utils/createRequest'
 import { AnyObject } from 'interfaces/global'
@@ -73,7 +74,9 @@ const UserProfilePage = ({ userId, data, isSelf }: Props) => {
 
 	return (
 		<>
-			<PageLayoutComponent Content={() => <Content {...Data} />} />
+			<ProfileContextProvider>
+				<PageLayoutComponent Content={() => <Content {...Data} />} />
+			</ProfileContextProvider>
 		</>
 	)
 }
