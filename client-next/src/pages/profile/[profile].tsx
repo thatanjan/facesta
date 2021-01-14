@@ -52,7 +52,14 @@ const Content = (props: ContentProps) => {
 	)
 }
 
-const UserProfilePage = ({ userId, data }: AnyObject) => {
+interface Props {
+	userId: string
+	data: AnyObject
+	isSelf: boolean
+}
+
+const UserProfilePage = ({ userId, data, isSelf }: Props) => {
+	console.log(isSelf)
 	const swrOptions = { initialData: data }
 
 	let { data: Data } = useGetPersonal({ userId, swrOptions })
@@ -75,15 +82,23 @@ export const getServerSideProps: GetServerSideProps = async ({
 	req: {
 		cookies: { jwt },
 	},
+	query: { profile },
 }: any) => {
 	const { id: userId }: any = jwtDecode(jwt)
+
+	let isSelf: boolean = false
+
+	if (profile === userId) {
+		isSelf = true
+	}
 
 	const mutation: string = getPersonalData('name bio')
 
 	const personalData = await createRequest({ mutation, values: { userId } }, jwt)
 
+	console.log(profile)
 	return {
-		props: { userId, data: personalData?.getPersonal },
+		props: { userId, data: personalData?.getPersonal, isSelf },
 	}
 }
 
