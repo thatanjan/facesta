@@ -9,6 +9,7 @@ import { updatePersonal } from 'graphql/mutations/userMutations'
 import createRequest from 'utils/createRequest'
 import ChipsForm from 'components/arrayChips/chipsForm'
 
+export const mutation = updatePersonal
 const NewDetailForm = ({ formFields, doneAdding }: any) => {
 	const inputValues: any = {}
 
@@ -22,7 +23,7 @@ const NewDetailForm = ({ formFields, doneAdding }: any) => {
 				const queries = getPersonalData()
 				const userId = '5ff9939e53c3e8c7a2c4a833'
 
-				console.log(mutation)
+				console.log(values)
 				createRequest({ mutation, values })
 				mutate([queries, userId])
 				setSubmitting(false)
