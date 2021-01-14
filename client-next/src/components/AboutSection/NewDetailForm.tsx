@@ -18,25 +18,30 @@ import createRequest from 'utils/createRequest'
 import ChipsForm from 'components/arrayChips/chipsForm'
 
 export const mutation = updatePersonal
+
+export const DATE_OF_BIRTH = 'dateOfBirth'
 const NewDetailForm = ({ formFields, doneAdding }: any) => {
 	const inputValues: any = {}
 
 	formFields.forEach((item: any) => (inputValues[`${item}`] = ''))
 
-	inputValues.data = new Date()
+	inputValues[DATE_OF_BIRTH] = new Date()
 
 	return (
 		<MuiPickersUtilsProvider utils={DateFnsUtils}>
 			<Formik
 				initialValues={inputValues}
 				onSubmit={(values, { setSubmitting }) => {
-					const mutation = updatePersonal
 					const queries = getPersonalData()
 					const userId = '5ff9939e53c3e8c7a2c4a833'
 
-					values.date = values.date.toISOString()
+					const newValues: any = values
 
-					createRequest({ mutation, values })
+					newValues[DATE_OF_BIRTH] = values[DATE_OF_BIRTH].toISOString()
+
+					console.log(newValues)
+
+					createRequest({ mutation, values: newValues })
 					mutate([queries, userId])
 					setSubmitting(false)
 					doneAdding(false)
@@ -44,17 +49,19 @@ const NewDetailForm = ({ formFields, doneAdding }: any) => {
 			>
 				{({ submitForm, isSubmitting }) => (
 					<Form>
-						<Field component={DatePicker} name='date' label='Date' />
-
 						{formFields.map((item: any) => (
 							<div key={item}>
-								<Field
-									type='text'
-									component={TextField}
-									name={item}
-									placeholder={item}
-									label={item}
-								/>
+								{item === DATE_OF_BIRTH ? (
+									<Field component={DatePicker} name={item} label='Date of Birth' />
+								) : (
+									<Field
+										type='text'
+										component={TextField}
+										name={item}
+										placeholder={item}
+										label={item}
+									/>
+								)}
 								<br />
 							</div>
 						))}
