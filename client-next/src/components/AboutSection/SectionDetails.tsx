@@ -5,6 +5,8 @@ import Typography from '@material-ui/core/Typography'
 import Grid from '@material-ui/core/Grid'
 import { nanoid } from 'nanoid'
 
+import { DATE_OF_BIRTH } from './NewDetailForm'
+
 const useStyles = makeStyles((theme: Theme) => ({
 	box: {
 		flexBasis: '100%',
@@ -42,17 +44,17 @@ const EachField = ({ property, value }: any) => {
 	)
 }
 
-export const PersonalDetails = ({ data }: any) => {
-	const personalDetailsField = [
-		'name',
-		'bio',
-		'date of birth',
-		'status',
-		'website',
-		'skills',
-		'location',
-	]
+export const personalDetailsField = [
+	'name',
+	'bio',
+	DATE_OF_BIRTH,
+	'status',
+	'website',
+	'skills',
+	'location',
+]
 
+export const PersonalDetails = ({ data }: any) => {
 	const newData = data
 	const { box } = useStyles()
 
@@ -64,10 +66,21 @@ export const PersonalDetails = ({ data }: any) => {
 		skillsString = skills.join(' ')
 	}
 
+	if (newData[DATE_OF_BIRTH]) {
+		const dateOfBirth = newData[DATE_OF_BIRTH]
+		const date = new Date(dateOfBirth)
+
+		newData[DATE_OF_BIRTH] = date.toDateString()
+	}
+
 	return (
 		<Box className={box}>
 			{personalDetailsField.map((item: string) => (
-				<EachField property={item} value={newData[`${item}`]} key={nanoid()} />
+				<EachField
+					property={item === DATE_OF_BIRTH ? 'date of birth' : item}
+					value={newData[item]}
+					key={nanoid()}
+				/>
 			))}
 		</Box>
 	)
