@@ -5,10 +5,9 @@ import Accordion from '@material-ui/core/Accordion'
 import AccordionSummary from '@material-ui/core/AccordionSummary'
 import Typography from '@material-ui/core/Typography'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
+import AccordionDetails from '@material-ui/core/AccordionDetails'
 
-import useGetPersonal from 'hooks/useGetPersonal'
-
-import { personal, education, experience } from './AccordionOption'
+import { personal } from './AccordionOption'
 
 const Details = dynamic(() => import('./AccordionDetails'))
 
@@ -58,7 +57,9 @@ const EachAccordion = ({ hook, name, props, Component, formFields }: Props) => {
 						{name}
 					</Typography>
 				</AccordionSummary>
-				<Details {...detailProps} />
+				<AccordionDetails className={accordionDetails}>
+					<Details {...detailProps} />
+				</AccordionDetails>
 			</Accordion>
 		</>
 	)
