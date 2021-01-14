@@ -9,14 +9,17 @@
 		"start": "next start"
 	},
 	"dependencies": {
+		"@date-io/date-fns": "1.x",
 		"@material-ui/core": "^4.11.2",
 		"@material-ui/icons": "^4.11.2",
 		"@material-ui/lab": "^4.0.0-alpha.57",
 		"axios": "^0.21.1",
 		"clsx": "^1.1.1",
 		"cookie": "^0.4.1",
+		"date-fns": "^2.16.1",
 		"formik": "^2.2.6",
 		"formik-material-ui": "^3.0.1",
+		"formik-material-ui-pickers": "^0.0.12",
 		"graphql": "^15.4.0",
 		"graphql-request": "^3.4.0",
 		"immutable": "^4.0.0-rc.12",
