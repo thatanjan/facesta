@@ -1,5 +1,6 @@
 import useGetPersonal from 'hooks/useGetPersonal'
 import SubSection from './SubSection'
+import { personalDetailsField } from './SectionDetails'
 
 const addButtonText = (text: string) => ({ buttonText: `Add a new ${text}` })
 
@@ -41,7 +42,7 @@ export const PERSONAL = 'personal'
 
 export const personal = new Section(PERSONAL)
 	.addProps(addButtonText('Change details'))
-	.addFormField(['dateOfBirth', 'bio'])
+	.addFormField(personalDetailsField)
 	.addHook(useGetPersonal)
 
 export const education = new Section('Education')
