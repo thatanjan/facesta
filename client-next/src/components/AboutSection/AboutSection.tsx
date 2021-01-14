@@ -9,7 +9,8 @@ import AccordionDetails from '@material-ui/core/AccordionDetails'
 
 import { personal } from './AccordionOption'
 
-const Details = dynamic(() => import('./AccordionDetails'))
+import Details from './AccordionDetails'
+// const Details = dynamic(() => import('./AccordionDetails'))
 
 const useStyles = makeStyles(theme => ({
 	root: {
@@ -45,6 +46,9 @@ const EachAccordion = ({ hook, name, props, Component, formFields }: Props) => {
 		hook,
 	}
 
+	const userId = '5ff9939e53c3e8c7a2c4a833'
+	const { data, error } = hook({ userId })
+
 	return (
 		<>
 			<Accordion TransitionProps={{ unmountOnExit: true }}>
@@ -58,7 +62,11 @@ const EachAccordion = ({ hook, name, props, Component, formFields }: Props) => {
 					</Typography>
 				</AccordionSummary>
 				<AccordionDetails className={accordionDetails}>
-					<Details {...detailProps} />
+					{data ? (
+						<Component data={data?.getPersonal} {...detailProps} />
+					) : (
+						<div>loading...</div>
+					)}
 				</AccordionDetails>
 			</Accordion>
 		</>
