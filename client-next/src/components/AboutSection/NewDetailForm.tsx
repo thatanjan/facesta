@@ -3,6 +3,14 @@ import { Formik, Form, Field } from 'formik'
 import { Button, LinearProgress } from '@material-ui/core'
 import { TextField } from 'formik-material-ui'
 import { mutate } from 'swr'
+import {
+	TimePicker,
+	DatePicker,
+	DateTimePicker,
+} from 'formik-material-ui-pickers'
+import { MuiPickersUtilsProvider } from '@material-ui/pickers'
+import DateFnsUtils from '@date-io/date-fns'
+
 import { getPersonalData } from 'graphql/queries/profileQueries'
 
 import { updatePersonal } from 'graphql/mutations/userMutations'
@@ -15,53 +23,60 @@ const NewDetailForm = ({ formFields, doneAdding }: any) => {
 
 	formFields.forEach((item: any) => (inputValues[`${item}`] = ''))
 
+	inputValues.data = new Date()
+
 	return (
-		<Formik
-			initialValues={inputValues}
-			onSubmit={(values, { setSubmitting }) => {
-				const mutation = updatePersonal
-				const queries = getPersonalData()
-				const userId = '5ff9939e53c3e8c7a2c4a833'
+		<MuiPickersUtilsProvider utils={DateFnsUtils}>
+			<Formik
+				initialValues={inputValues}
+				onSubmit={(values, { setSubmitting }) => {
+					const mutation = updatePersonal
+					const queries = getPersonalData()
+					const userId = '5ff9939e53c3e8c7a2c4a833'
 
-				console.log(values)
-				createRequest({ mutation, values })
-				mutate([queries, userId])
-				setSubmitting(false)
-				doneAdding(false)
-			}}
-		>
-			{({ submitForm, isSubmitting }) => (
-				<Form>
-					{formFields.map((item: any) => (
-						<div key={item}>
-							<Field
-								type='text'
-								component={TextField}
-								name={item}
-								placeholder={item}
-								label={item}
-							/>
-							<br />
-						</div>
-					))}
+					values.date = values.date.toISOString()
 
-					{isSubmitting && <LinearProgress />}
+					createRequest({ mutation, values })
+					mutate([queries, userId])
+					setSubmitting(false)
+					doneAdding(false)
+				}}
+			>
+				{({ submitForm, isSubmitting }) => (
+					<Form>
+						<Field component={DatePicker} name='date' label='Date' />
 
-					<ChipsForm />
+						{formFields.map((item: any) => (
+							<div key={item}>
+								<Field
+									type='text'
+									component={TextField}
+									name={item}
+									placeholder={item}
+									label={item}
+								/>
+								<br />
+							</div>
+						))}
 
-					<br />
+						{isSubmitting && <LinearProgress />}
 
-					<Button
-						variant='contained'
-						color='primary'
-						disabled={isSubmitting}
-						onClick={submitForm}
-					>
-						done
-					</Button>
-				</Form>
-			)}
-		</Formik>
+						<ChipsForm />
+
+						<br />
+
+						<Button
+							variant='contained'
+							color='primary'
+							disabled={isSubmitting}
+							onClick={submitForm}
+						>
+							done
+						</Button>
+					</Form>
+				)}
+			</Formik>
+		</MuiPickersUtilsProvider>
 	)
 }
 
