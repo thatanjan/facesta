@@ -1,9 +1,11 @@
 import React from 'react'
 import CircularProgress from '@material-ui/core/CircularProgress'
+import { nanoid } from 'nanoid'
 
 import useGetPersonal from 'hooks/useGetPersonal'
 import { useUserId } from 'hooks/profileContextHooks'
 import { DATE_OF_BIRTH } from 'utils/global'
+import EachField from 'components/AboutSection/SectionDetails'
 
 export const personalDetailsField = [
 	'name',
@@ -11,7 +13,6 @@ export const personalDetailsField = [
 	DATE_OF_BIRTH,
 	'status',
 	'website',
-	'skills',
 	'location',
 ]
 
@@ -26,6 +27,18 @@ const PersonalDetails = (props: Props) => {
 		<>
 			{error && <div> Sorry, some error has occured </div>}
 			{!data && <CircularProgress />}
+
+			{data && (
+				<>
+					{personalDetailsField.map((field: string) => (
+						<EachField
+							key={nanoid()}
+							property={field}
+							value={data?.getPersonal[field]}
+						/>
+					))}
+				</>
+			)}
 		</>
 	)
 }
