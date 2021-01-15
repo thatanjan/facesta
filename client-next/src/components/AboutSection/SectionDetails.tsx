@@ -98,4 +98,4 @@ const SectionDetails = () => {
 	)
 }
 
-export default SectionDetails
+export default EachField
