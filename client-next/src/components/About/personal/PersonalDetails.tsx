@@ -1,6 +1,7 @@
 import React from 'react'
 import dynamic from 'next/dynamic'
 import CircularProgress from '@material-ui/core/CircularProgress'
+import AccordionDetails from '@material-ui/core/AccordionDetails'
 import { nanoid } from 'nanoid'
 
 import useGetPersonal from 'hooks/useGetPersonal'
@@ -28,7 +29,7 @@ const PersonalDetails = (props: Props) => {
 	console.log(data)
 
 	return (
-		<>
+		<AccordionDetails style={{ flexDirection: 'column' }}>
 			{error && <div> Sorry, some error has occured </div>}
 			{!data && <CircularProgress />}
 
@@ -45,7 +46,7 @@ const PersonalDetails = (props: Props) => {
 			)}
 
 			<>{isSelf && <NewDetails />}</>
-		</>
+		</AccordionDetails>
 	)
 }
 
