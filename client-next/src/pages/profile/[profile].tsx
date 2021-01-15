@@ -1,5 +1,5 @@
 import dynamic from 'next/dynamic'
-import React, { useState } from 'react'
+import React from 'react'
 import { GetServerSideProps } from 'next'
 import PageLayoutComponent from 'HOC/PageLayoutComponent'
 import Grid from '@material-ui/core/Grid'
@@ -12,6 +12,7 @@ import createRequest from 'utils/createRequest'
 import { AnyObject } from 'interfaces/global'
 import { getPersonalData } from 'graphql/queries/profileQueries'
 import useGetPersonal from 'hooks/useGetPersonal'
+import { useIsSelf } from 'hooks/profileContextHooks'
 
 const useStyles = makeStyles(({ spacing }) => ({
 	buttonGridContainer: {
@@ -27,25 +28,22 @@ const ProfileTabMenu = dynamic(
 	() => import('components/ProfileTabMenu/ProfileTabMenu')
 )
 
-const EditButton = dynamic(() => import('components/Buttons/EditButton'))
-
 interface ContentProps {
 	name: string
 	bio: string
 }
 
 const Content = (props: ContentProps) => {
-	const [owner, setOwner] = useState(true)
 	const { buttonGridContainer } = useStyles()
 
-	// console.log(props)
+	const isSelf = useIsSelf()
 
 	return (
 		<>
 			<ProfileCover {...props} />
 
 			<Grid container className={buttonGridContainer} justify='flex-end'>
-				<Grid item>{owner ? <EditButton /> : <FollowButton />}</Grid>
+				<Grid item>{isSelf && <FollowButton />}</Grid>
 			</Grid>
 
 			<ProfileTabMenu />
@@ -60,11 +58,9 @@ interface Props {
 }
 
 const UserProfilePage = ({ userId, data, isSelf }: Props) => {
-	console.log(isSelf)
 	const swrOptions = { initialData: data }
 
 	let { data: Data } = useGetPersonal({ userId, swrOptions })
-	console.log(Data)
 
 	const { getPersonal } = Data
 
@@ -101,7 +97,6 @@ export const getServerSideProps: GetServerSideProps = async ({
 
 	const personalData = await createRequest({ mutation, values: { userId } }, jwt)
 
-	console.log(profile)
 	return {
 		props: { userId, data: personalData?.getPersonal, isSelf },
 	}
