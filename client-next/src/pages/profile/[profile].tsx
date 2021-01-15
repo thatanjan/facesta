@@ -72,9 +72,11 @@ const UserProfilePage = ({ userId, data, isSelf }: Props) => {
 		Data = getPersonal
 	}
 
+	const contextProps = { userId, isSelf }
+
 	return (
 		<>
-			<ProfileContextProvider isSelf={isSelf}>
+			<ProfileContextProvider {...contextProps}>
 				<PageLayoutComponent Content={() => <Content {...Data} />} />
 			</ProfileContextProvider>
 		</>
