@@ -6,12 +6,22 @@ interface Props {
 	userId: string
 }
 
-const initialState = {}
+interface State {
+	userId: string
+	isSelf: boolean
+}
 
-const ProfileContext = createContext(initialState)
+interface ContextData {
+	state: State
+	setState: Function
+}
+
+const initialState: State = { userId: '', isSelf: false }
+
+export const ProfileContext = createContext({} as ContextData)
 
 const ProfileContextProvider = ({ children, isSelf, userId }: Props) => {
-	const [state, setState] = useState(initialState)
+	const [state, setState] = useState<State>(initialState)
 
 	useEffect(() => {
 		setState({ ...state, isSelf })
@@ -22,7 +32,7 @@ const ProfileContextProvider = ({ children, isSelf, userId }: Props) => {
 	}, [userId])
 
 	return (
-		<ProfileContext.Provider value={[state, setState]}>
+		<ProfileContext.Provider value={{ state, setState }}>
 			{children}
 		</ProfileContext.Provider>
 	)
