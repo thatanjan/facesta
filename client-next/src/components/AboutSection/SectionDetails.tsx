@@ -13,9 +13,11 @@ const useStyles = makeStyles((theme: Theme) => ({
 	},
 	fieldContainer: {
 		width: '100%',
+		textTransform: 'capitalize',
 	},
 	propertyField: {
 		flexBasis: '20%',
+		textTransform: 'capitalize',
 	},
 	colon: {
 		flexBasis: '10%',
