@@ -24,12 +24,8 @@ const ProfileContextProvider = ({ children, isSelf, userId }: Props) => {
 	const [state, setState] = useState<State>(initialState)
 
 	useEffect(() => {
-		setState({ ...state, isSelf })
-	}, [isSelf])
-
-	useEffect(() => {
-		setState({ ...state, userId })
-	}, [userId])
+		setState({ ...state, isSelf, userId })
+	}, [isSelf, userId])
 
 	return (
 		<ProfileContext.Provider value={{ state, setState }}>
