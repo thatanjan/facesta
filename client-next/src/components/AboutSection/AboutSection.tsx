@@ -1,7 +1,7 @@
 import React from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 
-import PersonalAccordion from 'components/About/Personal'
+import PersonalAccordion from 'components/About/Personal/personal'
 
 const useStyles = makeStyles(() => ({
 	root: {
