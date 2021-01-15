@@ -23,26 +23,27 @@ export const personalDetailsField = [
 
 interface Props {}
 
-const DATE = 'date'
-const PARSE_CAMEL = 'parse'
+const doIfDateOfBirthField = (field: string): string => {
+	if (field === DATE_OF_BIRTH) {
+		return parseCamelCase(field)
+	}
+	return field
+}
+
+const doIfDateOfBirthValue = (field: string, value: string): string => {
+	if (field === DATE_OF_BIRTH) {
+		const date = new Date(value)
+
+		return date.toDateString()
+	}
+	return value
+}
 
 const PersonalDetails = (props: Props) => {
 	const isSelf = useIsSelf()
 	const userId = useUserId()
 	const { data, error } = useGetPersonal({ userId })
 	console.log(data)
-
-	const doIfDateOfBirth = (value: string, operation: string) => {
-		if (operation === DATE) {
-			const date = new Date(value)
-
-			return date.toDateString()
-		}
-
-		if (operation === PARSE_CAMEL) {
-			return parseCamelCase(value)
-		}
-	}
 
 	return (
 		<AccordionDetails style={{ flexDirection: 'column' }}>
@@ -54,8 +55,8 @@ const PersonalDetails = (props: Props) => {
 					{personalDetailsField.map((field: string) => (
 						<EachField
 							key={nanoid()}
-							property={field === DATE_OF_BIRTH ? parseCamelCase(field) : field}
-							value={data?.getPersonal[field]}
+							property={doIfDateOfBirthField(field)}
+							value={doIfDateOfBirthValue(field, data?.getPersonal[field])}
 						/>
 					))}
 				</>
