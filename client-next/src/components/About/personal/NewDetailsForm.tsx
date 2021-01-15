@@ -1,13 +1,7 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Button from '@material-ui/core/Button'
 import Grid from '@material-ui/core/Grid'
 import { makeStyles, Theme } from '@material-ui/core'
-
-interface Props {}
-
-const NewDetailsForm = (props: Props) => {
-	return <div>hello woelf</div>
-}
 
 const useStyles = makeStyles(({ spacing }: Theme) => ({
 	buttonStyle: {
@@ -22,11 +16,19 @@ const useStyles = makeStyles(({ spacing }: Theme) => ({
 
 const NewDetails = () => {
 	const { buttonStyle } = useStyles()
+	const [isAdding, setIsAdding] = useState(false)
+
 	return (
 		<>
 			<Grid container justify='flex-end'>
 				<Grid item>
-					<Button variant='contained' color='secondary' className={buttonStyle}>
+					<Button
+						variant='contained'
+						color='secondary'
+						className={buttonStyle}
+						onClick={() => setIsAdding(true)}
+						disabled={isAdding}
+					>
 						update your profile
 					</Button>
 				</Grid>
