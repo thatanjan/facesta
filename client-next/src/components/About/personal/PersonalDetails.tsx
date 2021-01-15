@@ -10,7 +10,7 @@ import { DATE_OF_BIRTH } from 'utils/global'
 import parseCamelCase from 'utils/parseCamelCase'
 import EachField from 'components/AboutSection/SectionDetails'
 
-const NewDetails = dynamic(() => import('./NewDetailsForm'))
+const NewDetails = dynamic(() => import('./NewDetails'))
 
 export const personalDetailsField = [
 	'name',
