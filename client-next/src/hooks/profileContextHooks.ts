@@ -5,3 +5,5 @@ const useProfileContext = () => useContext(ProfileContext)
 
 // eslint-disable-next-line
 export const useIsSelf = () => useProfileContext().state.isSelf
+
+export const useUserId = () => useProfileContext().state.userId
