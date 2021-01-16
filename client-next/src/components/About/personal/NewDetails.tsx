@@ -1,7 +1,10 @@
 import React, { useState } from 'react'
+import dynamic from 'next/dynamic'
 import Button from '@material-ui/core/Button'
 import Grid from '@material-ui/core/Grid'
-import { makeStyles, Theme } from '@material-ui/core'
+import { makeStyles, Theme } from '@material-ui/core/styles'
+
+const NewDetailsForm = dynamic(() => import('./NewDetailsForm'))
 
 const useStyles = makeStyles(({ spacing }: Theme) => ({
 	buttonStyle: {
@@ -33,6 +36,8 @@ const NewDetails = () => {
 					</Button>
 				</Grid>
 			</Grid>
+
+			{isAdding && <NewDetailsForm />}
 		</>
 	)
 }
