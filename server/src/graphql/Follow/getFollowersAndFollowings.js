@@ -1,12 +1,7 @@
 import Follow from 'models/Follow'
 
-const getUsers = (field) => {
-    return async (_, { input: { userId } }) => {
-        const users = await Follow.findOne({ user: userId }, field)
-
-        return users
-    }
-}
+const getUsers = (field) => async (_, { input: { userId } }) =>
+    await Follow.findOne({ user: userId }, field).populate(field)
 
 const resolver = {
     Query: {
