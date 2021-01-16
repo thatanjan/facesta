@@ -20,24 +20,29 @@ const saveDocuments = (documents) => {
 
 const resolver = {
     Mutation: {
-        followUser: async (_, { input: { id } }, { user: { id: ownerId } }) => {
-            if (sameId(id, ownerId)) {
+        followUser: async (
+            _,
+            { input: { userId } },
+            { user: { id: ownerId } }
+        ) => {
+            if (sameId(userId, ownerId)) {
                 return sendMessage(false, 'ownerId and other user id is same')
             }
 
             const ownerData = await getQuery(ownerId, following)
             const { following } = ownerData
 
-            if (following.includes(id)) {
+            if (following.includes(userId)) {
                 return sendMessage(false, 'You are already following the user')
             }
+            console.log(ownerData)
 
-            const otherUserData = await getQuery(id, followers)
+            const otherUserData = await getQuery(userId, followers)
 
             const { followers } = otherUserData
 
             followers.push(ownerId)
-            following.push(id)
+            following.push(userId)
 
             saveDocuments([ownerData, otherUserData])
 
@@ -46,26 +51,26 @@ const resolver = {
 
         unfollowUser: async (
             _,
-            { input: { id } },
+            { input: { userId } },
             { user: { id: ownerId } }
         ) => {
-            if (sameId(id, ownerId)) {
+            if (sameId(userId, ownerId)) {
                 return sendMessage(false, 'ownerId and other user id is same')
             }
 
             const ownerData = await getQuery(ownerId, following)
             const { following } = ownerData
 
-            if (!following.includes(id)) {
+            if (!following.includes(userId)) {
                 return sendMessage(false, 'You are not following the user')
             }
 
-            const otherUserData = await getQuery(id, followers)
+            const otherUserData = await getQuery(userId, followers)
 
             const { followers } = otherUserData
 
             followers.remove(ownerId)
-            following.remove(id)
+            following.remove(userId)
 
             saveDocuments([ownerData, otherUserData])
 
