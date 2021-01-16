@@ -6,13 +6,12 @@ const objectId = Schema.Types.ObjectId
 
 const user = {
     type: objectId,
+    ref: 'users',
+    required: true,
 }
 
 const schema = {
-    user: {
-        type: objectId,
-        required: true,
-    },
+    user,
     followers: [user],
     following: [user],
 }
