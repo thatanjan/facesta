@@ -39,7 +39,9 @@ const Following = new OptionBuilder('following', FollowSection).addHook(
 const tabOptions = [About, Posts, Followers, Following]
 
 const TabPanel = ({ value, ...other }: any) => {
-	const { Component } = tabOptions[value]
+	const { Component, hook, name } = tabOptions[value]
+	const props = { hook, name }
+
 	return (
 		<div
 			role='tabpanel'
@@ -47,7 +49,7 @@ const TabPanel = ({ value, ...other }: any) => {
 			aria-labelledby={`scrollable-auto-tab-${value}`}
 			{...other}
 		>
-			<Component />
+			<Component {...props} />
 		</div>
 	)
 }
