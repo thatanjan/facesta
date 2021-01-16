@@ -22,11 +22,12 @@ const FollowType = gql`
 
     type Success {
         message: String!
+        errorMessage: String!
         success: Boolean!
     }
 
     input userId {
-        id: ID!
+        userId: ID!
     }
 `
 
