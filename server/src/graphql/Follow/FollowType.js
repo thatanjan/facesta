@@ -12,12 +12,17 @@ const FollowType = gql`
         unfollowUser(input: userId): Success!
     }
 
+    type UserList {
+        name: String!
+        id: ID!
+    }
+
     type Followers {
-        followers: [ID]!
+        followers: [UserList]!
     }
 
     type Following {
-        following: [ID]!
+        following: [UserList]!
     }
 
     type Success {
