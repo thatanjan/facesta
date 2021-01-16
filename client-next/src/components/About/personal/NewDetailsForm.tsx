@@ -1,22 +1,30 @@
 import React from 'react'
 import { Formik, Form, Field } from 'formik'
-import { Button, LinearProgress } from '@material-ui/core'
-import {
-	TimePicker,
-	DatePicker,
-	DateTimePicker,
-} from 'formik-material-ui-pickers'
+import { Button, DialogTitle, LinearProgress } from '@material-ui/core'
+import { DatePicker } from 'formik-material-ui-pickers'
+import { TextField } from 'formik-material-ui'
 import { MuiPickersUtilsProvider } from '@material-ui/pickers'
-
-// Depending on the library you picked
 import DateFnsUtils from '@date-io/date-fns'
 
 import useGetPersonal from 'hooks/useGetPersonal'
 import { useUserId } from 'hooks/profileContextHooks'
+import { PersonalData } from 'interfaces/profile'
+import { DATE_OF_BIRTH } from 'utils/global'
+import { nanoid } from 'nanoid'
 
-interface Props {}
+import { personalDetailsField, doIfDateOfBirthField } from './PersonalDetails'
 
-const NewDetailsForm = (props: Props) => {
+const ifDateOfBirth = (compare: string) => compare === DATE_OF_BIRTH
+
+const doIfDateOfBirthComponent = (value: string) => {
+	if (ifDateOfBirth(value)) {
+		return DatePicker
+	}
+
+	return TextField
+}
+
+const NewDetailsForm = () => {
 	const userId = useUserId()
 	const { data, error } = useGetPersonal({ userId })
 
@@ -25,28 +33,33 @@ const NewDetailsForm = (props: Props) => {
 
 	const { getPersonal } = data
 
+	const initialData: PersonalData = getPersonal
+
 	return (
 		<MuiPickersUtilsProvider utils={DateFnsUtils}>
 			<Formik
-				initialValues={{
-					date: new Date(),
-					time: new Date(),
-					dateTime: new Date(),
-				}}
+				initialValues={initialData}
 				onSubmit={(values, { setSubmitting }) => {
 					setTimeout(() => {
 						setSubmitting(false)
-						alert(JSON.stringify(values, null, 2))
 					}, 500)
 				}}
 			>
 				{({ submitForm, isSubmitting }) => (
 					<Form>
-						<Field component={TimePicker} name='time' label='Time' />
+						{personalDetailsField.map((item: string) => (
+							<div key={nanoid()}>
+								<Field
+									type='text'
+									component={doIfDateOfBirthComponent(item)}
+									name={item}
+									label={doIfDateOfBirthField(item)}
+									placeholder={item}
+								/>
+							</div>
+						))}
+
 						<br />
-						<Field component={DatePicker} name='date' label='Date' />
-						<br />
-						<Field component={DateTimePicker} name='dateTime' label='Date Time' />
 						{isSubmitting && <LinearProgress />}
 						<br />
 						<Button
