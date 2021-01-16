@@ -7,6 +7,8 @@ import ListItemAvatar from '@material-ui/core/ListItemAvatar'
 import Avatar from '@material-ui/core/Avatar'
 import { nanoid } from 'nanoid'
 
+import { useUserId } from 'hooks/profileContextHooks'
+
 const useStyles = makeStyles((theme: Theme) => ({
 	root: {
 		maxWidth: '100%',
@@ -23,21 +25,34 @@ const useStyles = makeStyles((theme: Theme) => ({
 	},
 }))
 
-export const FollowComponent = ({ data }: any) => {
+interface Props {
+	hook: Function
+	name: string
+}
+
+export const FollowComponent = ({ hook, name }: any) => {
+	const userId = useUserId()
+	const { data, error } = hook(userId)
 	const { root } = useStyles()
+
+	if (error) return <div> error </div>
+	if (!data) return <div> loading </div>
+
 	return (
 		<>
-			<List className={root}>
-				{data.map(({ name, avatar, details }: any) => (
-					<ListItem component='li' button key={nanoid()}>
-						<ListItemAvatar>
-							<Avatar src={avatar} />
-						</ListItemAvatar>
+			{data && (
+				<List className={root}>
+					{data[name].map(({ name, avatar, details }: any) => (
+						<ListItem component='li' button key={nanoid()}>
+							<ListItemAvatar>
+								<Avatar src={avatar} />
+							</ListItemAvatar>
 
-						<ListItemText primary={name} secondary={details} />
-					</ListItem>
-				))}
-			</List>
+							<ListItemText primary={name} secondary={details} />
+						</ListItem>
+					))}
+				</List>
+			)}
 		</>
 	)
 }
