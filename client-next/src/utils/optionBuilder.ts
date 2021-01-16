@@ -16,7 +16,7 @@ export default class OptionBuilder {
 		this.Component = Component
 	}
 
-	addData(hook: Function) {
+	addHook(hook: Function) {
 		this.hook = hook
 		return this
 	}
