@@ -30,7 +30,7 @@ interface Props {
 	name: string
 }
 
-export const FollowComponent = ({ hook, name }: any) => {
+export const FollowComponent = ({ hook, name }: Props) => {
 	const userId = useUserId()
 	const { data, error } = hook(userId)
 	const { root } = useStyles()
