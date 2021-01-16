@@ -23,7 +23,7 @@ export const personalDetailsField = [
 
 interface Props {}
 
-const doIfDateOfBirthField = (field: string): string => {
+export const doIfDateOfBirthField = (field: string): string => {
 	if (field === DATE_OF_BIRTH) {
 		return parseCamelCase(field)
 	}
