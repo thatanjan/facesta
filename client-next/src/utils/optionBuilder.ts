@@ -1,5 +1,3 @@
-import { ReactNode } from 'react'
-
 export interface Data {
 	name: string
 	details: string
@@ -13,7 +11,7 @@ export default class OptionBuilder {
 
 	data: any
 
-	constructor(name: string, Component: ReactNode) {
+	constructor(name: string, Component: Function) {
 		this.name = name
 		this.Component = Component
 	}
