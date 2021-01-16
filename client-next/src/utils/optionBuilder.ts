@@ -9,15 +9,15 @@ export default class OptionBuilder {
 
 	Component: Function
 
-	data: any
+	hook: Function
 
 	constructor(name: string, Component: Function) {
 		this.name = name
 		this.Component = Component
 	}
 
-	addData(data: Data[]) {
-		this.data = data
+	addData(hook: Function) {
+		this.hook = hook
 		return this
 	}
 }
