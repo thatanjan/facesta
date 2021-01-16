@@ -8,6 +8,7 @@ import CircularProgress from '@material-ui/core/CircularProgress'
 import { nanoid } from 'nanoid'
 
 import { AnyObject } from 'interfaces/global'
+import { useFollowers, useFollowing } from 'hooks/useFollow'
 
 import OptionBuilder, { Data as OptionData } from 'utils/optionBuilder'
 
@@ -23,37 +24,22 @@ const FollowSection = dynamic(
 	() => import('components/FollowComponent/FollowComponent')
 )
 
-const arr: OptionData[] = [
-	{
-		name: 'Ed Sheeran',
-		details: 'Artist of Perfect',
-		avatar: 'https://a.wattpad.com/cover/5678567-256-k470580.jpg',
-	},
-	{
-		name: 'Ed Sheeran',
-		details: 'Artist of Perfect',
-		avatar: 'https://a.wattpad.com/cover/5678567-256-k470580.jpg',
-	},
-	{
-		name: 'Ed Sheeran',
-		details: 'Artist of Perfect',
-		avatar: 'https://a.wattpad.com/cover/5678567-256-k470580.jpg',
-	},
-]
-
 const About = new OptionBuilder('About', AboutSection)
 
 const Posts = new OptionBuilder('Posts', PostsSection)
 
-const Followers = new OptionBuilder('Follwers', FollowSection).addData(arr)
+const Followers = new OptionBuilder('Follwers', FollowSection).addData(
+	useFollowers
+)
 
-const Following = new OptionBuilder('Following', FollowSection).addData(arr)
+const Following = new OptionBuilder('Following', FollowSection).addData(
+	useFollowing
+)
 
 const tabOptions = [About, Posts, Followers, Following]
 
 const TabPanel = ({ value, ...other }: any) => {
 	const { Component } = tabOptions[value]
-	const { data } = tabOptions[value]
 	return (
 		<div
 			role='tabpanel'
@@ -61,7 +47,7 @@ const TabPanel = ({ value, ...other }: any) => {
 			aria-labelledby={`scrollable-auto-tab-${value}`}
 			{...other}
 		>
-			<Component data={data} />
+			<Component />
 		</div>
 	)
 }
