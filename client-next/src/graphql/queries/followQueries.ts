@@ -1,17 +1,23 @@
 import { gql } from 'graphql-request'
 
 export const getFollowers: string = gql`
-	query getFollowers($id: ID!) {
-		getFollowers(id: $id) {
-			followers
+	query getFollowers($userId: ID!) {
+		getFollowers(Input: { userId: $userId }) {
+			followers {
+				name
+				id
+			}
 		}
 	}
 `
 
 export const getFollowing: string = gql`
-	query getFollowing($id: ID!) {
-		getFollowing(id: $id) {
-			following
+	query getFollowing($userId: ID!) {
+		getFollowing(Input: { userId: $userId }) {
+			following {
+				name
+				id
+			}
 		}
 	}
 `
