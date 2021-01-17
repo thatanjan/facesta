@@ -19,10 +19,7 @@ const useStyles = makeStyles((theme: Theme) => ({
 		backgroundColor: theme.palette.background.paper,
 
 		'& > a': {
-			[theme.breakpoints.down('xs')]: {
-				flexBasis: '100%',
-			},
-			flexBasis: '50%',
+			flexBasis: '100%',
 		},
 	},
 }))
