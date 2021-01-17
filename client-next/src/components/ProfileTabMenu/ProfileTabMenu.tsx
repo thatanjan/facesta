@@ -28,11 +28,14 @@ const About = new OptionBuilder('About', AboutSection)
 
 const Posts = new OptionBuilder('Posts', PostsSection)
 
-const Followers = new OptionBuilder('follwers', FollowSection).addHook(
+export const FOLLOWERS = 'followers'
+export const FOLLOWING = 'following'
+
+const Followers = new OptionBuilder(FOLLOWERS, FollowSection).addHook(
 	useFollowers
 )
 
-const Following = new OptionBuilder('following', FollowSection).addHook(
+const Following = new OptionBuilder(FOLLOWING, FollowSection).addHook(
 	useFollowing
 )
 

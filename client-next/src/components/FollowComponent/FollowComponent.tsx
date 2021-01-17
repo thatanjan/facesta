@@ -8,6 +8,8 @@ import Avatar from '@material-ui/core/Avatar'
 import { nanoid } from 'nanoid'
 
 import { useUserId } from 'hooks/profileContextHooks'
+import MuiLink from 'components/Links/MuiLink'
+import { FOLLOWING, FOLLOWERS } from 'components/ProfileTabMenu/ProfileTabMenu'
 
 const useStyles = makeStyles((theme: Theme) => ({
 	root: {
@@ -51,11 +53,11 @@ export const FollowComponent = ({ hook, name }: Props) => {
 	let users: Users[]
 
 	switch (name) {
-		case 'following':
+		case FOLLOWING:
 			users = data.getFollowing.following
 			break
 
-		case 'followers':
+		case FOLLOWERS:
 			users = data.getFollowers.followers
 			break
 
@@ -69,14 +71,19 @@ export const FollowComponent = ({ hook, name }: Props) => {
 	return (
 		<>
 			<List className={root}>
-				{users.map(({ name: userName }: Users) => (
-					<ListItem component='li' button key={nanoid()}>
+				{users.map(({ name: userName, id }: Users) => (
+					<MuiLink
+						MuiComponent={ListItem}
+						button
+						key={nanoid()}
+						href={`/profile/${id}`}
+					>
 						<ListItemAvatar>
 							<Avatar src={avatar} />
 						</ListItemAvatar>
 
 						<ListItemText primary={userName} />
-					</ListItem>
+					</MuiLink>
 				))}
 			</List>
 		</>
