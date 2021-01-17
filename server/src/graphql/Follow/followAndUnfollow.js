@@ -22,7 +22,7 @@ const resolver = {
     Mutation: {
         followUser: async (
             _,
-            { input: { userId } },
+            { Input: { userId } },
             { user: { id: ownerId } }
         ) => {
             if (sameId(userId, ownerId)) {
@@ -51,7 +51,7 @@ const resolver = {
 
         unfollowUser: async (
             _,
-            { input: { userId } },
+            { Input: { userId } },
             { user: { id: ownerId } }
         ) => {
             if (sameId(userId, ownerId)) {
