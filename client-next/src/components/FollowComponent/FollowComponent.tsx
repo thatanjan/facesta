@@ -30,29 +30,55 @@ interface Props {
 	name: string
 }
 
+interface Users {
+	name: string
+	id: string
+}
+
 export const FollowComponent = ({ hook, name }: Props) => {
 	const userId = useUserId()
 	const { data, error } = hook(userId)
 	const { root } = useStyles()
 
-	if (error) return <div> error </div>
+	if (error) {
+		// eslint-disable-next-line
+		console.log(error)
+		return <div> error </div>
+	}
+
 	if (!data) return <div> loading </div>
+
+	let users: Users[]
+
+	switch (name) {
+		case 'following':
+			users = data.getFollowing.following
+			break
+
+		case 'followers':
+			users = data.getFollowers.followers
+			break
+
+		default:
+			users = []
+	}
+
+	const avatar =
+		'https://www.thehairpin.com/wp-content/uploads/2010/12/0SjOFPkAOxl_4Yy2l.jpg'
 
 	return (
 		<>
-			{data && (
-				<List className={root}>
-					{data[name].map(({ name, avatar, details }: any) => (
-						<ListItem component='li' button key={nanoid()}>
-							<ListItemAvatar>
-								<Avatar src={avatar} />
-							</ListItemAvatar>
+			<List className={root}>
+				{users.map(({ name: userName }: Users) => (
+					<ListItem component='li' button key={nanoid()}>
+						<ListItemAvatar>
+							<Avatar src={avatar} />
+						</ListItemAvatar>
 
-							<ListItemText primary={name} secondary={details} />
-						</ListItem>
-					))}
-				</List>
-			)}
+						<ListItemText primary={userName} />
+					</ListItem>
+				))}
+			</List>
 		</>
 	)
 }
