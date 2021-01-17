@@ -4,7 +4,8 @@ const FollowType = gql`
     extend type Query {
         getFollowers(Input: userId): Followers!
         getFollowing(Input: userId): Following!
-        isFollowing(Input: userId): Boolean!
+        getIsFollowing(Input: userId): Boolean!
+        getIsFollower(Input: userId): Boolean!
     }
 
     extend type Mutation {

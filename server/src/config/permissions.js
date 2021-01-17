@@ -37,7 +37,8 @@ export default shield(
             getPrivacy: isAuthenticated,
             getFollowers: isAuthenticated,
             getFollowing: isAuthenticated,
-            isFollowing: isAuthenticated,
+            getIsFollowing: isAuthenticated,
+            getIsFollower: isAuthenticated,
         },
     },
     {
