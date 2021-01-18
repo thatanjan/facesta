@@ -43,7 +43,7 @@ const Content = (props: ContentProps) => {
 			<ProfileCover {...props} />
 
 			<Grid container className={buttonGridContainer} justify='flex-end'>
-				<Grid item>{isSelf && <FollowButton />}</Grid>
+				<Grid item>{!isSelf && <FollowButton />}</Grid>
 			</Grid>
 
 			<ProfileTabMenu />
