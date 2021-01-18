@@ -3,7 +3,7 @@ import { makeStyles } from '@material-ui/core/styles'
 import Button from '@material-ui/core/Button'
 import DoneIcon from '@material-ui/icons/Done'
 
-const useStyles = makeStyles(({ spacing }) => ({
+export const useStyles = makeStyles(({ spacing }) => ({
 	buttonStyle: {
 		padding: spacing(1),
 	},
