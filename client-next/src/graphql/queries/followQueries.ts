@@ -21,3 +21,19 @@ export const getFollowing: string = gql`
 		}
 	}
 `
+
+export const getIsFollowing: string = gql`
+	query getIsFollowing($userId: ID!) {
+		getIsFollowing(Input: { userId: $userId }) {
+			isFollowing
+		}
+	}
+`
+
+export const getIsFollower: string = gql`
+	query getIsFollower($userId: ID!) {
+		getIsFollower(Input: { userId: $userId }) {
+			isFollower
+		}
+	}
+`
