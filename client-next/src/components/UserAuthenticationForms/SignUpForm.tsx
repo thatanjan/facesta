@@ -11,6 +11,7 @@ import { UserContext } from 'context/userContext'
 import { Error, RegisterInput, RegisterOutput } from 'interfaces/authentication'
 
 import login from 'utils/login'
+import MuiLink from 'components/Links/MuiLink'
 import createRequest from 'utils/createRequest'
 
 import { registerMutation } from 'graphql/mutations/authMutations'
@@ -139,7 +140,9 @@ const SignUpForm = () => {
 					</Form>
 				)}
 			</Formik>
-			<Button
+
+			<MuiLink
+				MuiComponent={Button}
 				color='primary'
 				size='small'
 				component='button'
@@ -149,7 +152,7 @@ const SignUpForm = () => {
 				}}
 			>
 				have an account?
-			</Button>
+			</MuiLink>
 
 			{errorMessage && (
 				<Alert variant='filled' severity='error'>

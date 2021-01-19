@@ -13,6 +13,7 @@ import { loginMutation } from 'graphql/mutations/authMutations'
 
 import login from 'utils/login'
 import createRequest from 'utils/createRequest'
+import MuiLink from 'components/Links/MuiLink'
 
 const Alert = dynamic(() => import('@material-ui/lab/Alert'))
 
@@ -105,16 +106,16 @@ const LogInForm = () => {
 					</Form>
 				)}
 			</Formik>
-			<Button
+			<MuiLink
+				MuiComponent={Button}
 				size='small'
 				href='/authentication/sign-up'
 				style={{
 					paddingBottom: '1rem',
 				}}
-				component='button'
 			>
 				Don&apos;t have an account?
-			</Button>
+			</MuiLink>
 
 			{errorMessage && (
 				<Alert variant='filled' severity='error'>
