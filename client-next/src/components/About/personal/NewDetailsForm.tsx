@@ -1,6 +1,6 @@
 import React from 'react'
 import { Formik, Form, Field } from 'formik'
-import { Button, DialogTitle, LinearProgress } from '@material-ui/core'
+import { Button, LinearProgress } from '@material-ui/core'
 import { DatePicker } from 'formik-material-ui-pickers'
 import { TextField } from 'formik-material-ui'
 import { MuiPickersUtilsProvider } from '@material-ui/pickers'
@@ -10,7 +10,6 @@ import useGetPersonal from 'hooks/useGetPersonal'
 import { useUserId } from 'hooks/profileContextHooks'
 import { PersonalData } from 'interfaces/profile'
 import { DATE_OF_BIRTH } from 'utils/global'
-import { nanoid } from 'nanoid'
 
 import { personalDetailsField, doIfDateOfBirthField } from './PersonalDetails'
 
@@ -35,6 +34,13 @@ const NewDetailsForm = () => {
 
 	const initialData: PersonalData = getPersonal
 
+	personalDetailsField.forEach((item: string) => {
+		const value = initialData[item as string]
+		if (value === null) {
+			initialData[item] = ''
+		}
+	})
+
 	return (
 		<MuiPickersUtilsProvider utils={DateFnsUtils}>
 			<Formik
@@ -48,7 +54,7 @@ const NewDetailsForm = () => {
 				{({ submitForm, isSubmitting }) => (
 					<Form>
 						{personalDetailsField.map((item: string) => (
-							<div key={nanoid()}>
+							<div key={item}>
 								<Field
 									type='text'
 									component={doIfDateOfBirthComponent(item)}
