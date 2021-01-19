@@ -1,7 +1,9 @@
 import React, { useState } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import Button from '@material-ui/core/Button'
-import DoneIcon from '@material-ui/icons/Done'
+
+import { useIsFollower, useIsFollowing } from 'hooks/useFollow'
+import { useUserId } from 'hooks/profileContextHooks'
 
 export const useStyles = makeStyles(({ spacing }) => ({
 	buttonStyle: {
@@ -11,17 +13,28 @@ export const useStyles = makeStyles(({ spacing }) => ({
 
 const FollowButton = () => {
 	const { buttonStyle } = useStyles()
-	const [FollowState, setFollowState] = useState(false)
+
+	const userId = useUserId()
+	const { data: follower } = useIsFollower(userId)
+	const { data: following } = useIsFollowing(userId)
+
+	if (!follower) return <div> ...loading </div>
+	if (!following) return <div> ...loading </div>
+
+	const {
+		getIsFollower: { isFollower },
+	} = follower
+
+	const {
+		getIsFollowing: { isFollowing },
+	} = following
 
 	return (
-		<Button
-			className={buttonStyle}
-			color='secondary'
-			variant='contained'
-			onClick={() => setFollowState(!FollowState)}
-			startIcon={FollowState && <DoneIcon />}
-		>
-			{FollowState ? 'Following' : 'Follow'}
+		<Button className={buttonStyle} color='secondary' variant='contained'>
+			{isFollowing && isFollower && 'message'}
+			{isFollower && !isFollowing && 'follow back'}
+			{!isFollower && isFollowing && 'message'}
+			{!isFollower && !isFollowing && 'follow'}
 		</Button>
 	)
 }
