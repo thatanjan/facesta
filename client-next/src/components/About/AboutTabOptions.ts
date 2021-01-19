@@ -1,8 +1,13 @@
+import dynamic from 'next/dynamic'
 import useGetPersonal from 'hooks/useGetPersonal'
+
+const Personal = dynamic(() => import('./personal/Personal'))
 
 const addButtonText = (text: string) => ({ buttonText: `Add a new ${text}` })
 
-const Random = () => <div> hello </div>
+const Random = () => {
+	return 'hello'
+}
 
 class Section {
 	name: string
@@ -39,6 +44,7 @@ class Section {
 
 	addComponent(component: Function) {
 		this.Component = component
+		return this
 	}
 }
 
@@ -46,6 +52,7 @@ export const PERSONAL = 'personal'
 
 export const personal = new Section(PERSONAL)
 	.addProps(addButtonText('Change details'))
+	.addComponent(Personal)
 	.addHook(useGetPersonal)
 
 export const education = new Section('Education')
