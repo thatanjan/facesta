@@ -6,7 +6,7 @@ import { nanoid } from 'nanoid'
 
 import useGetPersonal from 'hooks/useGetPersonal'
 import { useUserId, useIsSelf } from 'hooks/profileContextHooks'
-import { DATE_OF_BIRTH } from 'utils/global'
+import { DATE_OF_BIRTH, SKILLS } from 'utils/global'
 import parseCamelCase from 'utils/parseCamelCase'
 import EachField from 'components/AboutSection/SectionDetails'
 
@@ -17,6 +17,7 @@ export const personalDetailsField = [
 	'bio',
 	DATE_OF_BIRTH,
 	'status',
+	SKILLS,
 	'website',
 	'location',
 ]
