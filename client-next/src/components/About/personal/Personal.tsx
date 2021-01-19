@@ -1,16 +1,11 @@
 import React from 'react'
 
-import CustomAccordion from 'components/Accordion/CustomAccordion'
 import PersonalDetails from './PersonalDetails'
 
-interface Props {}
-
-const Personal = (props: Props) => {
+const Personal = () => {
 	return (
 		<>
-			<CustomAccordion name='Personal'>
-				<PersonalDetails />
-			</CustomAccordion>
+			<PersonalDetails />
 		</>
 	)
 }
