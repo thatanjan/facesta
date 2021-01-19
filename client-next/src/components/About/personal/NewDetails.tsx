@@ -37,7 +37,7 @@ const NewDetails = () => {
 				</Grid>
 			</Grid>
 
-			{isAdding && <NewDetailsForm />}
+			{isAdding && <NewDetailsForm setIsAdding={setIsAdding} />}
 		</>
 	)
 }

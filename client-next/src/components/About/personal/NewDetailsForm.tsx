@@ -25,7 +25,11 @@ const doIfDateOfBirthComponent = (value: string) => {
 	return TextField
 }
 
-const NewDetailsForm = () => {
+interface Props {
+	setIsAdding: Function
+}
+
+const NewDetailsForm = ({ setIsAdding }: Props) => {
 	const userId = useUserId()
 	const { data, error } = useGetPersonal({ userId })
 
@@ -49,6 +53,7 @@ const NewDetailsForm = () => {
 				initialValues={initialData}
 				onSubmit={(values, { setSubmitting }) => {
 					createRequest({ mutation: updatePersonal, values })
+					setIsAdding(false)
 					setTimeout(() => {
 						setSubmitting(false)
 					}, 500)
