@@ -43,10 +43,9 @@ const PersonalDetails = (props: Props) => {
 	const isSelf = useIsSelf()
 	const userId = useUserId()
 	const { data, error } = useGetPersonal({ userId })
-	console.log(data)
 
 	return (
-		<AccordionDetails style={{ flexDirection: 'column' }}>
+		<>
 			{error && <div> Sorry, some error has occured </div>}
 			{!data && <CircularProgress />}
 
@@ -63,7 +62,7 @@ const PersonalDetails = (props: Props) => {
 			)}
 
 			<>{isSelf && <NewDetails />}</>
-		</AccordionDetails>
+		</>
 	)
 }
 
