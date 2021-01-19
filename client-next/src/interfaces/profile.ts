@@ -6,4 +6,5 @@ export interface PersonalData {
 	location: string
 	bio: string
 	name: string
+	skills: string[]
 }
