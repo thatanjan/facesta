@@ -2,6 +2,8 @@ import useGetPersonal from 'hooks/useGetPersonal'
 
 const addButtonText = (text: string) => ({ buttonText: `Add a new ${text}` })
 
+const Random = () => <div> hello </div>
+
 class Section {
 	name: string
 
@@ -16,6 +18,7 @@ class Section {
 
 	constructor(name: string) {
 		this.name = name
+		this.Component = Random
 	}
 
 	addProps(props: any) {
@@ -32,6 +35,10 @@ class Section {
 	addHook(hook: Function) {
 		this.hook = hook
 		return this
+	}
+
+	addComponent(component: Function) {
+		this.Component = component
 	}
 }
 
