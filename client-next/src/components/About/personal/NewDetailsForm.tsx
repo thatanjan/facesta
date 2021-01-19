@@ -5,7 +5,9 @@ import { DatePicker } from 'formik-material-ui-pickers'
 import { TextField } from 'formik-material-ui'
 import { MuiPickersUtilsProvider } from '@material-ui/pickers'
 import DateFnsUtils from '@date-io/date-fns'
+import { mutate } from 'swr'
 
+import { getPersonalData } from 'graphql/queries/profileQueries'
 import { updatePersonal } from 'graphql/mutations/userMutations'
 import useGetPersonal from 'hooks/useGetPersonal'
 import { useUserId } from 'hooks/profileContextHooks'
@@ -53,6 +55,7 @@ const NewDetailsForm = ({ setIsAdding }: Props) => {
 				initialValues={initialData}
 				onSubmit={(values, { setSubmitting }) => {
 					createRequest({ mutation: updatePersonal, values })
+					mutate([getPersonalData(), userId])
 					setIsAdding(false)
 					setTimeout(() => {
 						setSubmitting(false)
