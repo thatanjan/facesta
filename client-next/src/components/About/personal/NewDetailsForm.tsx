@@ -6,10 +6,12 @@ import { TextField } from 'formik-material-ui'
 import { MuiPickersUtilsProvider } from '@material-ui/pickers'
 import DateFnsUtils from '@date-io/date-fns'
 
+import { updatePersonal } from 'graphql/mutations/userMutations'
 import useGetPersonal from 'hooks/useGetPersonal'
 import { useUserId } from 'hooks/profileContextHooks'
 import { PersonalData } from 'interfaces/profile'
 import { DATE_OF_BIRTH } from 'utils/global'
+import createRequest from 'utils/createRequest'
 
 import { personalDetailsField, doIfDateOfBirthField } from './PersonalDetails'
 
@@ -35,7 +37,7 @@ const NewDetailsForm = () => {
 	const initialData: PersonalData = getPersonal
 
 	personalDetailsField.forEach((item: string) => {
-		const value = initialData[item as string]
+		const value = initialData[`${item}`]
 		if (value === null) {
 			initialData[item] = ''
 		}
@@ -46,6 +48,7 @@ const NewDetailsForm = () => {
 			<Formik
 				initialValues={initialData}
 				onSubmit={(values, { setSubmitting }) => {
+					createRequest({ mutation: updatePersonal, values })
 					setTimeout(() => {
 						setSubmitting(false)
 					}, 500)
