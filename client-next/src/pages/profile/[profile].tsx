@@ -95,7 +95,10 @@ export const getServerSideProps: GetServerSideProps = async ({
 
 	const mutation: string = getPersonalData('name bio')
 
-	const personalData = await createRequest({ mutation, values: { userId } }, jwt)
+	const personalData = await createRequest(
+		{ mutation, values: { userId: profile } },
+		jwt
+	)
 
 	return {
 		props: { userId: profile, data: personalData?.getPersonal, isSelf },
