@@ -12,7 +12,7 @@ export const unfollow: string = gql`
 
 export const follow: string = gql`
 	mutation followUser($userId: ID!) {
-		unfollowUser(Input: { userId: $userId }) {
+		followUser(Input: { userId: $userId }) {
 			success
 			errorMessage
 		}
