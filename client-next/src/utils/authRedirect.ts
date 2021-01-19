@@ -9,7 +9,7 @@ interface Redirect {
 const BASE_URL: string = '/authentication/'
 
 const LOGIN: string = `${BASE_URL}login`
-const SIGN_UP: string = `${BASE_URL}sign_up`
+const SIGN_UP: string = `${BASE_URL}sign-up`
 
 export const didURLMatch = (asPath: string): boolean => {
 	if (asPath === LOGIN || asPath === SIGN_UP) {
