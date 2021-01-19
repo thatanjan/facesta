@@ -1,12 +1,14 @@
 import React, { useState } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import Button from '@material-ui/core/Button'
+import { mutate } from 'swr'
 
 import createRequest from 'utils/createRequest'
 import { useIsFollower, useIsFollowing } from 'hooks/useFollow'
 import { useUserId } from 'hooks/profileContextHooks'
 import { useUserID as useOwnerId } from 'hooks/userhooks'
 import { follow } from 'graphql/mutations/FollowMutations'
+import { getIsFollower, getIsFollowing } from 'graphql/queries/followQueries'
 
 export const useStyles = makeStyles(({ spacing }) => ({
 	buttonStyle: {
@@ -47,6 +49,9 @@ const FollowButton = () => {
 				mutation: follow,
 				values: { userId },
 			})
+
+			mutate([getIsFollowing, userId])
+			mutate([getIsFollower, userId])
 		}
 	}
 
