@@ -12,9 +12,7 @@ import { useFollowers, useFollowing } from 'hooks/useFollow'
 
 import OptionBuilder, { Data as OptionData } from 'utils/optionBuilder'
 
-const AboutSection = dynamic(
-	() => import('components/AboutSection/AboutSection')
-)
+const AboutSection = dynamic(() => import('components/About/AboutTabMenu'))
 
 const PostsSection = dynamic(
 	() => import('components/PostsSection/PostsSection')
