@@ -2,8 +2,11 @@ import React, { useState } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import Button from '@material-ui/core/Button'
 
+import createRequest from 'utils/createRequest'
 import { useIsFollower, useIsFollowing } from 'hooks/useFollow'
 import { useUserId } from 'hooks/profileContextHooks'
+import { useUserID as useOwnerId } from 'hooks/userhooks'
+import { follow } from 'graphql/mutations/FollowMutations'
 
 export const useStyles = makeStyles(({ spacing }) => ({
 	buttonStyle: {
@@ -17,11 +20,15 @@ const FollowButton = () => {
 	let buttonText: string
 
 	const userId = useUserId()
+	const ownerId = useOwnerId()
+
 	const { data: follower } = useIsFollower(userId)
 	const { data: following } = useIsFollowing(userId)
 
 	if (!follower) return <div> ...loading </div>
 	if (!following) return <div> ...loading </div>
+
+	let clickHandeler: () => void
 
 	const {
 		getIsFollower: { isFollower },
@@ -35,6 +42,12 @@ const FollowButton = () => {
 
 	if (!isFollowing && !isFollower) {
 		buttonText = 'follow'
+		clickHandeler = async () => {
+			const data = await createRequest({
+				mutation: follow,
+				values: { userId },
+			})
+		}
 	}
 
 	if (isFollowing && isFollower) {
@@ -50,7 +63,12 @@ const FollowButton = () => {
 	}
 
 	return (
-		<Button className={buttonStyle} color='secondary' variant='contained'>
+		<Button
+			className={buttonStyle}
+			color='secondary'
+			variant='contained'
+			onClick={() => clickHandeler()}
+		>
 			{buttonText}
 		</Button>
 	)
