@@ -84,6 +84,7 @@ const SignUpForm = dynamic(
 
 const UserAuthenticationPage = () => {
 	const {
+		asPath,
 		query: { authentication: auth },
 	}: any = useRouter()
 
@@ -118,10 +119,9 @@ const UserAuthenticationPage = () => {
 						layout='fill'
 					/>
 					<Paper className={formContainer}>
-						{auth === LOGIN && <LogInForm />}
-						{auth === SIGN_UP && <SignUpForm />}
+						{asPath === LOGIN && <LogInForm />}
+						{asPath === SIGN_UP && <SignUpForm />}
 					</Paper>
-					hell
 				</Box>
 				<Paper className={backgroundImageOverlay} />
 			</ThemeProvider>
