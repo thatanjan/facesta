@@ -7,7 +7,7 @@ import createRequest from 'utils/createRequest'
 import { useIsFollower, useIsFollowing } from 'hooks/useFollow'
 import { useUserId } from 'hooks/profileContextHooks'
 import { useUserID as useOwnerId } from 'hooks/userhooks'
-import { follow } from 'graphql/mutations/FollowMutations'
+import { follow, unfollow } from 'graphql/mutations/FollowMutations'
 import { getIsFollower, getIsFollowing } from 'graphql/queries/followQueries'
 
 export const useStyles = makeStyles(({ spacing }) => ({
@@ -42,6 +42,10 @@ const FollowButton = () => {
 
 	const UNFOLLOW = 'unfollow'
 
+	const mutateData = () => {
+		mutate([getIsFollowing, userId])
+		mutate([getIsFollower, userId])
+	}
 	if (!isFollowing && !isFollower) {
 		buttonText = 'follow'
 		clickHandeler = async () => {
@@ -49,9 +53,7 @@ const FollowButton = () => {
 				mutation: follow,
 				values: { userId },
 			})
-
-			mutate([getIsFollowing, userId])
-			mutate([getIsFollower, userId])
+			mutateData()
 		}
 	}
 
@@ -65,6 +67,13 @@ const FollowButton = () => {
 
 	if (!isFollower && isFollowing) {
 		buttonText = UNFOLLOW
+		clickHandeler = async () => {
+			const data = await createRequest({
+				mutation: unfollow,
+				values: { userId },
+			})
+			mutateData()
+		}
 	}
 
 	return (
