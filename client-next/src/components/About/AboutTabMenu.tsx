@@ -3,34 +3,24 @@ import { makeStyles, Theme } from '@material-ui/core/styles'
 import AppBar from '@material-ui/core/AppBar'
 import Tabs from '@material-ui/core/Tabs'
 import Tab from '@material-ui/core/Tab'
-import Typography from '@material-ui/core/Typography'
-import Box from '@material-ui/core/Box'
 import { nanoid } from 'nanoid'
 
 import aboutTabOptions from './AboutTabOptions'
 
 interface TabPanelProps {
-	children?: React.ReactNode
-	index: any
 	value: any
 }
 
-function TabPanel(props: TabPanelProps) {
-	const { children, value, index, ...other } = props
+function TabPanel({ value }: TabPanelProps) {
+	const { Component, ...props } = aboutTabOptions[value]
 
 	return (
 		<div
 			role='tabpanel'
-			hidden={value !== index}
-			id={`scrollable-auto-tabpanel-${index}`}
-			aria-labelledby={`scrollable-auto-tab-${index}`}
-			{...other}
+			id={`scrollable-auto-tabpanel-${value}`}
+			aria-labelledby={`scrollable-auto-tab-${value}`}
 		>
-			{value === index && (
-				<Box p={3}>
-					<Typography>{children}</Typography>
-				</Box>
-			)}
+			<Component {...props} />
 		</div>
 	)
 }
@@ -51,12 +41,10 @@ const useStyles = makeStyles((theme: Theme) => ({
 }))
 
 export default function ScrollableTabsButtonAuto() {
-	const tabNames = ['personal']
-
 	const classes = useStyles()
 	const [value, setValue] = React.useState(0)
 
-	const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {
+	const handleChange = (_: React.ChangeEvent<{}>, newValue: number) => {
 		setValue(newValue)
 	}
 
@@ -77,9 +65,7 @@ export default function ScrollableTabsButtonAuto() {
 					))}
 				</Tabs>
 			</AppBar>
-			<TabPanel value={value} index={0}>
-				Item One
-			</TabPanel>
+			<TabPanel value={value} />
 		</div>
 	)
 }
