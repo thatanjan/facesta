@@ -16,6 +16,7 @@ import Paper from '@material-ui/core/Paper'
 
 import { lightTheme } from 'themes/theme'
 import capitalize from 'utils/capitalize'
+import { LOGIN, SIGN_UP } from 'utils/authRedirect'
 
 const useStyles = makeStyles(() =>
 	createStyles({
@@ -117,8 +118,8 @@ const UserAuthenticationPage = () => {
 						layout='fill'
 					/>
 					<Paper className={formContainer}>
-						{auth === 'login' && <LogInForm />}
-						{auth === 'sign_up' && <SignUpForm />}
+						{auth === LOGIN && <LogInForm />}
+						{auth === SIGN_UP && <SignUpForm />}
 					</Paper>
 					hell
 				</Box>
