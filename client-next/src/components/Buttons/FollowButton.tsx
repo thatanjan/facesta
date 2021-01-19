@@ -41,39 +41,46 @@ const FollowButton = () => {
 	} = following
 
 	const UNFOLLOW = 'unfollow'
+	const FOLLOW = 'follow'
 
 	const mutateData = () => {
 		mutate([getIsFollowing, userId])
 		mutate([getIsFollower, userId])
 	}
-	if (!isFollowing && !isFollower) {
-		buttonText = 'follow'
-		clickHandeler = async () => {
-			const data = await createRequest({
-				mutation: follow,
-				values: { userId },
-			})
-			mutateData()
-		}
+
+	const followMutation = async () => {
+		const data = await createRequest({
+			mutation: follow,
+			values: { userId },
+		})
+		mutateData()
+	}
+
+	const unFollowMutation = async () => {
+		const data = await createRequest({
+			mutation: unfollow,
+			values: { userId },
+		})
+		mutateData()
+	}
+
+	if (isFollowing) {
+		buttonText = UNFOLLOW
+		clickHandeler = unFollowMutation
+	}
+
+	if (!isFollowing) {
+		buttonText = FOLLOW
+	}
+
+	if (isFollower) {
+		buttonText = `${FOLLOW} back`
+		clickHandeler = followMutation
 	}
 
 	if (isFollowing && isFollower) {
 		buttonText = UNFOLLOW
-	}
-
-	if (!isFollowing && isFollower) {
-		buttonText = 'follow back'
-	}
-
-	if (!isFollower && isFollowing) {
-		buttonText = UNFOLLOW
-		clickHandeler = async () => {
-			const data = await createRequest({
-				mutation: unfollow,
-				values: { userId },
-			})
-			mutateData()
-		}
+		clickHandeler = unFollowMutation
 	}
 
 	return (
