@@ -59,7 +59,7 @@ const ChipsForm = ({ skills, setSkills }: Props) => {
 					return errors
 				}}
 				onSubmit={values => {
-					console.log(values)
+					setSkills([values.skills, ...skills])
 				}}
 			>
 				{({ submitForm, isSubmitting }) => (
