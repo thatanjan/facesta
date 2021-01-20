@@ -7,12 +7,13 @@ import Tab from '@material-ui/core/Tab'
 import CircularProgress from '@material-ui/core/CircularProgress'
 import { nanoid } from 'nanoid'
 
+import Personal from 'components/About/personal/Personal'
 import { AnyObject } from 'interfaces/global'
 import { useFollowers, useFollowing } from 'hooks/useFollow'
 
 import OptionBuilder, { Data as OptionData } from 'utils/optionBuilder'
 
-const AboutSection = dynamic(() => import('components/About/AboutTabMenu'))
+// const AboutSection = dynamic(() => import('components/About/AboutTabMenu'))
 
 const PostsSection = dynamic(
 	() => import('components/PostsSection/PostsSection')
@@ -22,7 +23,7 @@ const FollowSection = dynamic(
 	() => import('components/FollowComponent/FollowComponent')
 )
 
-const About = new OptionBuilder('About', AboutSection)
+const About = new OptionBuilder('About', Personal)
 
 const Posts = new OptionBuilder('Posts', PostsSection)
 
@@ -67,6 +68,7 @@ const useStyles = makeStyles((theme: any) => ({
 		flexGrow: 1,
 		width: '100%',
 		backgroundColor: theme.palette.background.paper,
+		marginBottom: '10vh',
 	},
 }))
 
