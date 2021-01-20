@@ -59,8 +59,11 @@ const NewDetailsForm = ({ setIsAdding }: Props) => {
 			<Formik
 				initialValues={initialData}
 				onSubmit={(values, { setSubmitting }) => {
+					values.skills = skills
+
 					createRequest({ mutation: updatePersonal, values })
 					mutate([getPersonalData(), userId])
+
 					setIsAdding(false)
 					setTimeout(() => {
 						setSubmitting(false)
