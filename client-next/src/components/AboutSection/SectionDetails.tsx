@@ -31,6 +31,16 @@ const EachField = ({ property, value }: any) => {
 	if (!value) {
 		return null
 	}
+
+	// eslint-disable-next-line
+	const ifSkills = (value: string | string[]) => {
+		if (typeof value === 'string' && !Array.isArray(value)) {
+			return <Typography>{value}</Typography>
+		}
+
+		return <ArrayChips skills={value} />
+	}
+
 	return (
 		<Grid container className={fieldContainer}>
 			<Grid item className={propertyField}>
@@ -40,13 +50,7 @@ const EachField = ({ property, value }: any) => {
 				<Typography>:</Typography>
 			</Grid>
 
-			<Grid item>
-				{Array.isArray(value) ? (
-					<ArrayChips skills={value} />
-				) : (
-					<Typography>{value}</Typography>
-				)}
-			</Grid>
+			<Grid item> {ifSkills(value)} </Grid>
 		</Grid>
 	)
 }
