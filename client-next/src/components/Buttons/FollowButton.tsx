@@ -21,10 +21,11 @@ export const useStyles = makeStyles(({ spacing }) => ({
 	},
 }))
 
+let buttonText: string
+
 const FollowButton = () => {
 	const { buttonStyle } = useStyles()
 
-	let buttonText: string
 
 	const userId = useUserId()
 	const ownerId = useOwnerId()

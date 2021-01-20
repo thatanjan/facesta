@@ -40,11 +40,11 @@ const urlLastURLSegment = () => {
 	return result
 }
 
-const ToolbarContainer = styled(({ direction, ...props }) => (
+const ToolbarContainer = styled(({  ...props }) => (
 	<Toolbar {...props} />
 ))({
 	flexDirection: (props: any) =>
-		props.direction === 'reverse' ? 'row-reverse' : null,
+		props.direction === 'reverse' ? 'row-reverse' : 'initial',
 })
 
 const AppHeader = () => {

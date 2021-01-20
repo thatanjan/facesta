@@ -33,7 +33,7 @@ const DropDownMenu = ({ options, IconComponent, ...props }: AnyObject) => {
 				onClose={handleClose}
 				TransitionComponent={Fade}
 			>
-				{options.map(item => (
+				{options.map((item: string) => (
 					<MenuItem
 						key={nanoid()}
 						component='li'
