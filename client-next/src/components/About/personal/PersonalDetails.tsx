@@ -52,13 +52,22 @@ const PersonalDetails = (props: Props) => {
 
 			{data && (
 				<>
-					{personalDetailsField.map((field: string) => (
-						<EachField
-							key={nanoid()}
-							property={doIfDateOfBirthField(field)}
-							value={doIfDateOfBirthValue(field, data?.getPersonal[field])}
-						/>
-					))}
+					{personalDetailsField.map((field: string) => {
+						if (
+							Array.isArray(data.getPersonal[field]) &&
+							data.getPersonal[field].length === 0
+						) {
+							return null
+						}
+
+						return (
+							<EachField
+								key={nanoid()}
+								property={doIfDateOfBirthField(field)}
+								value={doIfDateOfBirthValue(field, data?.getPersonal[field])}
+							/>
+						)
+					})}
 				</>
 			)}
 
