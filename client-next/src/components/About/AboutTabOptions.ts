@@ -67,10 +67,6 @@ export const experience = new Section('Experience')
 	.addProps(addButtonText('Experience'))
 	.addFormField(['Company'])
 
-export const placesLived = new Section('Places Lived')
-	.addProps(addButtonText('Place'))
-	.addFormField(['city', 'town', 'country'])
-
-export const options: Section[] = [personal, education, experience, placesLived]
+export const options: Section[] = [personal, education, experience]
 
 export default options
