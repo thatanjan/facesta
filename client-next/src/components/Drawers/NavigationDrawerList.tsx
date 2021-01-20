@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { MouseEvent } from 'react'
 import { useRouter } from 'next/router'
 import { nanoid } from 'nanoid'
 import { makeStyles } from '@material-ui/core/styles'
@@ -8,6 +8,7 @@ import ListItemIcon from '@material-ui/core/ListItemIcon'
 import ListItemText from '@material-ui/core/ListItemText'
 import useMediaQuery from '@material-ui/core/useMediaQuery'
 
+import MuiLink from 'components/Links/MuiLink'
 import { screenSizeDrawer } from 'HOC/PageLayoutComponent'
 import { useDrawerState, useDrawerDispatch } from 'hooks/drawerHooks'
 import useGetUser, { useSetUser } from 'hooks/userhooks'
@@ -68,10 +69,12 @@ const NavigationDrawerList = () => {
 		<List component='nav'>
 			{listComponents.map(
 				({ Component, title, link }: Components, index: number) => (
-					<ListItem
+					<MuiLink
+						href={link}
+						MuiComponent={ListItem}
 						button
 						key={nanoid()}
-						onClick={event => itemClickHandler(event, index)}
+						onClick={(event: MouseEvent) => itemClickHandler(event, index)}
 					>
 						<ListItemIcon>
 							<Component
@@ -79,12 +82,11 @@ const NavigationDrawerList = () => {
 								color='secondary'
 							/>
 						</ListItemIcon>
-
 						<ListItemText
 							className={listItemTextStyle}
 							primary={index === 1 ? name : title}
 						/>
-					</ListItem>
+					</MuiLink>
 				)
 			)}
 		</List>
