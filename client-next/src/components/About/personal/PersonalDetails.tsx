@@ -1,7 +1,7 @@
 import React from 'react'
 import dynamic from 'next/dynamic'
 import CircularProgress from '@material-ui/core/CircularProgress'
-import AccordionDetails from '@material-ui/core/AccordionDetails'
+import Box from '@material-ui/core/Box'
 import { nanoid } from 'nanoid'
 
 import useGetPersonal from 'hooks/useGetPersonal'
@@ -51,7 +51,7 @@ const PersonalDetails = (props: Props) => {
 			{!data && <CircularProgress />}
 
 			{data && (
-				<>
+				<Box style={{ padding: '20px' }}>
 					{personalDetailsField.map((field: string) => {
 						if (
 							Array.isArray(data.getPersonal[field]) &&
@@ -68,7 +68,7 @@ const PersonalDetails = (props: Props) => {
 							/>
 						)
 					})}
-				</>
+				</Box>
 			)}
 
 			<>{isSelf && <NewDetails />}</>
