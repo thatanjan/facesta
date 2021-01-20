@@ -15,6 +15,8 @@ import GifIcon from '@material-ui/icons/Gif'
 import MovieIcon from '@material-ui/icons/Movie'
 import { nanoid } from 'nanoid'
 
+import { AnyObject } from 'interfaces/global'
+
 import PrivacyMenu from './PrivacyMenu'
 
 interface MediaTypeBuilderInterface {
@@ -25,6 +27,14 @@ interface MediaTypeBuilderInterface {
 }
 
 class MediaTypeBuilder {
+	accept: string
+
+	id: string
+
+	Component: Function
+
+	name: string
+
 	constructor(accept: string, id: string, component: Function, name: string) {
 		this.accept = accept
 		this.id = id
@@ -118,16 +128,17 @@ const TextFieldComponent = () => {
 
 	// const inputChangeHandler = ({target}) => console.log(target)
 
-	const inputChangeHandler = ({ target }: any) => {
-		const targetElement: any = target
+	const inputChangeHandler = ({ target }: AnyObject) => {
+		const targetElement: AnyObject = target
 
 		setInputText(targetElement.value)
 		// make sure the input event originated from a textarea and it's desired to be auto-expandable
 		if (
 			!targetElement.classList.contains('autoExpand') ||
-			!targetElement.nodeName === 'TEXTAREA'
+			targetElement.nodeName !== 'TEXTAREA'
 		)
 			return
+
 
 		const minRows = targetElement.getAttribute('data-min-rows') || 0
 		let rows: number | boolean | void =

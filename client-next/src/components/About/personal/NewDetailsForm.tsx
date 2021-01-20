@@ -41,7 +41,7 @@ const NewDetailsForm = ({ setIsAdding }: Props) => {
 
 	const { getPersonal } = data
 
-	const initialData: PersonalData = getPersonal
+	const initialData = getPersonal
 
 	personalDetailsField.forEach((item: string) => {
 		const value = initialData[`${item}`]
@@ -59,6 +59,7 @@ const NewDetailsForm = ({ setIsAdding }: Props) => {
 			<Formik
 				initialValues={initialData}
 				onSubmit={(values, { setSubmitting }) => {
+					// eslint-disable-next-line no-param-reassign
 					values.skills = skills
 
 					createRequest({ mutation: updatePersonal, values })

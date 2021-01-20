@@ -68,7 +68,7 @@ const NewDetailForm = ({ formFields, doneAdding }: any) => {
 
 						{isSubmitting && <LinearProgress />}
 
-						<ChipsForm />
+						{/* <ChipsForm /> */}
 
 						<br />
 

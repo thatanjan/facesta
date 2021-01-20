@@ -1,14 +1,14 @@
 import AccountCircleIcon from '@material-ui/icons/AccountCircle'
 import ExitToAppIcon from '@material-ui/icons/ExitToApp'
 import SettingsIcon from '@material-ui/icons/Settings'
-import TrendingUpIcon from '@material-ui/icons/TrendingUp'
 import VideoLibraryIcon from '@material-ui/icons/VideoLibrary'
 import HomeIcon from '@material-ui/icons/Home'
 
-import SvgSupport from 'HOC/svgSupport'
-import FriendRequests from '../../../public/svgs/friendRequest.svg'
 
-const FriendRequestsIcon = SvgSupport(FriendRequests)
+
+import FaceIcon from '@material-ui/icons/Face';
+
+
 
 export interface Components {
 	title: string
@@ -40,12 +40,12 @@ const listComponents: List = [
 	},
 	{
 		title: 'Followers',
-		Component: FriendRequestsIcon,
+		Component: FaceIcon,
 		link: '/followers',
 	},
 	{
 		title: 'Following',
-		Component: FriendRequestsIcon,
+		Component: FaceIcon,
 		link: '/following',
 	},
 	{
