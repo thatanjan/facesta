@@ -6,6 +6,9 @@ import { makeStyles, Theme, createStyles } from '@material-ui/core/styles'
 
 interface Props {
 	skills: string[]
+
+	// eslint-disable-next-line
+	deleteChip?: Function | undefined
 }
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -24,15 +27,19 @@ const useStyles = makeStyles((theme: Theme) =>
 	})
 )
 
-const ArrayChips = ({ skills }: Props) => {
+const ArrayChips = ({ skills, deleteChip }: Props) => {
 	const { chip, root } = useStyles()
 
 	return (
 		<>
 			<Paper component='ul' className={root}>
-				{skills.map((item: string) => (
+				{skills.map((item: string, index: number) => (
 					<li key={nanoid()}>
-						<Chip label={item} className={chip} />
+						<Chip
+							label={item}
+							className={chip}
+							onDelete={deleteChip ? deleteChip(index) : undefined}
+						/>
 					</li>
 				))}
 			</Paper>
