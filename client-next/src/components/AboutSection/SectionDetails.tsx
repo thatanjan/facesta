@@ -5,6 +5,7 @@ import Typography from '@material-ui/core/Typography'
 import Grid from '@material-ui/core/Grid'
 import { nanoid } from 'nanoid'
 
+import ArrayChips from 'components/arrayChips/arrayChips'
 import { DATE_OF_BIRTH } from './NewDetailForm'
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -40,7 +41,11 @@ const EachField = ({ property, value }: any) => {
 			</Grid>
 
 			<Grid item>
-				<Typography>{value}</Typography>
+				{Array.isArray(value) ? (
+					<ArrayChips skills={value} />
+				) : (
+					<Typography>{value}</Typography>
+				)}
 			</Grid>
 		</Grid>
 	)
@@ -62,12 +67,6 @@ export const PersonalDetails = ({ data }: any) => {
 
 	const skills: string[] = newData?.skills
 
-	let skillsString: string | undefined
-
-	if (skills && Array.isArray(skills) && skills.length >= 1) {
-		skillsString = skills.join(' ')
-	}
-
 	if (newData[DATE_OF_BIRTH]) {
 		const dateOfBirth = newData[DATE_OF_BIRTH]
 		const date = new Date(dateOfBirth)
@@ -84,18 +83,6 @@ export const PersonalDetails = ({ data }: any) => {
 					key={nanoid()}
 				/>
 			))}
-		</Box>
-	)
-}
-
-const SectionDetails = () => {
-	const { box } = useStyles()
-	return (
-		<Box className={box}>
-			<EachField property='School' value='HSC' />
-			<EachField property='Postion' value='Student' />
-			<EachField property='From' value='2011' />
-			<EachField property='To' value='2017' />
 		</Box>
 	)
 }
