@@ -58,12 +58,8 @@ const ChipsForm = ({ skills, setSkills }: Props) => {
 					}
 					return errors
 				}}
-				onSubmit={(values, { setSubmitting }) => {
+				onSubmit={values => {
 					console.log(values)
-
-					setTimeout(() => {
-						setSubmitting(false)
-					}, 500)
 				}}
 			>
 				{({ submitForm, isSubmitting }) => (
@@ -74,8 +70,7 @@ const ChipsForm = ({ skills, setSkills }: Props) => {
 							label='add a new skill'
 							name='skills'
 						/>
-						{isSubmitting && <LinearProgress />}
-						<br />
+
 						<Button
 							variant='contained'
 							color='primary'
