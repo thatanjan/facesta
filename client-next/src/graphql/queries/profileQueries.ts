@@ -15,3 +15,16 @@ export const getExperience = (output: string): string => gql`
 			    ${output}
 		}
 } `
+
+export const getEducation: string = gql`
+	query getEducation($userId: ID!) {
+		getEducation(Input: { userId: $userId }) {
+			id
+			school
+			degree
+			fieldOfStudy
+			from
+			to
+		}
+	}
+`
