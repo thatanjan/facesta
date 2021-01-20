@@ -41,9 +41,11 @@ interface Props {
 const ChipsForm = ({ skills, setSkills }: Props) => {
 	const classes = useStyles()
 
-	// const handleDelete = (chipToDelete: string, chipIndex: number) => () => {
-	// 	setAllSkills(chips => chips.filter((chip, index) => index !== chipIndex))
-	// }
+	const handleDelete = (chipIndex: number) => () => {
+		setSkills((chips: string[]) =>
+			chips.filter((chip: string, index: number) => index !== chipIndex)
+		)
+	}
 
 	return (
 		<>
@@ -87,7 +89,7 @@ const ChipsForm = ({ skills, setSkills }: Props) => {
 				)}
 			</Formik>
 
-			<ArrayChips skills={skills} />
+			<ArrayChips skills={skills} deleteChip={handleDelete} />
 		</>
 	)
 }
