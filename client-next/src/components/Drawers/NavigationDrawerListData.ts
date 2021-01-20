@@ -34,19 +34,19 @@ const listComponents: List = [
 		link: '/profile',
 	},
 	{
-		title: 'Trending',
-		Component: TrendingUpIcon,
-		link: '/trending',
-	},
-	{
 		title: 'Videos',
 		Component: VideoLibraryIcon,
 		link: '/videos',
 	},
 	{
-		title: 'Friend Requests',
+		title: 'Followers',
 		Component: FriendRequestsIcon,
-		link: '/friend-request',
+		link: '/followers',
+	},
+	{
+		title: 'Following',
+		Component: FriendRequestsIcon,
+		link: '/following',
 	},
 	{
 		title: 'Settings',
