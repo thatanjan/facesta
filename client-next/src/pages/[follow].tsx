@@ -1,5 +1,4 @@
 import Head from 'next/head'
-import
 import React from 'react'
 
 interface Props {
