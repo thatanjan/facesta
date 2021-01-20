@@ -58,8 +58,12 @@ const ChipsForm = ({ skills, setSkills }: Props) => {
 					}
 					return errors
 				}}
-				onSubmit={values => {
+				onSubmit={(values, { setSubmitting, resetForm }) => {
 					setSkills([values.skills, ...skills])
+					setTimeout(() => {
+						setSubmitting(false)
+						resetForm()
+					}, 10)
 				}}
 			>
 				{({ submitForm, isSubmitting }) => (
