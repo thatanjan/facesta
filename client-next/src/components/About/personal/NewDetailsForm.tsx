@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Formik, Form, Field } from 'formik'
 import { Button, LinearProgress } from '@material-ui/core'
 import { DatePicker } from 'formik-material-ui-pickers'
@@ -7,12 +7,13 @@ import { MuiPickersUtilsProvider } from '@material-ui/pickers'
 import DateFnsUtils from '@date-io/date-fns'
 import { mutate } from 'swr'
 
+import ChipsForm from 'components/arrayChips/chipsForm'
 import { getPersonalData } from 'graphql/queries/profileQueries'
 import { updatePersonal } from 'graphql/mutations/userMutations'
 import useGetPersonal from 'hooks/useGetPersonal'
 import { useUserId } from 'hooks/profileContextHooks'
 import { PersonalData } from 'interfaces/profile'
-import { DATE_OF_BIRTH } from 'utils/global'
+import { DATE_OF_BIRTH, SKILLS } from 'utils/global'
 import createRequest from 'utils/createRequest'
 
 import { personalDetailsField, doIfDateOfBirthField } from './PersonalDetails'
@@ -49,6 +50,10 @@ const NewDetailsForm = ({ setIsAdding }: Props) => {
 		}
 	})
 
+	const [skills, setSkills] = useState(initialData.skills)
+
+	const chipsProps = { skills, setSkills }
+
 	return (
 		<MuiPickersUtilsProvider utils={DateFnsUtils}>
 			<Formik
@@ -66,13 +71,17 @@ const NewDetailsForm = ({ setIsAdding }: Props) => {
 					<Form>
 						{personalDetailsField.map((item: string) => (
 							<div key={item}>
-								<Field
-									type='text'
-									component={doIfDateOfBirthComponent(item)}
-									name={item}
-									label={doIfDateOfBirthField(item)}
-									placeholder={item}
-								/>
+								{item === SKILLS ? (
+									<ChipsForm {...chipsProps} />
+								) : (
+									<Field
+										type='text'
+										component={doIfDateOfBirthComponent(item)}
+										name={item}
+										label={doIfDateOfBirthField(item)}
+										placeholder={item}
+									/>
+								)}
 							</div>
 						))}
 
