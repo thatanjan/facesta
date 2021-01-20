@@ -8,6 +8,7 @@ const useStyles = makeStyles((theme: any) => ({
 		maxWidth: '100vw',
 		position: 'relative',
 		top: theme.mixins.toolbar.minHeight,
+		minHeight: '100vh',
 		[theme.breakpoints.up('xs')]: {
 			top:
 				theme.mixins.toolbar['@media (min-width:0px) and (orientation: landscape)']
