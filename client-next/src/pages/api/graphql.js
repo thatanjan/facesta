@@ -1,5 +1,7 @@
-import { ApolloServer, gql, makeExecutableSchema } from 'apollo-server-micro'
+import { ApolloServer, gql, makeExecutableSchema } from 'apollo-server-express'
+import express from 'express'
 
+const app = express()
 const typeDefs = gql`
 	type Query {
 		users: [User!]!
@@ -35,6 +37,6 @@ export const config = {
 	},
 }
 
-export default new ApolloServer({ schema }).createHandler({
-	path: '/api/graphql',
-})
+const server = new ApolloServer({ schema })
+server.applyMiddleware({ app, path: 'api/graphql' })
+export default server
