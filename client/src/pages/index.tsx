@@ -1,5 +1,8 @@
 import Head from 'next/head'
+import { GetServerSideProps } from 'next'
+
 import PageWrapper from 'components/PageWrapper/PageWrapper'
+import { TOKEN_NAME } from 'variables/global'
 
 export default function Home() {
 	return (
@@ -16,4 +19,16 @@ export default function Home() {
 			</div>
 		</>
 	)
+}
+
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
+	const {
+		req: { cookies },
+	} = ctx
+
+	if (!cookies?.[TOKEN_NAME]) {
+		console.log('no cookies')
+	}
+
+	return { props: {} }
 }
