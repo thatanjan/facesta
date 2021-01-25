@@ -3,6 +3,7 @@ import { GetServerSideProps } from 'next'
 
 import PageWrapper from 'components/PageWrapper/PageWrapper'
 import { TOKEN_NAME } from 'variables/global'
+import { redirectToAuth } from 'utils/authRedirect'
 
 export default function Home() {
 	return (
@@ -24,10 +25,11 @@ export default function Home() {
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
 	const {
 		req: { cookies },
+		res,
 	} = ctx
 
 	if (!cookies?.[TOKEN_NAME]) {
-		console.log('no cookies')
+		redirectToAuth(res)
 	}
 
 	return { props: {} }
