@@ -1,3 +1,4 @@
+import { GetServerSideProps } from 'next'
 import dynamic from 'next/dynamic'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
@@ -15,7 +16,8 @@ import Paper from '@material-ui/core/Paper'
 
 import { lightTheme } from 'themes/theme'
 import capitalize from 'utils/capitalize'
-import { LOGIN, SIGN_UP } from 'variables/global'
+import { LOGIN, SIGN_UP, TOKEN_NAME } from 'variables/global'
+import { redirectToHome } from 'utils/authRedirect'
 
 const useStyles = makeStyles(() =>
 	createStyles({
@@ -127,3 +129,13 @@ const UserAuthenticationPage = () => {
 }
 
 export default UserAuthenticationPage
+
+export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
+	const { cookies } = req
+
+	if (cookies?.[TOKEN_NAME]) {
+		redirectToHome(res)
+	}
+
+	return { props: {} }
+}
