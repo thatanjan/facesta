@@ -72,13 +72,12 @@ const LogInForm = dynamic(
 	}
 )
 
-// const SignUpForm = dynamic(
-// 	() => import('components/UserAuthenticationForms/SignUpForm'),
-// 	{
-// 		loading: () => <CircularProgress />,
-// 		ssr: false,
-// 	}
-// )
+const SignUpForm = dynamic(
+	() => import('components/UserAuthenticationForms/SignUpForm'),
+	{
+		loading: () => <CircularProgress />,
+	}
+)
 
 const UserAuthenticationPage = () => {
 	const {
@@ -118,7 +117,7 @@ const UserAuthenticationPage = () => {
 					/>
 					<Paper className={formContainer}>
 						{auth === LOGIN && <LogInForm />}
-						{/* {asPath === SIGN_UP && <SignUpForm />} */}
+						{auth === SIGN_UP && <SignUpForm />}
 					</Paper>
 				</Box>
 				<Paper className={backgroundImageOverlay} />
