@@ -106,6 +106,7 @@ const UserAuthenticationPage = () => {
 		<>
 			<Head>
 				<title>{pageTitle}</title>
+				<meta name={pageTitle} content={`users can ${pageTitle} here`} />
 			</Head>
 
 			<ThemeProvider theme={lightTheme}>
