@@ -2,8 +2,7 @@ import dynamic from 'next/dynamic'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
 import Image from 'next/image'
-
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import CircularProgress from '@material-ui/core/CircularProgress'
 import Box from '@material-ui/core/Box'
 import {
@@ -16,7 +15,7 @@ import Paper from '@material-ui/core/Paper'
 
 import { lightTheme } from 'themes/theme'
 import capitalize from 'utils/capitalize'
-import { LOGIN, SIGN_UP } from 'utils/authRedirect'
+import { LOGIN, SIGN_UP } from 'variables/global'
 
 const useStyles = makeStyles(() =>
 	createStyles({
@@ -66,25 +65,24 @@ const useStyles = makeStyles(() =>
 	})
 )
 
-const LogInForm = dynamic(
-	() => import('components/UserAuthenticationForms/LogInForm'),
-	{
-		loading: () => <CircularProgress />,
-		ssr: false,
-	}
-)
+// const LogInForm = dynamic(
+// 	() => import('components/UserAuthenticationForms/LogInForm'),
+// 	{
+// 		loading: () => <CircularProgress />,
+// 		ssr: false,
+// 	}
+// )
 
-const SignUpForm = dynamic(
-	() => import('components/UserAuthenticationForms/SignUpForm'),
-	{
-		loading: () => <CircularProgress />,
-		ssr: false,
-	}
-)
+// const SignUpForm = dynamic(
+// 	() => import('components/UserAuthenticationForms/SignUpForm'),
+// 	{
+// 		loading: () => <CircularProgress />,
+// 		ssr: false,
+// 	}
+// )
 
 const UserAuthenticationPage = () => {
 	const {
-		asPath,
 		query: { authentication: auth },
 	}: any = useRouter()
 
@@ -97,7 +95,7 @@ const UserAuthenticationPage = () => {
 		formContainer,
 	} = useStyles()
 
-	React.useEffect(() => {
+	useEffect(() => {
 		if (auth) {
 			const capitalizeTitle = capitalize(auth)
 			setPageTitle(capitalizeTitle)
@@ -118,10 +116,10 @@ const UserAuthenticationPage = () => {
 						alt='hello world'
 						layout='fill'
 					/>
-					<Paper className={formContainer}>
-						{asPath === LOGIN && <LogInForm />}
-						{asPath === SIGN_UP && <SignUpForm />}
-					</Paper>
+					{/* <Paper className={formContainer}> */}
+					{/* 	{asPath === LOGIN && <LogInForm />} */}
+					{/* 	{asPath === SIGN_UP && <SignUpForm />} */}
+					{/* </Paper> */}
 				</Box>
 				<Paper className={backgroundImageOverlay} />
 			</ThemeProvider>
