@@ -36,8 +36,8 @@
         "validator": "^13.1.17"
     },
     "scripts": {
-        "build": "babel src -d dist",
-        "start": "yarn run build && node dist/index.js",
+        "build": "babel src -d build",
+        "start": "node build/index.js",
         "dev": "nodemon --exec babel-node src/index.js",
         "serve": "node dist/index.js",
         "client-dev": "yarn --cwd ../client-next dev",
