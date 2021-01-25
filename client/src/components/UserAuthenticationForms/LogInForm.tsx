@@ -7,53 +7,54 @@ import dynamic from 'next/dynamic'
 import { useRouter } from 'next/router'
 
 import { Error, LoginInput, LoginOutput } from 'interfaces/authentication'
-import { UserContext } from 'context/userContext'
+// import { UserContext } from 'context/userContext'
 
-import { loginMutation } from 'graphql/mutations/authMutations'
+// import { loginMutation } from 'graphql/mutations/authMutations'
 
-import login from 'utils/login'
-import createRequest from 'utils/createRequest'
+// import login from 'utils/login'
+// import createRequest from 'utils/createRequest'
+// import MuiLink from 'components/Links/MuiLink'
 import MuiLink from 'components/Links/MuiLink'
 
 const Alert = dynamic(() => import('@material-ui/lab/Alert'))
 
 const LogInForm = () => {
 	const { push } = useRouter()
-	const [, setUser]: any = useContext(UserContext)
+	// const [, setUser]: any = useContext(UserContext)
 
 	const [errorMessage, setErrorMessage] = useState('')
 
-	const loginUser = async (values: LoginInput) => {
-		try {
-			const {
-				loginUser: { errorMessage: message, token },
-			}: LoginOutput = await createRequest({
-				mutation: loginMutation,
-				values,
-			})
+	// const loginUser = async (values: LoginInput) => {
+	// 	try {
+	// 		const {
+	// 			loginUser: { errorMessage: message, token },
+	// 		}: LoginOutput = await createRequest({
+	// 			mutation: loginMutation,
+	// 			values,
+	// 		})
 
-			if (message) {
-				setErrorMessage(message)
+	// 		if (message) {
+	// 			setErrorMessage(message)
 
-				setTimeout(() => {
-					setErrorMessage('')
-				}, 3000)
+	// 			setTimeout(() => {
+	// 				setErrorMessage('')
+	// 			}, 3000)
 
-				return false
-			}
+	// 			return false
+	// 		}
 
-			const loginSuccessful = await login({ setUser, token })
+	// 		const loginSuccessful = await login({ setUser, token })
 
-			if (loginSuccessful) {
-				push('/')
-				return true
-			}
-		} catch (err: any) {
-			console.log(err)
-		}
+	// 		if (loginSuccessful) {
+	// 			push('/')
+	// 			return true
+	// 		}
+	// 	} catch (err: any) {
+	// 		console.log(err)
+	// 	}
 
-		return true
-	}
+	// 	return true
+	// }
 
 	return (
 		<>
@@ -62,7 +63,7 @@ const LogInForm = () => {
 					email: '',
 					password: '',
 				}}
-				validate={values => {
+				validate={(values) => {
 					const errors: Error = {}
 					if (!values.email) {
 						errors.email = 'Required'
@@ -74,7 +75,7 @@ const LogInForm = () => {
 					return errors
 				}}
 				onSubmit={async (values, { setSubmitting }) => {
-					loginUser(values)
+					// loginUser(values)
 
 					setTimeout(() => {
 						setSubmitting(false)
