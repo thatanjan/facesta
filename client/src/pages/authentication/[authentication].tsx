@@ -65,13 +65,12 @@ const useStyles = makeStyles(() =>
 	})
 )
 
-// const LogInForm = dynamic(
-// 	() => import('components/UserAuthenticationForms/LogInForm'),
-// 	{
-// 		loading: () => <CircularProgress />,
-// 		ssr: false,
-// 	}
-// )
+const LogInForm = dynamic(
+	() => import('components/UserAuthenticationForms/LogInForm'),
+	{
+		loading: () => <CircularProgress />,
+	}
+)
 
 // const SignUpForm = dynamic(
 // 	() => import('components/UserAuthenticationForms/SignUpForm'),
@@ -117,10 +116,10 @@ const UserAuthenticationPage = () => {
 						alt='hello world'
 						layout='fill'
 					/>
-					{/* <Paper className={formContainer}> */}
-					{/* 	{asPath === LOGIN && <LogInForm />} */}
-					{/* 	{asPath === SIGN_UP && <SignUpForm />} */}
-					{/* </Paper> */}
+					<Paper className={formContainer}>
+						{auth === LOGIN && <LogInForm />}
+						{/* {asPath === SIGN_UP && <SignUpForm />} */}
+					</Paper>
 				</Box>
 				<Paper className={backgroundImageOverlay} />
 			</ThemeProvider>
