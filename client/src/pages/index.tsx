@@ -29,18 +29,10 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 		res,
 	} = ctx
 
-	if (!cookies?.[TOKEN_NAME]) {
-		redirectToAuth(res)
-	}
-
 	const token = cookies?.[TOKEN_NAME]
 
-	if (token) {
-		const isValid = await checkValidJwt(token)
-		if (!isValid) {
-			console.log('not valid')
-			redirectToAuth(res)
-		}
+	if (!token || !(await checkValidJwt(token))) {
+		redirectToAuth(res)
 	}
 
 	return { props: {} }
