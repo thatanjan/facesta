@@ -8,7 +8,7 @@ const SKILLS = 'skills'
 
 const PRODUCTION = 'production'
 
-export const ifProduction = process.env.VERCEL_ENV === PRODUCTION
+export const ifProduction = process.env.NEXT_PUBLIC_VERCEL_ENV === PRODUCTION
 
 const END_POINT = ifProduction
 	? process.env.NEXT_PUBLIC_SERVER_URL
