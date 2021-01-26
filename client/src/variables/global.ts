@@ -9,6 +9,7 @@ const SKILLS = 'skills'
 const PRODUCTION = 'production'
 
 export const ifProduction = process.env.VERCEL_ENV === PRODUCTION
+console.log('this app on production' + ifProduction)
 
 const END_POINT = ifProduction
 	? process.env.SERVER_URL
