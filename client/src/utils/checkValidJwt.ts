@@ -4,7 +4,7 @@ import { ifProduction } from 'variables/global'
 // eslint-disable-next-line
 const checkValidJwt = async (jwt: string) => {
 	const END_POINT = ifProduction
-		? process.env.SERVER_VALIDATE
+		? process.env.NEXT_PUBLIC_SERVER_VALIDATE
 		: 'http://localhost:8000/validate'
 
 	try {
