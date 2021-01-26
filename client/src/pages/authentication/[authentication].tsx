@@ -18,6 +18,7 @@ import { lightTheme } from 'themes/theme'
 import capitalize from 'utils/capitalize'
 import { LOGIN, SIGN_UP, TOKEN_NAME } from 'variables/global'
 import { redirectToHome } from 'utils/authRedirect'
+import checkValidJwt from 'utils/checkValidJwt'
 
 const useStyles = makeStyles(() =>
 	createStyles({
@@ -133,7 +134,9 @@ export default UserAuthenticationPage
 export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
 	const { cookies } = req
 
-	if (cookies?.[TOKEN_NAME]) {
+	const token = cookies?.[TOKEN_NAME]
+
+	if (token && (await checkValidJwt(token))) {
 		redirectToHome(res)
 	}
 
