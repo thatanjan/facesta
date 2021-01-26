@@ -14,7 +14,7 @@ const token = (): string => {
 }
 
 const graphQlClient = (reqToken?: string | undefined) =>
-	new GraphQLClient(END_POINT, {
+	new GraphQLClient(END_POINT as string, {
 		headers: {
 			authorization: reqToken || token(),
 		},
