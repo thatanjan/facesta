@@ -28,5 +28,6 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 
 	await validRedirect(req, res)
 
+	console.log(process.env.VERCEL_ENV)
 	return { props: {} }
 }
