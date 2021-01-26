@@ -37,7 +37,10 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 
 	if (token) {
 		const isValid = await checkValidJwt(token)
-		console.log(isValid)
+		if (!isValid) {
+			console.log('not valid')
+			redirectToAuth(res)
+		}
 	}
 
 	return { props: {} }
