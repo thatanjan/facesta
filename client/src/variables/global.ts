@@ -9,10 +9,9 @@ const SKILLS = 'skills'
 const PRODUCTION = 'production'
 
 export const ifProduction = process.env.VERCEL_ENV === PRODUCTION
-console.log('this app on production' + ifProduction)
 
 const END_POINT = ifProduction
-	? process.env.SERVER_URL
+	? process.env.NEXT_PUBLIC_SERVER_URL
 	: 'http://localhost:8000/graphql'
 
 export { TOKEN_NAME, DATE_OF_BIRTH, SKILLS, LOGIN, SIGN_UP, END_POINT }
