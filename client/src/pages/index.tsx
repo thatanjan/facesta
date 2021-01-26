@@ -2,11 +2,9 @@ import Head from 'next/head'
 import { GetServerSideProps } from 'next'
 
 import PageWrapper from 'components/PageWrapper/PageWrapper'
-import { TOKEN_NAME } from 'variables/global'
-import { redirectToAuth } from 'utils/authRedirect'
-import checkValidJwt from 'utils/checkValidJwt'
+import validRedirect from 'utils/validRedirect'
 
-export default function Home() {
+const Home = () => {
 	return (
 		<>
 			<Head>
@@ -23,17 +21,12 @@ export default function Home() {
 	)
 }
 
+export default Home
+
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
-	const {
-		req: { cookies },
-		res,
-	} = ctx
+	const { req, res } = ctx
 
-	const token = cookies?.[TOKEN_NAME]
-
-	if (!token || !(await checkValidJwt(token))) {
-		redirectToAuth(res)
-	}
+	await validRedirect(req, res)
 
 	return { props: {} }
 }
