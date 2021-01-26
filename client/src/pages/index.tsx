@@ -4,6 +4,7 @@ import { GetServerSideProps } from 'next'
 import PageWrapper from 'components/PageWrapper/PageWrapper'
 import { TOKEN_NAME } from 'variables/global'
 import { redirectToAuth } from 'utils/authRedirect'
+import checkValidJwt from 'utils/checkValidJwt'
 
 export default function Home() {
 	return (
@@ -30,6 +31,13 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 
 	if (!cookies?.[TOKEN_NAME]) {
 		redirectToAuth(res)
+	}
+
+	const token = cookies?.[TOKEN_NAME]
+
+	if (token) {
+		const isValid = await checkValidJwt(token)
+		console.log(isValid)
 	}
 
 	return { props: {} }
