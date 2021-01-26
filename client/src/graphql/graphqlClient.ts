@@ -1,9 +1,7 @@
 import Cookies from 'js-cookie'
 import { GraphQLClient } from 'graphql-request'
 
-import { TOKEN_NAME } from 'variables/global'
-
-const endpoint = 'http://localhost:8000/graphql'
+import { TOKEN_NAME, END_POINT } from 'variables/global'
 
 const token = (): string => {
 	let jwtToken: string | undefined = ''
@@ -16,7 +14,7 @@ const token = (): string => {
 }
 
 const graphQlClient = (reqToken?: string | undefined) =>
-	new GraphQLClient(endpoint, {
+	new GraphQLClient(END_POINT, {
 		headers: {
 			authorization: reqToken || token(),
 		},
