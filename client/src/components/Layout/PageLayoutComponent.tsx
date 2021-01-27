@@ -3,6 +3,7 @@ import useMediaQuery from '@material-ui/core/useMediaQuery'
 import Grid from '@material-ui/core/Grid'
 import { makeStyles } from '@material-ui/core/styles'
 
+import AppHeader from 'components/AppHeader/AppHeader'
 import BackgroundPaper from './BackgroundPaper'
 
 interface Props {
@@ -36,30 +37,33 @@ const PageLayoutComponent = ({ Drawer, Content, RightSection }: Props) => {
 	}
 
 	return (
-		<BackgroundPaper>
-			<Grid
-				container
-				spacing={Drawer && RightSection ? 2 : 0}
-				justify='space-evenly'
-				className={containerStyle}
-			>
-				{matches && typeof Drawer === 'function' && (
-					<Grid item md={3}>
-						<Drawer />
-					</Grid>
-				)}
-				{Content && typeof Content === 'function' && (
-					<Grid item xs={10} md={contentWidth()}>
-						<Content />
-					</Grid>
-				)}
-				{matches && typeof RightSection === 'function' && (
-					<Grid item md={3}>
-						<RightSection />
-					</Grid>
-				)}
-			</Grid>
-		</BackgroundPaper>
+		<>
+			<AppHeader />
+			<BackgroundPaper>
+				<Grid
+					container
+					spacing={Drawer && RightSection ? 2 : 0}
+					justify='space-evenly'
+					className={containerStyle}
+				>
+					{matches && typeof Drawer === 'function' && (
+						<Grid item md={3}>
+							<Drawer />
+						</Grid>
+					)}
+					{Content && typeof Content === 'function' && (
+						<Grid item xs={10} md={contentWidth()}>
+							<Content />
+						</Grid>
+					)}
+					{matches && typeof RightSection === 'function' && (
+						<Grid item md={3}>
+							<RightSection />
+						</Grid>
+					)}
+				</Grid>
+			</BackgroundPaper>
+		</>
 	)
 }
 
