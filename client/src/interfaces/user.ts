@@ -4,3 +4,7 @@ export default interface UserPayload {
 	iat: number
 	exp: number
 }
+
+export interface PropsWithUserData {
+	userData: UserPayload
+}
