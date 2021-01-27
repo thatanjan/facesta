@@ -5,6 +5,7 @@ import PageWrapper from 'components/PageWrapper/PageWrapper'
 import validRedirect from 'utils/validRedirect'
 import PageLayoutComponent from 'components/Layout/PageLayoutComponent'
 import { PropsWithUserData } from 'interfaces/user'
+import Requset from 'interfaces/requsetResponse'
 
 interface Props extends PropsWithUserData {}
 
@@ -30,7 +31,7 @@ export default Home
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
 	const { req, res } = ctx
 
-	await validRedirect(req, res)
+	await validRedirect(req as Requset, res)
 
 	return { props: {} }
 }
