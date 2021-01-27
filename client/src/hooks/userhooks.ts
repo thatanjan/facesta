@@ -1,5 +1,5 @@
 import { useContext } from 'react'
-import { UserContext } from 'context/userContext'
+import { UserContext } from 'context/UserContext'
 
 const useGetUser = () => {
 	const [user]: any = useContext(UserContext)
