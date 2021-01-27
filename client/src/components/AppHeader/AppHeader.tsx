@@ -96,7 +96,7 @@ const AppHeader = () => {
 							>
 								<MenuIcon />
 							</IconButton>
-							{/* <NavigationDrawer /> */}
+							<NavigationDrawer />
 						</>
 					)}
 
