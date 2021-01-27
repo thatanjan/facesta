@@ -2,8 +2,9 @@ import Head from 'next/head'
 import { GetServerSideProps } from 'next'
 
 import PageWrapper from 'components/PageWrapper/PageWrapper'
-import validRedirect from 'utils/validRedirect'
 import PageLayoutComponent from 'components/Layout/PageLayoutComponent'
+import validRedirect from 'utils/validRedirect'
+import decodeToken from 'utils/decodeToken'
 import { PropsWithUserData } from 'interfaces/user'
 import Requset from 'interfaces/requsetResponse'
 
@@ -33,5 +34,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 
 	await validRedirect(req as Requset, res)
 
-	return { props: {} }
+	const userData = decodeToken(req as Requset)
+
+	return { props: { userData } }
 }
