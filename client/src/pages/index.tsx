@@ -4,8 +4,11 @@ import { GetServerSideProps } from 'next'
 import PageWrapper from 'components/PageWrapper/PageWrapper'
 import validRedirect from 'utils/validRedirect'
 import PageLayoutComponent from 'components/Layout/PageLayoutComponent'
+import { PropsWithUserData } from 'interfaces/user'
 
-const Home = () => {
+interface Props extends PropsWithUserData {}
+
+const Home = ({ userData }: Props) => {
 	return (
 		<>
 			<Head>
@@ -14,7 +17,7 @@ const Home = () => {
 			</Head>
 
 			<div>
-				<PageWrapper>
+				<PageWrapper userData={userData}>
 					<PageLayoutComponent Content={() => <div>hello world</div>} />
 				</PageWrapper>
 			</div>

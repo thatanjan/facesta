@@ -1,10 +1,9 @@
 import React, { ReactNode } from 'react'
 import UserContextProvider from 'context/UserContext'
-import UserPayload from 'interfaces/user'
+import { PropsWithUserData } from 'interfaces/user'
 
-interface Props {
+interface Props extends PropsWithUserData {
 	children: ReactNode
-	userData: UserPayload
 }
 
 const PageWrapper = ({ children, userData }: Props) => {
