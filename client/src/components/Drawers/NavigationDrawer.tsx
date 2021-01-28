@@ -1,8 +1,8 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import SwipeableDrawer from '@material-ui/core/SwipeableDrawer'
 import { makeStyles } from '@material-ui/core/styles'
 
-// import NavigationDrawerList from 'components/Drawers/NavigationDrawerList'
+import NavigationDrawerList from 'components/Drawers/NavigationDrawerList'
 
 import { useDrawerState, useDrawerDispatch } from 'hooks/drawerHooks'
 
@@ -15,10 +15,11 @@ const useStyles = makeStyles({
 export const NavigationDrawer = () => {
 	const { drawerStyle } = useStyles()
 
-	const { isDrawerOpen } = useDrawerState()
+	const isDrawerOpen = useDrawerState()
 
 	const [openDrawer, closeDrawer] = useDrawerDispatch()
 
+	console.log(isDrawerOpen)
 	return (
 		<>
 			<SwipeableDrawer
@@ -27,7 +28,9 @@ export const NavigationDrawer = () => {
 				onClose={closeDrawer}
 				onOpen={openDrawer}
 			>
-				<div className={drawerStyle}>{/* <NavigationDrawerList /> */}</div>
+				<div className={drawerStyle}>
+					<NavigationDrawerList />{' '}
+				</div>
 			</SwipeableDrawer>
 		</>
 	)
