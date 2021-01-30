@@ -1,11 +1,10 @@
+import getToken from 'utils/getToken'
+import Requset from 'interfaces/requsetResponse'
 import checkValidJwt from 'utils/checkValidJwt'
-import { TOKEN_NAME } from 'variables/global'
 import { redirectToAuth } from 'utils/authRedirect'
 
-const validRedirect = async (req: any, res: any) => {
-	const { cookies } = req
-
-	const token = cookies?.[TOKEN_NAME]
+const validRedirect = async (req: Requset, res: any) => {
+	const token = getToken(req)
 
 	if (!token || !(await checkValidJwt(token))) {
 		redirectToAuth(res)
