@@ -6,9 +6,12 @@ import { redirectToAuth } from 'utils/authRedirect'
 const validRedirect = async (req: Requset, res: any) => {
 	const token = getToken(req)
 
-	if (!token || !(await checkValidJwt(token))) {
+	if (!token) {
 		redirectToAuth(res)
 	}
+	// if (!token || !(await checkValidJwt(token))) {
+	// 	redirectToAuth(res)
+	// }
 }
 
 export default validRedirect
