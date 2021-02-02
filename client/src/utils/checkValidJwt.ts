@@ -18,6 +18,7 @@ const checkValidJwt = async (jwt: string) => {
 			console.log(error.response.data.message)
 			return false
 		}
+		return false
 	}
 }
 
