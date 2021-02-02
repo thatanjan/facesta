@@ -13,8 +13,16 @@ const validRedirect = async (req: Requset, res: any) => {
 		return false
 	}
 
-	const result = await checkValidJwt(token)
-	console.log(result)
+	try {
+		const result = await checkValidJwt(token)
+		console.log(result)
+	} catch (error) {
+		if (error) {
+			redirectToAuth(res)
+		}
+	}
+
+	return true
 
 	// if (!token || !(await checkValidJwt(token))) {
 	// 	redirectToAuth(res)

@@ -7,19 +7,20 @@ const checkValidJwt = async (jwt: string) => {
 		? process.env.NEXT_PUBLIC_SERVER_VALIDATE
 		: 'http://localhost:8000/validate'
 
-	try {
-		await axios.post(END_POINT as string, { data: { jwt } })
-		return true
-	} catch (error) {
-		const statusCode = error.response.status
+	return axios.post(END_POINT as string, { data: { jwt } })
+	// try {
+	// 	await axios.post(END_POINT as string, { data: { jwt } })
+	// 	return true
+	// } catch (error) {
+	// 	const statusCode = error.response.status
 
-		if (statusCode === 401) {
-			// eslint-disable-next-line
-			console.log(error.response.data.message)
-			return false
-		}
-		return false
-	}
+	// 	if (statusCode === 401) {
+	// 		// eslint-disable-next-line
+	// 		console.log(error.response.data.message)
+	// 		return false
+	// 	}
+	// 	return false
+	// }
 }
 
 export default checkValidJwt
