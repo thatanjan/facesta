@@ -136,9 +136,12 @@ export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
 
 	const token = cookies?.[TOKEN_NAME]
 
-	// if (token && (await checkValidJwt(token))) {
-	// 	redirectToHome(res)
-	// }
+	try {
+		const result = await checkValidJwt(token)
+		if (result) {
+			redirectToHome(res)
+		}
+	} catch (error) {}
 
 	return { props: {} }
 }
