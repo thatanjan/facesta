@@ -34,7 +34,10 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 
 	const isValid = await validRedirect(req as Requset, res)
 
-	if (!isValid) return { props: {} }
+	// console.log(isValid)
+	if (!isValid) {
+		return { props: {} }
+	}
 
 	const userData = decodeToken(req as Requset)
 

@@ -17,8 +17,10 @@ import Paper from '@material-ui/core/Paper'
 import { lightTheme } from 'themes/theme'
 import capitalize from 'utils/capitalize'
 import { LOGIN, SIGN_UP, TOKEN_NAME } from 'variables/global'
+import getToken from 'utils/getToken'
 import { redirectToHome } from 'utils/authRedirect'
 import checkValidJwt from 'utils/checkValidJwt'
+import Requset from 'interfaces/requsetResponse'
 
 const useStyles = makeStyles(() =>
 	createStyles({
@@ -132,13 +134,11 @@ const UserAuthenticationPage = () => {
 export default UserAuthenticationPage
 
 export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
-	const { cookies } = req
+	const token = getToken(req as Requset)
 
-	// const token = cookies?.[TOKEN_NAME]
-
-	// if (token && (await checkValidJwt(token))) {
-	// 	redirectToHome(res)
-	// }
+	if (token && (await checkValidJwt(token))) {
+		redirectToHome(res)
+	}
 
 	return { props: {} }
 }
