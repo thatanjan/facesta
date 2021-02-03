@@ -12,15 +12,7 @@ const checkValidJwt = async (jwt: string) => {
 
 		if (isValid) return true
 	} catch (error) {
-		const statusCode = error.response.status
-		const responseMessage = error.response.data.message
-
 		return false
-		// if (error) {
-		// 	// eslint-disable-next-line
-		// 	console.log(responseMessage)
-		// 	return false
-		// }
 	}
 }
 
