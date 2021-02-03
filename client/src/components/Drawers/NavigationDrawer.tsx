@@ -19,7 +19,6 @@ export const NavigationDrawer = () => {
 
 	const [openDrawer, closeDrawer] = useDrawerDispatch()
 
-	console.log(isDrawerOpen)
 	return (
 		<>
 			<SwipeableDrawer

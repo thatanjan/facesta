@@ -8,14 +8,16 @@ const checkValidJwt = async (jwt: string) => {
 		: 'http://localhost:8000/validate'
 
 	try {
-		await axios.post(END_POINT as string, { data: { jwt } })
-		return true
+		const isValid = await axios.post(END_POINT as string, { data: { jwt } })
+
+		if (isValid) return true
 	} catch (error) {
 		const statusCode = error.response.status
+		const responseMessage = error.response.data.message
 
-		if (statusCode === 401) {
+		if (error) {
 			// eslint-disable-next-line
-			console.log(error.response.data.message)
+			console.log(responseMessage)
 			return false
 		}
 	}

@@ -134,11 +134,11 @@ export default UserAuthenticationPage
 export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
 	const { cookies } = req
 
-	const token = cookies?.[TOKEN_NAME]
+	// const token = cookies?.[TOKEN_NAME]
 
-	if (token && (await checkValidJwt(token))) {
-		redirectToHome(res)
-	}
+	// if (token && (await checkValidJwt(token))) {
+	// 	redirectToHome(res)
+	// }
 
 	return { props: {} }
 }
