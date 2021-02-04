@@ -40,29 +40,27 @@ const NavigationDrawerList = () => {
 
 	const { iconStyle, logOutIconStyle, listItemTextStyle } = useStyles()
 
-	const drawerState = useDrawerState()
+	const isDrawerOpen = useDrawerState()
 	const drawerDispatch = useDrawerDispatch()
 
-	console.log(drawerDispatch)
 	const setUser = useSetUser()
 	const { name } = useGetUser()
 	const router = useRouter()
 
 	const itemClickHandler = (event: any, index: number) => {
-		event.preventDefault()
 		if (index === listComponents.length - 1) {
 			// logout(setUser, router)
 			return true
 		}
 
-		if (!matches && drawerState) {
-			const { isDrawerOpen } = drawerState
+		if (!matches && isDrawerOpen) {
 			const [openDrawer, closeDrawer] = drawerDispatch
 
 			isDrawerOpen ? closeDrawer() : openDrawer()
 			return true
 		}
 
+		event.preventDefault()
 		return false
 	}
 
