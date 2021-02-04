@@ -1,5 +1,4 @@
 import React, { MouseEvent } from 'react'
-import { useRouter } from 'next/router'
 import { nanoid } from 'nanoid'
 import { makeStyles } from '@material-ui/core/styles'
 import List from '@material-ui/core/List'
@@ -11,8 +10,7 @@ import useMediaQuery from '@material-ui/core/useMediaQuery'
 import MuiLink from 'components/Links/MuiLink'
 import { screenSizeDrawer } from 'components/Layout/PageLayoutComponent'
 import { useDrawerState, useDrawerDispatch } from 'hooks/drawerHooks'
-import useGetUser, { useSetUser } from 'hooks/userhooks'
-// import logout from 'utils/logout'
+import useGetUser from 'hooks/userhooks'
 import listComponents, { Components } from './NavigationDrawerListData'
 
 export const convertSpaceToDash = (text: string): string | boolean => {
@@ -43,13 +41,10 @@ const NavigationDrawerList = () => {
 	const isDrawerOpen = useDrawerState()
 	const drawerDispatch = useDrawerDispatch()
 
-	const setUser = useSetUser()
 	const { name } = useGetUser()
-	const router = useRouter()
 
 	const itemClickHandler = (event: any, index: number) => {
 		if (index === listComponents.length - 1) {
-			// logout(setUser, router)
 			return true
 		}
 
@@ -93,5 +88,3 @@ const NavigationDrawerList = () => {
 }
 
 export default NavigationDrawerList
-
-// to={index === 1 ? `${link}/${convertSpaceToDash(name)}` : link}
