@@ -1,5 +1,6 @@
 const AUTHENTICATION = 'authentication'
-const createAuthUrl = (restUrl: string): string => `${AUTHENTICATION}${restUrl}`
+const createAuthUrl = (restUrl: string): string =>
+	`/${AUTHENTICATION}${restUrl}`
 
 const TOKEN_NAME: string = 'jwt'
 
