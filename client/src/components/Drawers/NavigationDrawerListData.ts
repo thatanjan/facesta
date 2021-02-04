@@ -3,12 +3,9 @@ import ExitToAppIcon from '@material-ui/icons/ExitToApp'
 import SettingsIcon from '@material-ui/icons/Settings'
 import VideoLibraryIcon from '@material-ui/icons/VideoLibrary'
 import HomeIcon from '@material-ui/icons/Home'
+import FaceIcon from '@material-ui/icons/Face'
 
-
-
-import FaceIcon from '@material-ui/icons/Face';
-
-
+import { LOGOUT_URL } from 'variables/global'
 
 export interface Components {
 	title: string
@@ -56,7 +53,7 @@ const listComponents: List = [
 	{
 		title: 'Log Out',
 		Component: ExitToAppIcon,
-		link: '',
+		link: LOGOUT_URL,
 	},
 ]
 
