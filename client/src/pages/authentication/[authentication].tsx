@@ -16,9 +16,9 @@ import Paper from '@material-ui/core/Paper'
 
 import { lightTheme } from 'themes/theme'
 import capitalize from 'utils/capitalize'
-import { LOGIN, SIGN_UP, TOKEN_NAME } from 'variables/global'
+import { LOGIN, SIGN_UP } from 'variables/global'
 import getToken from 'utils/getToken'
-import { redirectToHome } from 'utils/authRedirect'
+import createRedirectObject from 'utils/createRedirectObject'
 import checkValidJwt from 'utils/checkValidJwt'
 import Requset from 'interfaces/requsetResponse'
 
@@ -137,7 +137,7 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
 	const token = getToken(req as Requset)
 
 	if (token && (await checkValidJwt(token))) {
-		return { redirect: { permanent: false, destination: '/' } }
+		return createRedirectObject('/')
 	}
 
 	return { props: {} }
