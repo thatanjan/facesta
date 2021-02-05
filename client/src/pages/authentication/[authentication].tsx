@@ -133,11 +133,11 @@ const UserAuthenticationPage = () => {
 
 export default UserAuthenticationPage
 
-export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
+export const getServerSideProps: GetServerSideProps = async ({ req }) => {
 	const token = getToken(req as Requset)
 
 	if (token && (await checkValidJwt(token))) {
-		redirectToHome(res)
+		return { redirect: { permanent: false, destination: '/' } }
 	}
 
 	return { props: {} }
