@@ -7,6 +7,10 @@ import validRedirect from 'utils/validRedirect'
 import decodeToken from 'utils/decodeToken'
 import { PropsWithUserData } from 'interfaces/user'
 import Requset from 'interfaces/requsetResponse'
+import shouldRedirectToAuth from 'utils/shouldRedirectToAuth'
+import getToken from 'utils/getToken'
+import createRedirectObject from 'utils/createRedirectObject'
+import { LOGIN_URL } from 'variables/global'
 
 interface Props extends PropsWithUserData {}
 
@@ -29,15 +33,12 @@ const Home = ({ userData }: Props) => {
 
 export default Home
 
-export const getServerSideProps: GetServerSideProps = async (ctx) => {
-	const { req, res } = ctx
+export const getServerSideProps: GetServerSideProps = async ({ req }) => {
+	const token = getToken(req as Requset)
 
-	const isValid = await validRedirect(req as Requset, res)
+	const shouldRedirect = await shouldRedirectToAuth(token)
 
-	// console.log(isValid)
-	if (!isValid) {
-		return { props: {} }
-	}
+	if (shouldRedirect) return createRedirectObject(LOGIN_URL)
 
 	const userData = decodeToken(req as Requset)
 
