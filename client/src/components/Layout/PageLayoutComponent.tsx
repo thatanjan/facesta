@@ -29,10 +29,10 @@ const PageLayoutComponent = ({ Drawer, Content, RightSection }: Props) => {
 
 	const contentWidth = () => {
 		if (Drawer && !RightSection) {
-			return 8
+			return 9
 		}
 		if (!Drawer && RightSection) {
-			return 8
+			return 9
 		}
 		return 6
 	}
@@ -44,12 +44,7 @@ const PageLayoutComponent = ({ Drawer, Content, RightSection }: Props) => {
 			</DrawerContextProvider>
 
 			<BackgroundPaper>
-				<Grid
-					container
-					spacing={Drawer && RightSection ? 2 : 0}
-					justify='space-evenly'
-					className={containerStyle}
-				>
+				<Grid container justify='space-evenly' className={containerStyle}>
 					{matches && typeof Drawer === 'function' && (
 						<Grid item md={3}>
 							<Drawer />
