@@ -40,6 +40,11 @@ const createUser = async ({ name, email, password }) => {
     }
 }
 
+const validationErrorMessage = (success, errors) => ({
+    success,
+    validationError: errors,
+})
+
 const resolver = {
     Mutation: {
         registerUser: async (
@@ -54,7 +59,7 @@ const resolver = {
             })
 
             if (!isValid) {
-                return sendMessage(false, errors)
+                return validationErrorMessage(false, errors)
             }
 
             try {
