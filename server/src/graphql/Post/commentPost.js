@@ -9,8 +9,8 @@ const REMOVE_COMMENT_MESSAGE = 'you remove comment from the post'
 
 const findComment = ({ comments, commentId }) => comments.id(commentId)
 
-const ownsComment = ({ userId, id, commentedUser }) =>
-    commentedUser === userId || commentedUser === id
+const ownsComment = ({ postUserId, id, commentedUser }) =>
+    commentedUser === postUserId || commentedUser === id
 
 const findPost = async (model, id) => {
     const post = await model.findById(id, 'comments')
@@ -29,7 +29,7 @@ const addComment = (comments, { id, text }) => {
 const mainResolver = (operation) => {
     return async (
         _,
-        { input: { postId, text, commentId, userId } },
+        { Input: { postId, text, commentId, postUserId } },
         { user: { id } }
     ) => {
         let returnMessage = ''
@@ -60,7 +60,7 @@ const mainResolver = (operation) => {
 
                 const commentedUser = comment.user.toString()
 
-                if (!ownsComment({ id, userId, commentedUser })) {
+                if (!ownsComment({ id, postUserId, commentedUser })) {
                     return throwError('not authorized')
                 }
 
@@ -75,7 +75,7 @@ const mainResolver = (operation) => {
 
         post.save()
 
-        return sendMessage(true, returnMessage)
+        return sendMessage(true, null, returnMessage)
     }
 }
 

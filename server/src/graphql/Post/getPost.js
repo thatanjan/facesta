@@ -5,7 +5,7 @@ const resolver = {
     Query: {
         getSinglePost: async (
             _,
-            { input: { postId, userId } },
+            { Input: { postId, userId } },
             { user: { id } }
         ) => {
             const Post = createPostModel(userId || id)
@@ -18,7 +18,7 @@ const resolver = {
 
             return singlePost
         },
-        getAllPost: async (_, { input: { start } }, { user: { id } }) => {
+        getAllPost: async (_, { Input: { start } }, { user: { id } }) => {
             const Post = createPostModel(id)
 
             const allPost = {}
