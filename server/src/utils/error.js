@@ -1,4 +1,4 @@
-export default ({ success, message, errorMessage }) => ({
+export default (success, errorMessage, message) => ({
     success,
     message,
     errorMessage:

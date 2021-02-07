@@ -4,7 +4,7 @@ import {
     matchPasswords,
     sendSuccessToken,
 } from 'utils/authentication'
-import { sendMessage } from 'utils/error'
+import sendMessage from 'utils/error'
 import validateLoginInput from 'validation/login'
 
 const resolver = {
