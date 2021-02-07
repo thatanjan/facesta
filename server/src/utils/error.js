@@ -1,10 +1,6 @@
-export const throwError = (message) => {
-    const error = new Error()
-    error.message = message
-    return error
-}
-
-export const sendMessage = (success = false, message) => ({
+export default ({ success, message, errorMessage }) => ({
     success,
-    errorMessage: typeof message === 'object' ? message.message : message,
+    message,
+    errorMessage:
+        typeof errorMessage === 'object' ? errorMessage.message : errorMessage,
 })
