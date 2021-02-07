@@ -2,15 +2,15 @@ import { gql } from 'apollo-server-express'
 
 const FollowType = gql`
     extend type Query {
-        getFollowers(Input: userId): Followers!
-        getFollowing(Input: userId): Following!
-        getIsFollowing(Input: userId): IsFollowing!
-        getIsFollower(Input: userId): IsFollower!
+        getFollowers(Input: otherUserId): Followers!
+        getFollowing(Input: otherUserId): Following!
+        getIsFollowing(Input: otherUserId): IsFollowing!
+        getIsFollower(Input: otherUserId): IsFollower!
     }
 
     extend type Mutation {
-        followUser(Input: userId): Success!
-        unfollowUser(Input: userId): Success!
+        followUser(Input: otherUserId): Success!
+        unfollowUser(Input: otherUserId): Success!
     }
 
     type UserList {
@@ -39,8 +39,8 @@ const FollowType = gql`
     type IsFollower {
         isFollower: Boolean!
     }
-    input userId {
-        userId: ID!
+    input otherUserId {
+        otherUserId: ID!
     }
 `
 
