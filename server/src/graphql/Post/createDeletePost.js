@@ -6,7 +6,7 @@ import User from 'models/User'
 
 const resolver = {
     Mutation: {
-        createPost: async (_, { input: { text } }, { user: { id } }) => {
+        createPost: async (_, { Input: { text } }, { user: { id } }) => {
             const Post = createPostModel(id)
 
             const newPost = new Post({ text })
@@ -15,7 +15,7 @@ const resolver = {
 
             return post
         },
-        deletePost: async (_, { input: { id: postId } }, { user: { id } }) => {
+        deletePost: async (_, { Input: { id: postId } }, { user: { id } }) => {
             const Post = createPostModel(id)
 
             const post = await Post.findById(postId)
