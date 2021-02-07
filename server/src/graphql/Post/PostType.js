@@ -2,26 +2,26 @@ import { gql } from 'apollo-server-express'
 
 const text = `text: String!`
 const postId = `postId: ID!`
-const userId = `userId: ID`
+const postUserId = `postUserId: ID`
 
 const userAndPostId = `
         ${postId}
-        ${userId}
+        ${postUserId}
 `
 
 const PostTypedefs = gql`
     extend type Query {
-        getSinglePost(input: getSinglePost!): Post!
-        getAllPost(input: getAllPostInput!): AllPost!
+        getSinglePost(Input: getSinglePost!): Post!
+        getAllPost(Input: getAllPostInput!): AllPost!
     }
 
     extend type Mutation {
-        createPost(input: CreatePostInput!): Post!
-        deletePost(input: PostId!): Success!
-        likePost(input:PostId!): Success!
-        removeLikePost(input: PostId!): Success!
-        commentPost(input: commentInput!): Success!
-        removeCommentPost(input: removeCommentInput! ): Success!
+        createPost(Input: CreatePostInput!): Post!
+        deletePost(Input: PostId!): Success!
+        likePost(Input:PostId!): Success!
+        removeLikePost(Input: PostId!): Success!
+        commentPost(Input: commentInput!): Success!
+        removeCommentPost(Input: removeCommentInput! ): Success!
     }
 
     type Post {
@@ -47,7 +47,7 @@ const PostTypedefs = gql`
 
     input getAllPostInput {
         start: Int!
-        ${userId}
+        ${postUserId}
     }
 
     input commentInput{
