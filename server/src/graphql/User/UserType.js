@@ -13,10 +13,18 @@ const UserType = gql`
         deleteUser: Success!
     }
 
+    type RegisterErrorMessages{
+        name: String
+        email: String
+        password: String
+        confirmPassword: String
+    }
+
     type Login {
         token: String
         success: Boolean!
         errorMessage: String
+        validationError : RegisterErrorMessages
     }
 
     type User {
