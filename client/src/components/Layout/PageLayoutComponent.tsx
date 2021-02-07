@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react'
+import React from 'react'
 import useMediaQuery from '@material-ui/core/useMediaQuery'
 import Grid from '@material-ui/core/Grid'
 import { makeStyles } from '@material-ui/core/styles'
@@ -8,9 +8,9 @@ import AppHeader from 'components/AppHeader/AppHeader'
 import BackgroundPaper from './BackgroundPaper'
 
 interface Props {
-	Drawer?: boolean | ReactNode
-	Content?: boolean | ReactNode
-	RightSection?: boolean | ReactNode
+	Drawer?: any
+	Content?: any
+	RightSection?: any
 }
 
 const useStyles = makeStyles({
@@ -23,6 +23,8 @@ const useStyles = makeStyles({
 export const screenSizeDrawer: string = '(min-width:960px)'
 
 const PageLayoutComponent = ({ Drawer, Content, RightSection }: Props) => {
+	const isObject = (component: any): boolean => typeof component === 'object'
+
 	const matches = useMediaQuery(screenSizeDrawer)
 
 	const { containerStyle } = useStyles()
@@ -45,7 +47,7 @@ const PageLayoutComponent = ({ Drawer, Content, RightSection }: Props) => {
 
 			<BackgroundPaper>
 				<Grid container justify='space-evenly' className={containerStyle}>
-					{matches && typeof Drawer === 'function' && (
+					{matches && isObject(Drawer) && (
 						<Grid item md={3}>
 							<Drawer />
 						</Grid>
@@ -55,7 +57,7 @@ const PageLayoutComponent = ({ Drawer, Content, RightSection }: Props) => {
 							<Content />
 						</Grid>
 					)}
-					{matches && typeof RightSection === 'function' && (
+					{matches && isObject(RightSection) && (
 						<Grid item md={3}>
 							<RightSection />
 						</Grid>

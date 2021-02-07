@@ -12,6 +12,8 @@ import getToken from 'utils/getToken'
 import createRedirectObject from 'utils/createRedirectObject'
 import { LOGIN_URL } from 'variables/global'
 
+import NavigationDrawerList from 'components/Drawers/NavigationDrawerList'
+
 interface Props extends PropsWithUserData {}
 
 const Home = ({ userData }: Props) => {
@@ -24,7 +26,10 @@ const Home = ({ userData }: Props) => {
 
 			<div>
 				<PageWrapper userData={userData}>
-					<PageLayoutComponent Content={() => <div>hello world</div>} />
+					<PageLayoutComponent
+						Drawer={NavigationDrawerList}
+						Content={() => <div>hello world</div>}
+					/>
 				</PageWrapper>
 			</div>
 		</>
