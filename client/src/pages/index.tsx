@@ -47,7 +47,7 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
 
 	if (shouldRedirect) return createRedirectObject(LOGIN_URL)
 
-	const userData = decodeToken(req as Requset)
+	const userData = decodeToken(token)
 
 	return { props: { userData } }
 }
