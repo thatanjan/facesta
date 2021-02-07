@@ -14,7 +14,7 @@ const ProfileMutationTypeDefs = gql`
 
 const InputTypedefs = gql`
     input ProfileIdInput {
-        userId: ID!
+        profileUserId: ID!
     }
 
     input PersonalInput {
