@@ -6,6 +6,7 @@ import {
 } from 'utils/authentication'
 import sendMessage from 'utils/error'
 import validateLoginInput from 'validation/login'
+import { validationErrorMessage } from './registerUser'
 
 const resolver = {
     Mutation: {
@@ -13,7 +14,7 @@ const resolver = {
             const { errors, isValid } = validateLoginInput({ email, password })
 
             if (!isValid) {
-                return sendMessage(false, errors)
+                return validationErrorMessage(false, errors)
             }
 
             try {

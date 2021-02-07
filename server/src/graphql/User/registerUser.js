@@ -40,7 +40,7 @@ const createUser = async ({ name, email, password }) => {
     }
 }
 
-const validationErrorMessage = (success, errors) => ({
+export const validationErrorMessage = (success, errors) => ({
     success,
     validationError: errors,
 })
