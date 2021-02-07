@@ -1,9 +1,9 @@
 import Head from 'next/head'
 import { GetServerSideProps } from 'next'
+import dynamic from 'next/dynamic'
 
 import PageWrapper from 'components/PageWrapper/PageWrapper'
 import PageLayoutComponent from 'components/Layout/PageLayoutComponent'
-import validRedirect from 'utils/validRedirect'
 import decodeToken from 'utils/decodeToken'
 import { PropsWithUserData } from 'interfaces/user'
 import Requset from 'interfaces/requsetResponse'
@@ -12,7 +12,9 @@ import getToken from 'utils/getToken'
 import createRedirectObject from 'utils/createRedirectObject'
 import { LOGIN_URL } from 'variables/global'
 
-import NavigationDrawerList from 'components/Drawers/NavigationDrawerList'
+const NavigationDrawerList = dynamic(
+	() => import('components/Drawers/NavigationDrawerList')
+)
 
 interface Props extends PropsWithUserData {}
 
