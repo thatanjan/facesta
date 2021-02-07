@@ -1,5 +1,5 @@
 import { findUserById } from 'utils/authentication'
-import { sendMessage } from 'utils/error'
+import sendMessage from 'utils/error'
 
 const resolver = {
     Query: {
