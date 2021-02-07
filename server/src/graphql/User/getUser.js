@@ -8,14 +8,17 @@ const resolver = {
                 const user = await findUserById(id)
 
                 if (!user) {
-                    return sendMessage(false, 'no user found')
+                    return sendMessage({
+                        success: false,
+                        errorMessage: 'no user found',
+                    })
                 }
 
                 const { _id, name, profile } = user
 
-                return { id: _id, name, profile }
+                return { ownUserId: _id, name, profile }
             } catch (error) {
-                return sendMessage(false, 'something went wrong')
+                return sendMessage({ success: false, errorMessage: error })
             }
         },
     },
