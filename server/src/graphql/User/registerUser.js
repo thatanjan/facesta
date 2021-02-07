@@ -7,7 +7,7 @@ import {
     generateHashPassword,
 } from 'utils/authentication'
 
-import { sendMessage } from 'utils/error'
+import sendMessage from 'utils/error'
 import validateRegisterInput from 'validation/register'
 import User from 'models/User'
 
