@@ -3,20 +3,20 @@ import Follow from 'models/Follow'
 const FOLLOWERS = 'followers'
 const FOLLOWING = 'following'
 
-const getUsers = (field) => async (_, { Input: { userId } }) =>
-    await Follow.findOne({ user: userId }, field).populate(field)
+const getUsers = (field) => async (_, { Input: { otherUserId } }) =>
+    await Follow.findOne({ user: otherUserId }, field).populate(field)
 
 const checkIfUser = (field) => async (
     _,
-    { Input: { userId } },
+    { Input: { otherUserId } },
     { user: { id: ownerId } }
 ) => {
-    if (userId === ownerId) {
+    if (otherUserId === ownerId) {
         return false
     }
     const query = await Follow.findOne({ user: ownerId }, field)
 
-    const ifUserExist = query[field].includes(userId)
+    const ifUserExist = query[field].includes(otherUserId)
 
     let result = {}
 
