@@ -22,7 +22,10 @@ const resolver = {
                 const user = await User.findById(id)
 
                 if (!user) {
-                    return sendMessage(false, 'no user found')
+                    return sendMessage({
+                        success: false,
+                        errorMessage: 'no user found',
+                    })
                 }
 
                 const queryCondition = { user: id }
@@ -34,12 +37,18 @@ const resolver = {
                 const removedUser = await user.remove()
 
                 if (!removedUser) {
-                    return sendMessage(false, 'user account is not deleted')
+                    return sendMessage({
+                        success: false,
+                        errorMessage: 'user account is not deleted',
+                    })
                 }
 
-                return sendMessage(true, 'your account is successfully deleted')
+                return sendMessage({
+                    success: true,
+                    message: 'your account is successfully deleted',
+                })
             } catch (error) {
-                return sendMessage(false, error)
+                return sendMessage({ success: false, errorMessage: error })
             }
         },
     },
