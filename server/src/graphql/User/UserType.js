@@ -1,6 +1,6 @@
 import { gql } from 'apollo-server-express'
 
-const id = `id: ID`
+const id = `ownUserId: ID`
 
 const UserType = gql`
     extend type Query {
