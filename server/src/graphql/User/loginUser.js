@@ -13,14 +13,17 @@ const resolver = {
             const { errors, isValid } = validateLoginInput({ email, password })
 
             if (!isValid) {
-                return sendMessage(false, errors)
+                return sendMessage({ success: false, errorMessage: errors })
             }
 
             try {
                 const user = await findUser(email)
 
                 if (!user) {
-                    return sendMessage(false, "user doesn't exist")
+                    return sendMessage({
+                        success: false,
+                        errorMessage: "user doesn't exist",
+                    })
                 }
 
                 const doesPasswordsMatch = await matchPasswords({
@@ -29,14 +32,17 @@ const resolver = {
                 })
 
                 if (!doesPasswordsMatch) {
-                    return sendMessage(false, "Passwords doesn't match ")
+                    return sendMessage({
+                        success: false,
+                        errorMessage: "Passwords doesn't match ",
+                    })
                 }
 
                 const token = await generateToken(user)
 
                 return sendSuccessToken(token)
             } catch (error) {
-                return sendMessage(false, error)
+                return sendMessage({ success: false, errorMessage: error })
             }
         },
     },
