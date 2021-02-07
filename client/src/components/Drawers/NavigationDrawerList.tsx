@@ -48,6 +48,8 @@ const NavigationDrawerList = () => {
 			return true
 		}
 
+		if (matches) return true
+
 		if (!matches && isDrawerOpen) {
 			const [openDrawer, closeDrawer] = drawerDispatch
 
