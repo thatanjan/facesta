@@ -8,13 +8,18 @@ import Requset from 'interfaces/requsetResponse'
 import { LOGIN_URL } from 'variables/global'
 import { PropsWithUserData } from 'interfaces/user'
 import PageWrapper from 'components/PageWrapper/PageWrapper'
+import PageLayoutComponent from 'components/Layout/PageLayoutComponent'
 
 interface Props extends PropsWithUserData {}
+
+const Content = () => {
+	return <div>this is a profile page</div>
+}
 
 const Profile = ({ userData }: Props) => {
 	return (
 		<PageWrapper userData={userData}>
-			<div>this is a profile page</div>
+			<PageLayoutComponent Content={Content} />
 		</PageWrapper>
 	)
 }
