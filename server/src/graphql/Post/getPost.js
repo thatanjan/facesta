@@ -1,5 +1,5 @@
 import createPostModel from 'models/Post'
-import { sendMessage, throwError } from 'utils/error'
+import sendMessage from 'utils/error'
 
 const resolver = {
     Query: {
@@ -13,7 +13,7 @@ const resolver = {
             const singlePost = await Post.findById(postId, 'text')
 
             if (!singlePost) {
-                return throwError('no post found')
+                return sendMessage(false, 'no post found')
             }
 
             return singlePost
@@ -29,7 +29,7 @@ const resolver = {
                 .limit(3)
 
             if (allPost.posts === []) {
-                return sendMessage(true, 'you have no post')
+                return sendMessage(false, 'you have no post')
             }
 
             return allPost
