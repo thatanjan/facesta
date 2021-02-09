@@ -1,5 +1,8 @@
 import React from 'react'
+import dynamic from 'next/dynamic'
 import { GetServerSideProps } from 'next'
+import Grid from '@material-ui/core/Grid'
+import { makeStyles } from '@material-ui/core/styles'
 
 import getToken from 'utils/getToken'
 import decodeToken from 'utils/decodeToken'
@@ -12,12 +15,26 @@ import PageWrapper from 'components/PageWrapper/PageWrapper'
 import PageLayoutComponent from 'components/Layout/PageLayoutComponent'
 import ProfileCover from 'components/ImageComponent/ProfileCover'
 
+const FollowButton = dynamic(() => import('components/Buttons/FollowButton'))
+
 interface Props extends PropsWithUserData {}
 
+const useStyles = makeStyles(({ spacing }) => ({
+	buttonGridContainer: {
+		margin: spacing(2, '0'),
+	},
+}))
+
 const Content = () => {
+	const { buttonGridContainer } = useStyles()
+	const isSelf = true
 	return (
 		<>
 			<ProfileCover name='Taylor swift' bio='singer' />
+
+			<Grid container className={buttonGridContainer} justify='flex-end'>
+				<Grid item>{!isSelf && <FollowButton />}</Grid>
+			</Grid>
 		</>
 	)
 }
