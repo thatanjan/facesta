@@ -27,7 +27,7 @@ const resolver = {
 			const singlePost = await Post.findById(postId, 'text')
 
 			if (!singlePost) {
-				return sendMessage(false, 'no post found')
+				return sendMessage(false, null, 'no post found')
 			}
 
 			return singlePost
@@ -40,7 +40,7 @@ const resolver = {
 			allPost.posts = await Post.find({}).sort({ _id: '-1' }).skip(start).limit(3)
 
 			if (allPost.posts === []) {
-				return sendMessage(false, 'you have no post')
+				return sendMessage(false, null, 'you have no post')
 			}
 
 			return allPost
