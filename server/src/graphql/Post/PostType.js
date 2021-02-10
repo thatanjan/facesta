@@ -11,8 +11,8 @@ const userAndPostId = `
 
 const PostTypedefs = gql`
     extend type Query {
-        getSinglePost(Input: getSinglePost!): Post!
-        getAllPost(Input: getAllPostInput!): AllPost!
+        getSinglePost(Input: getSinglePost!): returnSinglePost!
+        getAllPost(Input: getAllPostInput!): returnAllPost!
     }
 
     extend type Mutation {
@@ -27,6 +27,9 @@ const PostTypedefs = gql`
     type Post {
        ${text} 
     }
+
+    union returnSinglePost = Post | Success
+    union returnAllPost = AllPost | Success
 
     type AllPost {
         posts: [Post]!

@@ -2,39 +2,50 @@ import createPostModel from 'models/Post'
 import sendMessage from 'utils/error'
 
 const resolver = {
-    Query: {
-        getSinglePost: async (
-            _,
-            { Input: { postId, userId } },
-            { user: { id } }
-        ) => {
-            const Post = createPostModel(userId || id)
+	returnSinglePost: {
+		__resolveType({ success, text }) {
+			if (success) return 'Success'
 
-            const singlePost = await Post.findById(postId, 'text')
+			if (text) return 'Post'
 
-            if (!singlePost) {
-                return sendMessage(false, 'no post found')
-            }
+			return null
+		},
+	},
+	returnAllPost: {
+		__resolveType({ success, post }) {
+			if (success) return 'Success'
 
-            return singlePost
-        },
-        getAllPost: async (_, { Input: { start } }, { user: { id } }) => {
-            const Post = createPostModel(id)
+			if (post) return 'AllPost'
 
-            const allPost = {}
+			return null
+		},
+	},
+	Query: {
+		getSinglePost: async (_, { Input: { postId, userId } }, { user: { id } }) => {
+			const Post = createPostModel(userId || id)
 
-            allPost.posts = await Post.find({})
-                .sort({ _id: '-1' })
-                .skip(start)
-                .limit(3)
+			const singlePost = await Post.findById(postId, 'text')
 
-            if (allPost.posts === []) {
-                return sendMessage(false, 'you have no post')
-            }
+			if (!singlePost) {
+				return sendMessage(false, 'no post found')
+			}
 
-            return allPost
-        },
-    },
+			return singlePost
+		},
+		getAllPost: async (_, { Input: { start } }, { user: { id } }) => {
+			const Post = createPostModel(id)
+
+			const allPost = {}
+
+			allPost.posts = await Post.find({}).sort({ _id: '-1' }).skip(start).limit(3)
+
+			if (allPost.posts === []) {
+				return sendMessage(false, 'you have no post')
+			}
+
+			return allPost
+		},
+	},
 }
 
 export default resolver
