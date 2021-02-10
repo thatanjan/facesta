@@ -1,21 +1,23 @@
 import createPostModel from 'models/Post'
+import ifNullOrFalse from 'utils/checkNullFalse'
 import sendMessage from 'utils/error'
 
+const SUCCESS = 'success'
 const resolver = {
 	returnSinglePost: {
-		__resolveType({ success, text }) {
-			if (success) return 'Success'
+		__resolveType(obj) {
+			if (SUCCESS in obj) return 'Success'
 
-			if (text) return 'Post'
+			if (obj.text) return 'Post'
 
 			return null
 		},
 	},
 	returnAllPost: {
-		__resolveType({ success, post }) {
-			if (success) return 'Success'
+		__resolveType(obj) {
+			if (SUCCESS in obj) return 'Success'
 
-			if (post) return 'AllPost'
+			if (obj.posts) return 'AllPost'
 
 			return null
 		},
@@ -26,7 +28,7 @@ const resolver = {
 
 			const singlePost = await Post.findById(postId, 'text')
 
-			if (!singlePost) {
+			if (ifNullOrFalse(singlePost)) {
 				return sendMessage(false, null, 'no post found')
 			}
 
