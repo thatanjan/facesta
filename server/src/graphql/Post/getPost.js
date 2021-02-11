@@ -25,7 +25,7 @@ const mainResolver = field => {
 
 				allPost.posts = await Post.find({}).sort({ _id: '-1' }).skip(start).limit(3)
 
-				if (allPost.posts === []) {
+				if (allPost.posts.length <= 0) {
 					return sendMessage(false, null, 'you have no post')
 				}
 
