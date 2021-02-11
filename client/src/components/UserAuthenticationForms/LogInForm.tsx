@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react'
+import React, { useState } from 'react'
 import { Formik, Form, Field } from 'formik'
 import Button from '@material-ui/core/Button'
 import LinearProgress from '@material-ui/core/LinearProgress'
@@ -7,20 +7,17 @@ import dynamic from 'next/dynamic'
 import { useRouter } from 'next/router'
 
 import { Error, LoginInput, LoginOutput } from 'interfaces/authentication'
-// import { UserContext } from 'context/UserContext'
 
 import { loginMutation } from 'graphql/mutations/authMutations'
 
 import login from 'utils/login'
 import createRequest from 'utils/createRequest'
-// import MuiLink from 'components/Links/MuiLink'
 import MuiLink from 'components/Links/MuiLink'
 
 const Alert = dynamic(() => import('@material-ui/lab/Alert'))
 
 const LogInForm = () => {
 	const { push } = useRouter()
-	// const [, setUser]: any = useContext(UserContext)
 
 	const [errorMessage, setErrorMessage] = useState('')
 
@@ -29,7 +26,7 @@ const LogInForm = () => {
 			const {
 				loginUser: { errorMessage: message, token },
 			}: LoginOutput = await createRequest({
-				mutation: loginMutation,
+				operation: loginMutation,
 				values,
 			})
 
