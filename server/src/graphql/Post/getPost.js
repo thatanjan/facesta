@@ -3,6 +3,29 @@ import ifNullOrFalse from 'utils/checkNullFalse'
 import sendMessage from 'utils/error'
 
 const SUCCESS = 'success'
+const SINGLE_POST = 'singlePost'
+const ALL_POST = 'allPost'
+
+const mainResolver = field => {
+	return async (_, { Input: { postId, postUserId } }) => {
+		const Post = createPostModel(postUserId)
+
+		switch (field) {
+			case SINGLE_POST:
+				const singlePost = await Post.findById(postId, 'text')
+
+				if (ifNullOrFalse(singlePost)) {
+					return sendMessage(false, null, 'no post found')
+				}
+
+				return singlePost
+
+			default:
+				return sendMessage(false, null, 'nothing found')
+		}
+	}
+}
+
 const resolver = {
 	returnSinglePost: {
 		__resolveType(obj) {
@@ -23,17 +46,6 @@ const resolver = {
 		},
 	},
 	Query: {
-		getSinglePost: async (_, { Input: { postId, userId } }, { user: { id } }) => {
-			const Post = createPostModel(userId || id)
-
-			const singlePost = await Post.findById(postId, 'text')
-
-			if (ifNullOrFalse(singlePost)) {
-				return sendMessage(false, null, 'no post found')
-			}
-
-			return singlePost
-		},
 		getAllPost: async (_, { Input: { start } }, { user: { id } }) => {
 			const Post = createPostModel(id)
 
@@ -47,6 +59,7 @@ const resolver = {
 
 			return allPost
 		},
+		getSinglePost: mainResolver(SINGLE_POST),
 	},
 }
 
