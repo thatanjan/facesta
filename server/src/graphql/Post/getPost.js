@@ -7,7 +7,7 @@ const SINGLE_POST = 'singlePost'
 const ALL_POST = 'allPost'
 
 const mainResolver = field => {
-	return async (_, { Input: { postId, postUserId } }) => {
+	return async (_, { Input: { postId, postUserId, start } }) => {
 		const Post = createPostModel(postUserId)
 
 		switch (field) {
@@ -19,6 +19,17 @@ const mainResolver = field => {
 				}
 
 				return singlePost
+
+			case ALL_POST:
+				const allPost = {}
+
+				allPost.posts = await Post.find({}).sort({ _id: '-1' }).skip(start).limit(3)
+
+				if (allPost.posts === []) {
+					return sendMessage(false, null, 'you have no post')
+				}
+
+				return allPost
 
 			default:
 				return sendMessage(false, null, 'nothing found')
@@ -46,19 +57,7 @@ const resolver = {
 		},
 	},
 	Query: {
-		getAllPost: async (_, { Input: { start } }, { user: { id } }) => {
-			const Post = createPostModel(id)
-
-			const allPost = {}
-
-			allPost.posts = await Post.find({}).sort({ _id: '-1' }).skip(start).limit(3)
-
-			if (allPost.posts === []) {
-				return sendMessage(false, null, 'you have no post')
-			}
-
-			return allPost
-		},
+		getAllPost: mainResolver(ALL_POST),
 		getSinglePost: mainResolver(SINGLE_POST),
 	},
 }
