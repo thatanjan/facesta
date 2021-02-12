@@ -1,21 +1,14 @@
-import { ConfigInterface } from 'swr'
 import { getPersonalData } from 'graphql/queries/profileQueries'
 import useSWRgql from 'hooks/useSWRgql'
 
-interface Props {
-	ownUserId: string
-	swrOptions?: ConfigInterface | undefined
-}
-
-const useGetPersonal = ({ ownUserId, swrOptions }: Props) => {
+const useGetPersonal = (profileUserId: string) => {
 	const mutation = getPersonalData()
-	const values = { ownUserId }
+	const values = { profileUserId }
 
 	return useSWRgql({
 		key: mutation,
 		values,
-		swrOptions,
-		swrDependencies: ownUserId,
+		swrDependencies: profileUserId,
 	})
 }
 
