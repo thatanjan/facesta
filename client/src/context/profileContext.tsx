@@ -6,7 +6,7 @@ interface Props {
 	profileUserId: string
 }
 
-interface State {
+export interface State {
 	profileUserId: string
 	isSelf: boolean
 }
