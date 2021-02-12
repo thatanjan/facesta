@@ -13,10 +13,10 @@ const token = (): string => {
 	return jwtToken || ''
 }
 
-const graphQlClient = (reqToken?: string | undefined) =>
+const graphQlClient = () =>
 	new GraphQLClient(END_POINT as string, {
 		headers: {
-			authorization: reqToken || token(),
+			authorization: token(),
 		},
 	})
 
