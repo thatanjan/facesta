@@ -14,10 +14,13 @@ import { PropsWithUserData } from 'interfaces/user'
 import PageWrapper from 'components/PageWrapper/PageWrapper'
 import PageLayoutComponent from 'components/Layout/PageLayoutComponent'
 import ProfileCover from 'components/ImageComponent/ProfileCover'
+import ProfileContextProvider, {
+	State as ProfileContextInterface,
+} from 'context/profileContext'
 
 const FollowButton = dynamic(() => import('components/Buttons/FollowButton'))
 
-interface Props extends PropsWithUserData {}
+interface Props extends PropsWithUserData, ProfileContextInterface {}
 
 const useStyles = makeStyles(({ spacing }) => ({
 	buttonGridContainer: {
@@ -39,10 +42,12 @@ const Content = () => {
 	)
 }
 
-const Profile = ({ userData }: Props) => {
+const Profile = ({ userData, ...profileContextProps }: Props) => {
 	return (
 		<PageWrapper userData={userData}>
-			<PageLayoutComponent Content={Content} />
+			<ProfileContextProvider {...profileContextProps}>
+				<PageLayoutComponent Content={Content} />
+			</ProfileContextProvider>
 		</PageWrapper>
 	)
 }
