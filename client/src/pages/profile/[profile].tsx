@@ -17,6 +17,7 @@ import ProfileCover from 'components/ImageComponent/ProfileCover'
 import ProfileContextProvider, {
 	State as ProfileContextInterface,
 } from 'context/profileContext'
+import { useIsSelf } from 'hooks/profileContextHooks'
 
 const FollowButton = dynamic(() => import('components/Buttons/FollowButton'))
 
@@ -30,7 +31,7 @@ const useStyles = makeStyles(({ spacing }) => ({
 
 const Content = () => {
 	const { buttonGridContainer } = useStyles()
-	const isSelf = true
+	const isSelf = useIsSelf()
 	return (
 		<>
 			<ProfileCover name='Taylor swift' bio='singer' />
