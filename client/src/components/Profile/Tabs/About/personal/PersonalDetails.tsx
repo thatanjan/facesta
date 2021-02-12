@@ -8,7 +8,7 @@ import useGetPersonal from 'hooks/useGetPersonalProfile'
 import { useProfileUserId, useIsSelf } from 'hooks/profileContextHooks'
 import { DATE_OF_BIRTH, SKILLS } from 'variables/global'
 import parseCamelCase from 'utils/parseCamelCase'
-// import EachField from 'components/AboutSection/SectionDetails'
+import EachField from 'components/Profile/Tabs/About/DetailsPreview'
 
 const NewDetails = dynamic(() => import('./NewDetails'))
 
@@ -61,7 +61,13 @@ const PersonalDetails = (props: Props) => {
 							return null
 						}
 
-						return <div></div>
+						return (
+							<EachField
+								key={nanoid()}
+								property={doIfDateOfBirthField(field)}
+								value={doIfDateOfBirthValue(field, data?.getPersonal[field])}
+							/>
+						)
 					})}
 				</Box>
 			)}
@@ -71,9 +77,4 @@ const PersonalDetails = (props: Props) => {
 	)
 }
 
-// <EachField
-// 	key={nanoid()}
-// 	property={doIfDateOfBirthField(field)}
-// 	value={doIfDateOfBirthValue(field, data?.getPersonal[field])}
-// />
 export default PersonalDetails
