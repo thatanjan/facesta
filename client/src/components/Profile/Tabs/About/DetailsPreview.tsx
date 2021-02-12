@@ -25,14 +25,18 @@ const useStyles = makeStyles((theme: Theme) => ({
 	},
 }))
 
-const EachField = ({ property, value }: any) => {
+interface Props {
+	property: string
+	value: string | string[]
+}
+
+const EachField = ({ property, value }: Props) => {
 	const { fieldContainer, propertyField, colon } = useStyles()
 
 	if (!value) {
 		return null
 	}
 
-	// eslint-disable-next-line
 	const ifSkills = (value: string | string[]) => {
 		if (typeof value === 'string' && !Array.isArray(value)) {
 			return <Typography>{value}</Typography>
@@ -65,31 +69,5 @@ export const personalDetailsField = [
 	'skills',
 	'location',
 ]
-
-export const PersonalDetails = ({ data }: any) => {
-	const newData = data
-	const { box } = useStyles()
-
-	const skills: string[] = newData?.skills
-
-	if (newData[DATE_OF_BIRTH]) {
-		const dateOfBirth = newData[DATE_OF_BIRTH]
-		const date = new Date(dateOfBirth)
-
-		newData[DATE_OF_BIRTH] = date.toDateString()
-	}
-
-	return (
-		<Box className={box}>
-			{personalDetailsField.map((item: string) => (
-				<EachField
-					property={item === DATE_OF_BIRTH ? 'date of birth' : item}
-					value={newData[item]}
-					key={nanoid()}
-				/>
-			))}
-		</Box>
-	)
-}
 
 export default EachField
