@@ -41,9 +41,16 @@ const Content = () => {
 		<>
 			<ProfileCover name='Taylor swift' bio='singer' />
 
-			<Grid container className={buttonGridContainer} justify='flex-end'>
-				<Grid item>{!isSelf && <FollowButton />}</Grid>
-			</Grid>
+			{!isSelf && (
+				<Grid container className={buttonGridContainer} justify='flex-end'>
+					<Grid item>
+						{' '}
+						<FollowButton />
+					</Grid>
+				</Grid>
+			)}
+
+			<ProfileTabMenu />
 		</>
 	)
 }
@@ -54,8 +61,6 @@ const Profile = ({ userData, ...profileContextProps }: Props) => {
 			<ProfileContextProvider {...profileContextProps}>
 				<PageLayoutComponent Content={Content} />
 			</ProfileContextProvider>
-
-			<ProfileTabMenu />
 		</PageWrapper>
 	)
 }
