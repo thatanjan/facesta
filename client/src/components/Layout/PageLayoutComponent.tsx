@@ -4,7 +4,7 @@ import Grid from '@material-ui/core/Grid'
 import { makeStyles } from '@material-ui/core/styles'
 
 import DrawerContextProvider from 'context/drawerContext'
-import AppHeader from 'components/AppHeader/AppHeader'
+import AppHeader from 'components/AppBars/AppHeader'
 import BackgroundPaper from './BackgroundPaper'
 
 interface Props {
