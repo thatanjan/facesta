@@ -1,17 +1,15 @@
 import graphQLClient from 'graphql/graphqlClient'
+import { keyInterface } from 'swr'
 
 import { AnyObject } from 'interfaces/global'
 
-interface input {
-	operation: string
-	values: AnyObject
+interface Input {
+	operation: keyInterface
+	values: AnyObject | undefined
 }
 
-const createRequest = async (
-	{ operation, values }: input,
-	reqToken?: string | undefined
-) => {
-	const data: any = await graphQLClient(reqToken).request(operation, values)
+const createRequest = async ({ operation, values }: Input) => {
+	const data: any = await graphQLClient().request(operation as string, values)
 	return data
 }
 
