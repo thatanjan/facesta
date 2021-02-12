@@ -1,10 +1,8 @@
-import useSWR, { keyInterface, ConfigInterface } from 'swr'
+import useSWR, { ConfigInterface } from 'swr'
 
 import fetcher, { Parameters as FetcherParameters } from 'utils/swrFetcher'
 
-interface Props {
-	key: keyInterface
-	values?: FetcherParameters
+interface Props extends FetcherParameters {
 	swrOptions?: ConfigInterface | undefined
 	swrDependencies?: string | number
 }
