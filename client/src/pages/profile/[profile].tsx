@@ -4,20 +4,25 @@ import { GetServerSideProps } from 'next'
 import Grid from '@material-ui/core/Grid'
 import { makeStyles } from '@material-ui/core/styles'
 
-import getToken from 'utils/getToken'
-import decodeToken from 'utils/decodeToken'
-import shouldRedirectToAuth from 'utils/shouldRedirectToAuth'
-import createRedirectObject from 'utils/createRedirectObject'
-import Requset from 'interfaces/requsetResponse'
 import { LOGIN_URL } from 'variables/global'
-import { PropsWithUserData } from 'interfaces/user'
+
 import PageWrapper from 'components/Layout/PageWrapper'
 import PageLayoutComponent from 'components/Layout/PageLayoutComponent'
 import ProfileCover from 'components/Profile/ProfileCover'
+import ProfileTabMenu from 'components/TabMenus/ProfileTabMenu'
+
 import ProfileContextProvider, {
 	State as ProfileContextInterface,
 } from 'context/profileContext'
 import { useIsSelf } from 'hooks/profileContextHooks'
+
+import getToken from 'utils/getToken'
+import decodeToken from 'utils/decodeToken'
+import shouldRedirectToAuth from 'utils/shouldRedirectToAuth'
+import createRedirectObject from 'utils/createRedirectObject'
+
+import Requset from 'interfaces/requsetResponse'
+import { PropsWithUserData } from 'interfaces/user'
 
 const FollowButton = dynamic(() => import('components/Buttons/FollowButton'))
 
@@ -49,6 +54,8 @@ const Profile = ({ userData, ...profileContextProps }: Props) => {
 			<ProfileContextProvider {...profileContextProps}>
 				<PageLayoutComponent Content={Content} />
 			</ProfileContextProvider>
+
+			<ProfileTabMenu />
 		</PageWrapper>
 	)
 }
