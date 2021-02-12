@@ -1,9 +1,9 @@
 import Requset from 'interfaces/requsetResponse'
 import jwtDecode from 'jwt-decode'
 import getToken from 'utils/getToken'
-import { AnyObject } from 'interfaces/global'
+import userPayload from 'interfaces/user'
 
-export default (param: Requset | string): AnyObject => {
+export default (param: Requset | string): userPayload => {
 	let token: string
 
 	if (typeof param === 'string') {
