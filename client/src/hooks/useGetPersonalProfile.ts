@@ -12,7 +12,7 @@ const useGetPersonal = ({ ownUserId, swrOptions }: Props) => {
 	const values = { ownUserId }
 
 	return useSWRgql({
-		operation: mutation,
+		key: mutation,
 		values,
 		swrOptions,
 		swrDependencies: ownUserId,

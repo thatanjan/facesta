@@ -3,17 +3,13 @@ import useSWR, { keyInterface, ConfigInterface } from 'swr'
 import fetcher, { Parameters as FetcherParameters } from 'utils/swrFetcher'
 
 interface Props {
-	operation: keyInterface
+	key: keyInterface
 	values?: FetcherParameters
 	swrOptions?: ConfigInterface | undefined
 	swrDependencies?: string | number
 }
 
-const useSWRgql = ({ operation, swrOptions, swrDependencies, values }: Props) =>
-	useSWR(
-		[operation, swrDependencies],
-		fetcher({ operation, values }),
-		swrOptions
-	)
+const useSWRgql = ({ key, swrOptions, swrDependencies, values }: Props) =>
+	useSWR([key, swrDependencies], fetcher({ key, values }), swrOptions)
 
 export default useSWRgql

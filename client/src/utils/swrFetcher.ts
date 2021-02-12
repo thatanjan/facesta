@@ -3,11 +3,11 @@ import { keyInterface } from 'swr'
 import { AnyObject } from 'interfaces/global'
 
 export interface Parameters {
-	operation: keyInterface
+	key: keyInterface
 	values: AnyObject | undefined
 }
 
-const fetcher = ({ operation, values }: Parameters) => async () =>
-	createRequest({ operation, values })
+const fetcher = ({ key, values }: Parameters) => async () =>
+	createRequest({ key, values })
 
 export default fetcher

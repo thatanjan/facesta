@@ -26,7 +26,7 @@ const LogInForm = () => {
 			const {
 				loginUser: { errorMessage: message, token },
 			}: LoginOutput = await createRequest({
-				operation: loginMutation,
+				key: loginMutation,
 				values,
 			})
 

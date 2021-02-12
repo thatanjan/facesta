@@ -8,28 +8,28 @@ import uswSWRgql from './useSWRgql'
 
 export const useFollowers = (ownUserId: string) =>
 	uswSWRgql({
-		operation: getFollowers,
+		key: getFollowers,
 		swrDependencies: ownUserId,
 		values: { ownUserId },
 	})
 
 export const useFollowing = (ownUserId: string) =>
 	uswSWRgql({
-		operation: getFollowing,
+		key: getFollowing,
 		swrDependencies: ownUserId,
 		values: { ownUserId },
 	})
 
 export const useIsFollowing = (otherUserId: string) =>
 	uswSWRgql({
-		operation: getIsFollowing,
+		key: getIsFollowing,
 		swrDependencies: otherUserId,
 		values: { otherUserId },
 	})
 
 export const useIsFollower = (otherUserId: string) =>
 	uswSWRgql({
-		operation: getIsFollower,
+		key: getIsFollower,
 		swrDependencies: otherUserId,
 		values: { otherUserId },
 	})

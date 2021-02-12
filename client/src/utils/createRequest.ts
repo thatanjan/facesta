@@ -4,12 +4,12 @@ import { keyInterface } from 'swr'
 import { AnyObject } from 'interfaces/global'
 
 interface Input {
-	operation: keyInterface
+	key: keyInterface
 	values: AnyObject | undefined
 }
 
-const createRequest = async ({ operation, values }: Input) => {
-	const data: any = await graphQLClient().request(operation as string, values)
+const createRequest = async ({ key, values }: Input) => {
+	const data: any = await graphQLClient().request(key as string, values)
 	return data
 }
 
