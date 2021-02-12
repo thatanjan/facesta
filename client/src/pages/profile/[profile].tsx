@@ -13,7 +13,7 @@ import { LOGIN_URL } from 'variables/global'
 import { PropsWithUserData } from 'interfaces/user'
 import PageWrapper from 'components/Layout/PageWrapper'
 import PageLayoutComponent from 'components/Layout/PageLayoutComponent'
-import ProfileCover from 'components/ImageComponent/ProfileCover'
+import ProfileCover from 'components/Profile/ProfileCover'
 import ProfileContextProvider, {
 	State as ProfileContextInterface,
 } from 'context/profileContext'
