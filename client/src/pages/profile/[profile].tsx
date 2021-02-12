@@ -33,7 +33,7 @@ const Content = () => {
 			<ProfileCover name='Taylor swift' bio='singer' />
 
 			<Grid container className={buttonGridContainer} justify='flex-end'>
-				<Grid item>{!isSelf && <FollowButton />}</Grid>
+				{/* <Grid item>{!isSelf && <FollowButton />}</Grid> */}
 			</Grid>
 		</>
 	)
@@ -47,7 +47,10 @@ const Profile = ({ userData }: Props) => {
 	)
 }
 
-export const getServerSideProps: GetServerSideProps = async ({ req }) => {
+export const getServerSideProps: GetServerSideProps = async ({
+	req,
+	query: { profile },
+}) => {
 	const token = getToken(req as Requset)
 
 	const shouldRedirect = await shouldRedirectToAuth(token)
@@ -56,7 +59,14 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
 
 	const userData = decodeToken(req as Requset)
 
-	return { props: { userData } }
+	const { id: ownUserId } = userData
+
+	let isSelf: boolean = false
+
+	if (profile === ownUserId) {
+		isSelf = true
+	}
+	return { props: { isSelf, userData } }
 }
 
 export default Profile
