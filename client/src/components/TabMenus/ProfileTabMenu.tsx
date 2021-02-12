@@ -11,6 +11,21 @@ import { nanoid } from 'nanoid'
 import { AnyObject } from 'interfaces/global'
 import { useFollowers, useFollowing } from 'hooks/useFollow'
 
+const AboutTab = dynamic(() => import('components/Profile/Tabs/About'))
+
+class TabBuilder {
+	Component: Function
+
+	name: string
+
+	constructor(name: string, Component: Function) {
+		this.name = name
+		this.Component = Component
+	}
+}
+
+const About = new TabBuilder('About', AboutTab)
+
 // import OptionBuilder, { Data as OptionData } from 'utils/optionBuilder'
 
 // const AboutSection = dynamic(() => import('components/About/AboutTabMenu'))
@@ -22,8 +37,6 @@ import { useFollowers, useFollowing } from 'hooks/useFollow'
 // const FollowSection = dynamic(
 // 	() => import('components/FollowComponent/FollowComponent')
 // )
-
-// const About = new OptionBuilder('About', Personal)
 
 // const Posts = new OptionBuilder('Posts', PostsSection)
 
@@ -38,10 +51,10 @@ export const FOLLOWING = 'following'
 // 	useFollowing
 // )
 
-// const tabOptions = [About, Posts, Followers, Following]
+const tabs: TabBuilder[] = [About]
 
 const TabPanel = ({ value, ...other }: any) => {
-	// const { Component, hook, name } = tabOptions[value]
+	const { Component, name } = tabs[value]
 	// const props = { hook, name }
 
 	return (
@@ -51,7 +64,7 @@ const TabPanel = ({ value, ...other }: any) => {
 			aria-labelledby={`scrollable-auto-tab-${value}`}
 			{...other}
 		>
-			{/* <Component {...props} /> */}
+			<Component />
 		</div>
 	)
 }
@@ -92,9 +105,9 @@ const HorizontalMenu = () => {
 					scrollButtons='auto'
 					aria-label='scrollable auto tabs example'
 				>
-					{/* {tabOptions.map((item, index) => ( */}
-					{/* 	<Tab key={nanoid()} label={item.name} {...a11yProps(index)} /> */}
-					{/* ))} */}
+					{tabs.map((item, index) => (
+						<Tab key={nanoid()} label={item.name} {...a11yProps(index)} />
+					))}
 				</Tabs>
 			</AppBar>
 
