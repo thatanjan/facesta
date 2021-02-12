@@ -7,7 +7,7 @@ import createRequest from 'utils/createRequest'
 import { useIsFollower, useIsFollowing } from 'hooks/useFollow'
 import { useProfileUserId } from 'hooks/profileContextHooks'
 import { useOwnUserId } from 'hooks/userhooks'
-import { follow, unfollow } from 'graphql/mutations/FollowMutations'
+import { follow, unfollow } from 'graphql/mutations/followMutations'
 import {
 	getIsFollower,
 	getIsFollowing,
