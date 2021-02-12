@@ -4,16 +4,16 @@ import { Button, LinearProgress } from '@material-ui/core'
 import { DatePicker } from 'formik-material-ui-pickers'
 import { TextField } from 'formik-material-ui'
 import { MuiPickersUtilsProvider } from '@material-ui/pickers'
-import DateFnsUtils from '@date-io/date-fns'
+import DayUtils from '@date-io/dayjs'
 import { mutate } from 'swr'
 
-import ChipsForm from 'components/arrayChips/chipsForm'
+// import ChipsForm from 'components/arrayChips/chipsForm'
 import { getPersonalData } from 'graphql/queries/profileQueries'
 import { updatePersonal } from 'graphql/mutations/userMutations'
-import useGetPersonal from 'hooks/useGetPersonal'
-import { useUserId } from 'hooks/profileContextHooks'
+import useGetPersonal from 'hooks/useGetPersonalProfile'
+import { useOwnUserId } from 'hooks/userhooks'
 import { PersonalData } from 'interfaces/profile'
-import { DATE_OF_BIRTH, SKILLS } from 'utils/global'
+import { DATE_OF_BIRTH, SKILLS } from 'variables/global'
 import createRequest from 'utils/createRequest'
 
 import { personalDetailsField, doIfDateOfBirthField } from './PersonalDetails'
@@ -33,8 +33,8 @@ interface Props {
 }
 
 const NewDetailsForm = ({ setIsAdding }: Props) => {
-	const userId = useUserId()
-	const { data, error } = useGetPersonal({ userId })
+	const ownUserId = useOwnUserId()
+	const { data, error } = useGetPersonal(ownUserId)
 
 	if (error) return <div>...error</div>
 	if (!data) return <div>...loading</div>
@@ -55,15 +55,15 @@ const NewDetailsForm = ({ setIsAdding }: Props) => {
 	const chipsProps = { skills, setSkills }
 
 	return (
-		<MuiPickersUtilsProvider utils={DateFnsUtils}>
+		<MuiPickersUtilsProvider utils={DayUtils}>
 			<Formik
 				initialValues={initialData}
 				onSubmit={(values, { setSubmitting }) => {
 					// eslint-disable-next-line no-param-reassign
 					values.skills = skills
 
-					createRequest({ mutation: updatePersonal, values })
-					mutate([getPersonalData(), userId])
+					createRequest({ key: updatePersonal, values })
+					mutate([getPersonalData(), ownUserId])
 
 					setIsAdding(false)
 					setTimeout(() => {
@@ -76,7 +76,7 @@ const NewDetailsForm = ({ setIsAdding }: Props) => {
 						{personalDetailsField.map((item: string) => (
 							<div key={item}>
 								{item === SKILLS ? (
-									<ChipsForm {...chipsProps} />
+									''
 								) : (
 									<Field
 										type='text'
@@ -107,4 +107,5 @@ const NewDetailsForm = ({ setIsAdding }: Props) => {
 	)
 }
 
+// {/* <ChipsForm {...chipsProps} /> */}
 export default NewDetailsForm
