@@ -71,14 +71,14 @@ const useStyles = makeStyles(() =>
 )
 
 const LogInForm = dynamic(
-	() => import('components/UserAuthenticationForms/LogInForm'),
+	() => import('components/Forms/UserAuthenticationForms/LogInForm'),
 	{
 		loading: () => <CircularProgress />,
 	}
 )
 
 const SignUpForm = dynamic(
-	() => import('components/UserAuthenticationForms/SignUpForm'),
+	() => import('components/Forms/UserAuthenticationForms/SignUpForm'),
 	{
 		loading: () => <CircularProgress />,
 	}
