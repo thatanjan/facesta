@@ -9,7 +9,7 @@
 		"start": "next start"
 	},
 	"dependencies": {
-		"@date-io/date-fns": "2.10.6",
+		"@date-io/dayjs": "1.x",
 		"@material-ui/core": "^4.11.2",
 		"@material-ui/icons": "^4.11.2",
 		"@material-ui/lab": "^4.0.0-alpha.57",
@@ -17,7 +17,8 @@
 		"axios": "^0.21.1",
 		"clsx": "^1.1.1",
 		"cookie": "^0.4.1",
-		"date-fns": "^2.16.1",
+		"date-fns": "^2.17.0",
+		"dayjs": "^1.10.4",
 		"formik": "^2.2.6",
 		"formik-material-ui": "^3.0.1",
 		"formik-material-ui-pickers": "^0.0.12",
@@ -26,6 +27,7 @@
 		"immutable": "^4.0.0-rc.12",
 		"js-cookie": "^2.2.1",
 		"jwt-decode": "^3.1.2",
+		"moment": "^2.29.1",
 		"nanoid": "^3.1.20",
 		"next": "^10.0.3",
 		"react": "^17.0.1",
