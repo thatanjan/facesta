@@ -2,7 +2,7 @@ import Head from 'next/head'
 import { GetServerSideProps } from 'next'
 import dynamic from 'next/dynamic'
 
-import PageWrapper from 'components/PageWrapper/PageWrapper'
+import PageWrapper from 'components/Layout/PageWrapper'
 import PageLayoutComponent from 'components/Layout/PageLayoutComponent'
 import decodeToken from 'utils/decodeToken'
 import { PropsWithUserData } from 'interfaces/user'

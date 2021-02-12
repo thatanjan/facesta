@@ -11,7 +11,7 @@ import createRedirectObject from 'utils/createRedirectObject'
 import Requset from 'interfaces/requsetResponse'
 import { LOGIN_URL } from 'variables/global'
 import { PropsWithUserData } from 'interfaces/user'
-import PageWrapper from 'components/PageWrapper/PageWrapper'
+import PageWrapper from 'components/Layout/PageWrapper'
 import PageLayoutComponent from 'components/Layout/PageLayoutComponent'
 import ProfileCover from 'components/ImageComponent/ProfileCover'
 import ProfileContextProvider, {
