@@ -11,7 +11,7 @@ import { nanoid } from 'nanoid'
 import { AnyObject } from 'interfaces/global'
 import { useFollowers, useFollowing } from 'hooks/useFollow'
 
-const AboutTab = dynamic(() => import('components/Profile/Tabs/About'))
+const AboutTab = dynamic(() => import('components/Profile/Tabs/About/About'))
 
 class TabBuilder {
 	Component: Function
