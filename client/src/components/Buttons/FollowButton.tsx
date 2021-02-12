@@ -1,12 +1,12 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import Button from '@material-ui/core/Button'
 import { mutate } from 'swr'
 
 import createRequest from 'utils/createRequest'
 import { useIsFollower, useIsFollowing } from 'hooks/useFollow'
-import { useUserId } from 'hooks/profileContextHooks'
-import { useUserID as useOwnerId } from 'hooks/userhooks'
+import { useProfileUserId } from 'hooks/profileContextHooks'
+import { useOwnUserId } from 'hooks/userhooks'
 import { follow, unfollow } from 'graphql/mutations/FollowMutations'
 import {
 	getIsFollower,
@@ -26,12 +26,11 @@ let buttonText: string
 const FollowButton = () => {
 	const { buttonStyle } = useStyles()
 
+	const ownUserId = useOwnUserId()
+	const profileUserId = useProfileUserId()
 
-	const userId = useUserId()
-	const ownerId = useOwnerId()
-
-	const { data: follower } = useIsFollower(userId)
-	const { data: following } = useIsFollowing(userId)
+	const { data: follower } = useIsFollower(profileUserId)
+	const { data: following } = useIsFollowing(profileUserId)
 
 	if (!follower) return <div> ...loading </div>
 	if (!following) return <div> ...loading </div>
@@ -50,24 +49,24 @@ const FollowButton = () => {
 	const FOLLOW = 'follow'
 
 	const mutateData = () => {
-		mutate([getIsFollowing, userId])
-		mutate([getIsFollower, userId])
-		mutate([getFollowers, userId])
-		mutate([getFollowing, userId])
+		mutate([getIsFollowing, profileUserId])
+		mutate([getIsFollower, profileUserId])
+		mutate([getFollowers, profileUserId])
+		mutate([getFollowing, profileUserId])
 	}
 
 	const followMutation = async () => {
-		const data = await createRequest({
-			mutation: follow,
-			values: { userId },
+		await createRequest({
+			operation: follow,
+			values: { userId: ownUserId },
 		})
 		mutateData()
 	}
 
 	const unFollowMutation = async () => {
-		const data = await createRequest({
-			mutation: unfollow,
-			values: { userId },
+		await createRequest({
+			operation: unfollow,
+			values: { userId: ownUserId },
 		})
 		mutateData()
 	}
