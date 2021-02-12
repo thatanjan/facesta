@@ -20,16 +20,16 @@ export const useFollowing = (ownUserId: string) =>
 		values: { ownUserId },
 	})
 
-export const useIsFollowing = (ownUserId: string) =>
+export const useIsFollowing = (otherUserId: string) =>
 	uswSWRgql({
 		operation: getIsFollowing,
-		swrDependencies: ownUserId,
-		values: { ownUserId },
+		swrDependencies: otherUserId,
+		values: { otherUserId },
 	})
 
-export const useIsFollower = (ownUserId: string) =>
+export const useIsFollower = (otherUserId: string) =>
 	uswSWRgql({
 		operation: getIsFollower,
-		swrDependencies: ownUserId,
-		values: { ownUserId },
+		swrDependencies: otherUserId,
+		values: { otherUserId },
 	})
