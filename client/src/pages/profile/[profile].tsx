@@ -49,7 +49,7 @@ const Profile = ({ userData }: Props) => {
 
 export const getServerSideProps: GetServerSideProps = async ({
 	req,
-	query: { profile },
+	query: { profile: profileUserId },
 }) => {
 	const token = getToken(req as Requset)
 
@@ -63,10 +63,11 @@ export const getServerSideProps: GetServerSideProps = async ({
 
 	let isSelf: boolean = false
 
-	if (profile === ownUserId) {
+	if (profileUserId === ownUserId) {
 		isSelf = true
 	}
-	return { props: { isSelf, userData } }
+
+	return { props: { profileUserId, isSelf, userData } }
 }
 
 export default Profile
