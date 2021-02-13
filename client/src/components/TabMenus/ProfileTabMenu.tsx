@@ -10,6 +10,7 @@ import { nanoid } from 'nanoid'
 // import Personal from 'components/About/personal/Personal'
 import { AnyObject } from 'interfaces/global'
 import { useFollowers, useFollowing } from 'hooks/useFollow'
+import { FOLLOWING, FOLLOWERS } from 'variables/global'
 
 const AboutTab = dynamic(() => import('components/Profile/Tabs/About/About'))
 
@@ -39,9 +40,6 @@ const About = new TabBuilder('About', AboutTab)
 // )
 
 // const Posts = new OptionBuilder('Posts', PostsSection)
-
-export const FOLLOWERS = 'followers'
-export const FOLLOWING = 'following'
 
 // const Followers = new OptionBuilder(FOLLOWERS, FollowSection).addHook(
 // 	useFollowers
