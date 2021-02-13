@@ -6,18 +6,18 @@ import {
 } from 'graphql/queries/followQueries'
 import uswSWRgql from './useSWRgql'
 
-export const useFollowers = (ownUserId: string) =>
+export const useFollowers = (otherUserId: string) =>
 	uswSWRgql({
 		key: getFollowers,
-		swrDependencies: ownUserId,
-		values: { ownUserId },
+		swrDependencies: otherUserId,
+		values: { otherUserId },
 	})
 
-export const useFollowing = (ownUserId: string) =>
+export const useFollowing = (otherUserId: string) =>
 	uswSWRgql({
 		key: getFollowing,
-		swrDependencies: ownUserId,
-		values: { ownUserId },
+		swrDependencies: otherUserId,
+		values: { otherUserId },
 	})
 
 export const useIsFollowing = (otherUserId: string) =>
