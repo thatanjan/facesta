@@ -57,16 +57,16 @@ const FollowButton = () => {
 
 	const followMutation = async () => {
 		await createRequest({
-			operation: follow,
-			values: { userId: ownUserId },
+			key: follow,
+			values: { otherUserId: profileUserId },
 		})
 		mutateData()
 	}
 
 	const unFollowMutation = async () => {
 		await createRequest({
-			operation: unfollow,
-			values: { userId: ownUserId },
+			key: unfollow,
+			values: { otherUserId: profileUserId },
 		})
 		mutateData()
 	}
