@@ -1,6 +1,5 @@
 import Head from 'next/head'
 import { GetServerSideProps } from 'next'
-import dynamic from 'next/dynamic'
 
 import PageWrapper from 'components/Layout/PageWrapper'
 import PageLayoutComponent from 'components/Layout/PageLayoutComponent'
@@ -13,10 +12,6 @@ import createRedirectObject from 'utils/createRedirectObject'
 import { LOGIN_URL } from 'variables/global'
 import CreatePost from 'components/Post/CreatePost/CreatePost'
 import AllPost from 'components/Post/AllPosts'
-
-const NavigationDrawerList = dynamic(
-	() => import('components/Drawers/NavigationDrawerList')
-)
 
 interface Props extends PropsWithUserData {}
 
@@ -40,7 +35,7 @@ const Home = ({ userData }: Props) => {
 
 			<div>
 				<PageWrapper userData={userData}>
-					<PageLayoutComponent Drawer={NavigationDrawerList} Content={PageContent} />
+					<PageLayoutComponent Content={PageContent} />
 				</PageWrapper>
 			</div>
 		</>

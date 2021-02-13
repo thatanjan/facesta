@@ -1,4 +1,5 @@
 import React from 'react'
+import dynamic from 'next/dynamic'
 import useMediaQuery from '@material-ui/core/useMediaQuery'
 import Grid from '@material-ui/core/Grid'
 import { makeStyles } from '@material-ui/core/styles'
@@ -7,8 +8,11 @@ import DrawerContextProvider from 'context/drawerContext'
 import AppHeader from 'components/AppBars/AppHeader'
 import BackgroundPaper from './BackgroundPaper'
 
+const NavigationDrawerList = dynamic(
+	() => import('components/Drawers/NavigationDrawerList')
+)
+
 interface Props {
-	Drawer?: any
 	Content?: any
 	RightSection?: any
 }
@@ -22,22 +26,12 @@ const useStyles = makeStyles({
 
 export const screenSizeDrawer: string = '(min-width:960px)'
 
-const PageLayoutComponent = ({ Drawer, Content, RightSection }: Props) => {
+const PageLayoutComponent = ({ Content, RightSection }: Props) => {
 	const isObject = (component: any): boolean => typeof component === 'object'
 
 	const matches = useMediaQuery(screenSizeDrawer)
 
 	const { containerStyle } = useStyles()
-
-	const contentWidth = () => {
-		if (Drawer && !RightSection) {
-			return 9
-		}
-		if (!Drawer && RightSection) {
-			return 9
-		}
-		return 6
-	}
 
 	return (
 		<>
@@ -47,13 +41,13 @@ const PageLayoutComponent = ({ Drawer, Content, RightSection }: Props) => {
 
 			<BackgroundPaper>
 				<Grid container justify='space-evenly' className={containerStyle}>
-					{matches && isObject(Drawer) && (
+					{matches && (
 						<Grid item md={3}>
-							<Drawer />
+							<NavigationDrawerList />
 						</Grid>
 					)}
 					{Content && typeof Content === 'function' && (
-						<Grid item xs={10} md={contentWidth()}>
+						<Grid item xs={10}>
 							<Content />
 						</Grid>
 					)}
@@ -69,7 +63,6 @@ const PageLayoutComponent = ({ Drawer, Content, RightSection }: Props) => {
 }
 
 PageLayoutComponent.defaultProps = {
-	Drawer: false,
 	Content: false,
 	RightSection: false,
 }
