@@ -4,15 +4,16 @@ import { makeStyles } from '@material-ui/core/styles'
 import AppBar from '@material-ui/core/AppBar'
 import Tabs from '@material-ui/core/Tabs'
 import Tab from '@material-ui/core/Tab'
-import CircularProgress from '@material-ui/core/CircularProgress'
 import { nanoid } from 'nanoid'
 
 // import Personal from 'components/About/personal/Personal'
 import { AnyObject } from 'interfaces/global'
-import { useFollowers, useFollowing } from 'hooks/useFollow'
 import { FOLLOWING, FOLLOWERS } from 'variables/global'
 
 const AboutTab = dynamic(() => import('components/Profile/Tabs/About/About'))
+const FollowSection = dynamic(
+	() => import('components/Profile/Tabs/Follow/Follow')
+)
 
 class TabBuilder {
 	Component: Function
@@ -27,33 +28,20 @@ class TabBuilder {
 
 const About = new TabBuilder('About', AboutTab)
 
-// import OptionBuilder, { Data as OptionData } from 'utils/optionBuilder'
-
-// const AboutSection = dynamic(() => import('components/About/AboutTabMenu'))
-
 // const PostsSection = dynamic(
 // 	() => import('components/PostsSection/PostsSection')
 // )
 
-// const FollowSection = dynamic(
-// 	() => import('components/FollowComponent/FollowComponent')
-// )
-
 // const Posts = new OptionBuilder('Posts', PostsSection)
 
-// const Followers = new OptionBuilder(FOLLOWERS, FollowSection).addHook(
-// 	useFollowers
-// )
+const Followers: TabBuilder = new TabBuilder(FOLLOWERS, FollowSection)
 
-// const Following = new OptionBuilder(FOLLOWING, FollowSection).addHook(
-// 	useFollowing
-// )
+const Following: TabBuilder = new TabBuilder(FOLLOWING, FollowSection)
 
-const tabs: TabBuilder[] = [About]
+const tabs: TabBuilder[] = [About, Followers, Following]
 
 const TabPanel = ({ value, ...other }: any) => {
 	const { Component, name } = tabs[value]
-	// const props = { hook, name }
 
 	return (
 		<div
