@@ -18,6 +18,8 @@ const NavigationDrawerList = dynamic(
 
 interface Props extends PropsWithUserData {}
 
+const PageContent = () => <div>hello world</div>
+
 const Home = ({ userData }: Props) => {
 	return (
 		<>
@@ -28,10 +30,7 @@ const Home = ({ userData }: Props) => {
 
 			<div>
 				<PageWrapper userData={userData}>
-					<PageLayoutComponent
-						Drawer={NavigationDrawerList}
-						Content={() => <div>hello world</div>}
-					/>
+					<PageLayoutComponent Drawer={NavigationDrawerList} Content={PageContent} />
 				</PageWrapper>
 			</div>
 		</>
