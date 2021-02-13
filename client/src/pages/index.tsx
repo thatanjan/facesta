@@ -11,6 +11,7 @@ import shouldRedirectToAuth from 'utils/shouldRedirectToAuth'
 import getToken from 'utils/getToken'
 import createRedirectObject from 'utils/createRedirectObject'
 import { LOGIN_URL } from 'variables/global'
+import CreatePost from 'components/Post/CreatePost/CreatePost'
 
 const NavigationDrawerList = dynamic(
 	() => import('components/Drawers/NavigationDrawerList')
@@ -18,7 +19,13 @@ const NavigationDrawerList = dynamic(
 
 interface Props extends PropsWithUserData {}
 
-const PageContent = () => <div>hello world</div>
+const PageContent = () => {
+	return (
+		<>
+			<CreatePost />
+		</>
+	)
+}
 
 const Home = ({ userData }: Props) => {
 	return (
