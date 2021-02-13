@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
 import { Formik, Form, Field } from 'formik'
-import { Button, LinearProgress } from '@material-ui/core'
+import Button from '@material-ui/core/Button'
+import LinearProgress from '@material-ui/core/LinearProgress'
+import Grid from '@material-ui/core/Grid'
 import { DatePicker } from 'formik-material-ui-pickers'
 import { TextField } from 'formik-material-ui'
 import { MuiPickersUtilsProvider } from '@material-ui/pickers'
@@ -92,23 +94,29 @@ const NewDetailsForm = ({ setIsAdding }: Props) => {
 						<br />
 						{isSubmitting && <LinearProgress />}
 						<br />
-						<Button
-							variant='contained'
-							color='primary'
-							disabled={isSubmitting}
-							onClick={submitForm}
-						>
-							Submit
-						</Button>
 
-						<Button
-							variant='contained'
-							color='secondary'
-							disabled={isSubmitting}
-							onClick={() => setIsAdding(false)}
-						>
-							cancel
-						</Button>
+						<Grid container justify='space-between'>
+							<Grid item>
+								<Button
+									variant='contained'
+									color='primary'
+									disabled={isSubmitting}
+									onClick={submitForm}
+								>
+									Submit
+								</Button>
+							</Grid>
+							<Grid item>
+								<Button
+									variant='contained'
+									color='secondary'
+									disabled={isSubmitting}
+									onClick={() => setIsAdding(false)}
+								>
+									cancel
+								</Button>
+							</Grid>
+						</Grid>
 					</Form>
 				)}
 			</Formik>
