@@ -23,6 +23,9 @@ const END_POINT = ifProduction
 	? process.env.NEXT_PUBLIC_SERVER_URL
 	: 'http://localhost:8000/graphql'
 
+const FOLLOWERS = 'followers'
+const FOLLOWING = 'following'
+
 export {
 	AUTHENTICATION,
 	TOKEN_NAME,
@@ -35,4 +38,6 @@ export {
 	LOGOUT_URL,
 	SIGN_UP_URL,
 	LOGIN_URL,
+	FOLLOWERS,
+	FOLLOWING,
 }
