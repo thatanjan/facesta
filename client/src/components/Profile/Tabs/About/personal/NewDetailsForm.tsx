@@ -100,6 +100,15 @@ const NewDetailsForm = ({ setIsAdding }: Props) => {
 						>
 							Submit
 						</Button>
+
+						<Button
+							variant='contained'
+							color='secondary'
+							disabled={isSubmitting}
+							onClick={() => setIsAdding(false)}
+						>
+							cancel
+						</Button>
 					</Form>
 				)}
 			</Formik>
