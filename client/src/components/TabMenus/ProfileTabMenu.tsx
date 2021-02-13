@@ -9,6 +9,7 @@ import { nanoid } from 'nanoid'
 // import Personal from 'components/About/personal/Personal'
 import { AnyObject } from 'interfaces/global'
 import { FOLLOWING, FOLLOWERS } from 'variables/global'
+import { useFollowers, useFollowing } from 'hooks/useFollow'
 
 const AboutTab = dynamic(() => import('components/Profile/Tabs/About/About'))
 const FollowSection = dynamic(
@@ -20,9 +21,16 @@ class TabBuilder {
 
 	name: string
 
+	hook?: Function
+
 	constructor(name: string, Component: Function) {
 		this.name = name
 		this.Component = Component
+	}
+
+	addHook(hook: Function) {
+		this.hook = hook
+		return this
 	}
 }
 
@@ -34,14 +42,18 @@ const About = new TabBuilder('About', AboutTab)
 
 // const Posts = new OptionBuilder('Posts', PostsSection)
 
-const Followers: TabBuilder = new TabBuilder(FOLLOWERS, FollowSection)
+const Followers: TabBuilder = new TabBuilder(FOLLOWERS, FollowSection).addHook(
+	useFollowers
+)
 
-const Following: TabBuilder = new TabBuilder(FOLLOWING, FollowSection)
+const Following: TabBuilder = new TabBuilder(FOLLOWING, FollowSection).addHook(
+	useFollowing
+)
 
 const tabs: TabBuilder[] = [About, Followers, Following]
 
 const TabPanel = ({ value, ...other }: any) => {
-	const { Component, name } = tabs[value]
+	const { Component, ...others } = tabs[value]
 
 	return (
 		<div
@@ -50,7 +62,7 @@ const TabPanel = ({ value, ...other }: any) => {
 			aria-labelledby={`scrollable-auto-tab-${value}`}
 			{...other}
 		>
-			<Component />
+			<Component {...others} />
 		</div>
 	)
 }
