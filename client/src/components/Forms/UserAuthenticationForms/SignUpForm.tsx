@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useState } from 'react'
 import { Formik, Form, Field } from 'formik'
 import { Button, LinearProgress } from '@material-ui/core'
 import { TextField } from 'formik-material-ui'
@@ -6,56 +6,53 @@ import { TextField } from 'formik-material-ui'
 import { useRouter } from 'next/router'
 import dynamic from 'next/dynamic'
 
-// import { UserContext } from 'context/userContext'
-
 import { Error, RegisterInput, RegisterOutput } from 'interfaces/authentication'
 
-// import login from 'utils/login'
+import login from 'utils/login'
 import MuiLink from 'components/Links/MuiLink'
-// import createRequest from 'utils/createRequest'
+import createRequest from 'utils/createRequest'
 
-// import { registerMutation } from 'graphql/mutations/authMutations'
+import { registerMutation } from 'graphql/mutations/authMutations'
 
 const Alert = dynamic(() => import('@material-ui/lab/Alert'))
 
 const SignUpForm = () => {
 	const router = useRouter()
 
-	// const [, setUser]: any = useContext(UserContext)
-
 	const [errorMessage, setErrorMessage] = useState('')
 
-	// const registerUser = async (values: RegisterInput) => {
-	// 	try {
-	// 		const {
-	// 			registerUser: { token, errorMessage: message },
-	// 		}: RegisterOutput = await createRequest({
-	// 			mutation: registerMutation,
-	// 			values,
-	// 		})
+	const registerUser = async (values: RegisterInput) => {
+		try {
+			const {
+				registerUser: { token, errorMessage: message },
+			}: RegisterOutput = await createRequest({
+				key: registerMutation,
+				values,
+			})
 
-	// 		if (message) {
-	// 			setErrorMessage(message)
+			if (message) {
+				setErrorMessage(message)
 
-	// 			setTimeout(() => {
-	// 				setErrorMessage('')
-	// 			}, 3000)
+				setTimeout(() => {
+					setErrorMessage('')
+				}, 3000)
 
-	// 			return false
-	// 		}
+				return false
+			}
 
-	// 		const loginSuccessful = await login({ setUser, token })
+			const loginSuccessful = await login(token)
 
-	// 		if (loginSuccessful) {
-	// 			router.push('/')
-	// 			return true
-	// 		}
-	// 	} catch (error) {
-	// 		return false
-	// 	}
+			if (loginSuccessful) {
+				router.push('/')
+				return true
+			}
+		} catch (error) {
+			return false
+		}
 
-	// 	return true
-	// }
+		return true
+	}
+
 	return (
 		<>
 			<Formik
@@ -101,7 +98,7 @@ const SignUpForm = () => {
 					return errors
 				}}
 				onSubmit={(values, { setSubmitting }) => {
-					// registerUser(values)
+					registerUser(values)
 					setTimeout(() => {
 						setSubmitting(false)
 					}, 500)
