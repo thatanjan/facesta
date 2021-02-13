@@ -36,7 +36,7 @@ interface Props {
 
 const NewDetailsForm = ({ setIsAdding }: Props) => {
 	const ownUserId = useOwnUserId()
-	const { data, error } = useGetPersonal(ownUserId)
+	const { data, error } = useGetPersonal()
 
 	if (error) return <div>...error</div>
 	if (!data) return <div>...loading</div>
