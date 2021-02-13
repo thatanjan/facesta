@@ -1,8 +1,10 @@
-import React from "react";
-import dynamic from "next/dynamic";
+import React from 'react'
+import dynamic from 'next/dynamic'
 
-const Personal = dynamic(import("./personal/Personal"));
+const Personal = dynamic(import('./personal/Personal'))
 
-export default () => {
-  return <Personal />;
-};
+const About = () => {
+	return <Personal />
+}
+
+export default About
