@@ -36,12 +36,6 @@ class TabBuilder {
 
 const About = new TabBuilder('About', AboutTab)
 
-// const PostsSection = dynamic(
-// 	() => import('components/PostsSection/PostsSection')
-// )
-
-// const Posts = new OptionBuilder('Posts', PostsSection)
-
 const Followers: TabBuilder = new TabBuilder(FOLLOWERS, FollowSection).addHook(
 	useFollowers
 )

@@ -1,5 +1,4 @@
 import React from 'react'
-import Image from 'next/image'
 import CardMedia from '@material-ui/core/CardMedia'
 import Paper from '@material-ui/core/Paper'
 import Grid from '@material-ui/core/Grid'

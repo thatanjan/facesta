@@ -5,7 +5,7 @@ import Box from '@material-ui/core/Box'
 import { nanoid } from 'nanoid'
 
 import useGetPersonal from 'hooks/useGetPersonalProfile'
-import { useProfileUserId, useIsSelf } from 'hooks/profileContextHooks'
+import { useIsSelf } from 'hooks/profileContextHooks'
 import { DATE_OF_BIRTH, SKILLS } from 'variables/global'
 import parseCamelCase from 'utils/parseCamelCase'
 import EachField from 'components/Profile/Tabs/About/DetailsPreview'
@@ -21,8 +21,6 @@ export const personalDetailsField = [
 	'website',
 	'location',
 ]
-
-interface Props {}
 
 export const doIfDateOfBirthField = (field: string): string => {
 	if (field === DATE_OF_BIRTH) {
@@ -40,11 +38,10 @@ const doIfDateOfBirthValue = (field: string, value: string): string => {
 	return value
 }
 
-const PersonalDetails = (props: Props) => {
+const PersonalDetails = () => {
 	const isSelf = useIsSelf()
-	const profileUserId = useProfileUserId()
 
-	const { data, error } = useGetPersonal(profileUserId)
+	const { data, error } = useGetPersonal()
 
 	return (
 		<>

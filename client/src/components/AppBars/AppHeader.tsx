@@ -51,7 +51,6 @@ const AppHeader = () => {
 
 	const [openDrawer, closeDrawer] = useDrawerDispatch()
 
-	console.log([openDrawer, closeDrawer])
 	const { pathname, push, back, asPath } = useRouter()
 
 	const { menuButton, title } = useStyles()

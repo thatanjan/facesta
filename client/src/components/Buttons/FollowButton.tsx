@@ -6,7 +6,6 @@ import { mutate } from 'swr'
 import createRequest from 'utils/createRequest'
 import { useIsFollower, useIsFollowing } from 'hooks/useFollow'
 import { useProfileUserId } from 'hooks/profileContextHooks'
-import { useOwnUserId } from 'hooks/userhooks'
 import { follow, unfollow } from 'graphql/mutations/followMutations'
 import {
 	getIsFollower,
@@ -26,11 +25,10 @@ let buttonText: string
 const FollowButton = () => {
 	const { buttonStyle } = useStyles()
 
-	const ownUserId = useOwnUserId()
 	const profileUserId = useProfileUserId()
 
-	const { data: follower } = useIsFollower(profileUserId)
-	const { data: following } = useIsFollowing(profileUserId)
+	const { data: follower } = useIsFollower()
+	const { data: following } = useIsFollowing()
 
 	if (!follower) return <div> ...loading </div>
 	if (!following) return <div> ...loading </div>

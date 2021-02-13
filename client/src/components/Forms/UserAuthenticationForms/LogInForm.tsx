@@ -47,7 +47,7 @@ const LogInForm = () => {
 				return true
 			}
 		} catch (err: any) {
-			console.log(err)
+			return err
 		}
 
 		return true

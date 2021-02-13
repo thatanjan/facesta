@@ -31,6 +31,7 @@ interface Props {
 
 interface Users {
 	name: string
+	// eslint-disable-next-line react/no-unused-prop-types
 	id: string
 }
 
