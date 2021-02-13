@@ -12,6 +12,7 @@ import getToken from 'utils/getToken'
 import createRedirectObject from 'utils/createRedirectObject'
 import { LOGIN_URL } from 'variables/global'
 import CreatePost from 'components/Post/CreatePost/CreatePost'
+import AllPost from 'components/Post/AllPosts'
 
 const NavigationDrawerList = dynamic(
 	() => import('components/Drawers/NavigationDrawerList')
@@ -23,6 +24,8 @@ const PageContent = () => {
 	return (
 		<>
 			<CreatePost />
+
+			<AllPost />
 		</>
 	)
 }
