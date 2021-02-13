@@ -26,6 +26,7 @@ const useStyles = makeStyles((theme: Theme) => ({
 
 interface Props {
 	name: string
+	hook: Function
 }
 
 interface Users {
@@ -33,33 +34,33 @@ interface Users {
 	id: string
 }
 
-export const FollowComponent = ({ name }: Props) => {
+export const FollowComponent = ({ name, hook }: Props) => {
 	const profileUserId = useProfileUserId()
-	// const { data, error } = hook(profileUserId)
+	const { data, error } = hook(profileUserId)
 	const { root } = useStyles()
 
-	// if (error) {
-	// 	// eslint-disable-next-line
-	// 	console.log(error)
-	// 	return <div> error </div>
-	// }
+	if (error) {
+		// eslint-disable-next-line
+		console.log(error)
+		return <div> error </div>
+	}
 
-	// if (!data) return <div> loading </div>
+	if (!data) return <div> loading </div>
 
-	// let users: Users[]
+	let users: Users[]
 
-	// switch (name) {
-	// 	case FOLLOWING:
-	// 		users = data.getFollowing.following
-	// 		break
+	switch (name) {
+		case FOLLOWING:
+			users = data.getFollowing.following
+			break
 
-	// 	case FOLLOWERS:
-	// 		users = data.getFollowers.followers
-	// 		break
+		case FOLLOWERS:
+			users = data.getFollowers.followers
+			break
 
-	// 	default:
-	// 		users = []
-	// }
+		default:
+			users = []
+	}
 
 	const avatar =
 		'https://www.thehairpin.com/wp-content/uploads/2010/12/0SjOFPkAOxl_4Yy2l.jpg'
@@ -67,7 +68,7 @@ export const FollowComponent = ({ name }: Props) => {
 	return (
 		<>
 			<List className={root}>
-				{[].map(({ name: userName, id }: Users) => (
+				{users.map(({ name: userName, id }: Users) => (
 					<MuiLink
 						MuiComponent={ListItem}
 						button
