@@ -16,6 +16,8 @@ import MovieIcon from '@material-ui/icons/Movie'
 import { nanoid } from 'nanoid'
 
 import { AnyObject } from 'interfaces/global'
+import { createPost } from 'graphql/mutations/postMutations'
+import createRequest from 'utils/createRequest'
 
 import PrivacyMenu from './PrivacyMenu'
 
@@ -185,6 +187,7 @@ const CreatePostModal = ({ isClicked, setIsClicked }: Props) => {
 
 	const handleSubmit = (text: string) => {
 		console.log(text)
+		createRequest({ key: createPost, values: { text } })
 	}
 
 	return (
@@ -231,11 +234,10 @@ const CreatePostModal = ({ isClicked, setIsClicked }: Props) => {
 										name={name}
 										type='file'
 									/>
-									{/* <label htmlFor={id}> */}
+
 									<IconButton>
 										<Component />
 									</IconButton>
-									{/* </label> */}
 								</Grid>
 							))}
 						</Grid>
