@@ -21,7 +21,6 @@ const useStyles = makeStyles({
 		flexGrow: 1,
 	},
 	inputStyle: {
-		cursor: 'pointer',
 		width: '100%',
 		'&&&:before': {
 			borderBottom: 'none',
@@ -29,11 +28,15 @@ const useStyles = makeStyles({
 		'&&:after': {
 			borderBottom: 'none',
 		},
+		'& > input': {
+			cursor: 'pointer',
+		},
 	},
 	buttonGroupStyle: {
 		marginTop: '1rem',
 		justifyContent: 'space-evenly',
 	},
+	topContainerStyle: {},
 })
 
 export const CreatePost = () => {
