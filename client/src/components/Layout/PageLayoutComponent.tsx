@@ -47,7 +47,7 @@ const PageLayoutComponent = ({ Content, RightSection }: Props) => {
 						</Grid>
 					)}
 					{Content && typeof Content === 'function' && (
-						<Grid item xs={10}>
+						<Grid item xs={9}>
 							<Content />
 						</Grid>
 					)}
