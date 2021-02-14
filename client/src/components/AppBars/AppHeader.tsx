@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
-import { styled, makeStyles } from '@material-ui/core/styles'
+import { styled, makeStyles, fade } from '@material-ui/core/styles'
 import AppBar from '@material-ui/core/AppBar'
 import Toolbar from '@material-ui/core/Toolbar'
 import MenuIcon from '@material-ui/icons/Menu'
@@ -8,6 +8,8 @@ import TelegramIcon from '@material-ui/icons/Telegram'
 import useMediaQuery from '@material-ui/core/useMediaQuery'
 import Typography from '@material-ui/core/Typography'
 import IconButton from '@material-ui/core/IconButton'
+import InputBase from '@material-ui/core/InputBase'
+import SearchIcon from '@material-ui/icons/Search'
 
 import NavigationDrawer from 'components/Drawers/NavigationDrawer'
 import { useDrawerDispatch } from 'hooks/drawerHooks'
@@ -24,6 +26,43 @@ const useStyles = makeStyles(theme => ({
 	},
 	title: {
 		flexGrow: 1,
+	},
+	search: {
+		position: 'relative',
+		borderRadius: theme.shape.borderRadius,
+		backgroundColor: fade(theme.palette.common.white, 0.15),
+		'&:hover': {
+			backgroundColor: fade(theme.palette.common.white, 0.25),
+		},
+		marginRight: theme.spacing(2),
+		marginLeft: 0,
+		width: '100%',
+		[theme.breakpoints.up('sm')]: {
+			marginLeft: theme.spacing(3),
+			width: 'auto',
+		},
+	},
+	searchIcon: {
+		padding: theme.spacing(0, 2),
+		height: '100%',
+		position: 'absolute',
+		pointerEvents: 'none',
+		display: 'flex',
+		alignItems: 'center',
+		justifyContent: 'center',
+	},
+	inputRoot: {
+		color: 'inherit',
+	},
+	inputInput: {
+		padding: theme.spacing(1, 1, 1, 0),
+		// vertical padding + font size from searchIcon
+		paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
+		transition: theme.transitions.create('width'),
+		width: '100%',
+		[theme.breakpoints.up('md')]: {
+			width: '20ch',
+		},
 	},
 }))
 
@@ -53,7 +92,14 @@ const AppHeader = () => {
 
 	const { pathname, push, asPath } = useRouter()
 
-	const { menuButton, title } = useStyles()
+	const {
+		menuButton,
+		title,
+		search,
+		searchIcon,
+		inputInput,
+		inputRoot,
+	} = useStyles()
 
 	const [lastURLSegment, setLastURLSegment] = useState('')
 
@@ -108,6 +154,20 @@ const AppHeader = () => {
 						{matches && lastURLSegment}
 						{!matches && APP_NAME}
 					</Typography>
+
+					<div className={search}>
+						<div className={searchIcon}>
+							<SearchIcon />
+						</div>
+						<InputBase
+							placeholder='Search…'
+							classes={{
+								root: inputRoot,
+								input: inputInput,
+							}}
+							inputProps={{ 'aria-label': 'search' }}
+						/>
+					</div>
 
 					{!matches && (
 						<IconButton edge='end' onClick={() => push('/message')}>
