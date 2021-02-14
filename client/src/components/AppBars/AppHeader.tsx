@@ -5,7 +5,6 @@ import AppBar from '@material-ui/core/AppBar'
 import Toolbar from '@material-ui/core/Toolbar'
 import MenuIcon from '@material-ui/icons/Menu'
 import TelegramIcon from '@material-ui/icons/Telegram'
-import ArrowBackIcon from '@material-ui/icons/ArrowBack'
 import useMediaQuery from '@material-ui/core/useMediaQuery'
 import Typography from '@material-ui/core/Typography'
 import IconButton from '@material-ui/core/IconButton'
@@ -109,12 +108,6 @@ const AppHeader = () => {
 						{matches && lastURLSegment}
 						{!matches && APP_NAME}
 					</Typography>
-
-					{pathname !== '/' && (
-						<IconButton onClick={() => back()}>
-							<ArrowBackIcon />
-						</IconButton>
-					)}
 
 					<IconButton edge='end' onClick={() => push('/message')}>
 						<TelegramIcon color='secondary' />
