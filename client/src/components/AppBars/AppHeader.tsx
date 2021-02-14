@@ -13,7 +13,7 @@ import NavigationDrawer from 'components/Drawers/NavigationDrawer'
 import { useDrawerDispatch } from 'hooks/drawerHooks'
 import { APP_NAME, screenSizeDrawer } from 'variables/global'
 
-// import AppHeaderMenus from 'components/AppHeader/AppHeaderMenus'
+import AppHeaderMenus from 'components/AppBars/AppHeaderMenus'
 
 const useStyles = makeStyles(theme => ({
 	root: {
@@ -51,7 +51,7 @@ const AppHeader = () => {
 
 	const [openDrawer, closeDrawer] = useDrawerDispatch()
 
-	const { pathname, push, back, asPath } = useRouter()
+	const { pathname, push, asPath } = useRouter()
 
 	const { menuButton, title } = useStyles()
 
@@ -113,7 +113,7 @@ const AppHeader = () => {
 						<TelegramIcon color='secondary' />
 					</IconButton>
 
-					{/* {!matches && <AppHeaderMenus />} */}
+					{matches && <AppHeaderMenus />}
 				</ToolbarContainer>
 			</AppBar>
 		</>
