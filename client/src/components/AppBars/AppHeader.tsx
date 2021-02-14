@@ -109,9 +109,11 @@ const AppHeader = () => {
 						{!matches && APP_NAME}
 					</Typography>
 
-					<IconButton edge='end' onClick={() => push('/message')}>
-						<TelegramIcon color='secondary' />
-					</IconButton>
+					{!matches && (
+						<IconButton edge='end' onClick={() => push('/message')}>
+							<TelegramIcon color='secondary' />
+						</IconButton>
+					)}
 
 					{matches && <AppHeaderMenus />}
 				</ToolbarContainer>
