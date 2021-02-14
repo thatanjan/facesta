@@ -102,10 +102,13 @@ const useStyles = makeStyles(theme => ({
 
 const mediaType = [image, gif, video]
 
-const TextFieldComponent = () => {
-	const { textFieldStyle } = useStyles()
+interface TextFieldProps {
+	inputText: string
+	setInputText: Function
+}
 
-	const [inputText, setInputText] = useState('')
+const TextFieldComponent = ({ inputText, setInputText }: TextFieldProps) => {
+	const { textFieldStyle } = useStyles()
 
 	const getScrollHeight = (elm: any) => {
 		const element: any = elm
@@ -163,6 +166,10 @@ interface Props {
 }
 
 const CreatePostModal = ({ isClicked, setIsClicked }: Props) => {
+	const [inputText, setInputText] = useState('')
+
+	const modalProps = { inputText, setInputText }
+
 	const {
 		modal,
 		paper,
@@ -174,6 +181,10 @@ const CreatePostModal = ({ isClicked, setIsClicked }: Props) => {
 
 	const handleClose = () => {
 		setIsClicked(false)
+	}
+
+	const handleSubmit = (text: string) => {
+		console.log(text)
 	}
 
 	return (
@@ -197,9 +208,7 @@ const CreatePostModal = ({ isClicked, setIsClicked }: Props) => {
 						</Typography>
 						<Divider variant='middle' className={dividerStyle} />
 
-						{/* <TextareaAutosize aria-label='empty textarea' placeholder='Empty' /> */}
-
-						<TextFieldComponent />
+						<TextFieldComponent {...modalProps} />
 
 						<Divider variant='middle' className={dividerStyle} />
 
@@ -236,8 +245,12 @@ const CreatePostModal = ({ isClicked, setIsClicked }: Props) => {
 								<PrivacyMenu />
 							</Grid>
 							<Grid item>
-								<Button variant='contained' color='secondary'>
-									Submit{' '}
+								<Button
+									variant='contained'
+									color='secondary'
+									onClick={() => handleSubmit(inputText)}
+								>
+									Submit
 								</Button>
 							</Grid>
 						</Grid>
