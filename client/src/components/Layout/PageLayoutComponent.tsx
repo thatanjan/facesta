@@ -22,6 +22,9 @@ const useStyles = makeStyles({
 		marginTop: '0px',
 		marginBottom: '0px',
 	},
+	contentContainerStyle: {
+		padding: '0 2rem',
+	},
 })
 
 export const screenSizeDrawer: string = '(min-width:1280px)'
@@ -31,7 +34,7 @@ const PageLayoutComponent = ({ Content, RightSection }: Props) => {
 
 	const matches = useMediaQuery(screenSizeDrawer)
 
-	const { containerStyle } = useStyles()
+	const { containerStyle, contentContainerStyle } = useStyles()
 
 	return (
 		<>
@@ -47,7 +50,7 @@ const PageLayoutComponent = ({ Content, RightSection }: Props) => {
 						</Grid>
 					)}
 					{Content && typeof Content === 'function' && (
-						<Grid item xs={11} lg={9}>
+						<Grid item xs={11} lg={9} className={contentContainerStyle}>
 							<Content />
 						</Grid>
 					)}
