@@ -186,8 +186,11 @@ const CreatePostModal = ({ isClicked, setIsClicked }: Props) => {
 	}
 
 	const handleSubmit = (text: string) => {
-		console.log(text)
 		createRequest({ key: createPost, values: { text } })
+
+		setTimeout(() => {
+			setIsClicked(false)
+		}, 2000)
 	}
 
 	return (
