@@ -8,7 +8,7 @@ import ListItemText from '@material-ui/core/ListItemText'
 import useMediaQuery from '@material-ui/core/useMediaQuery'
 
 import MuiLink from 'components/Links/MuiLink'
-import { screenSizeDrawer } from 'components/Layout/PageLayoutComponent'
+import { screenSizeDrawer } from 'variables/global'
 import { useDrawerState, useDrawerDispatch } from 'hooks/drawerHooks'
 import useGetUser from 'hooks/userhooks'
 import listComponents, { Components } from './NavigationDrawerListData'

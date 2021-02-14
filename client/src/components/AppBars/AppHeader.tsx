@@ -12,7 +12,7 @@ import IconButton from '@material-ui/core/IconButton'
 
 import NavigationDrawer from 'components/Drawers/NavigationDrawer'
 import { useDrawerDispatch } from 'hooks/drawerHooks'
-import { APP_NAME } from 'variables/global'
+import { APP_NAME, screenSizeDrawer } from 'variables/global'
 
 // import AppHeaderMenus from 'components/AppHeader/AppHeaderMenus'
 
@@ -46,7 +46,7 @@ const ToolbarContainer = styled(({ ...props }) => <Toolbar {...props} />)({
 })
 
 const AppHeader = () => {
-	const matches = useMediaQuery('(max-width:960px)')
+	const matches = useMediaQuery(screenSizeDrawer)
 
 	const [isMenuClicked, setIsMenuClicked] = useState(false)
 

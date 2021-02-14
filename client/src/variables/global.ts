@@ -17,7 +17,7 @@ const SKILLS = 'skills'
 
 const PRODUCTION = 'production'
 
-export const ifProduction = process.env.NODE_ENV === PRODUCTION
+const ifProduction = process.env.NODE_ENV === PRODUCTION
 
 const END_POINT = ifProduction
 	? process.env.NEXT_PUBLIC_SERVER_URL
@@ -27,6 +27,8 @@ const FOLLOWERS = 'followers'
 const FOLLOWING = 'following'
 
 const APP_NAME = 'Confession'
+
+const screenSizeDrawer: string = '(min-width:1280px)'
 
 export {
 	AUTHENTICATION,
@@ -43,4 +45,6 @@ export {
 	FOLLOWERS,
 	FOLLOWING,
 	APP_NAME,
+	screenSizeDrawer,
+	ifProduction,
 }

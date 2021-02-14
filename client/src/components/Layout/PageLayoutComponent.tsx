@@ -6,6 +6,7 @@ import { makeStyles } from '@material-ui/core/styles'
 
 import DrawerContextProvider from 'context/drawerContext'
 import AppHeader from 'components/AppBars/AppHeader'
+import { screenSizeDrawer } from 'variables/global'
 import BackgroundPaper from './BackgroundPaper'
 
 const NavigationDrawerList = dynamic(
@@ -25,8 +26,6 @@ const useStyles = makeStyles({
 		padding: '0 2rem',
 	},
 })
-
-export const screenSizeDrawer: string = '(min-width:1280px)'
 
 const PageLayoutComponent = ({ Content }: Props) => {
 	const matches = useMediaQuery(screenSizeDrawer)
