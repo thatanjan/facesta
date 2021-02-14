@@ -24,7 +24,7 @@ const useStyles = makeStyles({
 	},
 })
 
-export const screenSizeDrawer: string = '(min-width:960px)'
+export const screenSizeDrawer: string = '(min-width:1280px)'
 
 const PageLayoutComponent = ({ Content, RightSection }: Props) => {
 	const isObject = (component: any): boolean => typeof component === 'object'
@@ -42,12 +42,12 @@ const PageLayoutComponent = ({ Content, RightSection }: Props) => {
 			<BackgroundPaper>
 				<Grid container justify='space-evenly' className={containerStyle}>
 					{matches && (
-						<Grid item md={3}>
+						<Grid item lg={3}>
 							<NavigationDrawerList />
 						</Grid>
 					)}
 					{Content && typeof Content === 'function' && (
-						<Grid item xs={9}>
+						<Grid item xs={11} lg={9}>
 							<Content />
 						</Grid>
 					)}
