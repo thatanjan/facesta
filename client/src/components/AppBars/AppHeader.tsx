@@ -35,7 +35,7 @@ const urlLastURLSegment = () => {
 
 	let result = lastURLSegment.replace(/-/g, ' ')
 
-	if (result === '') result = 'DevBook'
+	if (result === '') result = APP_NAME
 
 	return result
 }
@@ -83,7 +83,7 @@ const AppHeader = () => {
 				<ToolbarContainer
 					direction={matches && pathname !== '/' ? 'reverse' : null}
 				>
-					{matches && (
+					{!matches && (
 						<>
 							<IconButton
 								edge='end'
@@ -110,17 +110,15 @@ const AppHeader = () => {
 						{!matches && APP_NAME}
 					</Typography>
 
-					{matches && pathname !== '/' && (
+					{pathname !== '/' && (
 						<IconButton onClick={() => back()}>
 							<ArrowBackIcon />
 						</IconButton>
 					)}
 
-					{matches && pathname === '/' && (
-						<IconButton edge='end' onClick={() => push('/message')}>
-							<TelegramIcon color='secondary' />
-						</IconButton>
-					)}
+					<IconButton edge='end' onClick={() => push('/message')}>
+						<TelegramIcon color='secondary' />
+					</IconButton>
 
 					{/* {!matches && <AppHeaderMenus />} */}
 				</ToolbarContainer>
