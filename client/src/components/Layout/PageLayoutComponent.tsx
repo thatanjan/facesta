@@ -30,8 +30,6 @@ const useStyles = makeStyles({
 export const screenSizeDrawer: string = '(min-width:1280px)'
 
 const PageLayoutComponent = ({ Content, RightSection }: Props) => {
-	const isObject = (component: any): boolean => typeof component === 'object'
-
 	const matches = useMediaQuery(screenSizeDrawer)
 
 	const { containerStyle, contentContainerStyle } = useStyles()
@@ -52,11 +50,6 @@ const PageLayoutComponent = ({ Content, RightSection }: Props) => {
 					{Content && typeof Content === 'function' && (
 						<Grid item xs={11} lg={9} className={contentContainerStyle}>
 							<Content />
-						</Grid>
-					)}
-					{matches && isObject(RightSection) && (
-						<Grid item md={3}>
-							<RightSection />
 						</Grid>
 					)}
 				</Grid>
