@@ -85,6 +85,7 @@ const ToolbarContainer = styled(({ ...props }) => <Toolbar {...props} />)({
 
 const AppHeader = () => {
 	const matches = useMediaQuery(screenSizeDrawer)
+	const shouldShowSearchBox = useMediaQuery('( min-width:600px )')
 
 	const [isMenuClicked, setIsMenuClicked] = useState(false)
 
@@ -122,6 +123,9 @@ const AppHeader = () => {
 		}
 	}, [asPath])
 
+	useEffect(() => {
+		console.log('search', shouldShowSearchBox)
+	}, [shouldShowSearchBox])
 	return (
 		<>
 			<AppBar>
@@ -155,19 +159,22 @@ const AppHeader = () => {
 						{!matches && APP_NAME}
 					</Typography>
 
-					<div className={search}>
-						<div className={searchIcon}>
-							<SearchIcon />
+					{shouldShowSearchBox && (
+						<div className={search}>
+							<div className={searchIcon}>
+								<SearchIcon />
+							</div>
+
+							<InputBase
+								placeholder='Search…'
+								classes={{
+									root: inputRoot,
+									input: inputInput,
+								}}
+								inputProps={{ 'aria-label': 'search' }}
+							/>
 						</div>
-						<InputBase
-							placeholder='Search…'
-							classes={{
-								root: inputRoot,
-								input: inputInput,
-							}}
-							inputProps={{ 'aria-label': 'search' }}
-						/>
-					</div>
+					)}
 
 					{!matches && (
 						<IconButton edge='end' onClick={() => push('/message')}>
