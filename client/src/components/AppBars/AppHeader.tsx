@@ -12,10 +12,11 @@ import IconButton from '@material-ui/core/IconButton'
 
 import NavigationDrawer from 'components/Drawers/NavigationDrawer'
 import { useDrawerDispatch } from 'hooks/drawerHooks'
+import { APP_NAME } from 'variables/global'
 
 // import AppHeaderMenus from 'components/AppHeader/AppHeaderMenus'
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
 	root: {
 		flexGrow: 1,
 	},
@@ -106,7 +107,7 @@ const AppHeader = () => {
 						onClick={!matches ? () => push('/') : undefined}
 					>
 						{matches && lastURLSegment}
-						{!matches && 'DevBook'}
+						{!matches && APP_NAME}
 					</Typography>
 
 					{matches && pathname !== '/' && (

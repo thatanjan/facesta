@@ -26,6 +26,8 @@ const END_POINT = ifProduction
 const FOLLOWERS = 'followers'
 const FOLLOWING = 'following'
 
+const APP_NAME = 'Confession'
+
 export {
 	AUTHENTICATION,
 	TOKEN_NAME,
@@ -40,4 +42,5 @@ export {
 	LOGIN_URL,
 	FOLLOWERS,
 	FOLLOWING,
+	APP_NAME,
 }

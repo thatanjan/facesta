@@ -9,7 +9,7 @@ import Requset from 'interfaces/requsetResponse'
 import shouldRedirectToAuth from 'utils/shouldRedirectToAuth'
 import getToken from 'utils/getToken'
 import createRedirectObject from 'utils/createRedirectObject'
-import { LOGIN_URL } from 'variables/global'
+import { LOGIN_URL, APP_NAME } from 'variables/global'
 import CreatePost from 'components/Post/CreatePost/CreatePost'
 import AllPost from 'components/Post/AllPosts'
 
@@ -29,7 +29,7 @@ const Home = ({ userData }: Props) => {
 	return (
 		<>
 			<Head>
-				<title>Dev Book</title>
+				<title>{APP_NAME}</title>
 				<link rel='icon' href='/favicon.ico' />
 			</Head>
 
