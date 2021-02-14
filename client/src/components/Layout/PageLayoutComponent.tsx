@@ -13,8 +13,7 @@ const NavigationDrawerList = dynamic(
 )
 
 interface Props {
-	Content?: any
-	RightSection?: any
+	Content: Function
 }
 
 const useStyles = makeStyles({
@@ -29,7 +28,7 @@ const useStyles = makeStyles({
 
 export const screenSizeDrawer: string = '(min-width:1280px)'
 
-const PageLayoutComponent = ({ Content, RightSection }: Props) => {
+const PageLayoutComponent = ({ Content }: Props) => {
 	const matches = useMediaQuery(screenSizeDrawer)
 
 	const { containerStyle, contentContainerStyle } = useStyles()
@@ -56,11 +55,6 @@ const PageLayoutComponent = ({ Content, RightSection }: Props) => {
 			</BackgroundPaper>
 		</>
 	)
-}
-
-PageLayoutComponent.defaultProps = {
-	Content: false,
-	RightSection: false,
 }
 
 export default PageLayoutComponent
