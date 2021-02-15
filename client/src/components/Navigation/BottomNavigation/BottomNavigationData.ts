@@ -1,5 +1,5 @@
 import NotificationsIcon from '@material-ui/icons/Notifications'
-import AccountCircleIcon from '@material-ui/icons/AccountCircle'
+import HomeIcon from '@material-ui/icons/Home'
 import AddIcon from '@material-ui/icons/Add'
 import SearchIcon from '@material-ui/icons/Search'
 
@@ -19,9 +19,9 @@ export class NavigationItem {
 
 const notification = new NavigationItem('notification', NotificationsIcon)
 const add = new NavigationItem('add', AddIcon)
-const profile = new NavigationItem('profile', AccountCircleIcon)
+const home = new NavigationItem('home', HomeIcon)
 const search = new NavigationItem('search', SearchIcon)
 
-const navigationItems: NavigationItem[] = [profile, search, add, notification]
+const navigationItems: NavigationItem[] = [home, search, add, notification]
 
 export default navigationItems
