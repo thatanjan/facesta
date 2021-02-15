@@ -5,7 +5,7 @@ import BottomNavigation from '@material-ui/core/BottomNavigation'
 import BottomNavigationAction from '@material-ui/core/BottomNavigationAction'
 import { nanoid } from 'nanoid'
 
-import navigationItems, { NavigationItem } from './BottomNavigationData'
+import navigationItems, { NavigationItem, HOME } from './BottomNavigationData'
 
 const useStyles = makeStyles({
 	root: {
@@ -26,6 +26,8 @@ export default function LabelBottomNavigation() {
 	}
 
 	const handleClick = (routeName: string) => {
+		if (routeName === HOME) return push('/')
+
 		push(routeName)
 	}
 
