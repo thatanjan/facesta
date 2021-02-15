@@ -8,12 +8,12 @@ export class NavigationItem {
 
 	value: string
 
-	Component: Function
+	icon: Function
 
-	constructor(label: string, Component: Function) {
+	constructor(label: string, icon: Function) {
 		this.label = label
 		this.value = label.toLowerCase()
-		this.Component = Component
+		this.icon = icon
 	}
 }
 
