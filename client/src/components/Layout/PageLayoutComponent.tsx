@@ -57,7 +57,7 @@ const PageLayoutComponent = ({ Content }: Props) => {
 				</Grid>
 			</BackgroundPaper>
 
-			<BottomNavigation />
+			{!matches && <BottomNavigation />}
 		</>
 	)
 }
