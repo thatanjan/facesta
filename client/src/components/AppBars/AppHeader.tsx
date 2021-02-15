@@ -66,18 +66,6 @@ const useStyles = makeStyles(theme => ({
 	},
 }))
 
-const urlLastURLSegment = () => {
-	const pageURL: string = window?.location.href
-
-	const lastURLSegment = pageURL.substr(pageURL.lastIndexOf('/') + 1)
-
-	let result = lastURLSegment.replace(/-/g, ' ')
-
-	if (result === '') result = APP_NAME
-
-	return result
-}
-
 const ToolbarContainer = styled(({ ...props }) => <Toolbar {...props} />)({
 	flexDirection: (props: any) =>
 		props.direction === 'reverse' ? 'row-reverse' : 'initial',
@@ -91,7 +79,7 @@ const AppHeader = () => {
 
 	const [openDrawer, closeDrawer] = useDrawerDispatch()
 
-	const { pathname, push, asPath } = useRouter()
+	const { pathname, push } = useRouter()
 
 	const {
 		menuButton,
@@ -101,8 +89,6 @@ const AppHeader = () => {
 		inputInput,
 		inputRoot,
 	} = useStyles()
-
-	const [lastURLSegment, setLastURLSegment] = useState('')
 
 	const handleMenuClick = () => {
 		setIsMenuClicked(false)
@@ -117,15 +103,6 @@ const AppHeader = () => {
 		return true
 	}
 
-	useEffect(() => {
-		if (typeof window !== 'undefined') {
-			setLastURLSegment(urlLastURLSegment())
-		}
-	}, [asPath])
-
-	useEffect(() => {
-		console.log('search', shouldShowSearchBox)
-	}, [shouldShowSearchBox])
 	return (
 		<>
 			<AppBar>
@@ -155,8 +132,7 @@ const AppHeader = () => {
 						component='h6'
 						onClick={!matches ? () => push('/') : undefined}
 					>
-						{matches && lastURLSegment}
-						{!matches && APP_NAME}
+						{APP_NAME}
 					</Typography>
 
 					{shouldShowSearchBox && (
