@@ -3,7 +3,7 @@ import AccountCircleIcon from '@material-ui/icons/AccountCircle'
 import TelegramIcon from '@material-ui/icons/Telegram'
 import ArrowDropDownCircleIcon from '@material-ui/icons/ArrowDropDownCircle'
 
-export default class NavigationItem {
+export class NavigationItem {
 	label: string
 
 	value: string
@@ -22,4 +22,11 @@ const profile = new NavigationItem('profile', AccountCircleIcon)
 const chat = new NavigationItem('chat', TelegramIcon)
 const dropdown = new NavigationItem('dropdown', ArrowDropDownCircleIcon)
 
-export { notification, profile, chat, dropdown }
+const navigationItems: NavigationItem[] = [
+	notification,
+	profile,
+	chat,
+	dropdown,
+]
+
+export default navigationItems
