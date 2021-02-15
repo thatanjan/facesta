@@ -13,6 +13,10 @@ const NavigationDrawerList = dynamic(
 	() => import('components/Drawers/NavigationDrawerList')
 )
 
+const BottomNavigation = dynamic(
+	() => import('components/Navigation/BottomNavigation/BottomNavigation')
+)
+
 interface Props {
 	Content: Function
 }
@@ -52,6 +56,8 @@ const PageLayoutComponent = ({ Content }: Props) => {
 					)}
 				</Grid>
 			</BackgroundPaper>
+
+			<BottomNavigation />
 		</>
 	)
 }
