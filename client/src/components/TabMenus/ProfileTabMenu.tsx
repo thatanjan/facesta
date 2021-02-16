@@ -5,6 +5,7 @@ import AppBar from '@material-ui/core/AppBar'
 import Tabs from '@material-ui/core/Tabs'
 import Tab from '@material-ui/core/Tab'
 import { nanoid } from 'nanoid'
+import { useRouter } from 'next/router'
 
 // import Personal from 'components/About/personal/Personal'
 import { AnyObject } from 'interfaces/global'
@@ -85,6 +86,14 @@ const HorizontalMenu = () => {
 		setValue(newValue)
 	}
 
+	const handleClick = (index: number) => {
+		const currentURL = `${window.location.protocol}//${window.location.host}${window.location.pathname}`
+
+		const newURL = new URL(currentURL)
+		newURL.searchParams.set('show', index.toString())
+		window.history.pushState({}, '', (newURL as unknown) as string)
+	}
+
 	return (
 		<div className={classes.root}>
 			<AppBar position='static' color='default'>
@@ -98,7 +107,12 @@ const HorizontalMenu = () => {
 					aria-label='scrollable auto tabs example'
 				>
 					{tabs.map((item, index) => (
-						<Tab key={nanoid()} label={item.name} {...a11yProps(index)} />
+						<Tab
+							key={nanoid()}
+							label={item.name}
+							{...a11yProps(index)}
+							onClick={() => handleClick(index)}
+						/>
 					))}
 				</Tabs>
 			</AppBar>
