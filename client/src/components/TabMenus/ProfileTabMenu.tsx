@@ -74,6 +74,13 @@ const useStyles = makeStyles((theme: any) => ({
 		backgroundColor: theme.palette.background.paper,
 		marginBottom: '10vh',
 	},
+	tabsContainer: {
+		'& > .MuiTabs-scroller': {
+			'& > .MuiTabs-flexContainer': {
+				justifyContent: 'space-evenly',
+			},
+		},
+	},
 }))
 
 const HorizontalMenu = () => {
@@ -81,7 +88,7 @@ const HorizontalMenu = () => {
 		query: { show },
 	} = useRouter()
 
-	const classes = useStyles()
+	const { root, tabsContainer } = useStyles()
 	const [value, setValue] = React.useState(0)
 
 	useEffect(() => {
@@ -102,9 +109,10 @@ const HorizontalMenu = () => {
 	}
 
 	return (
-		<div className={classes.root}>
+		<div className={root}>
 			<AppBar position='static' color='default'>
 				<Tabs
+					className={tabsContainer}
 					value={value}
 					indicatorColor='secondary'
 					textColor='secondary'
