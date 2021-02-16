@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { useRouter } from 'next/router'
-import { styled, makeStyles, fade } from '@material-ui/core/styles'
+import { makeStyles, fade } from '@material-ui/core/styles'
 import AppBar from '@material-ui/core/AppBar'
 import Toolbar from '@material-ui/core/Toolbar'
 import MenuIcon from '@material-ui/icons/Menu'
@@ -66,11 +66,6 @@ const useStyles = makeStyles(theme => ({
 	},
 }))
 
-const ToolbarContainer = styled(({ ...props }) => <Toolbar {...props} />)({
-	flexDirection: (props: any) =>
-		props.direction === 'reverse' ? 'row-reverse' : 'initial',
-})
-
 const AppHeader = () => {
 	const matches = useMediaQuery(screenSizeDrawer)
 	const shouldShowSearchBox = useMediaQuery('( min-width:600px )')
@@ -79,7 +74,7 @@ const AppHeader = () => {
 
 	const [openDrawer, closeDrawer] = useDrawerDispatch()
 
-	const { pathname, push } = useRouter()
+	const { push } = useRouter()
 
 	const {
 		menuButton,
@@ -106,9 +101,7 @@ const AppHeader = () => {
 	return (
 		<>
 			<AppBar>
-				<ToolbarContainer
-					direction={matches && pathname !== '/' ? 'reverse' : null}
-				>
+				<Toolbar>
 					{!matches && (
 						<>
 							<IconButton
@@ -159,7 +152,7 @@ const AppHeader = () => {
 					)}
 
 					{matches && <AppHeaderMenus />}
-				</ToolbarContainer>
+				</Toolbar>
 			</AppBar>
 		</>
 	)
