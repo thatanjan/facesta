@@ -1,5 +1,5 @@
 import dynamic from 'next/dynamic'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import AppBar from '@material-ui/core/AppBar'
 import Tabs from '@material-ui/core/Tabs'
@@ -79,12 +79,18 @@ const useStyles = makeStyles((theme: any) => ({
 }))
 
 const HorizontalMenu = () => {
+	const {
+		query: { show },
+	} = useRouter()
+
 	const classes = useStyles()
 	const [value, setValue] = React.useState(0)
 
-	const handleChange = (event: AnyObject, newValue: number) => {
-		setValue(newValue)
-	}
+	useEffect(() => {
+		if (!show) {
+			setValue(0)
+		}
+	}, [])
 
 	const handleClick = (index: number) => {
 		const currentURL = `${window.location.protocol}//${window.location.host}${window.location.pathname}`
@@ -92,6 +98,7 @@ const HorizontalMenu = () => {
 		const newURL = new URL(currentURL)
 		newURL.searchParams.set('show', index.toString())
 		window.history.pushState({}, '', (newURL as unknown) as string)
+		setValue(index)
 	}
 
 	return (
@@ -99,7 +106,6 @@ const HorizontalMenu = () => {
 			<AppBar position='static' color='default'>
 				<Tabs
 					value={value}
-					onChange={handleChange}
 					indicatorColor='secondary'
 					textColor='secondary'
 					variant='scrollable'
