@@ -7,8 +7,6 @@ import Tab from '@material-ui/core/Tab'
 import { nanoid } from 'nanoid'
 import { useRouter } from 'next/router'
 
-// import Personal from 'components/About/personal/Personal'
-import { AnyObject } from 'interfaces/global'
 import { FOLLOWING, FOLLOWERS } from 'variables/global'
 import { useFollowers, useFollowing } from 'hooks/useFollow'
 
@@ -89,8 +87,10 @@ const HorizontalMenu = () => {
 	useEffect(() => {
 		if (!show) {
 			setValue(0)
+		} else {
+			setValue(parseInt(show as string, 10))
 		}
-	}, [])
+	}, [show])
 
 	const handleClick = (index: number) => {
 		const currentURL = `${window.location.protocol}//${window.location.host}${window.location.pathname}`
