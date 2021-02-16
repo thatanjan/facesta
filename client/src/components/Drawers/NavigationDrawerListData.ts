@@ -5,7 +5,7 @@ import VideoLibraryIcon from '@material-ui/icons/VideoLibrary'
 import HomeIcon from '@material-ui/icons/Home'
 import FaceIcon from '@material-ui/icons/Face'
 
-import { LOGOUT_URL } from 'variables/global'
+import { LOGOUT_URL, FOLLOWERS, FOLLOWING } from 'variables/global'
 
 export interface Components {
 	title: string
@@ -36,14 +36,14 @@ const listComponents: List = [
 		link: '/videos',
 	},
 	{
-		title: 'Followers',
+		title: FOLLOWERS,
 		Component: FaceIcon,
-		link: '/followers',
+		link: '',
 	},
 	{
-		title: 'Following',
+		title: FOLLOWING,
 		Component: FaceIcon,
-		link: '/following',
+		link: '',
 	},
 	{
 		title: 'Settings',
