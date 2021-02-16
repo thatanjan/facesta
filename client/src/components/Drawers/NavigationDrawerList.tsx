@@ -8,10 +8,10 @@ import ListItemText from '@material-ui/core/ListItemText'
 import useMediaQuery from '@material-ui/core/useMediaQuery'
 
 import MuiLink from 'components/Links/MuiLink'
-import { screenSizeDrawer } from 'variables/global'
 import { useDrawerState, useDrawerDispatch } from 'hooks/drawerHooks'
-import useGetUser from 'hooks/userhooks'
+import useGetUser, { useOwnUserId } from 'hooks/userhooks'
 import listComponents, { Components } from './NavigationDrawerListData'
+import { screenSizeDrawer, FOLLOWERS, FOLLOWING } from 'variables/global'
 
 export const convertSpaceToDash = (text: string): string | boolean => {
 	if (typeof text === 'string') {
@@ -35,6 +35,7 @@ const useStyles = makeStyles({
 
 const NavigationDrawerList = () => {
 	const matches = useMediaQuery(screenSizeDrawer)
+	const ownUserId = useOwnUserId()
 
 	const { iconStyle, logOutIconStyle, listItemTextStyle } = useStyles()
 
@@ -61,12 +62,25 @@ const NavigationDrawerList = () => {
 		return false
 	}
 
+	const linkModifier = (title: string, link: string) => {
+		const baseUrl = (num: number) => `/profile/${ownUserId}?show=${num}`
+
+		switch (title) {
+			case FOLLOWERS:
+				return baseUrl(1)
+			case FOLLOWING:
+				return baseUrl(2)
+
+			default:
+				return link
+		}
+	}
 	return (
 		<List component='nav'>
 			{listComponents.map(
 				({ Component, title, link }: Components, index: number) => (
 					<MuiLink
-						href={link}
+						href={linkModifier(title, link)}
 						MuiComponent={ListItem}
 						button
 						key={nanoid()}
