@@ -1,9 +1,8 @@
-import mongoose from 'mongoose'
 import createPostModel from 'models/Post'
 import Follow from 'models/Follow'
 import { sendMessage } from 'utils/error'
-import { getUsers } from 'graphql/Follow/getFollowersAndFollowings'
 import { FOLLOWERS } from 'variables/global'
+import NewsFeedModel from 'models/NewsFeed'
 
 const resolver = {
 	Mutation: {
@@ -15,6 +14,15 @@ const resolver = {
 			const post = await newPost.save()
 
 			const { followers } = await Follow.findOne({ user: id }, FOLLOWERS)
+
+			for (let i = 0; i < followers.length; i++) {
+				const newsfeed = await NewsFeedModel.findOne(
+					{ user: followers[i] },
+					'posts'
+				)
+				newsfeed.posts.push({ postUser: id, postId: newPost._id })
+				await newsfeed.save()
+			}
 
 			return post
 		},
