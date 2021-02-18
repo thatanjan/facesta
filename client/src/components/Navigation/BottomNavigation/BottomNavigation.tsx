@@ -25,10 +25,11 @@ export default function LabelBottomNavigation() {
 		setValue(newValue)
 	}
 
+	// eslint-disable-next-line
 	const handleClick = (routeName: string) => {
 		if (routeName === HOME) return push('/')
 
-		push(routeName)
+		push(`/${routeName}`)
 	}
 
 	return (
