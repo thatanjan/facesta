@@ -11,15 +11,15 @@ const userAndPostId = `
 
 const PostTypedefs = gql`
     extend type Query {
-        getSinglePost(Input: getSinglePost!): returnSinglePost!
+        getSinglePost(Input: userAndPostId!): returnSinglePost!
         getAllPost(Input: getAllPostInput!): returnAllPost!
     }
 
     extend type Mutation {
         createPost(Input: CreatePostInput!): Post!
         deletePost(Input: PostId!): Success!
-        likePost(Input:PostId!): Success!
-        removeLikePost(Input: PostId!): Success!
+        likePost(Input:userAndPostId!): Success!
+        removeLikePost(Input: userAndPostId!): Success!
         commentPost(Input: commentInput!): Success!
         removeCommentPost(Input: removeCommentInput! ): Success!
     }
@@ -43,18 +43,18 @@ const PostTypedefs = gql`
         ${postId}
     }
 
-    input getSinglePost{
+    input userAndPostId {
         ${userAndPostId}
     }
 
 
     input getAllPostInput {
         start: Int!
-        ${postUserId}
+        ${userAndPostId}
     }
 
     input commentInput{
-        ${postId}
+        ${userAndPostId}
         ${text}
     }
 
@@ -62,5 +62,6 @@ const PostTypedefs = gql`
         ${userAndPostId}
         commentId: ID!
     }
+
 `
 export default PostTypedefs
