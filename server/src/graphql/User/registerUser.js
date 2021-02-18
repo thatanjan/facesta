@@ -1,93 +1,101 @@
 import {
-    findUser,
-    generateToken,
-    sendSuccessToken,
-    createProfile,
-    createFollowCollection,
-    generateHashPassword,
+	findUser,
+	generateToken,
+	sendSuccessToken,
+	createProfile,
+	createFollowCollection,
+	generateHashPassword,
 } from 'utils/authentication'
 
 import sendMessage from 'utils/error'
 import validateRegisterInput from 'validation/register'
 import User from 'models/User'
+import NewsFeedModel from 'models/NewsFeed'
 
 const createUser = async ({ name, email, password }) => {
-    const hashedPassword = await generateHashPassword(password)
+	const hashedPassword = await generateHashPassword(password)
 
-    const profile = await createProfile()
+	const profile = await createProfile()
 
-    const userModelData = {
-        name,
-        email,
-        password: hashedPassword,
-        profile: profile._id,
-    }
+	const newsFeed = new NewsFeedModel()
 
-    try {
-        const newUser = new User(userModelData)
+	const userModelData = {
+		name,
+		email,
+		password: hashedPassword,
+		profile: profile._id,
+		newsfeed: newsFeed._id,
+	}
 
-        profile.user = newUser._id
+	try {
+		const newUser = new User(userModelData)
 
-        profile.save()
+		const newUserId = newUser._id
 
-        const followCollection = await createFollowCollection(newUser._id)
+		newsFeed.user = newUserId
+		profile.user = newUser._id
 
-        followCollection.save()
+		profile.save()
 
-        return newUser.save()
-    } catch (error) {
-        sendMessage(false, error)
-    }
+		const followCollection = await createFollowCollection(newUser._id)
+
+		followCollection.save()
+
+		newsFeed.save()
+		return newUser.save()
+	} catch (error) {
+		sendMessage(false, error)
+	}
 }
 
 export const validationErrorMessage = (success, errors) => ({
-    success,
-    validationError: errors,
+	success,
+	validationError: errors,
 })
 
 const resolver = {
-    Mutation: {
-        registerUser: async (
-            _,
-            { Input: { email, name, password, confirmPassword } }
-        ) => {
-            const { errors, isValid } = validateRegisterInput({
-                name,
-                email,
-                password,
-                confirmPassword,
-            })
+	Mutation: {
+		registerUser: async (
+			_,
+			{ Input: { email, name, password, confirmPassword } }
+		) => {
+			const { errors, isValid } = validateRegisterInput({
+				name,
+				email,
+				password,
+				confirmPassword,
+			})
 
-            if (!isValid) {
-                return validationErrorMessage(false, errors)
-            }
+			if (!isValid) {
+				return validationErrorMessage(false, errors)
+			}
 
-            try {
-                const user = await findUser(email)
+			try {
+				const user = await findUser(email)
 
-                if (user) {
-                    return sendMessage(false, 'User already exist')
-                }
+				if (user) {
+					return sendMessage(false, 'User already exist')
+				}
 
-                const newUser = await createUser({ name, email, password })
+				const newUser = await createUser({ name, email, password })
 
-                if (!newUser) {
-                    return sendMessage(
-                        false,
-                        'Registering user failed. Please try again later.'
-                    )
-                }
+				if (!newUser) {
+					return sendMessage(
+						false,
+						'Registering user failed. Please try again later.'
+					)
+				}
 
-                const { _id } = newUser
+				const { _id } = newUser
 
-                const token = await generateToken({ _id, name, email })
+				const token = await generateToken({ _id, name, email })
 
-                return sendSuccessToken(token)
-            } catch (error) {
-                return sendMessage(false, error)
-            }
-        },
-    },
+				return sendSuccessToken(token)
+			} catch (error) {
+				return sendMessage(false, error)
+			}
+		},
+	},
 }
 
 export default resolver
