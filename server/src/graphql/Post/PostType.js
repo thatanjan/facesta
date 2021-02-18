@@ -2,13 +2,6 @@ import { gql } from 'apollo-server-express'
 import { POST_ID_TYPE, POST_OWNER_ID_TYPE } from 'variables/commonText'
 
 const text = `text: String!`
-const postId = `postId: ID!`
-const postUserId = `postUserId: ID`
-
-const userAndPostId = `
-        ${postId}
-        ${postUserId}
-`
 
 const PostTypedefs = gql`
     extend type Query {
@@ -30,43 +23,11 @@ const PostTypedefs = gql`
        ${text} 
     }
 
-    union returnSinglePost = Post | Success
-    union returnAllPost = AllPost | Success
+    union returnSinglePost = Post | Error
+    union returnAllPost = AllPost | Error
 
     type AllPost {
         posts: [Post]!
-    }
-
-    input CreatePostInput {
-        ${text}
-    }
-
-    input PostId {
-        ${postId}
-    }
-
-    input userAndPostId {
-        ${userAndPostId}
-    }
-
-
-    input getAllPostInput {
-        start: Int!
-        ${userAndPostId}
-    }
-
-    input commentInput{
-        ${userAndPostId}
-        ${text}
-    }
-
-    input removeCommentInput {
-        ${userAndPostId}
-        commentId: ID!
-    }
-
-    input ownUserId {
-        ownUserId: ID!
     }
 
 
