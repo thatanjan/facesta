@@ -11,12 +11,20 @@ const user = {
 	required: true,
 }
 
-const posts = { type: objectId }
+const posts = {
+	postUser: {
+		type: objectId,
+		required: true,
+	},
+	postId: {
+		type: objectId,
+		required: true,
+	},
+}
 
 const schema = {
 	user,
-	postUser: [user],
-	posts,
+	posts: [posts],
 }
 
 const NewsFeedSchema = new Schema(schema, { versionKey: '1' })
