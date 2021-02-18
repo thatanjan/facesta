@@ -1,13 +1,15 @@
 import createPostModel from 'models/Post'
 import ifNullOrFalse from 'utils/checkNullFalse'
 import sendMessage from 'utils/error'
+import NewsFeedModel from 'models/NewsFeed'
 
 const SUCCESS = 'success'
 const SINGLE_POST = 'singlePost'
 const ALL_POST = 'allPost'
+const ALL_NEWS_FEED_POST = 'allNewsFeedPost'
 
 const mainResolver = field => {
-	return async (_, { Input: { postId, postUserId, start } }) => {
+	return async (_, { Input: { postId, postUserId, start, ownUserId } }) => {
 		const Post = createPostModel(postUserId)
 
 		switch (field) {
@@ -30,6 +32,13 @@ const mainResolver = field => {
 				}
 
 				return allPost
+
+			case ALL_NEWS_FEED_POST:
+				const allNewsFeedPost = await NewsFeedModel.findOne(
+					{ user: ownUserId },
+					'posts'
+				)
+				console.log(allNewsFeedPost)
 
 			default:
 				return sendMessage(false, null, 'nothing found')
@@ -59,6 +68,7 @@ const resolver = {
 	Query: {
 		getAllPost: mainResolver(ALL_POST),
 		getSinglePost: mainResolver(SINGLE_POST),
+		getNewsFeedPost: mainResolver(ALL_NEWS_FEED_POST),
 	},
 }
 
