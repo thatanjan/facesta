@@ -1,40 +1,43 @@
 import mongoose from 'mongoose'
 import createPostModel from 'models/Post'
+import Follow from 'models/Follow'
 import { sendMessage } from 'utils/error'
-
-import User from 'models/User'
+import { getUsers } from 'graphql/Follow/getFollowersAndFollowings'
+import { FOLLOWERS } from 'variables/global'
 
 const resolver = {
-    Mutation: {
-        createPost: async (_, { Input: { text } }, { user: { id } }) => {
-            const Post = createPostModel(id)
+	Mutation: {
+		createPost: async (_, { Input: { text } }, { user: { id } }) => {
+			const Post = createPostModel(id)
 
-            const newPost = new Post({ text })
+			const newPost = new Post({ text })
 
-            const post = await newPost.save()
+			const post = await newPost.save()
 
-            return post
-        },
-        deletePost: async (_, { Input: { id: postId } }, { user: { id } }) => {
-            const Post = createPostModel(id)
+			const { followers } = await Follow.findOne({ user: id }, FOLLOWERS)
 
-            const post = await Post.findById(postId)
+			return post
+		},
+		deletePost: async (_, { Input: { id: postId } }, { user: { id } }) => {
+			const Post = createPostModel(id)
 
-            if (!post) {
-                return sendMessage(false, 'no post found')
-            }
+			const post = await Post.findById(postId)
 
-            const postDeleted = await Post.findByIdAndRemove(postId, {
-                useFindAndModify: false,
-            })
+			if (!post) {
+				return sendMessage(false, 'no post found')
+			}
 
-            if (postDeleted) {
-                return sendMessage(true, 'post has been deleted')
-            }
+			const postDeleted = await Post.findByIdAndRemove(postId, {
+				useFindAndModify: false,
+			})
 
-            return sendMessage(false, 'something went wrong')
-        },
-    },
+			if (postDeleted) {
+				return sendMessage(true, 'post has been deleted')
+			}
+
+			return sendMessage(false, 'something went wrong')
+		},
+	},
 }
 
 export default resolver
