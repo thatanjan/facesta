@@ -1,6 +1,6 @@
 const POST_ID = 'postID'
 const POST_OWNER_ID = 'postOwnerID'
-const OWNER_ID = 'owenerID'
+const OWNER_ID = 'ownerID'
 const OTHER_USER_ID = 'otherUserID'
 const ANY_USER_ID = 'anyUserID'
 
