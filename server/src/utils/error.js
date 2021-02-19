@@ -1,5 +1,4 @@
 const theErrorMessage = errorMessage => {
-	console.log(errorMessage)
 	if (
 		errorMessage instanceof Error ||
 		(errorMessage === 'object' && errorMessage.message)
@@ -11,8 +10,6 @@ const theErrorMessage = errorMessage => {
 	return errorMessage
 }
 
-export default (success, errorMessage, message) => ({
-	success,
-	message,
+export default errorMessage => ({
 	errorMessage: theErrorMessage(errorMessage),
 })
