@@ -1,109 +1,47 @@
 import { gql } from 'apollo-server-express'
+import { PROFILE_OWNER_ID_TYPE } from 'variables/commonText'
 
 const ProfileMutationTypeDefs = gql`
-    extend type Mutation {
-        updatePersonal(Input: PersonalInput): Personal!
-        updateSocial(Input: SocialInput): Social!
-        updateEducation(Input: EducationInput): Education!
-        addExperience(Input: ExperienceInput): Experience!
-        addEducation(Input: EducationInput): Education!
-        updateExperience(Input: ExperienceInput): Experience!
-        updatePrivacy(Input: PrivacyInput): Privacy!
-    }
+	extend type Mutation {
+		updatePersonal(Input: PersonalDataInput): ErrorOrMessage!
+	}
 `
 
 const InputTypedefs = gql`
-    input ProfileIdInput {
-        profileUserId: ID!
-    }
+	input PersonalDataInput{
+		${PROFILE_OWNER_ID_TYPE}!
+	}
 
-    input PersonalInput {
-        dateOfBirth: Date
-        website: String
-        status: String
-        location: String
-        skills: [String!]
-        bio: String
-    }
+	input PersonalInput {
+		dateOfBirth: Date
+		website: String
+		status: String
+		location: String
+		skills: [String!]
+		bio: String
+	}
 
-    input ExperienceInput {
-        title: String!
-        company: String!
-        from: Date
-        to: Date
-    }
-
-    input EducationInput {
-        school: String!
-        degree: String!
-        fieldOfStudy: String!
-        from: Date
-        to: Date
-    }
-
-    input SocialInput {
-        youtube: String
-        twitter: String
-        facebook: String
-        linkedin: String
-        instagram: String
-    }
-
-    input PrivacyInput {
-        public: Boolean!
-    }
 `
 
 const ProfileTypedefs = gql`
-    extend type Query {
-        getPersonal(Input: ProfileIdInput): Personal!
-        getExperience(Input: ProfileIdInput): [Experience!]!
-        getEducation(Input: ProfileIdInput): [Education!]!
-        getSocial(Input: ProfileIdInput): Social!
-        getPrivacy(Input: ProfileIdInput): Privacy!
-    }
+	extend type Query {
+		getPersonal(Input: ProfileIdInput): Personal!
+	}
 
-    ${ProfileMutationTypeDefs}
-    ${InputTypedefs}
+	union returnPersonalData = PersonalData | Error
 
-    type Experience {
-        id: ID!
-        title: String!
-        company: String!
-        from: Date
-        to: Date
-    }
+	${ProfileMutationTypeDefs}
+	${InputTypedefs}
 
-    type Education {
-        id: ID!
-        school: String!
-        degree: String!
-        fieldOfStudy: String!
-        from: Date
-        to: Date
-    }
-
-    type Social {
-        youtube: String!
-        twitter: String!
-        facebook: String!
-        linkedin: String!
-        instagram: String!
-    }
-
-    type Privacy {
-        public: Boolean!
-    }
-
-    type Personal {
-        dateOfBirth: Date
-        website: String
-        status: String
-        location: String
-        skills: [String!]
-        bio: String
-        name: String
-    }
+	type PersonalData {
+		dateOfBirth: Date
+		website: String
+		status: String
+		location: String
+		skills: [String!]
+		bio: String
+		name: String
+	}
 `
 
 export default ProfileTypedefs
