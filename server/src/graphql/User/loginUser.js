@@ -1,46 +1,46 @@
 import {
-    generateToken,
-    findUser,
-    matchPasswords,
-    sendSuccessToken,
+	generateToken,
+	findUser,
+	matchPasswords,
+	sendSuccessToken,
 } from 'utils/authentication'
-import sendMessage from 'utils/error'
+import sendErrorMessage from 'utils/errorMessage'
 import validateLoginInput from 'validation/login'
 import { validationErrorMessage } from './registerUser'
 
 const resolver = {
-    Mutation: {
-        loginUser: async (_, { Input: { email, password } }) => {
-            const { errors, isValid } = validateLoginInput({ email, password })
+	Mutation: {
+		loginUser: async (_, { Input: { email, password } }) => {
+			const { errors, isValid } = validateLoginInput({ email, password })
 
-            if (!isValid) {
-                return validationErrorMessage(false, errors)
-            }
+			if (!isValid) {
+				return validationErrorMessage(false, errors)
+			}
 
-            try {
-                const user = await findUser(email)
+			try {
+				const user = await findUser(email)
 
-                if (!user) {
-                    return sendMessage(false, "user doesn't exist")
-                }
+				if (!user) {
+					return sendErrorMessage("user doesn't exist")
+				}
 
-                const doesPasswordsMatch = await matchPasswords({
-                    plainPassword: password,
-                    hashedPassword: user.password,
-                })
+				const doesPasswordsMatch = await matchPasswords({
+					plainPassword: password,
+					hashedPassword: user.password,
+				})
 
-                if (!doesPasswordsMatch) {
-                    return sendMessage(false, "Passwords doesn't match ")
-                }
+				if (!doesPasswordsMatch) {
+					return sendErrorMessage("Passwords doesn't match ")
+				}
 
-                const token = await generateToken(user)
+				const token = await generateToken(user)
 
-                return sendSuccessToken(token)
-            } catch (error) {
-                return sendMessage(false, error)
-            }
-        },
-    },
+				return sendSuccessToken(token)
+			} catch (error) {
+				return sendErrorMessage(error)
+			}
+		},
+	},
 }
 
 export default resolver
