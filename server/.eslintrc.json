@@ -9,6 +9,21 @@
 		"sourceType": "module"
 	},
 	"rules": {
+		"import/extensions": [
+			"error",
+			"always",
+			{
+				"js": "never"
+			}
+		],
 		"prettier/prettier": "error"
+	},
+	"settings": {
+		"import/resolver": {
+			"node": {
+				"extensions": [".js"],
+				"moduleDirectory": ["node_modules", "src/"]
+			}
+		}
 	}
 }
