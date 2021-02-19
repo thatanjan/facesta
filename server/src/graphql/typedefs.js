@@ -5,27 +5,29 @@ import { PostTypedefs } from 'graphql/Post/Post'
 import { ProfileTypedefs } from 'graphql/Profile/Profile'
 import { DateTypeDefs } from 'graphql/customScalars'
 import { FollowTypedefs } from 'graphql/Follow/Follow'
+import commonTypeDefs from 'graphql/commonTypeDefs'
 
 const Query = gql`
-    type Query {
-        _empty: String
-    }
+	type Query {
+		_empty: String
+	}
 `
 
 const Mutation = gql`
-    type Mutation {
-        _empty: String
-    }
+	type Mutation {
+		_empty: String
+	}
 `
 
 const typeDefs = [
-    Query,
-    Mutation,
-    DateTypeDefs,
-    ...UserTypeDefs,
-    ...PostTypedefs,
-    ...ProfileTypedefs,
-    ...FollowTypedefs,
+	Query,
+	Mutation,
+	DateTypeDefs,
+	commonTypeDefs,
+	...UserTypeDefs,
+	...PostTypedefs,
+	...ProfileTypedefs,
+	...FollowTypedefs,
 ]
 
 export default typeDefs
