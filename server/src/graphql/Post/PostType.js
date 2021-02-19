@@ -21,6 +21,7 @@ const PostTypedefs = gql`
 
     type Post {
        ${text} 
+       ${POST_OWNER_ID_TYPE}
     }
 
     union returnSinglePost = Post | Error
