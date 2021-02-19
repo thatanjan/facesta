@@ -3,12 +3,14 @@ const POST_OWNER_ID = 'postOwnerID'
 const OWNER_ID = 'ownerID'
 const OTHER_USER_ID = 'otherUserID'
 const ANY_USER_ID = 'anyUserID'
+const PROFILE_OWNER_ID = 'profileOwnerID'
 
 const POST_ID_TYPE = `${POST_ID}: ID`
 const POST_OWNER_ID_TYPE = `${POST_OWNER_ID}: ID`
 const OWNER_ID_TYPE = `${OWNER_ID}: ID`
 const OTHER_USER_ID_TYPE = `${OTHER_USER_ID}: ID`
 const ANY_USER_ID_TYPE = `${ANY_USER_ID}: ID`
+const PROFILE_OWNER_ID_TYPE = `${PROFILE_OWNER_ID}: ID`
 
 export {
 	POST_ID,
@@ -16,9 +18,11 @@ export {
 	OWNER_ID,
 	OTHER_USER_ID,
 	ANY_USER_ID,
+	PROFILE_OWNER_ID,
 	POST_ID_TYPE,
 	POST_OWNER_ID_TYPE,
 	OWNER_ID_TYPE,
 	OTHER_USER_ID_TYPE,
 	ANY_USER_ID_TYPE,
+	PROFILE_OWNER_ID_TYPE,
 }
