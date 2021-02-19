@@ -15,7 +15,7 @@ const FollowType = gql`
     }
 
     union returnFollowers = Followers | Error
-    union returnFollowees = Followee | Error
+    union returnFollowees = Followees | Error
 
     union returnIsFollowee = IsFollowee | Error
     union returnIsFollower = IsFollower | Error

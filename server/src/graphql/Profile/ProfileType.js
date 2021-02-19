@@ -21,11 +21,14 @@ const InputTypedefs = gql`
 		bio: String
 	}
 
+     input ProfileIDInput {
+          ${PROFILE_OWNER_ID_TYPE}!
+     }
 `
 
 const ProfileTypedefs = gql`
 	extend type Query {
-		getPersonal(Input: ProfileIdInput): Personal!
+		getPersonal(Input: ProfileIDInput): PersonalData!
 	}
 
 	union returnPersonalData = PersonalData | Error
