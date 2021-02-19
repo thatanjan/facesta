@@ -5,9 +5,9 @@ const text = `text: String!`
 
 const PostTypedefs = gql`
     extend type Query {
-        getSinglePost(Input: PostAndPostOwnerIDInput!): returnSinglePost!
-        getAllPost(Input: PostOwnerIDInput!): returnAllPost!
-        getNewsFeedPost: returnAllPost!
+        getSinglePost(Input: PostAndPostOwnerIDInput!): ReturnSinglePost!
+        getAllPost(Input: PostOwnerIDInput!): ReturnAllPost!
+        getNewsFeedPost: ReturnAllPost!
     }
 
     extend type Mutation {
@@ -24,8 +24,8 @@ const PostTypedefs = gql`
        ${POST_OWNER_ID_TYPE}
     }
 
-    union returnSinglePost = Post | Error
-    union returnAllPost = AllPost | Error
+    union ReturnSinglePost = Post | Error
+    union ReturnAllPost = AllPost | Error
 
     type AllPost {
         posts: [Post]!
