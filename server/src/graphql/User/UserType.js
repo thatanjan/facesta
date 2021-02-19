@@ -1,35 +1,34 @@
 import { gql } from 'apollo-server-express'
-
-const id = `ownUserId: ID`
+import { OWNER_ID_TYPE } from 'variables/commonText'
 
 const UserType = gql`
-    extend type Query {
-        getUser(Input: getUserInput): User
-    }
-
+    
     extend type Mutation {
         loginUser(Input: loginInput): Login
         registerUser(Input: registerInput): Login
-        deleteUser: Success!
+        deleteUser: ErrorOrMessage!
     }
 
-    type RegisterErrorMessages{
+    union Login = LoginToken | Error | ValidationErrorMessages
+
+    type ValidationError {
+        validationError: ValidationErrorMessages
+    }
+
+    type ValidationErrorMessages{
         name: String
         email: String
         password: String
         confirmPassword: String
     }
 
-    type Login {
+    type LoginToken {
         token: String
-        success: Boolean!
-        errorMessage: String
-        validationError : RegisterErrorMessages
     }
 
     type User {
         name: String
-        ${id}
+        ${OWNER_ID_TYPE}
         profile: ID
         errorMessage: String
     }
@@ -46,10 +45,6 @@ const UserType = gql`
         confirmPassword: String!
     }
 
-    input getUserInput {
-        email: String
-        ${id}
-    }
 `
 
 export default UserType
