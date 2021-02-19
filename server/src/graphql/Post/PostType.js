@@ -11,12 +11,12 @@ const PostTypedefs = gql`
     }
 
     extend type Mutation {
-        createPost(Input: CreatePostInput!): Post!
-        deletePost(Input: PostId!): Success!
-        likePost(Input: userAndPostId!): Success!
-        removeLikePost(Input: userAndPostId!): Success!
-        commentPost(Input: commentInput!): Success!
-        removeCommentPost(Input: removeCommentInput! ): Success!
+        createPost(Input: CreatePostInput!): ErrorOrMessage!
+        deletePost(Input: PostIDInput!): ErrorOrMessage!
+        likePost(Input: PostAndPostOwnerIDInput!): ErrorOrMessage!
+        removeLikePost(Input: PostAndPostOwnerIDInput!): ErrorOrMessage!
+        commentPost(Input: PostAndPostOwnerIDInput!): ErrorOrMessage!
+        removeCommentPost(Input: RemoveCommentInput!): ErrorOrMessage!
     }
 
     type Post {
@@ -43,6 +43,15 @@ const PostTypedefs = gql`
   input PostAndPostOwnerIDInput{
     ${POST_ID_TYPE}!
     ${POST_OWNER_ID_TYPE}!
+  }
+
+  input CreatePostInput {
+    ${text}
+  }
+
+  input RemoveCommentInput {
+    ${POST_ID_TYPE}!
+    commentID: String!
   }
 
 `
