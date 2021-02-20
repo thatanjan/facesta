@@ -1,5 +1,6 @@
 import { gql } from 'apollo-server-express'
 import { ERROR_MESSAGE, MESSAGE } from 'variables/global'
+import { ERROR_OR_MESSAGE_TYPE } from 'variables/commonText'
 
 const types = gql`
   type Error {
@@ -10,7 +11,10 @@ const types = gql`
     ${MESSAGE}: String! 
   }
 
-  union ErrorOrMessage = Error | Message
+
+  type ErrorOrMessage {
+    ${ERROR_OR_MESSAGE_TYPE} 
+  }
   
 `
 
