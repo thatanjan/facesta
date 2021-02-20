@@ -1,3 +1,5 @@
+import { ERROR_MESSAGE, MESSAGE } from 'variables/global'
+
 const POST_ID = 'postID'
 const POST_OWNER_ID = 'postOwnerID'
 const OWNER_ID = 'ownerID'
@@ -11,6 +13,8 @@ const OWNER_ID_TYPE = `${OWNER_ID}: ID`
 const OTHER_USER_ID_TYPE = `${OTHER_USER_ID}: ID`
 const ANY_USER_ID_TYPE = `${ANY_USER_ID}: ID`
 const PROFILE_OWNER_ID_TYPE = `${PROFILE_OWNER_ID}: ID`
+const ERROR_OR_MESSAGE_TYPE = `${ERROR_MESSAGE}: String
+						${MESSAGE}: String`
 
 export {
 	POST_ID,
@@ -25,4 +29,5 @@ export {
 	OTHER_USER_ID_TYPE,
 	ANY_USER_ID_TYPE,
 	PROFILE_OWNER_ID_TYPE,
+	ERROR_OR_MESSAGE_TYPE,
 }
