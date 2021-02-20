@@ -14,11 +14,6 @@ const FollowType = gql`
         unfollowUser(Input: otherUserId!): ErrorOrMessage!
     }
 
-    union returnFollowers = Followers | Error
-    union returnFollowees = Followees | Error
-
-    union returnIsFollowee = IsFollowee | Error
-    union returnIsFollower = IsFollower | Error
 
     type UserList {
         name: String!

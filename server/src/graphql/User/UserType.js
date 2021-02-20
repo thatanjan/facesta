@@ -9,7 +9,6 @@ const UserType = gql`
         deleteUser: ErrorOrMessage!
     }
 
-    union Login = LoginToken | Error | ValidationErrorMessages
 
     type ValidationError {
         validationError: ValidationErrorMessages

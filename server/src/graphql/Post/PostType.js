@@ -24,8 +24,6 @@ const PostTypedefs = gql`
        ${POST_OWNER_ID_TYPE}
     }
 
-    union ReturnSinglePost = Post | Error
-    union ReturnAllPost = AllPost | Error
 
     type AllPost {
         posts: [Post]!

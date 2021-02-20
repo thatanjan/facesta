@@ -31,8 +31,6 @@ const ProfileTypedefs = gql`
 		getPersonal(Input: ProfileIDInput): PersonalData!
 	}
 
-	union returnPersonalData = PersonalData | Error
-
 	${ProfileMutationTypeDefs}
 	${InputTypedefs}
 
