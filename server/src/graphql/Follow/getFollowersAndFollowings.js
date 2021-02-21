@@ -30,7 +30,7 @@ const checkIfUser = field => async (
 const resolver = {
 	Query: {
 		getFollowers: getUsers(FOLLOWERS),
-		getFollowee: getUsers(FOLLOWEE),
+		getFollowees: getUsers(FOLLOWEE),
 		getIsFollower: checkIfUser(FOLLOWERS),
 		getIsFollowee: checkIfUser(FOLLOWEE),
 	},
