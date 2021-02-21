@@ -5,7 +5,7 @@ import {
 	ERROR_OR_MESSAGE_TYPE,
 } from 'variables/commonText'
 
-const text = `text: String!`
+const text = `text: String`
 
 const PostTypedefs = gql`
     extend type Query {
