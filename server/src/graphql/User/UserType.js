@@ -1,5 +1,9 @@
 import { gql } from 'apollo-server-express'
-import { OWNER_ID_TYPE, MESSAGE_TYPE, ERROR_TYPE } from 'variables/commonText'
+import {
+	OWNER_ID_TYPE,
+	MESSAGE_TYPE,
+	ERROR_MESSAGE_TYPE,
+} from 'variables/commonText'
 
 const EMAIL_PASSWORD = `
         email: String!
@@ -23,7 +27,7 @@ const UserType = gql`
     type Login{
         token: String
         ${MESSAGE_TYPE} 
-        ${ERROR_TYPE}
+        ${ERROR_MESSAGE_TYPE}
         validationError: ValidationErrorMessages
     }
 
