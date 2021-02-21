@@ -40,7 +40,7 @@ const resolver = {
 			const post = await Post.findById(postId)
 
 			if (!post) {
-				return sendErrorMessage(false, 'no post found')
+				return sendErrorMessage('no post found')
 			}
 
 			const postDeleted = await Post.findByIdAndRemove(postId, {
@@ -48,10 +48,10 @@ const resolver = {
 			})
 
 			if (postDeleted) {
-				return sendErrorMessage(true, 'post has been deleted')
+				return sendErrorMessage('post has been deleted')
 			}
 
-			return sendErrorMessage(false, 'something went wrong')
+			return sendErrorMessage('something went wrong')
 		},
 	},
 }
