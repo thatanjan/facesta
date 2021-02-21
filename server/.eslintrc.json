@@ -17,7 +17,8 @@
 			}
 		],
 		"prettier/prettier": "error",
-		"no-underscore-dangle": "off"
+		"no-underscore-dangle": "off",
+		"no-plusplus": "off"
 	},
 	"settings": {
 		"import/resolver": {
