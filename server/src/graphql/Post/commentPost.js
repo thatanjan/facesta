@@ -1,5 +1,5 @@
 import createPostModel from 'models/Post'
-import { sendMessage, throwError } from 'utils/error'
+import { sendMessage, throwError } from 'utils/errorMessage'
 
 const ADD_COMMENT = 'addComment'
 const REMOVE_COMMENT = 'removeComment'
@@ -10,80 +10,80 @@ const REMOVE_COMMENT_MESSAGE = 'you remove comment from the post'
 const findComment = ({ comments, commentId }) => comments.id(commentId)
 
 const ownsComment = ({ postUserId, id, commentedUser }) =>
-    commentedUser === postUserId || commentedUser === id
+	commentedUser === postUserId || commentedUser === id
 
 const findPost = async (model, id) => {
-    const post = await model.findById(id, 'comments')
-    return post
+	const post = await model.findById(id, 'comments')
+	return post
 }
 
 const addComment = (comments, { id, text }) => {
-    const commentObject = {
-        user: id,
-        text,
-    }
+	const commentObject = {
+		user: id,
+		text,
+	}
 
-    comments.push(commentObject)
+	comments.push(commentObject)
 }
 
-const mainResolver = (operation) => {
-    return async (
-        _,
-        { Input: { postId, text, commentId, postUserId } },
-        { user: { id } }
-    ) => {
-        let returnMessage = ''
+const mainResolver = operation => {
+	return async (
+		_,
+		{ Input: { postId, text, commentId, postUserId } },
+		{ user: { id } }
+	) => {
+		let returnMessage = ''
 
-        const Post = createPostModel(id)
+		const Post = createPostModel(id)
 
-        const post = await findPost(Post, postId)
+		const post = await findPost(Post, postId)
 
-        if (!post) {
-            return sendMessage(false, 'no post found')
-        }
+		if (!post) {
+			return sendMessage(false, 'no post found')
+		}
 
-        const { comments } = post
+		const { comments } = post
 
-        switch (operation) {
-            case ADD_COMMENT:
-                addComment(comments, { id, text })
-                returnMessage = ADD_COMMENT_MESSAGE
+		switch (operation) {
+			case ADD_COMMENT:
+				addComment(comments, { id, text })
+				returnMessage = ADD_COMMENT_MESSAGE
 
-                break
+				break
 
-            case REMOVE_COMMENT:
-                const comment = findComment({ comments, commentId })
+			case REMOVE_COMMENT:
+				const comment = findComment({ comments, commentId })
 
-                if (!comment) {
-                    return sendMessage(false, 'no comment found')
-                }
+				if (!comment) {
+					return sendMessage(false, 'no comment found')
+				}
 
-                const commentedUser = comment.user.toString()
+				const commentedUser = comment.user.toString()
 
-                if (!ownsComment({ id, postUserId, commentedUser })) {
-                    return throwError('not authorized')
-                }
+				if (!ownsComment({ id, postUserId, commentedUser })) {
+					return throwError('not authorized')
+				}
 
-                comment.remove()
+				comment.remove()
 
-                returnMessage = REMOVE_COMMENT_MESSAGE
-                break
+				returnMessage = REMOVE_COMMENT_MESSAGE
+				break
 
-            default:
-                return false
-        }
+			default:
+				return false
+		}
 
-        post.save()
+		post.save()
 
-        return sendMessage(true, null, returnMessage)
-    }
+		return sendMessage(true, null, returnMessage)
+	}
 }
 
 const resolver = {
-    Mutation: {
-        commentPost: mainResolver(ADD_COMMENT),
-        removeCommentPost: mainResolver(REMOVE_COMMENT),
-    },
+	Mutation: {
+		commentPost: mainResolver(ADD_COMMENT),
+		removeCommentPost: mainResolver(REMOVE_COMMENT),
+	},
 }
 
 export default resolver

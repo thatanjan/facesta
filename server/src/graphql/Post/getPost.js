@@ -1,6 +1,6 @@
 import createPostModel from 'models/Post'
 import ifNullOrFalse from 'utils/checkNullFalse'
-import sendMessage from 'utils/error'
+import sendMessage from 'utils/errorMessage'
 import NewsFeedModel from 'models/NewsFeed'
 
 const SUCCESS = 'success'

@@ -1,6 +1,6 @@
 import { createConnection } from 'mongoose'
 
-import sendMessage from 'utils/error'
+import sendMessage from 'utils/errorMessage'
 import User from 'models/User'
 import Profile from 'models/Profile'
 import Follow from 'models/Follow'

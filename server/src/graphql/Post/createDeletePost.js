@@ -1,6 +1,6 @@
 import createPostModel from 'models/Post'
 import Follow from 'models/Follow'
-import { sendMessage } from 'utils/error'
+import { sendMessage } from 'utils/errorMessage'
 import { FOLLOWERS } from 'variables/global'
 import NewsFeedModel from 'models/NewsFeed'
 

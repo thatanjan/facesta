@@ -1,5 +1,5 @@
 import createPostModel from 'models/Post'
-import sendMessage from 'utils/error'
+import sendMessage from 'utils/errorMessage'
 
 const LIKE = 'like'
 const REMOVE_LIKE = 'removeLike'
