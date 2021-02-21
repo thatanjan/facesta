@@ -1,5 +1,5 @@
 import createPostModel from 'models/Post'
-import { sendMessage, throwError } from 'utils/errorMessage'
+import sendErrorMessage from 'utils/errorMessage'
 
 const ADD_COMMENT = 'addComment'
 const REMOVE_COMMENT = 'removeComment'
@@ -39,7 +39,7 @@ const mainResolver = operation => {
 		const post = await findPost(Post, postId)
 
 		if (!post) {
-			return sendMessage(false, 'no post found')
+			return sendErrorMessage(false, 'no post found')
 		}
 
 		const { comments } = post
@@ -55,13 +55,13 @@ const mainResolver = operation => {
 				const comment = findComment({ comments, commentId })
 
 				if (!comment) {
-					return sendMessage(false, 'no comment found')
+					return sendErrorMessage(false, 'no comment found')
 				}
 
 				const commentedUser = comment.user.toString()
 
 				if (!ownsComment({ id, postUserId, commentedUser })) {
-					return throwError('not authorized')
+					return sendErrorMessage('not authorized')
 				}
 
 				comment.remove()
@@ -75,7 +75,7 @@ const mainResolver = operation => {
 
 		post.save()
 
-		return sendMessage(true, null, returnMessage)
+		return sendErrorMessage(returnMessage)
 	}
 }
 
