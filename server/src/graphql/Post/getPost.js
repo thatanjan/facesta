@@ -45,24 +45,6 @@ const mainResolver = field => {
 }
 
 const resolver = {
-	returnSinglePost: {
-		__resolveType(obj) {
-			if (SUCCESS in obj) return 'Success'
-
-			if (obj.text) return 'Post'
-
-			return null
-		},
-	},
-	returnAllPost: {
-		__resolveType(obj) {
-			if (SUCCESS in obj) return 'Success'
-
-			if (obj.posts) return 'AllPost'
-
-			return null
-		},
-	},
 	Query: {
 		getAllPost: mainResolver(ALL_POST),
 		getSinglePost: mainResolver(SINGLE_POST),
