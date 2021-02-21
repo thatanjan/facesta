@@ -18,7 +18,8 @@
 		],
 		"prettier/prettier": "error",
 		"no-underscore-dangle": "off",
-		"no-plusplus": "off"
+		"no-plusplus": "off",
+		"no-case-declarations": "off"
 	},
 	"settings": {
 		"import/resolver": {
