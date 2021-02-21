@@ -16,7 +16,7 @@ const checkIfUser = field => async (
 
 	const ifUserExist = query[field].includes(otherUserId)
 
-	let result = {}
+	const result = {}
 
 	if (field === FOLLOWING) {
 		result.isFollowing = ifUserExist
