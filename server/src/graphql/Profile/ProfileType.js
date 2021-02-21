@@ -3,7 +3,7 @@ import { PROFILE_OWNER_ID_TYPE, ERROR_MESSAGE_TYPE } from 'variables/commonText'
 
 const ProfileMutationTypeDefs = gql`
 	extend type Mutation {
-		updatePersonal(Input: PersonalDataInput): ErrorOrMessage!
+		updatePersonalData(Input: PersonalDataInput): ErrorOrMessage!
 	}
 `
 

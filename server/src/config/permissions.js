@@ -15,7 +15,7 @@ export default shield(
 		Mutation: {
 			createPost: isAuthenticated,
 			deletePost: isAuthenticated,
-			updatePersonal: isAuthenticated,
+			updatePersonalData: isAuthenticated,
 			followUser: isAuthenticated,
 			unfollowUser: isAuthenticated,
 			likePost: isAuthenticated,

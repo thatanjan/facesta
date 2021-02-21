@@ -2,7 +2,7 @@ import Profile from 'models/Profile'
 
 const resolver = {
 	Mutation: {
-		updatePersonal: async (_, { Input }, { user: { id } }) => {
+		updatePersonalData: async (_, { Input }, { user: { id } }) => {
 			const updateObject = {}
 
 			// eslint-disable-next-line
