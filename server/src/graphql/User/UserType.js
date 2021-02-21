@@ -12,8 +12,8 @@ const EMAIL_PASSWORD = `
 
 const UserType = gql`
     extend type Mutation {
-        loginUser(Input: loginInput): Login
-        registerUser(Input: registerInput): Login
+        loginUser(Input: LoginInput): Login
+        registerUser(Input: RegisterInput): Login
         deleteUser: ErrorOrMessage!
     }
 
@@ -42,7 +42,7 @@ const UserType = gql`
         ${EMAIL_PASSWORD}
     }
 
-    input LegisterInput {
+    input RegisterInput {
         ${EMAIL_PASSWORD}
         name: String!
         confirmPassword: String!
