@@ -16,7 +16,8 @@
 				"js": "never"
 			}
 		],
-		"prettier/prettier": "error"
+		"prettier/prettier": "error",
+		"no-underscore-dangle": "off"
 	},
 	"settings": {
 		"import/resolver": {
