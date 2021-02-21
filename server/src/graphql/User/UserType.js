@@ -1,17 +1,16 @@
 import { gql } from 'apollo-server-express'
-import { OWNER_ID_TYPE } from 'variables/commonText'
+import { OWNER_ID_TYPE, MESSAGE_TYPE, ERROR_TYPE } from 'variables/commonText'
+
+const EMAIL_PASSWORD = `
+        email: String!
+        password: String!
+`
 
 const UserType = gql`
-    
     extend type Mutation {
         loginUser(Input: loginInput): Login
         registerUser(Input: registerInput): Login
         deleteUser: ErrorOrMessage!
-    }
-
-
-    type ValidationError {
-        validationError: ValidationErrorMessages
     }
 
     type ValidationErrorMessages{
@@ -21,8 +20,11 @@ const UserType = gql`
         confirmPassword: String
     }
 
-    type LoginToken {
+    type Login{
         token: String
+        ${MESSAGE_TYPE} 
+        ${ERROR_TYPE}
+        validationError: ValidationErrorMessages
     }
 
     type User {
@@ -32,15 +34,13 @@ const UserType = gql`
         errorMessage: String
     }
 
-    input loginInput {
-        email: String!
-        password: String!
+    input LoginInput {
+        ${EMAIL_PASSWORD}
     }
 
-    input registerInput {
-        email: String!
+    input LegisterInput {
+        ${EMAIL_PASSWORD}
         name: String!
-        password: String!
         confirmPassword: String!
     }
 
