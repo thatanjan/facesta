@@ -1,6 +1,7 @@
 import createPostModel from 'models/Post'
 import Follow from 'models/Follow'
-import { sendMessage } from 'utils/errorMessage'
+import sendErrorMessage from 'utils/errorMessage'
+import sendMessage from 'utils/message'
 import { FOLLOWERS } from 'variables/global'
 import NewsFeedModel from 'models/NewsFeed'
 
@@ -11,20 +12,27 @@ const resolver = {
 
 			const newPost = new Post({ text })
 
-			const post = await newPost.save()
+			try {
+				await newPost.save()
+			} catch (error) {
+				return sendErrorMessage(error)
+			}
 
 			const { followers } = await Follow.findOne({ user: id }, FOLLOWERS)
 
 			for (let i = 0; i < followers.length; i++) {
+				// eslint-disable-next-line
 				const newsfeed = await NewsFeedModel.findOne(
 					{ user: followers[i] },
 					'posts'
 				)
+
 				newsfeed.posts.push({ postUser: id, postId: newPost._id })
+				// eslint-disable-next-line
 				await newsfeed.save()
 			}
 
-			return post
+			return sendMessage('post is published')
 		},
 		deletePost: async (_, { Input: { id: postId } }, { user: { id } }) => {
 			const Post = createPostModel(id)
@@ -32,7 +40,7 @@ const resolver = {
 			const post = await Post.findById(postId)
 
 			if (!post) {
-				return sendMessage(false, 'no post found')
+				return sendErrorMessage(false, 'no post found')
 			}
 
 			const postDeleted = await Post.findByIdAndRemove(postId, {
@@ -40,10 +48,10 @@ const resolver = {
 			})
 
 			if (postDeleted) {
-				return sendMessage(true, 'post has been deleted')
+				return sendErrorMessage(true, 'post has been deleted')
 			}
 
-			return sendMessage(false, 'something went wrong')
+			return sendErrorMessage(false, 'something went wrong')
 		},
 	},
 }
