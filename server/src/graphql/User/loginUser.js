@@ -1,9 +1,4 @@
-import {
-	generateToken,
-	findUser,
-	matchPasswords,
-	sendSuccessToken,
-} from 'utils/authentication'
+import { generateToken, findUser, matchPasswords } from 'utils/authentication'
 import sendErrorMessage from 'utils/errorMessage'
 import validateLoginInput from 'validation/login'
 import { validationErrorMessage } from './registerUser'
@@ -35,7 +30,7 @@ const resolver = {
 
 				const token = await generateToken(user)
 
-				return sendSuccessToken(token)
+				return { token }
 			} catch (error) {
 				return sendErrorMessage(error)
 			}
