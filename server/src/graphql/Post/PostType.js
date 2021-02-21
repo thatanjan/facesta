@@ -1,5 +1,9 @@
 import { gql } from 'apollo-server-express'
-import { POST_ID_TYPE, POST_OWNER_ID_TYPE } from 'variables/commonText'
+import {
+	POST_ID_TYPE,
+	POST_OWNER_ID_TYPE,
+	ERROR_OR_MESSAGE_TYPE,
+} from 'variables/commonText'
 
 const text = `text: String!`
 
@@ -23,20 +27,24 @@ const PostTypedefs = gql`
        ${text}! 
        ${POST_ID_TYPE}!
        ${POST_OWNER_ID_TYPE}!
+       ${ERROR_OR_MESSAGE_TYPE}
     }
 
     type ReturnAllPost {
        posts: [Post]!
+       ${ERROR_OR_MESSAGE_TYPE}
     }
 
     type Post2{
        ${text}! 
        ${POST_ID_TYPE}!
+       ${ERROR_OR_MESSAGE_TYPE}
     }
 
     type AllPost {
        posts: [Post2]!
        ${POST_OWNER_ID_TYPE}!
+       ${ERROR_OR_MESSAGE_TYPE}
     }
 
 
