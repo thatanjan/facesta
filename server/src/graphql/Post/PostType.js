@@ -5,8 +5,8 @@ const text = `text: String!`
 
 const PostTypedefs = gql`
     extend type Query {
-        getSinglePost(Input: PostAndPostOwnerIDInput!): ReturnSinglePost!
-        getAllPost(Input: PostOwnerIDInput!): ReturnAllPost!
+        getSinglePost(Input: PostAndPostOwnerIDInput!): Post!
+        getAllPost(Input: PostOwnerIDInput!): AllPost!
         getNewsFeedPost: ReturnAllPost!
     }
 
@@ -20,37 +20,47 @@ const PostTypedefs = gql`
     }
 
     type Post {
-       ${text} 
-       ${POST_OWNER_ID_TYPE}
+       ${text}! 
+       ${POST_ID_TYPE}!
+       ${POST_OWNER_ID_TYPE}!
     }
 
+    type ReturnAllPost {
+       posts: [Post]!
+    }
+
+    type Post2{
+       ${text}! 
+       ${POST_ID_TYPE}!
+    }
 
     type AllPost {
-        posts: [Post]!
+       posts: [Post2]!
+       ${POST_OWNER_ID_TYPE}!
     }
 
 
-  input PostIDInput{
-    ${POST_ID_TYPE}!
-  }
+    input PostIDInput{
+       ${POST_ID_TYPE}!
+    }
 
-  input PostOwnerIDInput {
-    ${POST_OWNER_ID_TYPE}!
-  }
+    input PostOwnerIDInput {
+      ${POST_OWNER_ID_TYPE}!
+    }
 
-  input PostAndPostOwnerIDInput{
-    ${POST_ID_TYPE}!
-    ${POST_OWNER_ID_TYPE}!
-  }
+    input PostAndPostOwnerIDInput{
+      ${POST_ID_TYPE}!
+      ${POST_OWNER_ID_TYPE}!
+    }
 
-  input CreatePostInput {
-    ${text}
-  }
+    input CreatePostInput {
+      ${text}
+    }
 
-  input RemoveCommentInput {
-    ${POST_ID_TYPE}!
-    commentID: String!
-  }
+    input RemoveCommentInput {
+      ${POST_ID_TYPE}!
+      commentID: String!
+    }
 
 `
 export default PostTypedefs
