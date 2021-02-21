@@ -1,5 +1,5 @@
 import { gql } from 'apollo-server-express'
-import { PROFILE_OWNER_ID_TYPE } from 'variables/commonText'
+import { PROFILE_OWNER_ID_TYPE, ERROR_MESSAGE_TYPE } from 'variables/commonText'
 
 const ProfileMutationTypeDefs = gql`
 	extend type Mutation {
@@ -28,7 +28,7 @@ const InputTypedefs = gql`
 
 const ProfileTypedefs = gql`
 	extend type Query {
-		getPersonal(Input: ProfileIDInput): PersonalData!
+		getPersonalData(Input: ProfileIDInput): PersonalData!
 	}
 
 	${ProfileMutationTypeDefs}
@@ -42,6 +42,7 @@ const ProfileTypedefs = gql`
 		skills: [String!]
 		bio: String
 		name: String
+		${ERROR_MESSAGE_TYPE}
 	}
 `
 
