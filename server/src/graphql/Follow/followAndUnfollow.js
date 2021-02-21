@@ -29,11 +29,11 @@ const resolver = {
 				return sendErrorMessage('ownerId and other user id is same')
 			}
 
-			const ownerData = await getQuery(ownerId, 'following')
-			const { following } = ownerData
+			const ownerData = await getQuery(ownerId, 'followee')
+			const { followee } = ownerData
 
-			if (following.includes(otherUserId)) {
-				return sendErrorMessage('You are already following the user')
+			if (followee.includes(otherUserId)) {
+				return sendErrorMessage('You are already followee the user')
 			}
 
 			const otherUserData = await getQuery(otherUserId, 'followers')
@@ -41,11 +41,11 @@ const resolver = {
 			const { followers } = otherUserData
 
 			followers.push(ownerId)
-			following.push(otherUserId)
+			followee.push(otherUserId)
 
 			saveDocuments([ownerData, otherUserData])
 
-			return sendErrorMessage('you are now following this user')
+			return sendErrorMessage('you are now followee this user')
 		},
 
 		unfollowUser: async (
@@ -57,11 +57,11 @@ const resolver = {
 				return sendErrorMessage('ownerId and other user id is same')
 			}
 
-			const ownerData = await getQuery(ownerId, 'following')
-			const { following } = ownerData
+			const ownerData = await getQuery(ownerId, 'followee')
+			const { followee } = ownerData
 
-			if (!following.includes(otherUserId)) {
-				return sendErrorMessage('You are not following the user')
+			if (!followee.includes(otherUserId)) {
+				return sendErrorMessage('You are not followee the user')
 			}
 
 			const otherUserData = await getQuery(otherUserId, 'followers')
@@ -69,7 +69,7 @@ const resolver = {
 			const { followers } = otherUserData
 
 			followers.remove(ownerId)
-			following.remove(otherUserId)
+			followee.remove(otherUserId)
 
 			saveDocuments([ownerData, otherUserData])
 

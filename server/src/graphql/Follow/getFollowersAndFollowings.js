@@ -1,5 +1,5 @@
 import Follow from 'models/Follow'
-import { FOLLOWING, FOLLOWERS } from 'variables/global'
+import { FOLLOWEE, FOLLOWERS } from 'variables/global'
 
 export const getUsers = field => async (_, { Input: { otherUserId } }) =>
 	await Follow.findOne({ user: otherUserId }, field).populate(field)
@@ -18,8 +18,8 @@ const checkIfUser = field => async (
 
 	const result = {}
 
-	if (field === FOLLOWING) {
-		result.isFollowing = ifUserExist
+	if (field === FOLLOWEE) {
+		result.isFollowee = ifUserExist
 	} else {
 		result.isFollower = ifUserExist
 	}
@@ -30,9 +30,9 @@ const checkIfUser = field => async (
 const resolver = {
 	Query: {
 		getFollowers: getUsers(FOLLOWERS),
-		getFollowing: getUsers(FOLLOWING),
+		getFollowee: getUsers(FOLLOWEE),
 		getIsFollower: checkIfUser(FOLLOWERS),
-		getIsFollowing: checkIfUser(FOLLOWING),
+		getIsFollowee: checkIfUser(FOLLOWEE),
 	},
 }
 
