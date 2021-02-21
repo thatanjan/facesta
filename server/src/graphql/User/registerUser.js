@@ -10,6 +10,7 @@ import sendErrorMessage from 'utils/errorMessage'
 import validateRegisterInput from 'validation/register'
 import User from 'models/User'
 import NewsFeedModel from 'models/NewsFeed'
+import {ERROR_MESSAGE} from 'variables/global'
 
 // eslint-disable-next-line
 const createUser = async ({ name, email, password }) => {
@@ -80,6 +81,10 @@ const resolver = {
 
 				if (!newUser) {
 					return sendErrorMessage('Registering user failed. Please try again later.')
+				}
+
+				if (newUser[ERROR_MESSAGE]) {
+					return newUser
 				}
 
 				const { _id } = newUser
