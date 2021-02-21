@@ -1,9 +1,8 @@
 import createPostModel from 'models/Post'
 import ifNullOrFalse from 'utils/checkNullFalse'
-import sendMessage from 'utils/errorMessage'
+import sendErrorMessage from 'utils/errorMessage'
 import NewsFeedModel from 'models/NewsFeed'
 
-const SUCCESS = 'success'
 const SINGLE_POST = 'singlePost'
 const ALL_POST = 'allPost'
 const ALL_NEWS_FEED_POST = 'allNewsFeedPost'
@@ -17,7 +16,7 @@ const mainResolver = field => {
 				const singlePost = await Post.findById(postId, 'text')
 
 				if (ifNullOrFalse(singlePost)) {
-					return sendMessage(false, null, 'no post found')
+					return sendErrorMessage(null, 'no post found')
 				}
 
 				return singlePost
@@ -28,7 +27,7 @@ const mainResolver = field => {
 				allPost.posts = await Post.find({}).sort({ _id: '-1' }).skip(start).limit(3)
 
 				if (allPost.posts.length <= 0) {
-					return sendMessage(false, null, 'you have no post')
+					return sendErrorMessage(null, 'you have no post')
 				}
 
 				return allPost
@@ -38,10 +37,9 @@ const mainResolver = field => {
 					{ user: ownUserId },
 					'posts'
 				)
-				console.log(allNewsFeedPost)
 
 			default:
-				return sendMessage(false, null, 'nothing found')
+				return sendErrorMessage('nothing found')
 		}
 	}
 }

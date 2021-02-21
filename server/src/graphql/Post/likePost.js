@@ -1,10 +1,11 @@
 import createPostModel from 'models/Post'
-import sendMessage from 'utils/errorMessage'
+import sendErrorMessage from 'utils/errorMessage'
 
 const LIKE = 'like'
 const REMOVE_LIKE = 'removeLike'
 const LIKES = 'likes'
 
+// eslint-disable-next-line
 const queryPostLikes = async (model, id) => await model.findById(id, LIKES)
 
 const hasLiked = (array, id) => array.includes(id)
@@ -18,19 +19,22 @@ const modifyLikes = ({ operation, likes, id }) => {
 
 		case REMOVE_LIKE:
 			likes.pull(id)
+			break
 
 		default:
 			return false
 	}
+
+	return false
 }
 
 const responseMessage = operation => {
 	switch (operation) {
 		case LIKE:
-			return sendMessage(true, 'you have liked this post')
+			return sendErrorMessage('you have liked this post')
 
 		case REMOVE_LIKE:
-			return sendMessage(true, 'you have remove like from the post')
+			return sendErrorMessage('you have remove like from the post')
 
 		default:
 			return false
@@ -46,11 +50,11 @@ const mainFunction = operation => {
 		const { likes } = likesQuery
 
 		if (operation === LIKE && hasLiked(likes, id)) {
-			return sendMessage(false, 'you have already liked this post')
+			return sendErrorMessage('you have already liked this post')
 		}
 
 		if (operation === REMOVE_LIKE && !hasLiked(likes, id)) {
-			return sendMessage(false, 'you have not liked this post.')
+			return sendErrorMessage('you have not liked this post.')
 		}
 
 		modifyLikes({ operation, likes, id })
