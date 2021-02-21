@@ -1,17 +1,17 @@
 import {
 	findUser,
 	generateToken,
-	sendSuccessToken,
 	createProfile,
 	createFollowCollection,
 	generateHashPassword,
 } from 'utils/authentication'
 
-import sendMessage from 'utils/errorMessage'
+import sendErrorMessage from 'utils/errorMessage'
 import validateRegisterInput from 'validation/register'
 import User from 'models/User'
 import NewsFeedModel from 'models/NewsFeed'
 
+// eslint-disable-next-line
 const createUser = async ({ name, email, password }) => {
 	const hashedPassword = await generateHashPassword(password)
 
@@ -44,12 +44,11 @@ const createUser = async ({ name, email, password }) => {
 		newsFeed.save()
 		return newUser.save()
 	} catch (error) {
-		sendMessage(false, error)
+		sendErrorMessage(error)
 	}
 }
 
-export const validationErrorMessage = (success, errors) => ({
-	success,
+export const validationErrorMessage = errors => ({
 	validationError: errors,
 })
 
@@ -67,32 +66,29 @@ const resolver = {
 			})
 
 			if (!isValid) {
-				return validationErrorMessage(false, errors)
+				return validationErrorMessage(errors)
 			}
 
 			try {
 				const user = await findUser(email)
 
 				if (user) {
-					return sendMessage(false, 'User already exist')
+					return sendErrorMessage('User already exist')
 				}
 
 				const newUser = await createUser({ name, email, password })
 
 				if (!newUser) {
-					return sendMessage(
-						false,
-						'Registering user failed. Please try again later.'
-					)
+					return sendErrorMessage('Registering user failed. Please try again later.')
 				}
 
 				const { _id } = newUser
 
 				const token = await generateToken({ _id, name, email })
 
-				return sendSuccessToken(token)
+				return { token }
 			} catch (error) {
-				return sendMessage(false, error)
+				return sendErrorMessage(error)
 			}
 		},
 	},
