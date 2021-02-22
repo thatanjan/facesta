@@ -1,16 +1,15 @@
 import {
 	findUser,
-	generateToken,
 	createProfile,
 	createFollowCollection,
 	generateHashPassword,
 } from 'utils/authentication'
-
+import generateToken from 'utils/generateToken'
 import sendErrorMessage from 'utils/errorMessage'
 import validateRegisterInput from 'validation/register'
 import User from 'models/User'
 import NewsFeedModel from 'models/NewsFeed'
-import {ERROR_MESSAGE} from 'variables/global'
+import { ERROR_MESSAGE } from 'variables/global'
 
 // eslint-disable-next-line
 const createUser = async ({ name, email, password }) => {

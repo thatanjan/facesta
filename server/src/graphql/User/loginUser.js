@@ -1,4 +1,5 @@
-import { generateToken, findUser, matchPasswords } from 'utils/authentication'
+import { findUser, matchPasswords } from 'utils/authentication'
+import generateToken from 'utils/generateToken'
 import sendErrorMessage from 'utils/errorMessage'
 import validateLoginInput from 'validation/login'
 import { validationErrorMessage } from './registerUser'

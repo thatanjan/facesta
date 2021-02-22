@@ -7,32 +7,6 @@ import { makeGraphQLNonNull } from 'utils/graphql'
 import Profile from 'models/Profile'
 import Follow from 'models/Follow'
 
-export const generateToken = async user => {
-	const payload = {
-		id: user._id,
-		name: user.name,
-		avatar: user.avatar,
-	}
-
-	const promise = new Promise((response, reject) => {
-		jwt.sign(
-			payload,
-			process.env.SECRET_KEY,
-			{ expiresIn: '1h' },
-			(err, token) => {
-				if (err) return reject(err)
-
-				response(token)
-				return true
-			}
-		)
-	})
-
-	const token = await promise
-
-	return `Bearer ${token}`
-}
-
 export const matchPasswords = async ({ hashedPassword, plainPassword }) => {
 	const pass = await bcryptjs.compare(plainPassword, hashedPassword)
 
