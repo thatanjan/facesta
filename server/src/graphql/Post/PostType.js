@@ -19,7 +19,7 @@ const PostTypedefs = gql`
         deletePost(Input: PostIDInput!): ErrorOrMessage!
         likePost(Input: PostAndPostOwnerIDInput!): ErrorOrMessage!
         removeLikePost(Input: PostAndPostOwnerIDInput!): ErrorOrMessage!
-        commentPost(Input: PostAndPostOwnerIDInput!): ErrorOrMessage!
+        commentPost(Input: commentPost!): ErrorOrMessage!
         removeCommentPost(Input: RemoveCommentInput!): ErrorOrMessage!
     }
 
@@ -57,6 +57,12 @@ const PostTypedefs = gql`
     }
 
     input PostAndPostOwnerIDInput{
+      ${POST_ID_TYPE}!
+      ${POST_OWNER_ID_TYPE}!
+    }
+
+    input commentPost {
+      ${text}! 
       ${POST_ID_TYPE}!
       ${POST_OWNER_ID_TYPE}!
     }
