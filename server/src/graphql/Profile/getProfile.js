@@ -6,11 +6,11 @@ const EDUCATION = 'education'
 const SOCIAL = 'social'
 
 const resolverFunction = field => {
-	return async (_, { Input: { profileUserId } }) => {
+	return async (_, { Input: { profileOwnerID } }) => {
 		let query
 
 		if (field === PERSONAL) {
-			query = await Profile.findOne({ user: profileUserId }, field).populate(
+			query = await Profile.findOne({ user: profileOwnerID }, field).populate(
 				'user'
 			)
 
@@ -21,7 +21,7 @@ const resolverFunction = field => {
 			return data
 		}
 
-		query = await Profile.findOne({ user: profileUserId }, field)
+		query = await Profile.findOne({ user: profileOwnerID }, field)
 		return query[`${field}`]
 	}
 }
