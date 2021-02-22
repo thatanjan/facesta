@@ -7,91 +7,94 @@ import { makeGraphQLNonNull } from 'utils/graphql'
 import Profile from 'models/Profile'
 import Follow from 'models/Follow'
 
-export const generateToken = (user) => {
-    const payload = {
-        id: user._id,
-        name: user.name,
-        avatar: user.avatar,
-    }
+export const generateToken = async user => {
+	const payload = {
+		id: user._id,
+		name: user.name,
+		avatar: user.avatar,
+	}
 
-    const promise = new Promise((response, reject) => {
-        jwt.sign(
-            payload,
-            process.env.SECRET_KEY,
-            { expiresIn: '1h' },
-            (err, token) => {
-                if (err) return reject(err)
+	const promise = new Promise((response, reject) => {
+		jwt.sign(
+			payload,
+			process.env.SECRET_KEY,
+			{ expiresIn: '1h' },
+			(err, token) => {
+				if (err) return reject(err)
 
-                response(token)
-            }
-        )
-    })
+				response(token)
+				return true
+			}
+		)
+	})
 
-    return promise
+	const token = await promise
+
+	return `Bearer ${token}`
 }
 
 export const matchPasswords = async ({ hashedPassword, plainPassword }) => {
-    const pass = await bcryptjs.compare(plainPassword, hashedPassword)
+	const pass = await bcryptjs.compare(plainPassword, hashedPassword)
 
-    return pass
+	return pass
 }
 
-export const findUser = (email) => User.findOne({ email })
+export const findUser = email => User.findOne({ email })
 
-export const findUserById = (id) => User.findById(id)
+export const findUserById = id => User.findById(id)
 
 export const authArguments = (authType = '') => {
-    const stringType = { type: makeGraphQLNonNull(GraphQLString) }
+	const stringType = { type: makeGraphQLNonNull(GraphQLString) }
 
-    let args = {
-        email: stringType,
-        password: stringType,
-    }
+	let args = {
+		email: stringType,
+		password: stringType,
+	}
 
-    if (authType === 'register') {
-        args.name = stringType
-        args.confirmPassword = stringType
-    }
+	if (authType === 'register') {
+		args.name = stringType
+		args.confirmPassword = stringType
+	}
 
-    return args
+	return args
 }
 
-export const sendSuccessToken = (token) => ({
-    token: 'Bearer ' + token,
-    success: true,
+export const sendSuccessToken = token => ({
+	token: 'Bearer ' + token,
+	success: true,
 })
 
 export const createProfile = async () => {
-    const profileData = {}
+	const profileData = {}
 
-    try {
-        const profile = new Profile(profileData)
-        return profile
-    } catch (error) {
-        throw error
-    }
+	try {
+		const profile = new Profile(profileData)
+		return profile
+	} catch (error) {
+		throw error
+	}
 }
 
-export const createFollowCollection = async (id) => {
-    try {
-        return new Follow({ user: id })
-    } catch (error) {
-        console.log(error)
-        throwError
-    }
+export const createFollowCollection = async id => {
+	try {
+		return new Follow({ user: id })
+	} catch (error) {
+		console.log(error)
+		throwError
+	}
 }
 
-export const generateHashPassword = (password) => {
-    const passwordPromise = new Promise((resolve, reject) => {
-        bcryptjs.genSalt(10, (_, salt) => {
-            bcryptjs.hash(password, salt, (error, hash) => {
-                if (error) reject(error)
+export const generateHashPassword = password => {
+	const passwordPromise = new Promise((resolve, reject) => {
+		bcryptjs.genSalt(10, (_, salt) => {
+			bcryptjs.hash(password, salt, (error, hash) => {
+				if (error) reject(error)
 
-                password = hash
-                resolve(password)
-            })
-        })
-    })
+				password = hash
+				resolve(password)
+			})
+		})
+	})
 
-    return passwordPromise
+	return passwordPromise
 }
