@@ -25,8 +25,6 @@ const PostTypedefs = gql`
 
     type Post {
        ${text}! 
-       ${POST_ID_TYPE}!
-       ${POST_OWNER_ID_TYPE}!
        ${ERROR_OR_MESSAGE_TYPE}
     }
 
