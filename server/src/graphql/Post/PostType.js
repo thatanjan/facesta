@@ -9,9 +9,9 @@ const text = `text: String`
 
 const PostTypedefs = gql`
     extend type Query {
-        getSinglePost(Input: PostAndPostOwnerIDInput!): Post!
-        getAllPost(Input: PostOwnerIDInput!): AllPost!
-        getNewsFeedPost: ReturnAllPost!
+        getSinglePost(Input: PostAndPostOwnerIDInput!): SinglePost!
+        getAllPost(Input: PostOwnerIDInput!): ReturnAllPost!
+        getNewsFeedPost: ReturnNewsFeedPosts!
     }
 
     extend type Mutation {
@@ -23,28 +23,28 @@ const PostTypedefs = gql`
         removeCommentPost(Input: RemoveCommentInput!): ErrorOrMessage!
     }
 
-    type Post {
-       ${text}! 
-       ${ERROR_OR_MESSAGE_TYPE}
-    }
-
-    type ReturnAllPost {
-       posts: [Post]!
-       ${ERROR_OR_MESSAGE_TYPE}
-    }
-
-    type Post2{
+    type SinglePost {
        ${text}! 
        ${POST_ID_TYPE}!
        ${ERROR_OR_MESSAGE_TYPE}
     }
 
-    type AllPost {
-       posts: [Post2]!
+    type ReturnAllPost {
+       posts: [SinglePost]!
+       ${ERROR_OR_MESSAGE_TYPE}
+    }
+
+    type SingleNewsFeedPost {
+       ${text}! 
+       ${POST_ID_TYPE}!
        ${POST_OWNER_ID_TYPE}!
        ${ERROR_OR_MESSAGE_TYPE}
     }
 
+    type ReturnNewsFeedPosts {
+       posts: [SingleNewsFeedPost]!
+       ${ERROR_OR_MESSAGE_TYPE}
+    }
 
     input PostIDInput{
        ${POST_ID_TYPE}!
