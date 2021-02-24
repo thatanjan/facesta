@@ -21,8 +21,6 @@ const mainResolver = field => {
 
 				singlePost.postID = singlePost._id
 
-				delete singlePost._id
-
 				return singlePost
 
 			// case ALL_POST:
