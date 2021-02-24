@@ -23,16 +23,25 @@ const mainResolver = field => {
 
 				return singlePost
 
-			// case ALL_POST:
-			// 	const allPost = {}
+			case ALL_POST:
+				const allPost = {}
 
-			// 	allPost.posts = await Post.find({}).sort({ _id: '-1' }).skip(start).limit(3)
+				let { posts } = allPost
 
-			// 	if (allPost.posts.length <= 0) {
-			// 		return sendErrorMessage('you have no post')
-			// 	}
+				posts = await Post.find({}).sort({ _id: '-1' }).skip(start).limit(3)
 
-			// 	return allPost
+				if (posts.length <= 0) {
+					return sendErrorMessage('you have no post')
+				}
+
+				posts.forEach(item => {
+					// eslint-disable-next-line
+					item.postID = item._id
+				})
+
+				allPost.posts = posts
+
+				return allPost
 
 			// case ALL_NEWS_FEED_POST:
 			// 	const allNewsFeedPost = await NewsFeedModel.findOne(
