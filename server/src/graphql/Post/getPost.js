@@ -8,35 +8,41 @@ const ALL_POST = 'allPost'
 const ALL_NEWS_FEED_POST = 'allNewsFeedPost'
 
 const mainResolver = field => {
-	return async (_, { Input: { postId, postUserId, start, ownUserId } }) => {
-		const Post = createPostModel(postUserId)
+	return async (_, { Input: { postID, postOwnerID, start, ownerID } }) => {
+		const Post = createPostModel(postOwnerID)
 
 		switch (field) {
 			case SINGLE_POST:
-				const singlePost = await Post.findById(postId, 'text')
+				const singlePost = await Post.findById(postID, 'text')
 
 				if (ifNullOrFalse(singlePost)) {
-					return sendErrorMessage(null, 'no post found')
+					return sendErrorMessage('no post found')
 				}
+
+				singlePost.postID = singlePost._id
+
+				delete singlePost._id
 
 				return singlePost
 
-			case ALL_POST:
-				const allPost = {}
+			// case ALL_POST:
+			// 	const allPost = {}
 
-				allPost.posts = await Post.find({}).sort({ _id: '-1' }).skip(start).limit(3)
+			// 	allPost.posts = await Post.find({}).sort({ _id: '-1' }).skip(start).limit(3)
 
-				if (allPost.posts.length <= 0) {
-					return sendErrorMessage(null, 'you have no post')
-				}
+			// 	if (allPost.posts.length <= 0) {
+			// 		return sendErrorMessage('you have no post')
+			// 	}
 
-				return allPost
+			// 	return allPost
 
-			case ALL_NEWS_FEED_POST:
-				const allNewsFeedPost = await NewsFeedModel.findOne(
-					{ user: ownUserId },
-					'posts'
-				)
+			// case ALL_NEWS_FEED_POST:
+			// 	const allNewsFeedPost = await NewsFeedModel.findOne(
+			// 		{ user: ownerID },
+			// 		'posts'
+			// 	)
+
+			// 	break
 
 			default:
 				return sendErrorMessage('nothing found')
