@@ -25,15 +25,17 @@ const resolver = {
 				// eslint-disable-next-line
 				const newsfeed = await NewsFeedModel.findOne({ user: follower }, 'posts')
 
+				const pushedObject = { postUser: id, postId: newPost._id }
+
 				if (!newsfeed) {
 					const newNewsfeed = new NewsFeedModel()
 
 					newNewsfeed.user = follower
-					newNewsfeed.posts.push({ postUser: id, postId: newPost._id })
+					newNewsfeed.posts.push(pushedObject)
 
 					Promise.all([newNewsfeed.save()])
 				} else {
-					newsfeed.posts.push({ postUser: id, postId: newPost._id })
+					newsfeed.posts.push(pushedObject)
 
 					Promise.all([newsfeed.save()])
 				}
