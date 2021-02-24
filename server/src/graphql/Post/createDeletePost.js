@@ -21,19 +21,22 @@ const resolver = {
 			const { followers } = await Follow.findOne({ user: id }, FOLLOWERS)
 
 			for (let i = 0; i < followers.length; i++) {
+				const follower = followers[i]
 				// eslint-disable-next-line
-				const newsfeed = await NewsFeedModel.findOne(
-					{ user: followers[i] },
-					'posts'
-				)
+				const newsfeed = await NewsFeedModel.findOne({ user: follower }, 'posts')
 
 				if (!newsfeed) {
-					return sendErrorMessage('no newsfeed is found')
-				}
+					const newNewsfeed = new NewsFeedModel()
 
-				newsfeed.posts.push({ postUser: id, postId: newPost._id })
-				// eslint-disable-next-line
-				await newsfeed.save()
+					newNewsfeed.user = follower
+					newNewsfeed.posts.push({ postUser: id, postId: newPost._id })
+
+					Promise.all([newNewsfeed.save()])
+				} else {
+					newsfeed.posts.push({ postUser: id, postId: newPost._id })
+
+					Promise.all([newsfeed.save()])
+				}
 			}
 
 			return sendMessage('post is published')
