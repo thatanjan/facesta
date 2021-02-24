@@ -27,6 +27,10 @@ const resolver = {
 					'posts'
 				)
 
+				if (!newsfeed) {
+					return sendErrorMessage('no newsfeed is found')
+				}
+
 				newsfeed.posts.push({ postUser: id, postId: newPost._id })
 				// eslint-disable-next-line
 				await newsfeed.save()
