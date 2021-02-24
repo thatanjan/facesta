@@ -18,81 +18,84 @@ import resolvers from 'graphql/resolvers'
 dotenv.config()
 
 mongoose
-    .connect(process.env.USERS_DB_URI, { useNewUrlParser: true })
-    .then(() => {
-        console.log('mongoose connected')
-    })
-    .catch((error) => {
-        console.log(error)
-    })
+	.connect(process.env.USERS_DB_URI, {
+		useNewUrlParser: true,
+		useUnifiedTopology: true,
+	})
+	.then(() => {
+		console.log('mongoose connected')
+	})
+	.catch(error => {
+		console.log(error)
+	})
 
 const app = express()
 
 app.use(cors())
 
 app.use(
-    jwt({
-        secret: process.env.SECRET_KEY,
-        algorithms: ['HS256'],
-        credentialsRequired: false,
-    })
+	jwt({
+		secret: process.env.SECRET_KEY,
+		algorithms: ['HS256'],
+		credentialsRequired: false,
+	})
 )
 
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 
 app.use(function (err, req, _, next) {
-    if (err.name === 'UnauthorizedError') {
-        req.UnauthorizedError = err.message
-    }
+	if (err.name === 'UnauthorizedError') {
+		req.UnauthorizedError = err.message
+	}
 
-    next()
+	next()
 })
 
-const removeBearer = (token) => {
-    const parts = token.split(' ')
-    if (parts.length === 2) {
-        const scheme = parts[0]
-        const credentials = parts[1]
+const removeBearer = token => {
+	const parts = token.split(' ')
+	if (parts.length === 2) {
+		const scheme = parts[0]
+		const credentials = parts[1]
 
-        if (/^Bearer$/i.test(scheme)) {
-            const newToken = credentials
+		if (/^Bearer$/i.test(scheme)) {
+			const newToken = credentials
 
-            return newToken
-        }
-    }
+			return newToken
+		}
+	}
 }
 
 app.post('/validate', ({ body }, res) => {
-    const {
-        data: { jwt },
-    } = body
+	const {
+		data: { jwt },
+	} = body
 
-    const newToken = removeBearer(jwt)
+	const newToken = removeBearer(jwt)
 
-    jwtoken.verify(newToken, process.env.SECRET_KEY, (err) => {
-        if (err) {
-            res.status(401).send(err)
-        } else {
-            res.status(200).send('calm down')
-        }
-    })
+	jwtoken.verify(newToken, process.env.SECRET_KEY, err => {
+		if (err) {
+			res.status(401).send(err)
+		} else {
+			res.status(200).send('calm down')
+		}
+	})
 })
 
 const server = new ApolloServer({
-    schema: applyMiddleware(
-        makeExecutableSchema({ typeDefs, resolvers }),
-        permissions
-    ),
-    context: ({ req: { user, UnauthorizedError } }) => {
-        if (user) {
-            return { user }
-        }
+	schema: applyMiddleware(
+		makeExecutableSchema({ typeDefs, resolvers }),
+		permissions
+	),
+	context: ({ req: { user, UnauthorizedError } }) => {
+		if (user) {
+			return { user }
+		}
 
-        if (UnauthorizedError) {
-            return { error: UnauthorizedError }
-        }
-    },
+		if (UnauthorizedError) {
+			return { error: UnauthorizedError }
+		}
+	},
 })
 
 server.applyMiddleware({ app })
@@ -100,5 +103,5 @@ server.applyMiddleware({ app })
 const port = process.env.PORT || 8000
 
 app.listen({ port }, () => {
-    console.log(`server is running at ${port}`)
+	console.log(`server is running at ${port}`)
 })
