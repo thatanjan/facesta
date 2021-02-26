@@ -10,7 +10,7 @@ const text = `text: String`
 const PostTypedefs = gql`
     extend type Query {
         getSinglePost(Input: PostAndPostOwnerIDInput!): SinglePost!
-        getAllPost(Input: PostOwnerIDInput!): ReturnAllPost!
+        getAllPost(Input: GetAllPostInput!): ReturnAllPost!
         getNewsFeedPost: ReturnNewsFeedPosts!
     }
 
@@ -72,6 +72,11 @@ const PostTypedefs = gql`
     input RemoveCommentInput {
       ${POST_ID_TYPE}!
       commentID: ID!
+    }
+
+    input GetAllPostInput {
+      start: Int!
+      ${POST_OWNER_ID_TYPE}!
     }
 
 `
