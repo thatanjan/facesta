@@ -13,7 +13,7 @@ const user = {
 const schema = {
 	user,
 	followers: [user],
-	followee: [user],
+	followees: [user],
 }
 
 export const FollowSchema = new Schema(schema, { versionKey: '1' })
