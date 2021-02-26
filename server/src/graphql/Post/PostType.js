@@ -71,7 +71,7 @@ const PostTypedefs = gql`
 
     input RemoveCommentInput {
       ${POST_ID_TYPE}!
-      commentID: String!
+      commentID: ID!
     }
 
 `
