@@ -1,5 +1,6 @@
 import Follow from 'models/Follow'
 import sendErrorMessage from 'utils/errorMessage'
+import { FOLLOWING, FOLLOWEES, FOLLOWERS } from 'variables/global'
 
 const getQuery = async (id, projection) => {
 	const users = await Follow.findOne({ user: id }, projection)
@@ -25,19 +26,19 @@ const resolver = {
 				return sendErrorMessage('ownerId and other user id is same')
 			}
 
-			const ownerData = await getQuery(id, 'followee')
-			const { followee } = ownerData
+			const ownerData = await getQuery(id, FOLLOWEES)
+			const { followees } = ownerData
 
-			if (followee.includes(otherUserID)) {
-				return sendErrorMessage('You are already followee the user')
+			if (followees.includes(otherUserID)) {
+				return sendErrorMessage('You are already following the user')
 			}
 
-			const otherUserData = await getQuery(otherUserID, 'followers')
+			const otherUserData = await getQuery(otherUserID, FOLLOWERS)
 
 			const { followers } = otherUserData
 
 			followers.push(id)
-			followee.push(otherUserID)
+			followees.push(otherUserID)
 
 			saveDocuments([ownerData, otherUserData])
 
@@ -49,19 +50,19 @@ const resolver = {
 				return sendErrorMessage('ownerId and other user id is same')
 			}
 
-			const ownerData = await getQuery(id, 'followee')
-			const { followee } = ownerData
+			const ownerData = await getQuery(id, FOLLOWEES)
+			const { followees } = ownerData
 
-			if (!followee.includes(otherUserID)) {
-				return sendErrorMessage('You are not followee the user')
+			if (!followees.includes(otherUserID)) {
+				return sendErrorMessage('You are not following the user')
 			}
 
-			const otherUserData = await getQuery(otherUserID, 'followers')
+			const otherUserData = await getQuery(otherUserID, FOLLOWERS)
 
 			const { followers } = otherUserData
 
 			followers.remove(id)
-			followee.remove(otherUserID)
+			followees.remove(otherUserID)
 
 			saveDocuments([ownerData, otherUserData])
 
