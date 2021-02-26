@@ -19,7 +19,8 @@
 		"prettier/prettier": "error",
 		"no-underscore-dangle": "off",
 		"no-plusplus": "off",
-		"no-case-declarations": "off"
+		"no-case-declarations": "off",
+		"no-return-await": "off"
 	},
 	"settings": {
 		"import/resolver": {
