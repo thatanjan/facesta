@@ -1,7 +1,7 @@
 import Follow from 'models/Follow'
 import sendErrorMessage from 'utils/errorMessage'
 import sendMessage from 'utils/message'
-import { FOLLOWING, FOLLOWEES, FOLLOWERS } from 'variables/global'
+import { FOLLOWEES, FOLLOWERS } from 'variables/global'
 
 const FOLLOW = 'follow'
 const UNFOLLOW = 'unfollow'
@@ -56,6 +56,14 @@ const mainResolver = field => async (
 
 			return sendMessage('you are now following this user')
 
+		case UNFOLLOW:
+			followers.remove(id)
+			followees.remove(otherUserID)
+
+			saveDocuments([ownerData, otherUserData])
+
+			return sendMessage('you have unfollowed this user')
+
 		default:
 			return true
 	}
@@ -64,29 +72,7 @@ const mainResolver = field => async (
 const resolver = {
 	Mutation: {
 		followUser: mainResolver(FOLLOW),
-		unfollowUser: async (_, { Input: { otherUserID } }, { user: { id } }) => {
-			if (sameId(otherUserID, id)) {
-				return sendErrorMessage('ownerId and other user id is same')
-			}
-
-			const ownerData = await getQuery(id, FOLLOWEES)
-			const { followees } = ownerData
-
-			if (!followees.includes(otherUserID)) {
-				return sendErrorMessage('You are not following the user')
-			}
-
-			const otherUserData = await getQuery(otherUserID, FOLLOWERS)
-
-			const { followers } = otherUserData
-
-			followers.remove(id)
-			followees.remove(otherUserID)
-
-			saveDocuments([ownerData, otherUserData])
-
-			return sendErrorMessage('you have unfollowed this user')
-		},
+		unfollowUser: mainResolver(UNFOLLOW),
 	},
 }
 
