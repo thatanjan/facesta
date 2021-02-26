@@ -25,13 +25,13 @@ const FollowType = gql`
     }
 
     type Followers {
-        followers: [UserList]!
-        ${ERROR_MESSAGE_TYPE}!
+        followers: [UserList]
+        ${ERROR_MESSAGE_TYPE}
     }
 
     type Followees{
-        followees: [UserList]!
-        ${ERROR_MESSAGE_TYPE}!
+        followees: [UserList]
+        ${ERROR_MESSAGE_TYPE}
     }
 
 
