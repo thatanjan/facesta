@@ -45,49 +45,18 @@ const resolver = {
 			return sendMessage('post is published')
 		},
 		deletePost: async (_, { Input: { postID } }, { user: { id } }) => {
-			const Post = createPostModel(id)
+			const followersQuery = await Follow.findOne({ user: id }, FOLLOWERS)
 
-			const post = await Post.findById(postID)
+			const { followers } = followersQuery
 
-			if (!post) {
-				return sendErrorMessage('no post found')
-			}
-
-			// const postDeleted = await Post.findByIdAndRemove(postID, {
-			// 	useFindAndModify: false,
-			// })
-
-			// if (postDeleted) {
-
-			const { followers } = await Follow.findOne({ user: id }, FOLLOWERS)
-
-			// console
-
-			for (let i = 0; i < followers.length; i++) {
-				// eslint-disable-next-line
-
-				const follower = followers[i]
-
-				// eslint-disable-next-line
-				const newsfeed = await NewsFeedModel.findOne({ user: follower }, 'posts')
-
-				const arr = newsfeed.elemMatch('posts', {
-					postId: postID,
+			followers.forEach(async follower => {
+				const newsfeed = await NewsFeedModel.findOne({
+					user: { follower: 'posts' },
 				})
+				console.log(newsfeed)
+			})
 
-				console.log(mongoose.Query)
-				// console.log(newsfeed.where)
-				// console.log(
-				// 	newsfeed.where({}).elemMatch({
-				// 		postId: postID,
-				// 	})
-				// )
-			}
-
-			// return sendErrorMessage('post has been deleted')
-			// }
-
-			return sendErrorMessage('something went wrong')
+			return sendErrorMessage('error')
 		},
 	},
 }
