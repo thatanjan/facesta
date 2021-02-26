@@ -1,6 +1,10 @@
 import Follow from 'models/Follow'
 import sendErrorMessage from 'utils/errorMessage'
+import sendMessage from 'utils/message'
 import { FOLLOWING, FOLLOWEES, FOLLOWERS } from 'variables/global'
+
+const FOLLOW = 'follow'
+const UNFOLLOW = 'unfollow'
 
 const getQuery = async (id, projection) => {
 	const users = await Follow.findOne({ user: id }, projection)
@@ -19,32 +23,43 @@ const saveDocuments = documents => {
 	documents.forEach(document => document.save())
 }
 
-const resolver = {
-	Mutation: {
-		followUser: async (_, { Input: { otherUserID } }, { user: { id } }) => {
-			if (sameId(otherUserID, id)) {
-				return sendErrorMessage('ownerId and other user id is same')
-			}
+const mainResolver = field => async (
+	_,
+	{ Input: { otherUserID } },
+	{ user: { id } }
+) => {
+	if (sameId(otherUserID, id)) {
+		return sendErrorMessage('ownerId and other user id is same')
+	}
 
-			const ownerData = await getQuery(id, FOLLOWEES)
-			const { followees } = ownerData
+	const ownerData = await getQuery(id, FOLLOWEES)
+	const { followees } = ownerData
 
-			if (followees.includes(otherUserID)) {
-				return sendErrorMessage('You are already following the user')
-			}
+	if (followees.includes(otherUserID)) {
+		return sendErrorMessage('You are already following the user')
+	}
 
-			const otherUserData = await getQuery(otherUserID, FOLLOWERS)
+	const otherUserData = await getQuery(otherUserID, FOLLOWERS)
 
-			const { followers } = otherUserData
+	const { followers } = otherUserData
 
+	switch (field) {
+		case FOLLOW:
 			followers.push(id)
 			followees.push(otherUserID)
 
 			saveDocuments([ownerData, otherUserData])
 
-			return sendErrorMessage('you are now followee this user')
-		},
+			return sendMessage('you are now following this user')
 
+		default:
+			return true
+	}
+}
+
+const resolver = {
+	Mutation: {
+		followUser: mainResolver(FOLLOW),
 		unfollowUser: async (_, { Input: { otherUserID } }, { user: { id } }) => {
 			if (sameId(otherUserID, id)) {
 				return sendErrorMessage('ownerId and other user id is same')
