@@ -7,7 +7,7 @@ const REMOVE_COMMENT = 'removeComment'
 const ADD_COMMENT_MESSAGE = 'you have commented on this post'
 const REMOVE_COMMENT_MESSAGE = 'you remove comment from the post'
 
-const findComment = ({ comments, commentId }) => comments.id(commentId)
+const findComment = ({ comments, commentID }) => comments.id(commentID)
 
 const ownsComment = ({ postUserId, id, commentedUser }) =>
 	commentedUser === postUserId || commentedUser === id
@@ -29,17 +29,17 @@ const addComment = (comments, { id, text }) => {
 const mainResolver = operation => {
 	return async (
 		_,
-		{ Input: { postId, text, commentId, postUserId } },
+		{ Input: { postID, text, commentID, postOwnerID } },
 		{ user: { id } }
 	) => {
 		let returnMessage = ''
 
 		const Post = createPostModel(id)
 
-		const post = await findPost(Post, postId)
+		const post = await findPost(Post, postID)
 
 		if (!post) {
-			return sendErrorMessage(false, 'no post found')
+			return sendErrorMessage('no post found')
 		}
 
 		const { comments } = post
@@ -52,15 +52,15 @@ const mainResolver = operation => {
 				break
 
 			case REMOVE_COMMENT:
-				const comment = findComment({ comments, commentId })
+				const comment = findComment({ comments, commentID })
 
 				if (!comment) {
-					return sendErrorMessage(false, 'no comment found')
+					return sendErrorMessage('no comment found')
 				}
 
 				const commentedUser = comment.user.toString()
 
-				if (!ownsComment({ id, postUserId, commentedUser })) {
+				if (!ownsComment({ id, postUserId: postOwnerID, commentedUser })) {
 					return sendErrorMessage('not authorized')
 				}
 
