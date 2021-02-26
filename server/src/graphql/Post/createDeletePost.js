@@ -1,3 +1,4 @@
+import mongoose from 'mongoose'
 import createPostModel from 'models/Post'
 import Follow from 'models/Follow'
 import sendErrorMessage from 'utils/errorMessage'
@@ -43,22 +44,48 @@ const resolver = {
 
 			return sendMessage('post is published')
 		},
-		deletePost: async (_, { Input: { id: postId } }, { user: { id } }) => {
+		deletePost: async (_, { Input: { postID } }, { user: { id } }) => {
 			const Post = createPostModel(id)
 
-			const post = await Post.findById(postId)
+			const post = await Post.findById(postID)
 
 			if (!post) {
 				return sendErrorMessage('no post found')
 			}
 
-			const postDeleted = await Post.findByIdAndRemove(postId, {
-				useFindAndModify: false,
-			})
+			// const postDeleted = await Post.findByIdAndRemove(postID, {
+			// 	useFindAndModify: false,
+			// })
 
-			if (postDeleted) {
-				return sendErrorMessage('post has been deleted')
+			// if (postDeleted) {
+
+			const { followers } = await Follow.findOne({ user: id }, FOLLOWERS)
+
+			// console
+
+			for (let i = 0; i < followers.length; i++) {
+				// eslint-disable-next-line
+
+				const follower = followers[i]
+
+				// eslint-disable-next-line
+				const newsfeed = await NewsFeedModel.findOne({ user: follower }, 'posts')
+
+				const arr = newsfeed.elemMatch('posts', {
+					postId: postID,
+				})
+
+				console.log(mongoose.Query)
+				// console.log(newsfeed.where)
+				// console.log(
+				// 	newsfeed.where({}).elemMatch({
+				// 		postId: postID,
+				// 	})
+				// )
 			}
+
+			// return sendErrorMessage('post has been deleted')
+			// }
 
 			return sendErrorMessage('something went wrong')
 		},
