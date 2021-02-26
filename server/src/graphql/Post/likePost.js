@@ -42,10 +42,10 @@ const responseMessage = operation => {
 }
 
 const mainFunction = operation => {
-	return async (_, { Input: { postId, postUserId } }, { user: { id } }) => {
-		const Post = createPostModel(postUserId)
+	return async (_, { Input: { postID, postOwnerID } }, { user: { id } }) => {
+		const Post = createPostModel(postOwnerID)
 
-		const likesQuery = await queryPostLikes(Post, postId)
+		const likesQuery = await queryPostLikes(Post, postID)
 
 		const { likes } = likesQuery
 
