@@ -1,4 +1,5 @@
 import Follow from 'models/Follow'
+import User from 'models/User'
 import sendErrorMessage from 'utils/errorMessage'
 import sendMessage from 'utils/message'
 import { FOLLOWEES, FOLLOWERS } from 'variables/global'
@@ -30,6 +31,12 @@ const mainResolver = field => async (
 ) => {
 	if (sameId(otherUserID, id)) {
 		return sendErrorMessage('ownerId and other user id is same')
+	}
+
+	const doesUserExist = await User.findById(otherUserID, 'name')
+
+	if (!doesUserExist) {
+		return sendErrorMessage('user does not exist')
 	}
 
 	const ownerData = await getQuery(id, FOLLOWEES)
