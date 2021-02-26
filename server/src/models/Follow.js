@@ -5,15 +5,15 @@ const Schema = mongoose.Schema
 const objectId = Schema.Types.ObjectId
 
 const user = {
-    type: objectId,
-    ref: 'users',
-    required: true,
+	type: objectId,
+	ref: 'users',
+	required: true,
 }
 
 const schema = {
-    user,
-    followers: [user],
-    following: [user],
+	user,
+	followers: [user],
+	followee: [user],
 }
 
 export const FollowSchema = new Schema(schema, { versionKey: '1' })
