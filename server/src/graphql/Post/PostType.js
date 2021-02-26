@@ -30,7 +30,7 @@ const PostTypedefs = gql`
     }
 
     type ReturnAllPost {
-       posts: [SinglePost]!
+       posts: [SinglePost]
        ${ERROR_OR_MESSAGE_TYPE}
     }
 
