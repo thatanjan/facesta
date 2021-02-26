@@ -35,8 +35,12 @@ const mainResolver = field => async (
 	const ownerData = await getQuery(id, FOLLOWEES)
 	const { followees } = ownerData
 
-	if (followees.includes(otherUserID)) {
+	if (field === FOLLOW && followees.includes(otherUserID)) {
 		return sendErrorMessage('You are already following the user')
+	}
+
+	if (field === UNFOLLOW && !followees.includes(otherUserID)) {
+		return sendErrorMessage('You are not following the user')
 	}
 
 	const otherUserData = await getQuery(otherUserID, FOLLOWERS)
