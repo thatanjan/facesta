@@ -8,7 +8,7 @@ const ALL_POST = 'allPost'
 const ALL_NEWS_FEED_POST = 'allNewsFeedPost'
 
 const mainResolver = field => {
-	return async (_, { Input: { postID, postOwnerID, start, ownerID } }) => {
+	return async (_, { Input: { postID, postOwnerID, start } }) => {
 		const Post = createPostModel(postOwnerID)
 
 		switch (field) {
