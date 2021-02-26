@@ -20,56 +20,48 @@ const saveDocuments = documents => {
 
 const resolver = {
 	Mutation: {
-		followUser: async (
-			_,
-			{ Input: { otherUserId } },
-			{ user: { id: ownerId } }
-		) => {
-			if (sameId(otherUserId, ownerId)) {
+		followUser: async (_, { Input: { otherUserID } }, { user: { id } }) => {
+			if (sameId(otherUserID, id)) {
 				return sendErrorMessage('ownerId and other user id is same')
 			}
 
-			const ownerData = await getQuery(ownerId, 'followee')
+			const ownerData = await getQuery(id, 'followee')
 			const { followee } = ownerData
 
-			if (followee.includes(otherUserId)) {
+			if (followee.includes(otherUserID)) {
 				return sendErrorMessage('You are already followee the user')
 			}
 
-			const otherUserData = await getQuery(otherUserId, 'followers')
+			const otherUserData = await getQuery(otherUserID, 'followers')
 
 			const { followers } = otherUserData
 
-			followers.push(ownerId)
-			followee.push(otherUserId)
+			followers.push(id)
+			followee.push(otherUserID)
 
 			saveDocuments([ownerData, otherUserData])
 
 			return sendErrorMessage('you are now followee this user')
 		},
 
-		unfollowUser: async (
-			_,
-			{ Input: { otherUserId } },
-			{ user: { id: ownerId } }
-		) => {
-			if (sameId(otherUserId, ownerId)) {
+		unfollowUser: async (_, { Input: { otherUserID } }, { user: { id } }) => {
+			if (sameId(otherUserID, id)) {
 				return sendErrorMessage('ownerId and other user id is same')
 			}
 
-			const ownerData = await getQuery(ownerId, 'followee')
+			const ownerData = await getQuery(id, 'followee')
 			const { followee } = ownerData
 
-			if (!followee.includes(otherUserId)) {
+			if (!followee.includes(otherUserID)) {
 				return sendErrorMessage('You are not followee the user')
 			}
 
-			const otherUserData = await getQuery(otherUserId, 'followers')
+			const otherUserData = await getQuery(otherUserID, 'followers')
 
 			const { followers } = otherUserData
 
-			followers.remove(ownerId)
-			followee.remove(otherUserId)
+			followers.remove(id)
+			followee.remove(otherUserID)
 
 			saveDocuments([ownerData, otherUserData])
 
