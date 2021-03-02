@@ -2,12 +2,18 @@ import Follow from 'models/Follow'
 import { FOLLOWEE, FOLLOWERS } from 'variables/global'
 
 export const getUsers = field => async (_, { Input: { otherUserID } }) => {
-	const users = await Follow.findOne({ user: otherUserID }, field).populate(
+	const query = await Follow.findOne({ user: otherUserID }, field).populate(
 		field,
 		'name _id'
 	)
 
-	console.log(users)
+	const users = query[field]
+
+	users.forEach(user => {
+		// eslint-disable-next-line
+		user.anyUserID = user._id
+	})
+
 	return users
 }
 
