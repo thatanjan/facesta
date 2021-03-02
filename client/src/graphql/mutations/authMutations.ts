@@ -24,7 +24,6 @@ export const registerMutation = gql`
 				confirmPassword: $confirmPassword
 			}
 		) {
-			success
 			token
 			errorMessage
 		}
