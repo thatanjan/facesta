@@ -1,8 +1,15 @@
 import Follow from 'models/Follow'
 import { FOLLOWEE, FOLLOWERS } from 'variables/global'
 
-export const getUsers = field => async (_, { Input: { otherUserId } }) =>
-	await Follow.findOne({ user: otherUserId }, field).populate(field)
+export const getUsers = field => async (_, { Input: { otherUserID } }) => {
+	const users = await Follow.findOne({ user: otherUserID }, field).populate(
+		field,
+		'name _id'
+	)
+
+	console.log(users)
+	return users
+}
 
 const checkIfUser = field => async (
 	_,
