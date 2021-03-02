@@ -24,6 +24,7 @@ const END_POINT = ifProduction
 	: 'http://localhost:8000/graphql'
 
 const FOLLOWERS = 'followers'
+const FOLLOWEES = 'followees'
 const FOLLOWING = 'following'
 
 const APP_NAME = 'Confession'
@@ -44,6 +45,7 @@ export {
 	LOGIN_URL,
 	FOLLOWERS,
 	FOLLOWING,
+	FOLLOWEES,
 	APP_NAME,
 	screenSizeDrawer,
 	ifProduction,
