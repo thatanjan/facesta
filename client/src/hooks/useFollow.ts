@@ -16,7 +16,7 @@ export const useFollowers = () => {
 	})
 }
 
-export const useFollowee = () => {
+export const useFollowees = () => {
 	const otherUserId = useProfileUserId()
 	return uswSWRgql({
 		key: getFollowee,
