@@ -19,22 +19,22 @@ const Alert = dynamic(() => import('@material-ui/lab/Alert'))
 const LogInForm = () => {
 	const { push } = useRouter()
 
-	const [errorMessage, setErrorMessage] = useState('')
+	const [AlertMessage, setAlertMessage] = useState('')
 
 	const loginUser = async (values: LoginInput) => {
 		try {
 			const {
-				loginUser: { errorMessage: message, token },
+				loginUser: { errorMessage, token },
 			}: LoginOutput = await createRequest({
 				key: loginMutation,
 				values,
 			})
 
-			if (message) {
-				setErrorMessage(message)
+			if (errorMessage) {
+				setAlertMessage(errorMessage)
 
 				setTimeout(() => {
-					setErrorMessage('')
+					setAlertMessage('')
 				}, 3000)
 
 				return false
@@ -60,7 +60,7 @@ const LogInForm = () => {
 					email: '',
 					password: '',
 				}}
-				validate={(values) => {
+				validate={values => {
 					const errors: Error = {}
 					if (!values.email) {
 						errors.email = 'Required'
@@ -115,9 +115,9 @@ const LogInForm = () => {
 				Don&apos;t have an account?
 			</MuiLink>
 
-			{errorMessage && (
+			{AlertMessage && (
 				<Alert variant='filled' severity='error'>
-					{errorMessage}
+					{AlertMessage}
 				</Alert>
 			)}
 		</>
