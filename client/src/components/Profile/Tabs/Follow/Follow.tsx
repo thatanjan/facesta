@@ -9,7 +9,7 @@ import { nanoid } from 'nanoid'
 
 import { useProfileUserId } from 'hooks/profileContextHooks'
 import MuiLink from 'components/Links/MuiLink'
-import { FOLLOWING, FOLLOWERS } from 'variables/global'
+import { FOLLOWEES, FOLLOWERS } from 'variables/global'
 
 const useStyles = makeStyles((theme: Theme) => ({
 	root: {
@@ -51,8 +51,9 @@ export const FollowComponent = ({ name, hook }: Props) => {
 	let users: Users[]
 
 	switch (name) {
-		case FOLLOWING:
-			users = data.getFollowing.following
+		case FOLLOWEES:
+			users = data.getFollowees.followees
+
 			break
 
 		case FOLLOWERS:
