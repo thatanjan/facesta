@@ -1,8 +1,8 @@
 import {
-	getFollowing,
+	getFollowee,
 	getFollowers,
 	getIsFollower,
-	getIsFollowing,
+	getIsFollowee,
 } from 'graphql/queries/followQueries'
 import uswSWRgql from './useSWRgql'
 import { useProfileUserId } from './profileContextHooks'
@@ -16,19 +16,19 @@ export const useFollowers = () => {
 	})
 }
 
-export const useFollowing = () => {
+export const useFollowee = () => {
 	const otherUserId = useProfileUserId()
 	return uswSWRgql({
-		key: getFollowing,
+		key: getFollowee,
 		swrDependencies: otherUserId,
 		values: { otherUserId },
 	})
 }
 
-export const useIsFollowing = () => {
+export const useIsFollowee = () => {
 	const otherUserId = useProfileUserId()
 	return uswSWRgql({
-		key: getIsFollowing,
+		key: getIsFollowee,
 		swrDependencies: otherUserId,
 		values: { otherUserId },
 	})
