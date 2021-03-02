@@ -3,9 +3,14 @@ import { gql } from 'graphql-request'
 export const loginMutation = gql`
 	mutation logInUser($email: String!, $password: String!) {
 		loginUser(Input: { email: $email, password: $password }) {
-			success
 			token
 			errorMessage
+			validationError {
+				name
+				email
+				password
+				confirmPassword
+			}
 		}
 	}
 `
