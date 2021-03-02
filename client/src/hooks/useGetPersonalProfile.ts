@@ -10,6 +10,6 @@ export default (output: string | undefined) => {
 	return useSWRgql({
 		key: mutation,
 		values,
-		swrDependencies: profileOwnerID,
+		swrDependencies: getPersonalData(),
 	})
 }
