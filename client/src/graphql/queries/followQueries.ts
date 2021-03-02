@@ -1,8 +1,8 @@
 import { gql } from 'graphql-request'
 
 export const getFollowers: string = gql`
-	query getFollowers($otherUserId: ID!) {
-		getFollowers(Input: { otherUserId: $otherUserId }) {
+	query getFollowers($otherUserID: ID!) {
+		getFollowers(Input: { otherUserID: $otherUserID }) {
 			followers {
 				name
 				id
@@ -11,10 +11,10 @@ export const getFollowers: string = gql`
 	}
 `
 
-export const getFollowing: string = gql`
-	query getFollowing($otherUserId: ID!) {
-		getFollowing(Input: { otherUserId: $otherUserId }) {
-			following {
+export const getFollowee: string = gql`
+	query getFollowee($otherUserID: ID!) {
+		getFollowee(Input: { otherUserID: $otherUserID }) {
+			followee {
 				name
 				id
 			}
@@ -22,17 +22,17 @@ export const getFollowing: string = gql`
 	}
 `
 
-export const getIsFollowing: string = gql`
-	query getIsFollowing($otherUserId: ID!) {
-		getIsFollowing(Input: { otherUserId: $otherUserId }) {
-			isFollowing
+export const getIsFollowee: string = gql`
+	query getIsFollowee($otherUserID: ID!) {
+		getIsFollowee(Input: { otherUserID: $otherUserID }) {
+			isFollowee
 		}
 	}
 `
 
 export const getIsFollower: string = gql`
-	query getIsFollower($otherUserId: ID!) {
-		getIsFollower(Input: { otherUserId: $otherUserId }) {
+	query getIsFollower($otherUserID: ID!) {
+		getIsFollower(Input: { otherUserID: $otherUserID }) {
 			isFollower
 		}
 	}
