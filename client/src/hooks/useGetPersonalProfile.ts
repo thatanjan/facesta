@@ -4,13 +4,13 @@ import { useProfileUserId } from 'hooks/profileContextHooks'
 
 const useGetPersonal = () => {
 	const mutation = getPersonalData()
-	const profileUserId = useProfileUserId()
-	const values = { profileUserId }
+	const profileOwnerID = useProfileUserId()
+	const values = { profileOwnerID }
 
 	return useSWRgql({
 		key: mutation,
 		values,
-		swrDependencies: profileUserId,
+		swrDependencies: profileOwnerID,
 	})
 }
 
