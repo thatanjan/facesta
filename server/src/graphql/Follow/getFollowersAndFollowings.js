@@ -14,7 +14,11 @@ export const getUsers = field => async (_, { Input: { otherUserID } }) => {
 		user.anyUserID = user._id
 	})
 
-	return users
+	const returnObject = {}
+
+	returnObject[field] = users
+
+	return returnObject
 }
 
 const checkIfUser = field => async (
