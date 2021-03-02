@@ -7,6 +7,7 @@ import Divider from '@material-ui/core/Divider'
 import Card from '@material-ui/core/Card'
 import Button from '@material-ui/core/Button'
 import { makeStyles, Theme } from '@material-ui/core/styles'
+import useGetPersonalData from 'hooks/useGetPersonalProfile'
 
 const useStyles = makeStyles((theme: Theme) => ({
 	container: {
@@ -48,7 +49,12 @@ interface Props {
 
 export const ProfileCover = ({ name, bio }: Props) => {
 	const { container, test, media } = useStyles()
+	const { data, error } = useGetPersonalData('name bio')
 
+	if (error) return <div>failed to load</div>
+	if (!data) return <div>loading...</div>
+
+	console.log(data)
 	return (
 		<>
 			<Paper elevation={0}>
