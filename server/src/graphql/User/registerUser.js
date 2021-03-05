@@ -13,21 +13,21 @@ import { ERROR_MESSAGE } from 'variables/global'
 
 // eslint-disable-next-line
 const createUser = async ({ name, email, password }) => {
-	const hashedPassword = await generateHashPassword(password)
-
-	const profile = await createProfile()
-
-	const newsFeed = new NewsFeedModel()
-
-	const userModelData = {
-		name,
-		email,
-		password: hashedPassword,
-		profile: profile._id,
-		newsfeed: newsFeed._id,
-	}
-
 	try {
+		const hashedPassword = await generateHashPassword(password)
+
+		const profile = await createProfile()
+
+		const newsFeed = new NewsFeedModel()
+
+		const userModelData = {
+			name,
+			email,
+			password: hashedPassword,
+			profile: profile._id,
+			newsfeed: newsFeed._id,
+		}
+
 		const newUser = new User(userModelData)
 
 		const newUserId = newUser._id

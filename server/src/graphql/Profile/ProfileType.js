@@ -8,11 +8,8 @@ const ProfileMutationTypeDefs = gql`
 `
 
 const InputTypedefs = gql`
-	input PersonalDataInput{
-		${PROFILE_OWNER_ID_TYPE}!
-	}
 
-	input PersonalInput {
+	input PersonalDataInput {
 		dateOfBirth: Date
 		website: String
 		status: String

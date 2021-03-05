@@ -1,20 +1,33 @@
 import Follow from 'models/Follow'
+import sendErrorMessage from 'utils/errorMessage'
 import { FOLLOWEES, FOLLOWERS } from 'variables/global'
 
-export const getUsers = field => async (_, { Input: { otherUserID } }) => {
-	const query = await Follow.findOne({ user: otherUserID }, field).populate(
-		field,
-		'name _id'
-	)
+export const getUsers = field => async (
+	_,
+	{ Input: { otherUserID } },
+	{ user: { id } }
+) => {
+	try {
+		const query = await Follow.findOne(
+			{ user: otherUserID || id },
+			field
+		).populate(field, 'name _id')
 
-	const users = query[field]
+		const users = query[field]
 
-	users.forEach(user => {
-		// eslint-disable-next-line
-		user.anyUserID = user._id
-	})
+		users.forEach(user => {
+			// eslint-disable-next-line
+			user.anyUserID = user._id
+		})
 
-	return users
+		const returnObject = {}
+
+		returnObject[field] = users
+
+		return returnObject
+	} catch (error) {
+		return sendErrorMessage(error)
+	}
 }
 
 const checkIfUser = field => async (
@@ -22,22 +35,26 @@ const checkIfUser = field => async (
 	{ Input: { otherUserId } },
 	{ user: { id: ownerId } }
 ) => {
-	if (otherUserId === ownerId) {
-		return false
+	try {
+		if (otherUserId === ownerId) {
+			return false
+		}
+		const query = await Follow.findOne({ user: ownerId }, field)
+
+		const ifUserExist = query[field].includes(otherUserId)
+
+		const result = {}
+
+		if (field === FOLLOWEES) {
+			result.isFollowee = ifUserExist
+		} else {
+			result.isFollower = ifUserExist
+		}
+
+		return result
+	} catch (error) {
+		return sendErrorMessage(error)
 	}
-	const query = await Follow.findOne({ user: ownerId }, field)
-
-	const ifUserExist = query[field].includes(otherUserId)
-
-	const result = {}
-
-	if (field === FOLLOWEES) {
-		result.isFollowee = ifUserExist
-	} else {
-		result.isFollower = ifUserExist
-	}
-
-	return result
 }
 
 const resolver = {

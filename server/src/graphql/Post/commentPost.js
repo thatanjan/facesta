@@ -1,5 +1,6 @@
 import createPostModel from 'models/Post'
 import sendErrorMessage from 'utils/errorMessage'
+import sendMessage from 'utils/message'
 
 const ADD_COMMENT = 'addComment'
 const REMOVE_COMMENT = 'removeComment'
@@ -32,50 +33,54 @@ const mainResolver = operation => {
 		{ Input: { postID, text, commentID, postOwnerID } },
 		{ user: { id } }
 	) => {
-		let returnMessage = ''
+		try {
+			let returnMessage = ''
 
-		const Post = createPostModel(id)
+			const Post = createPostModel(id)
 
-		const post = await findPost(Post, postID)
+			const post = await findPost(Post, postID)
 
-		if (!post) {
-			return sendErrorMessage('no post found')
+			if (!post) {
+				return sendErrorMessage('no post found')
+			}
+
+			const { comments } = post
+
+			switch (operation) {
+				case ADD_COMMENT:
+					addComment(comments, { id, text })
+					returnMessage = ADD_COMMENT_MESSAGE
+
+					break
+
+				case REMOVE_COMMENT:
+					const comment = findComment({ comments, commentID })
+
+					if (!comment) {
+						return sendErrorMessage('no comment found')
+					}
+
+					const commentedUser = comment.user.toString()
+
+					if (!ownsComment({ id, postUserId: postOwnerID, commentedUser })) {
+						return sendErrorMessage('not authorized')
+					}
+
+					comment.remove()
+
+					returnMessage = REMOVE_COMMENT_MESSAGE
+					break
+
+				default:
+					return false
+			}
+
+			post.save()
+
+			return sendMessage(returnMessage)
+		} catch (error) {
+			return sendErrorMessage(error)
 		}
-
-		const { comments } = post
-
-		switch (operation) {
-			case ADD_COMMENT:
-				addComment(comments, { id, text })
-				returnMessage = ADD_COMMENT_MESSAGE
-
-				break
-
-			case REMOVE_COMMENT:
-				const comment = findComment({ comments, commentID })
-
-				if (!comment) {
-					return sendErrorMessage('no comment found')
-				}
-
-				const commentedUser = comment.user.toString()
-
-				if (!ownsComment({ id, postUserId: postOwnerID, commentedUser })) {
-					return sendErrorMessage('not authorized')
-				}
-
-				comment.remove()
-
-				returnMessage = REMOVE_COMMENT_MESSAGE
-				break
-
-			default:
-				return false
-		}
-
-		post.save()
-
-		return sendErrorMessage(returnMessage)
 	}
 }
 
