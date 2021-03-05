@@ -31,6 +31,11 @@ const APP_NAME = 'Confession'
 
 const screenSizeDrawer: string = '(min-width:1280px)'
 
+const ERROR_MESSAGE = 'errorMessage'
+const MESSAGE = 'message'
+
+const ERROR_OR_MESSAGE = `${ERROR_MESSAGE} ${MESSAGE}`
+
 export {
 	AUTHENTICATION,
 	TOKEN_NAME,
@@ -49,4 +54,7 @@ export {
 	APP_NAME,
 	screenSizeDrawer,
 	ifProduction,
+	ERROR_MESSAGE,
+	MESSAGE,
+	ERROR_OR_MESSAGE,
 }
