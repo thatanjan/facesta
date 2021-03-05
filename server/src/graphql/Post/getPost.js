@@ -9,50 +9,54 @@ const ALL_NEWS_FEED_POST = 'allNewsFeedPost'
 
 const mainResolver = field => {
 	return async (_, { Input: { postID, postOwnerID, start } }) => {
-		const Post = createPostModel(postOwnerID)
+		try {
+			const Post = createPostModel(postOwnerID)
 
-		switch (field) {
-			case SINGLE_POST:
-				const singlePost = await Post.findById(postID, 'text')
+			switch (field) {
+				case SINGLE_POST:
+					const singlePost = await Post.findById(postID, 'text')
 
-				if (ifNullOrFalse(singlePost)) {
-					return sendErrorMessage('no post found')
-				}
+					if (ifNullOrFalse(singlePost)) {
+						return sendErrorMessage('no post found')
+					}
 
-				singlePost.postID = singlePost._id
+					singlePost.postID = singlePost._id
 
-				return singlePost
+					return singlePost
 
-			case ALL_POST:
-				const allPost = {}
+				case ALL_POST:
+					const allPost = {}
 
-				let { posts } = allPost
+					let { posts } = allPost
 
-				posts = await Post.find({}).sort({ _id: '-1' }).skip(start).limit(3)
+					posts = await Post.find({}).sort({ _id: '-1' }).skip(start).limit(3)
 
-				if (posts.length <= 0) {
-					return sendErrorMessage('you have no post')
-				}
+					if (posts.length <= 0) {
+						return sendErrorMessage('you have no post')
+					}
 
-				posts.forEach(item => {
-					// eslint-disable-next-line
-					item.postID = item._id
-				})
+					posts.forEach(item => {
+						// eslint-disable-next-line
+						item.postID = item._id
+					})
 
-				allPost.posts = posts
+					allPost.posts = posts
 
-				return allPost
+					return allPost
 
-			// case ALL_NEWS_FEED_POST:
-			// 	const allNewsFeedPost = await NewsFeedModel.findOne(
-			// 		{ user: ownerID },
-			// 		'posts'
-			// 	)
+				// case ALL_NEWS_FEED_POST:
+				//	 const allNewsFeedPost = await NewsFeedModel.findOne(
+				//		 { user: ownerID },
+				//		 'posts'
+				//	 )
 
-			// 	break
+				//	 break
 
-			default:
-				return sendErrorMessage('nothing found')
+				default:
+					return sendErrorMessage('nothing found')
+			}
+		} catch (error) {
+			return sendErrorMessage(error)
 		}
 	}
 }

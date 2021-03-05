@@ -29,50 +29,54 @@ const mainResolver = field => async (
 	{ Input: { otherUserID } },
 	{ user: { id } }
 ) => {
-	if (sameId(otherUserID, id)) {
-		return sendErrorMessage('ownerId and other user id is same')
-	}
+	try {
+		if (sameId(otherUserID, id)) {
+			return sendErrorMessage('ownerId and other user id is same')
+		}
 
-	const doesUserExist = await User.findById(otherUserID, 'name')
+		const doesUserExist = await User.findById(otherUserID, 'name')
 
-	if (!doesUserExist) {
-		return sendErrorMessage('user does not exist')
-	}
+		if (!doesUserExist) {
+			return sendErrorMessage('user does not exist')
+		}
 
-	const ownerData = await getQuery(id, FOLLOWEES)
-	const { followees } = ownerData
+		const ownerData = await getQuery(id, FOLLOWEES)
+		const { followees } = ownerData
 
-	if (field === FOLLOW && followees.includes(otherUserID)) {
-		return sendErrorMessage('You are already following the user')
-	}
+		if (field === FOLLOW && followees.includes(otherUserID)) {
+			return sendErrorMessage('You are already following the user')
+		}
 
-	if (field === UNFOLLOW && !followees.includes(otherUserID)) {
-		return sendErrorMessage('You are not following the user')
-	}
+		if (field === UNFOLLOW && !followees.includes(otherUserID)) {
+			return sendErrorMessage('You are not following the user')
+		}
 
-	const otherUserData = await getQuery(otherUserID, FOLLOWERS)
+		const otherUserData = await getQuery(otherUserID, FOLLOWERS)
 
-	const { followers } = otherUserData
+		const { followers } = otherUserData
 
-	switch (field) {
-		case FOLLOW:
-			followers.push(id)
-			followees.push(otherUserID)
+		switch (field) {
+			case FOLLOW:
+				followers.push(id)
+				followees.push(otherUserID)
 
-			saveDocuments([ownerData, otherUserData])
+				saveDocuments([ownerData, otherUserData])
 
-			return sendMessage('you are now following this user')
+				return sendMessage('you are now following this user')
 
-		case UNFOLLOW:
-			followers.remove(id)
-			followees.remove(otherUserID)
+			case UNFOLLOW:
+				followers.remove(id)
+				followees.remove(otherUserID)
 
-			saveDocuments([ownerData, otherUserData])
+				saveDocuments([ownerData, otherUserData])
 
-			return sendMessage('you have unfollowed this user')
+				return sendMessage('you have unfollowed this user')
 
-		default:
-			return true
+			default:
+				return true
+		}
+	} catch (error) {
+		sendErrorMessage(error)
 	}
 }
 
