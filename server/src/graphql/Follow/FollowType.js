@@ -21,7 +21,7 @@ const FollowType = gql`
     }
 
     type Followers {
-        followers: [UserList]!
+        followers: [UserList]
         ${ERROR_MESSAGE_TYPE}
     }
 
@@ -32,13 +32,13 @@ const FollowType = gql`
 
 
     type IsFollowee{
-        isFollowee: Boolean!
-        ${ERROR_MESSAGE_TYPE}!
+        isFollowee: Boolean
+        ${ERROR_MESSAGE_TYPE}
     }
 
     type IsFollower {
-        isFollower: Boolean!
-        ${ERROR_MESSAGE_TYPE}!
+        isFollower: Boolean
+        ${ERROR_MESSAGE_TYPE}
     }
 
 
