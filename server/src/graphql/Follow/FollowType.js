@@ -7,8 +7,8 @@ import {
 
 const FollowType = gql`
     extend type Query {
-        getFollowers(Input: otherUserIdInput!): Followers!
-        getFollowees(Input: otherUserIdInput!): Followees!
+        getFollowers(Input: GetFollowerOrFollowees): Followers!
+        getFollowees(Input: GetFollowerOrFollowees): Followees!
         getIsFollowee(Input: otherUserIdInput!): IsFollowee!
         getIsFollower(Input: otherUserIdInput!): IsFollower!
     }
@@ -47,6 +47,11 @@ const FollowType = gql`
 
     input otherUserIdInput {
         ${OTHER_USER_ID_TYPE}!
+    }
+
+    input GetFollowerOrFollowees{
+        ${OTHER_USER_ID_TYPE}
+
     }
 `
 
