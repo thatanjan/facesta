@@ -1,11 +1,15 @@
 import Follow from 'models/Follow'
 import { FOLLOWEES, FOLLOWERS } from 'variables/global'
 
-export const getUsers = field => async (_, { Input: { otherUserID } }) => {
-	const query = await Follow.findOne({ user: otherUserID }, field).populate(
-		field,
-		'name _id'
-	)
+export const getUsers = field => async (
+	_,
+	{ Input: { otherUserID } },
+	{ user: { id } }
+) => {
+	const query = await Follow.findOne(
+		{ user: otherUserID || id },
+		field
+	).populate(field, 'name _id')
 
 	const users = query[field]
 
