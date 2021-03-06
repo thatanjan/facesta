@@ -43,9 +43,11 @@ const responseMessage = operation => {
 
 const mainFunction = operation => {
 	return async (_, { Input: { postID, postOwnerID } }, { user: { id } }) => {
-		const Post = createPostModel(postOwnerID)
+		const Post = createPostModel(postOwnerID || id)
 
 		const likesQuery = await queryPostLikes(Post, postID)
+
+		if (!likesQuery) return sendErrorMessage('no post found')
 
 		const { likes } = likesQuery
 
