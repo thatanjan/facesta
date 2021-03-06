@@ -24,17 +24,13 @@ const saveDocuments = documents => {
 	documents.forEach(document => document.save())
 }
 
-const mainResolver = field => async (
-	_,
-	{ Input: { otherUserID } },
-	{ user: { id } }
-) => {
+const mainResolver = field => async (_, { userID }, { user: { id } }) => {
 	try {
-		if (sameId(otherUserID, id)) {
+		if (sameId(userID, id)) {
 			return sendErrorMessage('ownerId and other user id is same')
 		}
 
-		const doesUserExist = await User.findById(otherUserID, 'name')
+		const doesUserExist = await User.findById(userID, 'name')
 
 		if (!doesUserExist) {
 			return sendErrorMessage('user does not exist')
@@ -43,22 +39,22 @@ const mainResolver = field => async (
 		const ownerData = await getQuery(id, FOLLOWEES)
 		const { followees } = ownerData
 
-		if (field === FOLLOW && followees.includes(otherUserID)) {
+		if (field === FOLLOW && followees.includes(userID)) {
 			return sendErrorMessage('You are already following the user')
 		}
 
-		if (field === UNFOLLOW && !followees.includes(otherUserID)) {
+		if (field === UNFOLLOW && !followees.includes(userID)) {
 			return sendErrorMessage('You are not following the user')
 		}
 
-		const otherUserData = await getQuery(otherUserID, FOLLOWERS)
+		const otherUserData = await getQuery(userID, FOLLOWERS)
 
 		const { followers } = otherUserData
 
 		switch (field) {
 			case FOLLOW:
 				followers.push(id)
-				followees.push(otherUserID)
+				followees.push(userID)
 
 				saveDocuments([ownerData, otherUserData])
 
@@ -66,7 +62,7 @@ const mainResolver = field => async (
 
 			case UNFOLLOW:
 				followers.remove(id)
-				followees.remove(otherUserID)
+				followees.remove(userID)
 
 				saveDocuments([ownerData, otherUserData])
 
