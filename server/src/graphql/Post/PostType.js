@@ -66,7 +66,7 @@ const PostTypedefs = gql`
 
     input GetAllPostInput {
       start: Int!
-      ${USER_ID_TYPE}!
+      ${USER_ID_TYPE}
     }
 `
 export default PostTypedefs
