@@ -3,6 +3,7 @@ import {
 	POST_ID_TYPE,
 	POST_OWNER_ID_TYPE,
 	ERROR_OR_MESSAGE_TYPE,
+	USER_ID_TYPE,
 } from 'variables/commonText'
 
 const text = `text: String`
@@ -15,11 +16,11 @@ const PostTypedefs = gql`
     }
 
     extend type Mutation {
-        createPost(Input: CreatePostInput!): ErrorOrMessage!
-        deletePost(Input: PostIDInput!): ErrorOrMessage!
+        createPost(${text}!): ErrorOrMessage!
+        deletePost(${POST_ID_TYPE}!): ErrorOrMessage!
         likePost(Input: PostAndPostOwnerIDInput!): ErrorOrMessage!
         removeLikePost(Input: PostAndPostOwnerIDInput!): ErrorOrMessage!
-        commentPost(Input: commentPost!): ErrorOrMessage!
+        commentPost(Input: CommentPost!): ErrorOrMessage!
         removeCommentPost(Input: RemoveCommentInput!): ErrorOrMessage!
     }
 
@@ -42,42 +43,30 @@ const PostTypedefs = gql`
     }
 
     type ReturnNewsFeedPosts {
-       posts: [SingleNewsFeedPost]!
+       posts: [SingleNewsFeedPost!]
        ${ERROR_OR_MESSAGE_TYPE}
-    }
-
-    input PostIDInput{
-       ${POST_ID_TYPE}!
-    }
-
-    input PostOwnerIDInput {
-      ${POST_OWNER_ID_TYPE}!
     }
 
     input PostAndPostOwnerIDInput{
       ${POST_ID_TYPE}!
-      ${POST_OWNER_ID_TYPE}!
+      ${POST_OWNER_ID_TYPE}
     }
 
-    input commentPost {
+    input CommentPost {
       ${text}! 
       ${POST_ID_TYPE}!
-      ${POST_OWNER_ID_TYPE}!
-    }
-
-    input CreatePostInput {
-      ${text}
+      ${POST_OWNER_ID_TYPE}
     }
 
     input RemoveCommentInput {
       ${POST_ID_TYPE}!
+      ${POST_OWNER_ID_TYPE}
       commentID: ID!
     }
 
     input GetAllPostInput {
       start: Int!
-      ${POST_OWNER_ID_TYPE}!
+      ${USER_ID_TYPE}!
     }
-
 `
 export default PostTypedefs
