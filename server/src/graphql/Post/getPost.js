@@ -8,9 +8,13 @@ const ALL_POST = 'allPost'
 const ALL_NEWS_FEED_POST = 'allNewsFeedPost'
 
 const mainResolver = field => {
-	return async (_, { Input: { postID, postOwnerID, start } }) => {
+	return async (
+		_,
+		{ Input: { postID, userID, postOwnerID, start } },
+		{ user: { id } }
+	) => {
 		try {
-			const Post = createPostModel(postOwnerID)
+			const Post = createPostModel(userID || postOwnerID || id)
 
 			switch (field) {
 				case SINGLE_POST:
