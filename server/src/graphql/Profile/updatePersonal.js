@@ -1,3 +1,4 @@
+import User from 'models/User'
 import Profile from 'models/Profile'
 import sendErrorMessage from 'utils/errorMessage'
 import sendMessage from 'utils/message'
@@ -8,14 +9,23 @@ const resolver = {
 			try {
 				const updateObject = {}
 
-				// eslint-disable-next-line
-				for (const i in Input) {
-					if (Input) {
-						updateObject[`personal.${i}`] = Input[i]
+				const inputKeys = Object.keys(Input)
+
+				inputKeys.forEach(item => {
+					if (!Input[item]) {
+						updateObject[`personal.${item}`] = Input[item]
 					}
-				}
+				})
 
 				const update = await Profile.findOneAndUpdate({ user: id }, updateObject)
+
+				if (Input.name) {
+					const newName = Input.name
+
+					const updateName = await User.findByIdAndUpdate(id, { name: newName })
+
+					if (!updateName) return sendErrorMessage('error happened')
+				}
 
 				if (!update) return sendErrorMessage('update unsuccessful')
 

@@ -2,23 +2,14 @@ import Follow from 'models/Follow'
 import sendErrorMessage from 'utils/errorMessage'
 import { FOLLOWEES, FOLLOWERS } from 'variables/global'
 
-export const getUsers = field => async (
-	_,
-	{ Input: { otherUserID } },
-	{ user: { id } }
-) => {
+export const getUsers = field => async (_, { userID }, { user: { id } }) => {
 	try {
-		const query = await Follow.findOne(
-			{ user: otherUserID || id },
-			field
-		).populate(field, 'name _id')
+		const query = await Follow.findOne({ user: userID || id }, field).populate(
+			field,
+			'name _id'
+		)
 
 		const users = query[field]
-
-		users.forEach(user => {
-			// eslint-disable-next-line
-			user.anyUserID = user._id
-		})
 
 		const returnObject = {}
 
@@ -30,18 +21,15 @@ export const getUsers = field => async (
 	}
 }
 
-const checkIfUser = field => async (
-	_,
-	{ Input: { otherUserId } },
-	{ user: { id: ownerId } }
-) => {
+const checkIfUser = field => async (_, { userID }, { user: { id } }) => {
 	try {
-		if (otherUserId === ownerId) {
-			return false
+		if (userID === id) {
+			return sendErrorMessage('both id are same')
 		}
-		const query = await Follow.findOne({ user: ownerId }, field)
 
-		const ifUserExist = query[field].includes(otherUserId)
+		const query = await Follow.findOne({ user: id }, field)
+
+		const ifUserExist = query[field].includes(userID)
 
 		const result = {}
 

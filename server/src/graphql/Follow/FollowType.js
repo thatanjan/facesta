@@ -1,27 +1,23 @@
 import { gql } from 'apollo-server-express'
-import {
-	ANY_USER_ID_TYPE,
-	OTHER_USER_ID_TYPE,
-	ERROR_MESSAGE_TYPE,
-} from 'variables/commonText'
+import { USER_ID_TYPE, ERROR_MESSAGE_TYPE } from 'variables/commonText'
 
 const FollowType = gql`
     extend type Query {
-        getFollowers(Input: GetFollowerOrFollowees): Followers!
-        getFollowees(Input: GetFollowerOrFollowees): Followees!
-        getIsFollowee(Input: otherUserIdInput!): IsFollowee!
-        getIsFollower(Input: otherUserIdInput!): IsFollower!
+        getFollowers(${USER_ID_TYPE}): Followers!
+        getFollowees(${USER_ID_TYPE}): Followees!
+        getIsFollowee(${USER_ID_TYPE}!): IsFollowee!
+        getIsFollower(${USER_ID_TYPE}!): IsFollower!
     }
 
     extend type Mutation {
-        followUser(Input: otherUserIdInput!): ErrorOrMessage!
-        unfollowUser(Input: otherUserIdInput!): ErrorOrMessage!
+        followUser(${USER_ID_TYPE}!): ErrorOrMessage!
+        unfollowUser(${USER_ID_TYPE}!): ErrorOrMessage!
     }
 
 
     type UserList {
         name: String!
-        ${ANY_USER_ID_TYPE}!
+        _id: ID!
     }
 
     type Followers {
@@ -36,23 +32,16 @@ const FollowType = gql`
 
 
     type IsFollowee{
-        isFollowee: Boolean!
-        ${ERROR_MESSAGE_TYPE}!
+        isFollowee: Boolean
+        ${ERROR_MESSAGE_TYPE}
     }
 
     type IsFollower {
-        isFollower: Boolean!
-        ${ERROR_MESSAGE_TYPE}!
+        isFollower: Boolean
+        ${ERROR_MESSAGE_TYPE}
     }
 
-    input otherUserIdInput {
-        ${OTHER_USER_ID_TYPE}!
-    }
 
-    input GetFollowerOrFollowees{
-        ${OTHER_USER_ID_TYPE}
-
-    }
 `
 
 export default FollowType

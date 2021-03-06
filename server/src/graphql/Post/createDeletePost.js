@@ -8,7 +8,7 @@ import NewsFeedModel from 'models/NewsFeed'
 
 const resolver = {
 	Mutation: {
-		createPost: async (_, { Input: { text } }, { user: { id } }) => {
+		createPost: async (_, { text }, { user: { id } }) => {
 			try {
 				const Post = createPostModel(id)
 

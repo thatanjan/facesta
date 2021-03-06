@@ -6,7 +6,7 @@ const ADD_COMMENT = 'addComment'
 const REMOVE_COMMENT = 'removeComment'
 
 const ADD_COMMENT_MESSAGE = 'you have commented on this post'
-const REMOVE_COMMENT_MESSAGE = 'you remove comment from the post'
+const REMOVE_COMMENT_MESSAGE = 'you have removed comment from this post'
 
 const findComment = ({ comments, commentID }) => comments.id(commentID)
 
@@ -36,7 +36,7 @@ const mainResolver = operation => {
 		try {
 			let returnMessage = ''
 
-			const Post = createPostModel(id)
+			const Post = createPostModel(postOwnerID || id)
 
 			const post = await findPost(Post, postID)
 

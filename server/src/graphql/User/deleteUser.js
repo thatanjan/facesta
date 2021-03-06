@@ -5,6 +5,7 @@ import sendMessage from 'utils/message'
 import User from 'models/User'
 import Profile from 'models/Profile'
 import Follow from 'models/Follow'
+import NewsFeedModel from 'models/NewsFeed'
 
 const deletePostCollection = async id => {
 	const connection = createConnection(process.env.POSTS_DB_URI)
@@ -32,6 +33,7 @@ const resolver = {
 				await Profile.findOneAndDelete(queryCondition)
 				await deletePostCollection(id)
 				await Follow.findOneAndDelete(queryCondition)
+				await NewsFeedModel.findOneAndDelete(queryCondition)
 
 				const removedUser = await user.remove()
 
