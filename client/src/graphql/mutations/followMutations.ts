@@ -2,8 +2,8 @@ import { gql } from 'graphql-request'
 
 // eslint-disable-next-line
 export const unfollow: string = gql`
-	mutation unfollowUser($otherUserID: ID!) {
-		unfollowUser(Input: { otherUserID: $otherUserID }) {
+	mutation unfollowUser($userID: ID!) {
+		unfollowUser(userID: $userID) {
 			errorMessage
 			message
 		}
@@ -11,8 +11,8 @@ export const unfollow: string = gql`
 `
 
 export const follow: string = gql`
-	mutation followUser($otherUserID: ID!) {
-		followUser(Input: { otherUserID: $otherUserID }) {
+	mutation followUser($userID: ID!) {
+		followUser(userID: $userID) {
 			message
 			errorMessage
 		}
