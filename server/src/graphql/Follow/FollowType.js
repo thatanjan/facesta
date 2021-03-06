@@ -17,7 +17,7 @@ const FollowType = gql`
 
     type UserList {
         name: String!
-        ${USER_ID_TYPE}!
+        _id: ID!
     }
 
     type Followers {
