@@ -8,12 +8,13 @@ const resolver = {
 			try {
 				const updateObject = {}
 
-				// eslint-disable-next-line
-				for (const i in Input) {
-					if (Input) {
-						updateObject[`personal.${i}`] = Input[i]
+				const inputKeys = Object.keys(Input)
+
+				inputKeys.forEach(item => {
+					if (!Input[item]) {
+						updateObject[`personal.${item}`] = Input[item]
 					}
-				}
+				})
 
 				const update = await Profile.findOneAndUpdate({ user: id }, updateObject)
 
