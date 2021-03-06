@@ -13,7 +13,7 @@ export default async user => {
 		jwt.sign(
 			payload,
 			process.env.SECRET_KEY,
-			{ expiresIn: '1h' },
+			{ expiresIn: '24h' },
 			(err, token) => {
 				if (err) return reject(err)
 
