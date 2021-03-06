@@ -1,3 +1,4 @@
+import User from 'models/User'
 import Profile from 'models/Profile'
 import sendErrorMessage from 'utils/errorMessage'
 import sendMessage from 'utils/message'
@@ -17,6 +18,14 @@ const resolver = {
 				})
 
 				const update = await Profile.findOneAndUpdate({ user: id }, updateObject)
+
+				if (Input.name) {
+					const newName = Input.name
+
+					const updateName = await User.findByIdAndUpdate(id, { name: newName })
+
+					if (!updateName) return sendErrorMessage('error happened')
+				}
 
 				if (!update) return sendErrorMessage('update unsuccessful')
 
