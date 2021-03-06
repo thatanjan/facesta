@@ -13,7 +13,7 @@ export const getFollowers: string = gql`
 	}
 `
 
-export const getFollowee: string = gql`
+export const getFollowees: string = gql`
 	query getFollowees($userID: ID) {
 		getFollowees(userID: $userID) {
 			followees {
