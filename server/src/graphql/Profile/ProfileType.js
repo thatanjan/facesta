@@ -16,6 +16,7 @@ const InputTypedefs = gql`
 		location: String
 		skills: [String!]
 		bio: String
+		name: String
 	}
 
      input ProfileIDInput {
