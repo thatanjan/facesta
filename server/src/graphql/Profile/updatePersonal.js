@@ -12,12 +12,14 @@ const resolver = {
 				const inputKeys = Object.keys(Input)
 
 				inputKeys.forEach(item => {
-					if (!Input[item]) {
+					if (item !== 'name') {
 						updateObject[`personal.${item}`] = Input[item]
 					}
 				})
 
-				const update = await Profile.findOneAndUpdate({ user: id }, updateObject)
+				const update = await Profile.findOneAndUpdate({ user: id }, updateObject, {
+					useFindAndModify: false,
+				})
 
 				if (Input.name) {
 					const newName = Input.name
