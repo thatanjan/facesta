@@ -7,7 +7,7 @@ import ListItemAvatar from '@material-ui/core/ListItemAvatar'
 import Avatar from '@material-ui/core/Avatar'
 import { nanoid } from 'nanoid'
 
-import { useProfileUserId } from 'hooks/profileContextHooks'
+import { useProfileUserID } from 'hooks/profileContextHooks'
 import MuiLink from 'components/Links/MuiLink'
 import { FOLLOWEES, FOLLOWERS } from 'variables/global'
 
@@ -36,7 +36,7 @@ interface Users {
 }
 
 export const FollowComponent = ({ name, hook }: Props) => {
-	const profileUserId = useProfileUserId()
+	const profileUserId = useProfileUserID()
 	const { data, error } = hook(profileUserId)
 	const { root } = useStyles()
 
