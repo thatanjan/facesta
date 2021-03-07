@@ -63,11 +63,12 @@ const NewDetailsForm = ({ setIsAdding }: Props) => {
 			<Formik
 				initialValues={initialData}
 				onSubmit={(values, { setSubmitting }) => {
+					const mutation = getPersonalDataMutation()
 					// eslint-disable-next-line no-param-reassign
 					values.skills = skills
 
 					createRequest({ key: updatePersonalData, values })
-					mutate([getPersonalDataMutation(), ownUserId])
+					mutate([mutation, mutation])
 
 					setIsAdding(false)
 					setTimeout(() => {
