@@ -39,7 +39,7 @@ const Content = () => {
 	const isSelf = useIsSelf()
 	return (
 		<>
-			<ProfileCover name='Taylor swift' bio='singer' />
+			<ProfileCover />
 
 			{!isSelf && (
 				<Grid container className={buttonGridContainer} justify='flex-end'>
