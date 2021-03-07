@@ -1,10 +1,10 @@
 import { getPersonalData } from 'graphql/queries/profileQueries'
 import useSWRgql from 'hooks/useSWRgql'
-import { useProfileUserId } from 'hooks/profileContextHooks'
+import { useProfileUserID } from 'hooks/profileContextHooks'
 
 const useGetPersonalData = (output?: string | undefined) => {
 	const mutation = getPersonalData(output)
-	const profileOwnerID = useProfileUserId()
+	const profileOwnerID = useProfileUserID()
 	const values = { profileOwnerID }
 
 	return useSWRgql({
