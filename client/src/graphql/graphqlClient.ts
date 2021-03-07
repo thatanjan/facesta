@@ -4,7 +4,6 @@ import { GraphQLClient } from 'graphql-request'
 import { TOKEN_NAME, END_POINT, ifProduction } from 'variables/global'
 
 const token = (): string => {
-	console.log(ifProduction)
 	let jwtToken: string | undefined = ''
 
 	if (typeof window !== 'undefined') {
