@@ -30,10 +30,12 @@ const resolver = {
 
 				const queryCondition = { user: id }
 
-				await Profile.findOneAndDelete(queryCondition)
+				await Profile.findOneAndDelete(queryCondition, { useFindAndModify: false })
 				await deletePostCollection(id)
-				await Follow.findOneAndDelete(queryCondition)
-				await NewsFeedModel.findOneAndDelete(queryCondition)
+				await Follow.findOneAndDelete(queryCondition, { useFindAndModify: false })
+				await NewsFeedModel.findOneAndDelete(queryCondition, {
+					useFindAndModify: false,
+				})
 
 				const removedUser = await user.remove()
 
