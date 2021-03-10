@@ -125,9 +125,17 @@ const TextFieldComponent = ({ inputText, setInputText }: TextFieldProps) => {
 	const inputChangeHandler = ({ target }: AnyObject) => {
 		const targetElement: AnyObject = target
 
-		setInputText(targetElement.value)
+		const targetValue = target.value
+		const cookieName = 'post'
+		const expires = { expires: 1 / 48 }
 
-		Cookies.set('post', targetElement.value)
+		if (!Cookies.get(cookieName)) {
+			Cookies.set(cookieName, targetValue, expires)
+		}
+
+		setInputText(targetValue)
+
+		Cookies.set(cookieName, targetValue, expires)
 
 		// make sure the input event originated from a textarea and it's desired to be auto-expandable
 		if (
