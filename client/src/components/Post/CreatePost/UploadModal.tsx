@@ -1,5 +1,5 @@
 import { useDropzone } from 'react-dropzone'
-import React from 'react'
+import React, { useState } from 'react'
 import DialogTitle from '@material-ui/core/DialogTitle'
 import Dialog from '@material-ui/core/Dialog'
 import Button from '@material-ui/core/Button'
@@ -37,7 +37,39 @@ const useStyles = makeStyles({
 	},
 })
 
+const thumbsContainer = {
+	display: 'flex',
+	flexDirection: 'row',
+	flexWrap: 'wrap',
+	marginTop: 16,
+}
+
+const thumb = {
+	display: 'inline-flex',
+	borderRadius: 2,
+	border: '1px solid #eaeaea',
+	marginBottom: 8,
+	marginRight: 8,
+	width: 100,
+	height: 100,
+	padding: 4,
+	boxSizing: 'border-box',
+}
+
+const thumbInner = {
+	display: 'flex',
+	minWidth: 0,
+	overflow: 'hidden',
+}
+
+const img = {
+	display: 'block',
+	width: 'auto',
+	height: '100%',
+}
+
 const UploadModal = ({ open, setOpen }: Props) => {
+	const [files, setFiles] = useState<{ preview: string }>([])
 	const handleClose = () => {
 		setOpen(false)
 	}
@@ -49,7 +81,28 @@ const UploadModal = ({ open, setOpen }: Props) => {
 		isDragActive,
 		isDragAccept,
 		isDragReject,
-	} = useDropzone({ accept: 'image/*, video/*' })
+	} = useDropzone({
+		accept: 'image/*, video/*',
+		maxFiles: 1,
+		onDrop: acceptedFiles => {
+			console.log(acceptedFiles)
+			setFiles(
+				acceptedFiles.map(file =>
+					Object.assign(file, {
+						preview: URL.createObjectURL(file),
+					})
+				)
+			)
+		},
+	})
+
+	const thumbs = files.map((file: any) => (
+		<div style={thumb} key={file.name}>
+			<div style={thumbInner}>
+				<img src={file.preview} style={img} />
+			</div>
+		</div>
+	))
 
 	return (
 		<>
@@ -65,6 +118,8 @@ const UploadModal = ({ open, setOpen }: Props) => {
 						<p>Drag 'n' drop some files here, or click to select files</p>
 					</div>
 				</div>
+
+				<aside style={thumbsContainer}>{thumbs}</aside>
 				<Button onClick={handleClose}>Upload Image</Button>
 			</Dialog>
 		</>
