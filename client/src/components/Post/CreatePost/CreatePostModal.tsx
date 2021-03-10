@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Cookies from 'js-cookie'
 import { makeStyles } from '@material-ui/core/styles'
 import Modal from '@material-ui/core/Modal'
@@ -113,6 +113,15 @@ interface TextFieldProps {
 const TextFieldComponent = ({ inputText, setInputText }: TextFieldProps) => {
 	const { textFieldStyle } = useStyles()
 
+	const cookieName = 'post'
+
+	useEffect(() => {
+		const cookieValue = Cookies.get(cookieName)
+		if (cookieValue) {
+			setInputText(cookieValue)
+		}
+	}, [])
+
 	const getScrollHeight = (elm: any) => {
 		const element: any = elm
 
@@ -126,16 +135,11 @@ const TextFieldComponent = ({ inputText, setInputText }: TextFieldProps) => {
 		const targetElement: AnyObject = target
 
 		const targetValue = target.value
-		const cookieName = 'post'
 		const expires = { expires: 1 / 48 }
 
-		if (!Cookies.get(cookieName)) {
-			Cookies.set(cookieName, targetValue, expires)
-		}
+		Cookies.set(cookieName, targetValue, expires)
 
 		setInputText(targetValue)
-
-		Cookies.set(cookieName, targetValue, expires)
 
 		// make sure the input event originated from a textarea and it's desired to be auto-expandable
 		if (
