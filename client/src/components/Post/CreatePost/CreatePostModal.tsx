@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import Cookies from 'js-cookie'
 import { makeStyles } from '@material-ui/core/styles'
 import Modal from '@material-ui/core/Modal'
 import Backdrop from '@material-ui/core/Backdrop'
@@ -125,6 +126,9 @@ const TextFieldComponent = ({ inputText, setInputText }: TextFieldProps) => {
 		const targetElement: AnyObject = target
 
 		setInputText(targetElement.value)
+
+		Cookies.set('post', targetElement.value)
+
 		// make sure the input event originated from a textarea and it's desired to be auto-expandable
 		if (
 			!targetElement.classList.contains('autoExpand') ||
