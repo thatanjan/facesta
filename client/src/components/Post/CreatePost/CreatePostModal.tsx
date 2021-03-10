@@ -102,7 +102,9 @@ interface Props {
 const CreatePostModal = ({ isClicked, setIsClicked }: Props) => {
 	const [inputText, setInputText] = useState('')
 	const [dialogOpen, setDialogOpen] = useState(false)
+	const [file, setFile] = useState({})
 
+	console.log(file)
 	const modalProps = { inputText, setInputText }
 
 	const { modal, paper, dividerStyle, addToPostGrid, headerStyle } = useStyles()
@@ -165,7 +167,12 @@ const CreatePostModal = ({ isClicked, setIsClicked }: Props) => {
 							))}
 						</Grid>
 
-						<UploadModal open={dialogOpen} setOpen={setDialogOpen} />
+						<UploadModal
+							setFile={setFile}
+							open={dialogOpen}
+							setOpen={setDialogOpen}
+							file={file}
+						/>
 
 						<Grid container alignItems='flex-end' justify='space-between'>
 							<Grid item>

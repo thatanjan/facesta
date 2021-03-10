@@ -5,9 +5,13 @@ import Dialog from '@material-ui/core/Dialog'
 import Button from '@material-ui/core/Button'
 import { makeStyles } from '@material-ui/core/styles'
 
+import checkEmptyObject from 'utils/checkEmptyObject'
+
 interface Props {
 	open: boolean
+	file: any
 	setOpen(value: boolean): void
+	setFile(value: any): void
 }
 
 const useStyles = makeStyles({
@@ -68,8 +72,7 @@ const img = {
 	height: '100%',
 }
 
-const UploadModal = ({ open, setOpen }: Props) => {
-	const [files, setFiles] = useState<{ preview: string }>([])
+const UploadModal = ({ open, setOpen, setFile, file }: Props) => {
 	const handleClose = () => {
 		setOpen(false)
 	}
@@ -85,24 +88,14 @@ const UploadModal = ({ open, setOpen }: Props) => {
 		accept: 'image/*, video/*',
 		maxFiles: 1,
 		onDrop: acceptedFiles => {
-			console.log(acceptedFiles)
-			setFiles(
-				acceptedFiles.map(file =>
-					Object.assign(file, {
-						preview: URL.createObjectURL(file),
-					})
-				)
+			const realFile = acceptedFiles[0]
+			setFile(
+				Object.assign(realFile, {
+					preview: URL.createObjectURL(realFile),
+				})
 			)
 		},
 	})
-
-	const thumbs = files.map((file: any) => (
-		<div style={thumb} key={file.name}>
-			<div style={thumbInner}>
-				<img src={file.preview} style={img} />
-			</div>
-		</div>
-	))
 
 	return (
 		<>
@@ -119,8 +112,16 @@ const UploadModal = ({ open, setOpen }: Props) => {
 					</div>
 				</div>
 
-				<aside style={thumbsContainer}>{thumbs}</aside>
-				<Button onClick={handleClose}>Upload Image</Button>
+				{!checkEmptyObject(file) && (
+					<aside style={thumbsContainer}>
+						<div style={thumb} key={file.name}>
+							<div style={thumbInner}>
+								<img src={file.preview} style={img} />
+							</div>
+						</div>
+					</aside>
+				)}
+				<Button onClick={handleClose}>Done</Button>
 			</Dialog>
 		</>
 	)
