@@ -19,6 +19,7 @@ import createRequest from 'utils/createRequest'
 
 import PrivacyMenu from './PrivacyMenu'
 import TextFieldComponent from './PostTextField'
+import UploadModal from './UploadModal'
 
 class MediaTypeBuilder {
 	accept: string
@@ -84,9 +85,6 @@ const useStyles = makeStyles(theme => ({
 	},
 
 	addToPostText: {},
-	uploadInput: {
-		display: 'none',
-	},
 	headerStyle: {
 		[theme.breakpoints.down('xs')]: {
 			fontSize: theme.typography.h5.fontSize,
@@ -103,17 +101,11 @@ interface Props {
 
 const CreatePostModal = ({ isClicked, setIsClicked }: Props) => {
 	const [inputText, setInputText] = useState('')
+	const [dialogOpen, setDialogOpen] = useState(false)
 
 	const modalProps = { inputText, setInputText }
 
-	const {
-		modal,
-		paper,
-		uploadInput,
-		dividerStyle,
-		addToPostGrid,
-		headerStyle,
-	} = useStyles()
+	const { modal, paper, dividerStyle, addToPostGrid, headerStyle } = useStyles()
 
 	const handleClose = () => {
 		setIsClicked(false)
@@ -126,6 +118,8 @@ const CreatePostModal = ({ isClicked, setIsClicked }: Props) => {
 			setIsClicked(false)
 		}, 2000)
 	}
+
+	const openDialog = () => setDialogOpen(true)
 
 	return (
 		<>
@@ -164,20 +158,14 @@ const CreatePostModal = ({ isClicked, setIsClicked }: Props) => {
 
 							{mediaType.map(({ accept, id, Component, name }: any) => (
 								<Grid item key={nanoid()}>
-									<input
-										className={uploadInput}
-										id={id}
-										accept={accept}
-										name={name}
-										type='file'
-									/>
-
-									<IconButton>
+									<IconButton onClick={openDialog}>
 										<Component />
 									</IconButton>
 								</Grid>
 							))}
 						</Grid>
+
+						<UploadModal open={dialogOpen} setOpen={setDialogOpen} />
 
 						<Grid container alignItems='flex-end' justify='space-between'>
 							<Grid item>
