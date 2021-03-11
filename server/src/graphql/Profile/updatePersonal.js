@@ -12,8 +12,15 @@ const resolver = {
 				const inputKeys = Object.keys(Input)
 
 				inputKeys.forEach(item => {
-					if (item !== 'name') {
-						updateObject[`personal.${item}`] = Input[item]
+					switch (item) {
+						case 'name':
+							break
+
+						case 'image':
+							break
+
+						default:
+							updateObject[`personal.${item}`] = Input[item]
 					}
 				})
 
