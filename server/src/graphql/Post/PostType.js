@@ -18,7 +18,7 @@ const PostTypedefs = gql`
     }
 
     extend type Mutation {
-        createPost(${text}!): ErrorOrMessage!
+      createPost(Input: CreatePostInput!): ErrorOrMessage!
         deletePost(${POST_ID_TYPE}!): ErrorOrMessage!
         likePost(Input: PostAndPostOwnerIDInput!): ErrorOrMessage!
         removeLikePost(Input: PostAndPostOwnerIDInput!): ErrorOrMessage!
@@ -67,6 +67,12 @@ const PostTypedefs = gql`
       ${POST_OWNER_ID_TYPE}
       commentID: ID!
     }
+
+    input CreatePostInput{
+      ${text}!
+      ${image}
+    }
+
 
     input GetAllPostInput {
       start: Int!
