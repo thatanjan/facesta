@@ -3,11 +3,11 @@ import React, { createContext, ReactNode, useEffect, useState } from 'react'
 interface Props {
 	children: ReactNode
 	isSelf: boolean
-	profileUserId: string
+	profileUserID: string
 }
 
 export interface State {
-	profileUserId: string
+	profileUserID: string
 	isSelf: boolean
 }
 
@@ -16,16 +16,16 @@ interface ContextData {
 	setState: Function
 }
 
-const initialState: State = { profileUserId: '', isSelf: false }
+const initialState: State = { profileUserID: '', isSelf: false }
 
 export const ProfileContext = createContext({} as ContextData)
 
-const ProfileContextProvider = ({ children, isSelf, profileUserId }: Props) => {
+const ProfileContextProvider = ({ children, isSelf, profileUserID }: Props) => {
 	const [state, setState] = useState<State>(initialState)
 
 	useEffect(() => {
-		setState({ ...state, isSelf, profileUserId })
-	}, [isSelf, profileUserId])
+		setState({ ...state, isSelf, profileUserID })
+	}, [isSelf, profileUserID])
 
 	return (
 		<ProfileContext.Provider value={{ state, setState }}>

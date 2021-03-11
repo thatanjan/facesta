@@ -5,4 +5,4 @@ const useProfileContext = () => useContext(ProfileContext)
 
 export const useIsSelf = () => useProfileContext().state.isSelf
 
-export const useProfileUserId = () => useProfileContext().state.profileUserId
+export const useProfileUserID = () => useProfileContext().state.profileUserID

@@ -7,6 +7,7 @@ import Divider from '@material-ui/core/Divider'
 import Card from '@material-ui/core/Card'
 import Button from '@material-ui/core/Button'
 import { makeStyles, Theme } from '@material-ui/core/styles'
+import useGetPersonalData from 'hooks/useGetPersonalProfile'
 
 const useStyles = makeStyles((theme: Theme) => ({
 	container: {
@@ -40,14 +41,16 @@ const imagelink =
 const profileImageLink =
 	'https://im0-tub-com.yandex.net/i?id=3824c666facfe5d76794d2fb1ac8943e&n=13&exp=1'
 
-interface Props {
-	// eslint-disable-next-line
-	bio?: string
-	name: string
-}
-
-export const ProfileCover = ({ name, bio }: Props) => {
+export const ProfileCover = () => {
 	const { container, test, media } = useStyles()
+	const { data, error } = useGetPersonalData('name bio')
+
+	if (error) return <div>failed to load</div>
+	if (!data) return <div>loading...</div>
+
+	const {
+		getPersonalData: { name, bio },
+	} = data
 
 	return (
 		<>

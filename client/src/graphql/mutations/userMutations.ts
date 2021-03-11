@@ -1,17 +1,20 @@
 import { gql } from 'graphql-request'
+import { ERROR_OR_MESSAGE } from 'variables/global'
 
 // eslint-disable-next-line
-export const updatePersonal = gql`
-	mutation updatePersonal(
+export const updatePersonalData = gql`
+	mutation updatePersonalData(
 		$dateOfBirth: Date
 		$bio: String
 		$website: String
 		$status: String
 		$location: String
+		$name: String
 		$skills: [String!]
 	) {
-		updatePersonal(
+		updatePersonalData(
 			Input: {
+				name: $name
 				bio: $bio
 				skills: $skills
 				website: $website
@@ -20,7 +23,7 @@ export const updatePersonal = gql`
 				dateOfBirth: $dateOfBirth
 			}
 		) {
-			website
+			${ERROR_OR_MESSAGE}
 		}
 	}
 `

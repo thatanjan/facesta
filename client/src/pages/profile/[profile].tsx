@@ -39,7 +39,7 @@ const Content = () => {
 	const isSelf = useIsSelf()
 	return (
 		<>
-			<ProfileCover name='Taylor swift' bio='singer' />
+			<ProfileCover />
 
 			{!isSelf && (
 				<Grid container className={buttonGridContainer} justify='flex-end'>
@@ -67,7 +67,7 @@ const Profile = ({ userData, ...profileContextProps }: Props) => {
 
 export const getServerSideProps: GetServerSideProps = async ({
 	req,
-	query: { profile: profileUserId },
+	query: { profile: profileUserID },
 }) => {
 	const token = getToken(req as Requset)
 
@@ -77,15 +77,15 @@ export const getServerSideProps: GetServerSideProps = async ({
 
 	const userData = decodeToken(req as Requset)
 
-	const { id: ownUserId } = userData
+	const { id: ownUserID } = userData
 
 	let isSelf: boolean = false
 
-	if (profileUserId === ownUserId) {
+	if (profileUserID === ownUserID) {
 		isSelf = true
 	}
 
-	return { props: { profileUserId, isSelf, userData } }
+	return { props: { profileUserID, isSelf, userData } }
 }
 
 export default Profile

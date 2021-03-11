@@ -24,11 +24,17 @@ const END_POINT = ifProduction
 	: 'http://localhost:8000/graphql'
 
 const FOLLOWERS = 'followers'
+const FOLLOWEES = 'followees'
 const FOLLOWING = 'following'
 
 const APP_NAME = 'Confession'
 
 const screenSizeDrawer: string = '(min-width:1280px)'
+
+const ERROR_MESSAGE = 'errorMessage'
+const MESSAGE = 'message'
+
+const ERROR_OR_MESSAGE = `${ERROR_MESSAGE} ${MESSAGE}`
 
 export {
 	AUTHENTICATION,
@@ -44,7 +50,11 @@ export {
 	LOGIN_URL,
 	FOLLOWERS,
 	FOLLOWING,
+	FOLLOWEES,
 	APP_NAME,
 	screenSizeDrawer,
 	ifProduction,
+	ERROR_MESSAGE,
+	MESSAGE,
+	ERROR_OR_MESSAGE,
 }

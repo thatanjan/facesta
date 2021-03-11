@@ -4,13 +4,13 @@ import Button from '@material-ui/core/Button'
 import { mutate } from 'swr'
 
 import createRequest from 'utils/createRequest'
-import { useIsFollower, useIsFollowing } from 'hooks/useFollow'
-import { useProfileUserId } from 'hooks/profileContextHooks'
+import { useIsFollower, useIsFollowee } from 'hooks/useFollow'
+import { useProfileUserID } from 'hooks/profileContextHooks'
 import { follow, unfollow } from 'graphql/mutations/followMutations'
 import {
 	getIsFollower,
-	getIsFollowing,
-	getFollowing,
+	getIsFollowee,
+	getFollowees,
 	getFollowers,
 } from 'graphql/queries/followQueries'
 
@@ -25,13 +25,13 @@ let buttonText: string
 const FollowButton = () => {
 	const { buttonStyle } = useStyles()
 
-	const profileUserId = useProfileUserId()
+	const profileUserId = useProfileUserID()
 
 	const { data: follower } = useIsFollower()
-	const { data: following } = useIsFollowing()
+	const { data: followee } = useIsFollowee()
 
 	if (!follower) return <div> ...loading </div>
-	if (!following) return <div> ...loading </div>
+	if (!followee) return <div> ...loading </div>
 
 	let clickHandeler: () => void
 
@@ -40,17 +40,17 @@ const FollowButton = () => {
 	} = follower
 
 	const {
-		getIsFollowing: { isFollowing },
-	} = following
+		getIsFollowee: { isFollowee },
+	} = followee
 
 	const UNFOLLOW = 'unfollow'
 	const FOLLOW = 'follow'
 
 	const mutateData = () => {
-		mutate([getIsFollowing, profileUserId])
+		mutate([getIsFollowee, profileUserId])
 		mutate([getIsFollower, profileUserId])
 		mutate([getFollowers, profileUserId])
-		mutate([getFollowing, profileUserId])
+		mutate([getFollowees, profileUserId])
 	}
 
 	const followMutation = async () => {
@@ -69,12 +69,12 @@ const FollowButton = () => {
 		mutateData()
 	}
 
-	if (isFollowing) {
+	if (isFollowee) {
 		buttonText = UNFOLLOW
 		clickHandeler = unFollowMutation
 	}
 
-	if (!isFollowing) {
+	if (!isFollowee) {
 		buttonText = FOLLOW
 		clickHandeler = followMutation
 	}
@@ -84,7 +84,7 @@ const FollowButton = () => {
 		clickHandeler = followMutation
 	}
 
-	if (isFollowing && isFollower) {
+	if (isFollowee && isFollower) {
 		buttonText = UNFOLLOW
 		clickHandeler = unFollowMutation
 	}

@@ -43,6 +43,7 @@ const PersonalDetails = () => {
 
 	const { data, error } = useGetPersonal()
 
+	console.log(error)
 	return (
 		<>
 			{error && <div> Sorry, some error has occured </div>}
@@ -52,8 +53,8 @@ const PersonalDetails = () => {
 				<Box style={{ padding: '20px' }}>
 					{personalDetailsField.map((field: string) => {
 						if (
-							Array.isArray(data.getPersonal[field]) &&
-							data.getPersonal[field].length === 0
+							Array.isArray(data.getPersonalData[field]) &&
+							data.getPersonalData[field].length === 0
 						) {
 							return null
 						}
@@ -62,7 +63,7 @@ const PersonalDetails = () => {
 							<EachField
 								key={nanoid()}
 								property={doIfDateOfBirthField(field)}
-								value={doIfDateOfBirthValue(field, data?.getPersonal[field])}
+								value={doIfDateOfBirthValue(field, data?.getPersonalData[field])}
 							/>
 						)
 					})}

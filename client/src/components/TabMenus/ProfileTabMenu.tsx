@@ -7,8 +7,8 @@ import Tab from '@material-ui/core/Tab'
 import { nanoid } from 'nanoid'
 import { useRouter } from 'next/router'
 
-import { FOLLOWING, FOLLOWERS } from 'variables/global'
-import { useFollowers, useFollowing } from 'hooks/useFollow'
+import { FOLLOWEES, FOLLOWERS } from 'variables/global'
+import { useFollowers, useFollowees } from 'hooks/useFollow'
 
 const AboutTab = dynamic(() => import('components/Profile/Tabs/About/About'))
 const FollowSection = dynamic(
@@ -39,11 +39,11 @@ const Followers: TabBuilder = new TabBuilder(FOLLOWERS, FollowSection).addHook(
 	useFollowers
 )
 
-const Following: TabBuilder = new TabBuilder(FOLLOWING, FollowSection).addHook(
-	useFollowing
+const Followees: TabBuilder = new TabBuilder(FOLLOWEES, FollowSection).addHook(
+	useFollowees
 )
 
-const tabs: TabBuilder[] = [About, Followers, Following]
+const tabs: TabBuilder[] = [About, Followers, Followees]
 
 const TabPanel = ({ value, ...other }: any) => {
 	const { Component, ...others } = tabs[value]

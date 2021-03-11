@@ -19,22 +19,22 @@ const Alert = dynamic(() => import('@material-ui/lab/Alert'))
 const SignUpForm = () => {
 	const router = useRouter()
 
-	const [errorMessage, setErrorMessage] = useState('')
+	const [AlertMessage, setAlertMessage] = useState('')
 
 	const registerUser = async (values: RegisterInput) => {
 		try {
 			const {
-				registerUser: { token, errorMessage: message },
+				registerUser: { token, errorMessage },
 			}: RegisterOutput = await createRequest({
 				key: registerMutation,
 				values,
 			})
 
-			if (message) {
-				setErrorMessage(message)
+			if (errorMessage) {
+				setAlertMessage(errorMessage)
 
 				setTimeout(() => {
-					setErrorMessage('')
+					setAlertMessage('')
 				}, 3000)
 
 				return false
@@ -151,9 +151,9 @@ const SignUpForm = () => {
 				have an account?
 			</MuiLink>
 
-			{errorMessage && (
+			{AlertMessage && (
 				<Alert variant='filled' severity='error'>
-					{errorMessage}
+					{AlertMessage}
 				</Alert>
 			)}
 		</>

@@ -10,8 +10,8 @@ import DayUtils from '@date-io/dayjs'
 import { mutate } from 'swr'
 
 // import ChipsForm from 'components/arrayChips/chipsForm'
-import { getPersonalData } from 'graphql/queries/profileQueries'
-import { updatePersonal } from 'graphql/mutations/userMutations'
+import { getPersonalData as getPersonalDataMutation } from 'graphql/queries/profileQueries'
+import { updatePersonalData } from 'graphql/mutations/userMutations'
 import useGetPersonal from 'hooks/useGetPersonalProfile'
 import { useOwnUserId } from 'hooks/userhooks'
 import { PersonalData } from 'interfaces/profile'
@@ -41,9 +41,11 @@ const NewDetailsForm = ({ setIsAdding }: Props) => {
 	if (error) return <div>...error</div>
 	if (!data) return <div>...loading</div>
 
-	const { getPersonal } = data
+	console.log(data)
+	const { getPersonalData } = data
 
-	const initialData = getPersonal
+	const initialData = getPersonalData
+	// const initialData = {}
 
 	personalDetailsField.forEach((item: string) => {
 		const value = initialData[`${item}`]
@@ -61,11 +63,14 @@ const NewDetailsForm = ({ setIsAdding }: Props) => {
 			<Formik
 				initialValues={initialData}
 				onSubmit={(values, { setSubmitting }) => {
+					const mutation1 = getPersonalDataMutation('name bio')
+					const mutation2 = getPersonalDataMutation()
 					// eslint-disable-next-line no-param-reassign
 					values.skills = skills
 
-					createRequest({ key: updatePersonal, values })
-					mutate([getPersonalData(), ownUserId])
+					createRequest({ key: updatePersonalData, values })
+					mutate([mutation1, mutation2])
+					mutate([mutation2, mutation2])
 
 					setIsAdding(false)
 					setTimeout(() => {

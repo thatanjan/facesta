@@ -1,39 +1,44 @@
 import { gql } from 'graphql-request'
+import { ERROR_MESSAGE } from 'variables/global'
 
 export const getFollowers: string = gql`
-	query getFollowers($otherUserId: ID!) {
-		getFollowers(Input: { otherUserId: $otherUserId }) {
+	query getFollowers($userID: ID) {
+		getFollowers(userID: $userID) {
 			followers {
 				name
-				id
+				_id
 			}
+			${ERROR_MESSAGE}	
 		}
 	}
 `
 
-export const getFollowing: string = gql`
-	query getFollowing($otherUserId: ID!) {
-		getFollowing(Input: { otherUserId: $otherUserId }) {
-			following {
+export const getFollowees: string = gql`
+	query getFollowees($userID: ID) {
+		getFollowees(userID: $userID) {
+			followees {
 				name
-				id
+				_id
 			}
+			${ERROR_MESSAGE}	
 		}
 	}
 `
 
-export const getIsFollowing: string = gql`
-	query getIsFollowing($otherUserId: ID!) {
-		getIsFollowing(Input: { otherUserId: $otherUserId }) {
-			isFollowing
+export const getIsFollowee: string = gql`
+	query getIsFollowee($userID: ID!) {
+		getIsFollowee(userID: $userID) {
+			isFollowee
+			${ERROR_MESSAGE}	
 		}
 	}
 `
 
 export const getIsFollower: string = gql`
-	query getIsFollower($otherUserId: ID!) {
-		getIsFollower(Input: { otherUserId: $otherUserId }) {
+	query getIsFollower($userID: ID!) {
+		getIsFollower(userID: $userID) {
 			isFollower
+			${ERROR_MESSAGE}	
 		}
 	}
 `
