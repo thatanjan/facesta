@@ -18,6 +18,7 @@ const PROFILE_OWNER_ID_TYPE = `${PROFILE_OWNER_ID}: ID`
 const MESSAGE_TYPE = `${MESSAGE}: String`
 const ERROR_MESSAGE_TYPE = `${ERROR_MESSAGE}: String`
 const ERROR_OR_MESSAGE_TYPE = `${ERROR_MESSAGE_TYPE} ${MESSAGE_TYPE}`
+const IMAGE = `image: String`
 
 export {
 	POST_ID,
@@ -36,4 +37,5 @@ export {
 	MESSAGE_TYPE,
 	ERROR_MESSAGE_TYPE,
 	USER_ID_TYPE,
+	IMAGE,
 }

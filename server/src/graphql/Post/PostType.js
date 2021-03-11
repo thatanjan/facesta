@@ -4,11 +4,10 @@ import {
 	POST_OWNER_ID_TYPE,
 	ERROR_OR_MESSAGE_TYPE,
 	USER_ID_TYPE,
+	IMAGE,
 } from 'variables/commonText'
 
 const text = `text: String`
-
-const image = `image: String`
 
 const PostTypedefs = gql`
     extend type Query {
@@ -30,7 +29,7 @@ const PostTypedefs = gql`
        ${text}! 
        ${POST_ID_TYPE}!
        ${ERROR_OR_MESSAGE_TYPE}
-       ${image}
+       ${IMAGE}
     }
 
     type ReturnAllPost {
@@ -53,7 +52,7 @@ const PostTypedefs = gql`
     input PostAndPostOwnerIDInput{
       ${POST_ID_TYPE}!
       ${POST_OWNER_ID_TYPE}
-      ${image}
+      ${IMAGE}
     }
 
     input CommentPost {
@@ -70,7 +69,7 @@ const PostTypedefs = gql`
 
     input CreatePostInput{
       ${text}!
-      ${image}
+      ${IMAGE}
     }
 
 
