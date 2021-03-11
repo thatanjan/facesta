@@ -4,16 +4,38 @@ import sendErrorMessage from 'utils/errorMessage'
 import sendMessage from 'utils/message'
 import { FOLLOWERS } from 'variables/global'
 import NewsFeedModel from 'models/NewsFeed'
-import cloudinary from 'utils/cloudinaryConfig'
+import cloudinary from 'cloudinary'
+
+const uploadImage = async image => {
+	try {
+		const img = await cloudinary.v2.uploader.upload(image)
+		return img.public_id
+	} catch (err) {
+		return err
+	}
+}
 
 const resolver = {
 	Mutation: {
 		createPost: async (_, { Input: { text, image } }, { user: { id } }) => {
-			console.log(image)
 			try {
 				const Post = createPostModel(id)
 
-				const newPost = new Post({ text })
+				const imagePublicID = await uploadImage(image)
+
+				if (imagePublicID.message) {
+					return sendErrorMessage(imagePublicID)
+				}
+
+				console.log(imagePublicID)
+
+				let postObject
+
+				if (imagePublicID && typeof imagePublicID === 'string') {
+					postObject = { text, imageURL: imagePublicID }
+				}
+
+				const newPost = new Post(postObject)
 
 				try {
 					await newPost.save()
