@@ -1,14 +1,15 @@
-import mongoose from 'mongoose'
 import createPostModel from 'models/Post'
 import Follow from 'models/Follow'
 import sendErrorMessage from 'utils/errorMessage'
 import sendMessage from 'utils/message'
 import { FOLLOWERS } from 'variables/global'
 import NewsFeedModel from 'models/NewsFeed'
+import cloudinary from 'utils/cloudinaryConfig'
 
 const resolver = {
 	Mutation: {
-		createPost: async (_, { text }, { user: { id } }) => {
+		createPost: async (_, { Input: { text, image } }, { user: { id } }) => {
+			console.log(image)
 			try {
 				const Post = createPostModel(id)
 
