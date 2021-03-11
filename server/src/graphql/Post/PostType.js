@@ -8,7 +8,7 @@ import {
 
 const text = `text: String`
 
-const imageURL = `imageURL: String`
+const image = `image: String`
 
 const PostTypedefs = gql`
     extend type Query {
@@ -30,7 +30,7 @@ const PostTypedefs = gql`
        ${text}! 
        ${POST_ID_TYPE}!
        ${ERROR_OR_MESSAGE_TYPE}
-       ${imageURL}
+       ${image}
     }
 
     type ReturnAllPost {
@@ -53,7 +53,7 @@ const PostTypedefs = gql`
     input PostAndPostOwnerIDInput{
       ${POST_ID_TYPE}!
       ${POST_OWNER_ID_TYPE}
-      ${imageURL}
+      ${image}
     }
 
     input CommentPost {
