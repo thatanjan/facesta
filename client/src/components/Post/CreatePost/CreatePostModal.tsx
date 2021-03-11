@@ -102,7 +102,7 @@ interface Props {
 const CreatePostModal = ({ isClicked, setIsClicked }: Props) => {
 	const [inputText, setInputText] = useState('')
 	const [dialogOpen, setDialogOpen] = useState(false)
-	const [file, setFile] = useState({})
+	const [file, setFile] = useState('')
 
 	console.log(file)
 	const modalProps = { inputText, setInputText }
