@@ -8,6 +8,8 @@ import {
 
 const text = `text: String`
 
+const imageURL = `imageURL: String`
+
 const PostTypedefs = gql`
     extend type Query {
         getSinglePost(Input: PostAndPostOwnerIDInput!): SinglePost!
@@ -28,6 +30,7 @@ const PostTypedefs = gql`
        ${text}! 
        ${POST_ID_TYPE}!
        ${ERROR_OR_MESSAGE_TYPE}
+       ${imageURL}
     }
 
     type ReturnAllPost {
@@ -50,6 +53,7 @@ const PostTypedefs = gql`
     input PostAndPostOwnerIDInput{
       ${POST_ID_TYPE}!
       ${POST_OWNER_ID_TYPE}
+      ${imageURL}
     }
 
     input CommentPost {
