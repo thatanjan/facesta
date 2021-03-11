@@ -12,7 +12,13 @@ const resolver = {
 			try {
 				const Post = createPostModel(id)
 
-				const imagePublicID = await uploadImage(image)
+				const imagePublicID = await uploadImage(image, {
+					folder: `posts/${id}/`,
+					width: 1280,
+					height: 720,
+					crop: 'fit',
+					quality: 80,
+				})
 
 				if (imagePublicID.message) {
 					return sendErrorMessage(imagePublicID)
