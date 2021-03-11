@@ -4,16 +4,7 @@ import sendErrorMessage from 'utils/errorMessage'
 import sendMessage from 'utils/message'
 import { FOLLOWERS } from 'variables/global'
 import NewsFeedModel from 'models/NewsFeed'
-import cloudinary from 'cloudinary'
-
-const uploadImage = async image => {
-	try {
-		const img = await cloudinary.v2.uploader.upload(image)
-		return img.public_id
-	} catch (err) {
-		return err
-	}
-}
+import uploadImage from 'utils/uploadToCloudinary'
 
 const resolver = {
 	Mutation: {
