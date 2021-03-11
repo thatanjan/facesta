@@ -3,6 +3,7 @@ import {
 	USER_ID_TYPE,
 	PROFILE_OWNER_ID_TYPE,
 	ERROR_MESSAGE_TYPE,
+	IMAGE,
 } from 'variables/commonText'
 
 const ProfileMutationTypeDefs = gql`
@@ -21,6 +22,7 @@ const InputTypedefs = gql`
 		skills: [String!]
 		bio: String
 		name: String
+		${IMAGE}
 	}
 
      input ProfileIDInput {
@@ -45,6 +47,8 @@ const ProfileTypedefs = gql`
 		bio: String
 		name: String
 		${ERROR_MESSAGE_TYPE}
+		${IMAGE}
+
 	}
 `
 
