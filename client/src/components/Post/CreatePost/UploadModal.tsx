@@ -73,6 +73,7 @@ const img = {
 }
 
 const UploadModal = ({ open, setOpen, setFile, file }: Props) => {
+	const [previewFile, setPreviewFile] = useState({})
 	const handleClose = () => {
 		setOpen(false)
 	}
@@ -89,11 +90,20 @@ const UploadModal = ({ open, setOpen, setFile, file }: Props) => {
 		maxFiles: 1,
 		onDrop: acceptedFiles => {
 			const realFile = acceptedFiles[0]
-			setFile(
-				Object.assign(realFile, {
-					preview: URL.createObjectURL(realFile),
-				})
-			)
+
+			const fileReader = new FileReader()
+			fileReader.readAsDataURL(realFile)
+			fileReader.onload = () => setFile(fileReader.result)
+
+			Object.assign(realFile, {
+				preview: URL.createObjectURL(realFile),
+			})
+
+			setPreviewFile(realFile)
+
+			fileReader.onerror = (error: any) => {
+				console.log('Error: ', error)
+			}
 		},
 	})
 
@@ -112,11 +122,11 @@ const UploadModal = ({ open, setOpen, setFile, file }: Props) => {
 					</div>
 				</div>
 
-				{!checkEmptyObject(file) && (
+				{!checkEmptyObject(previewFile) && (
 					<aside style={thumbsContainer}>
-						<div style={thumb} key={file.name}>
+						<div style={thumb} key={previewFile.name}>
 							<div style={thumbInner}>
-								<img src={file.preview} style={img} />
+								<img src={previewFile.preview} style={img} />
 							</div>
 						</div>
 					</aside>
