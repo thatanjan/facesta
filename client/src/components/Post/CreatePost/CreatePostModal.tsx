@@ -4,7 +4,6 @@ import Modal from '@material-ui/core/Modal'
 import Backdrop from '@material-ui/core/Backdrop'
 import Fade from '@material-ui/core/Fade'
 import Paper from '@material-ui/core/Paper'
-import TextField from '@material-ui/core/TextField'
 import Divider from '@material-ui/core/Divider'
 import Typography from '@material-ui/core/Typography'
 import Grid from '@material-ui/core/Grid'
@@ -15,11 +14,12 @@ import GifIcon from '@material-ui/icons/Gif'
 import MovieIcon from '@material-ui/icons/Movie'
 import { nanoid } from 'nanoid'
 
-import { AnyObject } from 'interfaces/global'
 import { createPost } from 'graphql/mutations/postMutations'
 import createRequest from 'utils/createRequest'
 
 import PrivacyMenu from './PrivacyMenu'
+import TextFieldComponent from './PostTextField'
+import UploadModal from './UploadModal'
 
 class MediaTypeBuilder {
 	accept: string
@@ -74,13 +74,6 @@ const useStyles = makeStyles(theme => ({
 			minWidth: '15rem',
 		},
 	},
-	textFieldStyle: {
-		'& > label': {
-			[theme.breakpoints.down('xs')]: {
-				fontSize: theme.typography.body2.fontSize,
-			},
-		},
-	},
 	dividerStyle: {
 		margin: '10px 0px',
 	},
@@ -92,9 +85,6 @@ const useStyles = makeStyles(theme => ({
 	},
 
 	addToPostText: {},
-	uploadInput: {
-		display: 'none',
-	},
 	headerStyle: {
 		[theme.breakpoints.down('xs')]: {
 			fontSize: theme.typography.h5.fontSize,
@@ -104,64 +94,6 @@ const useStyles = makeStyles(theme => ({
 
 const mediaType = [image, gif, video]
 
-interface TextFieldProps {
-	inputText: string
-	setInputText: Function
-}
-
-const TextFieldComponent = ({ inputText, setInputText }: TextFieldProps) => {
-	const { textFieldStyle } = useStyles()
-
-	const getScrollHeight = (elm: any) => {
-		const element: any = elm
-
-		const savedValue: string | number = elm.value
-		element.value = ''
-		element.baseScrollHeight = elm.scrollHeight
-		element.value = savedValue
-	}
-
-	const inputChangeHandler = ({ target }: AnyObject) => {
-		const targetElement: AnyObject = target
-
-		setInputText(targetElement.value)
-		// make sure the input event originated from a textarea and it's desired to be auto-expandable
-		if (
-			!targetElement.classList.contains('autoExpand') ||
-			targetElement.nodeName !== 'TEXTAREA'
-		)
-			return
-
-		const minRows = targetElement.getAttribute('data-min-rows') || 0
-		let rows: number | boolean | void =
-			!targetElement.baseScrollHeight && getScrollHeight(targetElement)
-
-		targetElement.rows = minRows
-		rows = Math.ceil(
-			(targetElement.scrollHeight - targetElement.baseScrollHeight) / 16
-		)
-		targetElement.rows = minRows + rows
-	}
-	return (
-		<TextField
-			className={textFieldStyle}
-			id='filled-multiline-static'
-			label='Write Your Feelings'
-			fullWidth
-			multiline
-			variant='filled'
-			color='secondary'
-			value={inputText}
-			inputProps={{
-				onChange: inputChangeHandler,
-				className: 'autoExpand',
-				rows: '3',
-				dataminrows: '3',
-			}}
-		/>
-	)
-}
-
 interface Props {
 	isClicked: boolean
 	setIsClicked: Function
@@ -169,17 +101,13 @@ interface Props {
 
 const CreatePostModal = ({ isClicked, setIsClicked }: Props) => {
 	const [inputText, setInputText] = useState('')
+	const [dialogOpen, setDialogOpen] = useState(false)
+	const [file, setFile] = useState('')
 
+	console.log(file)
 	const modalProps = { inputText, setInputText }
 
-	const {
-		modal,
-		paper,
-		uploadInput,
-		dividerStyle,
-		addToPostGrid,
-		headerStyle,
-	} = useStyles()
+	const { modal, paper, dividerStyle, addToPostGrid, headerStyle } = useStyles()
 
 	const handleClose = () => {
 		setIsClicked(false)
@@ -192,6 +120,8 @@ const CreatePostModal = ({ isClicked, setIsClicked }: Props) => {
 			setIsClicked(false)
 		}, 2000)
 	}
+
+	const openDialog = () => setDialogOpen(true)
 
 	return (
 		<>
@@ -230,20 +160,19 @@ const CreatePostModal = ({ isClicked, setIsClicked }: Props) => {
 
 							{mediaType.map(({ accept, id, Component, name }: any) => (
 								<Grid item key={nanoid()}>
-									<input
-										className={uploadInput}
-										id={id}
-										accept={accept}
-										name={name}
-										type='file'
-									/>
-
-									<IconButton>
+									<IconButton onClick={openDialog}>
 										<Component />
 									</IconButton>
 								</Grid>
 							))}
 						</Grid>
+
+						<UploadModal
+							setFile={setFile}
+							open={dialogOpen}
+							setOpen={setDialogOpen}
+							file={file}
+						/>
 
 						<Grid container alignItems='flex-end' justify='space-between'>
 							<Grid item>
