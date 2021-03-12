@@ -70,6 +70,8 @@ const PostTypedefs = gql`
     input CreatePostInput{
       ${text}!
       ${IMAGE}
+      headline: String!
+      markdown: Boolean!
     }
 
 
