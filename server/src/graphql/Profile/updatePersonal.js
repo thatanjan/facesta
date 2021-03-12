@@ -4,6 +4,10 @@ import sendErrorMessage from 'utils/errorMessage'
 import sendMessage from 'utils/message'
 import uploadImage from 'utils/uploadToCloudinary'
 import imageConfig from 'variables/cloudinaryVariables'
+import cloudinary from 'cloudinary'
+import deleteOldImage from 'utils/deleteImageFromCloudinary'
+
+const PATH = 'profile/'
 
 const resolver = {
 	Mutation: {
@@ -13,27 +17,47 @@ const resolver = {
 
 				const inputKeys = Object.keys(Input)
 
+				const personalData = await Profile.findOne({ user: id }, 'personal')
+
+				// eslint-disable-next-line
 				inputKeys.forEach(async item => {
 					switch (item) {
 						case 'name':
 							break
 
 						case 'image':
-							const { image } = Input
+							const {
+								personal: { image: oldImageID },
+							} = personalData
 
-							const { public_id } = await uploadImage(image, {
-								...imageConfig,
-								folder: 'profile/',
+							const deleteImageRes = await deleteOldImage({
+								path: PATH,
+								imageID: oldImageID,
 							})
 
-							updateObject[`personal.${item}`] = public_id
+							if (deleteImageRes.message)
+								return sendErrorMessage('some thing went wrong')
+
+							const { image } = Input
+
+							const publicID = await uploadImage(image, {
+								...imageConfig,
+								folder: PATH,
+							})
+
+							console.log(publicID)
+							// updateObject['personal.image'] = 'publicID'
+							// updateObject[`personal.${item}`] = publicID
 
 							break
 
 						default:
+							updateObject['personal.image'] = 'publicID'
 							updateObject[`personal.${item}`] = Input[item]
 					}
 				})
+
+				setTimeout(() => console.log(updateObject), 1000)
 
 				const update = await Profile.findOneAndUpdate({ user: id }, updateObject, {
 					useFindAndModify: false,
@@ -53,6 +77,7 @@ const resolver = {
 			} catch (error) {
 				sendErrorMessage(error)
 			}
+			return false
 		},
 	},
 }
