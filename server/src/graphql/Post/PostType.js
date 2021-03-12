@@ -23,6 +23,7 @@ const PostTypedefs = gql`
         removeLikePost(Input: PostAndPostOwnerIDInput!): ErrorOrMessage!
         commentPost(Input: CommentPost!): ErrorOrMessage!
         removeCommentPost(Input: RemoveCommentInput!): ErrorOrMessage!
+        editPost(Input:EditPostInput!): ErrorOrMessage!
     }
 
     type SinglePost {
@@ -76,6 +77,13 @@ const PostTypedefs = gql`
       markdown: Boolean!
     }
 
+    input EditPostInput{
+      ${POST_ID_TYPE}!
+      ${text}
+      ${IMAGE}
+      headline: String
+      markdown: Boolean
+    }
 
     input GetAllPostInput {
       start: Int!
