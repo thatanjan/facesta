@@ -35,6 +35,12 @@ const InputTypedefs = gql`
 const ProfileTypedefs = gql`
 	extend type Query {
 		getPersonalData(${USER_ID_TYPE}): PersonalData!
+		getProfilePicture(${USER_ID_TYPE}): ProfilePicture!
+	}
+
+	type ProfilePicture {
+		imageID: String
+		${ERROR_MESSAGE_TYPE}
 	}
 
 	${ProfileMutationTypeDefs}
