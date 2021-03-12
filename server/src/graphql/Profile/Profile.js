@@ -7,13 +7,15 @@ import getProfile from './getProfile'
 import addToProfile from './addToProfile'
 import updateSocial from './updateSocial'
 import updateSingleField from './updateSingleField'
+import updateProfilePicture from './updateProfilePicture'
 
 export const ProfileTypedefs = [ProfileType]
 
 export const ProfileResolvers = merge(
-    updatePersonal,
-    getProfile,
-    addToProfile,
-    updateSocial,
-    updateSingleField
+	updatePersonal,
+	getProfile,
+	addToProfile,
+	updateSocial,
+	updateSingleField,
+	updateProfilePicture
 )
