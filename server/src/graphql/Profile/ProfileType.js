@@ -24,7 +24,6 @@ const InputTypedefs = gql`
 		skills: [String!]
 		bio: String
 		name: String
-		${IMAGE}
 	}
 
      input ProfileIDInput {
@@ -49,7 +48,6 @@ const ProfileTypedefs = gql`
 		bio: String
 		name: String
 		${ERROR_MESSAGE_TYPE}
-		${IMAGE}
 
 	}
 `
