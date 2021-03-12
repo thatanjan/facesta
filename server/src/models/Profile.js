@@ -2,13 +2,6 @@ import { Schema, model } from 'mongoose'
 
 const objectId = Schema.Types.ObjectId
 
-const images = {
-	profile: {
-		type: String,
-	},
-	cover: { type: String },
-}
-
 const ExperienceSchema = new Schema({
 	title: {
 		type: String,
@@ -104,7 +97,9 @@ const data = {
 		type: Boolean,
 		default: true,
 	},
-	images,
+	image: {
+		type: String,
+	},
 	date: {
 		type: Date,
 		default: Date.now,
