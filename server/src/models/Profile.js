@@ -97,7 +97,7 @@ const data = {
 		type: Boolean,
 		default: true,
 	},
-	image: {
+	profilePicture: {
 		type: String,
 	},
 	date: {
