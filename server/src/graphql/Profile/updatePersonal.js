@@ -2,6 +2,8 @@ import User from 'models/User'
 import Profile from 'models/Profile'
 import sendErrorMessage from 'utils/errorMessage'
 import sendMessage from 'utils/message'
+import uploadImage from 'utils/uploadToCloudinary'
+import imageConfig from 'variables/cloudinaryVariables'
 
 const resolver = {
 	Mutation: {
@@ -11,12 +13,21 @@ const resolver = {
 
 				const inputKeys = Object.keys(Input)
 
-				inputKeys.forEach(item => {
+				inputKeys.forEach(async item => {
 					switch (item) {
 						case 'name':
 							break
 
 						case 'image':
+							const { image } = Input
+
+							const { public_id } = await uploadImage(image, {
+								...imageConfig,
+								folder: 'profile/',
+							})
+
+							updateObject[`personal.${item}`] = public_id
+
 							break
 
 						default:
