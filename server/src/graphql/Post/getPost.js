@@ -18,7 +18,7 @@ const mainResolver = field => {
 
 			switch (field) {
 				case SINGLE_POST:
-					const singlePost = await Post.findById(postID, 'text')
+					const singlePost = await Post.findById(postID)
 
 					if (ifNullOrFalse(singlePost)) {
 						return sendErrorMessage('no post found')
