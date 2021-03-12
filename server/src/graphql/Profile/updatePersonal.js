@@ -17,20 +17,17 @@ const resolver = {
 				inputKeys.forEach(async item => {
 					switch (item) {
 						case 'name':
+							const newName = Input.name
+
+							const updateName = await User.findByIdAndUpdate(id, { name: newName })
+
+							if (!updateName) return sendErrorMessage('error happened')
 							break
 
 						default:
 							personal[item] = Input[item]
 					}
 				})
-
-				if (Input.name) {
-					const newName = Input.name
-
-					const updateName = await User.findByIdAndUpdate(id, { name: newName })
-
-					if (!updateName) return sendErrorMessage('error happened')
-				}
 
 				personalData.save()
 
