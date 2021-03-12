@@ -1,10 +1,10 @@
 import cloudinary from 'cloudinary'
 
-const deleteImage = async imageID => {
+const deleteImage = async ({ path, imageID }) => {
 	if (!imageID) return false
 
 	try {
-		await cloudinary.v2.uploader.destroy(imageID)
+		await cloudinary.v2.uploader.destroy(`${path}${imageID}`)
 	} catch (err) {
 		return err
 	}
