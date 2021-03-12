@@ -10,6 +10,7 @@ const ProfileMutationTypeDefs = gql`
 	extend type Mutation {
 		updatePersonalData(Input: PersonalDataInput): ErrorOrMessage!
 		uploadProfilePicture(${IMAGE}!): ErrorOrMessage!
+		removeProfilePicture: ErrorOrMessage!
 	}
 
 `
