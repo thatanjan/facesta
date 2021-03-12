@@ -5,6 +5,7 @@ import sendMessage from 'utils/message'
 import { FOLLOWERS } from 'variables/global'
 import NewsFeedModel from 'models/NewsFeed'
 import uploadImage from 'utils/uploadToCloudinary'
+import imageConfig from 'variables/cloudinaryVariables'
 
 const resolver = {
 	Mutation: {
@@ -14,10 +15,7 @@ const resolver = {
 
 				const imagePublicID = await uploadImage(image, {
 					folder: `posts/${id}/`,
-					width: 1280,
-					height: 720,
-					crop: 'fit',
-					quality: 80,
+					...imageConfig,
 				})
 
 				if (imagePublicID.message) {
