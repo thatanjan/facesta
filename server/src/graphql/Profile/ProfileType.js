@@ -9,7 +9,9 @@ import {
 const ProfileMutationTypeDefs = gql`
 	extend type Mutation {
 		updatePersonalData(Input: PersonalDataInput): ErrorOrMessage!
+		uploadProfilePicture(${IMAGE}!): ErrorOrMessage!
 	}
+
 `
 
 const InputTypedefs = gql`
