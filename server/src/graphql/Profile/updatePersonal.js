@@ -19,6 +19,9 @@ const resolver = {
 
 				const personalData = await Profile.findOne({ user: id }, 'personal')
 
+				const { personal } = personalData
+
+				console.log(personalData)
 				// eslint-disable-next-line
 				inputKeys.forEach(async item => {
 					switch (item) {
@@ -46,21 +49,12 @@ const resolver = {
 							})
 
 							console.log(publicID)
-							// updateObject['personal.image'] = 'publicID'
-							// updateObject[`personal.${item}`] = publicID
 
 							break
 
 						default:
-							updateObject['personal.image'] = 'publicID'
-							updateObject[`personal.${item}`] = Input[item]
+							personal[item] = Input[item]
 					}
-				})
-
-				setTimeout(() => console.log(updateObject), 1000)
-
-				const update = await Profile.findOneAndUpdate({ user: id }, updateObject, {
-					useFindAndModify: false,
 				})
 
 				if (Input.name) {
@@ -71,7 +65,7 @@ const resolver = {
 					if (!updateName) return sendErrorMessage('error happened')
 				}
 
-				if (!update) return sendErrorMessage('update unsuccessful')
+				personalData.save()
 
 				return sendMessage('Update Successful')
 			} catch (error) {
