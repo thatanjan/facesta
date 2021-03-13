@@ -22,12 +22,16 @@ const resolvers = {
 						...imageConfig,
 					})
 
-					post.image = imagePublicID
+					post.imageURL = imagePublicID
 
 					const oldImageID = post.image
 					if (oldImageID) {
 						await deleteImage(oldImageID)
 					}
+				}
+
+				if (image === '') {
+					post.imageURL = ''
 				}
 
 				const inputKeys = Object.keys(Input)
