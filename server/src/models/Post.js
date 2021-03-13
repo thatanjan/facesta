@@ -25,7 +25,7 @@ const schema = {
 		type: Boolean,
 		default: true,
 	},
-	imageURL: { type: String },
+	image: { type: String },
 	date: { type: Date, default: Date.now() },
 }
 
