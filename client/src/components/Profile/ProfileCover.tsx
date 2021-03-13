@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import CardMedia from '@material-ui/core/CardMedia'
 import Paper from '@material-ui/core/Paper'
 import Grid from '@material-ui/core/Grid'
@@ -10,6 +10,7 @@ import IconButton from '@material-ui/core/IconButton'
 import EditIcon from '@material-ui/icons/Edit'
 import { makeStyles, Theme } from '@material-ui/core/styles'
 import useGetPersonalData from 'hooks/useGetPersonalProfile'
+import ImageUploadModal from 'components/Modals/ImageUploadModal'
 
 const useStyles = makeStyles((theme: Theme) => ({
 	container: {
@@ -34,6 +35,10 @@ export const ProfileCover = () => {
 	const { container, media, editIconStyle } = useStyles()
 	const { data, error } = useGetPersonalData('name bio')
 
+	const [uploadModalOpen, setUploadModalOpen] = useState(false)
+
+	const openUploadModal = () => setUploadModalOpen(true)
+
 	if (error) return <div>failed to load</div>
 	if (!data) return <div>loading...</div>
 
@@ -46,10 +51,14 @@ export const ProfileCover = () => {
 			<Paper elevation={0}>
 				<Card className={container}>
 					<CardMedia className={media} image={imagelink}>
-						<IconButton className={editIconStyle}>
+						<IconButton onClick={openUploadModal} className={editIconStyle}>
 							{' '}
 							<EditIcon />{' '}
 						</IconButton>
+
+						{uploadModalOpen && (
+							<ImageUploadModal open={uploadModalOpen} setOpen={setUploadModalOpen} />
+						)}
 					</CardMedia>
 
 					<Typography variant='h3' align='center'>
