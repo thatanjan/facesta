@@ -8,19 +8,21 @@ import Button from '@material-ui/core/Button'
 import { AnyObject } from 'interfaces/global'
 import makeBase64Image from 'utils/makeBase64Image'
 
+interface CustomFile extends File {
+	previewLink: string
+}
+
 interface Props {
 	previewOpen: boolean
 	setPreviewOpen: Function
-	previewLink: string
 	setRejected: (bool: boolean) => void
-	file: File
+	file: CustomFile
 	action: (file: ArrayBuffer | null | string) => void
 }
 
 const ImagePreviewModal = ({
 	setPreviewOpen,
 	previewOpen,
-	previewLink,
 	file,
 	action,
 	setRejected,
@@ -40,7 +42,7 @@ const ImagePreviewModal = ({
 		<Dialog open={previewOpen}>
 			<DialogContent>
 				<Card>
-					<CardMedia image={previewLink} />
+					<CardMedia image={file.previewLink} />
 				</Card>
 			</DialogContent>
 
