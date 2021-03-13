@@ -19,11 +19,13 @@ const schema = {
 	text: { type: String, required: true },
 	likes: [user],
 	comments: [CommentedUserSchema],
+	headline: { type: String, required: true },
+	markdown: { type: Boolean, required: true },
 	public: {
 		type: Boolean,
 		default: true,
 	},
-	imageURL: { type: String },
+	image: { type: String },
 	date: { type: Date, default: Date.now() },
 }
 

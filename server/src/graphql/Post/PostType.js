@@ -17,12 +17,13 @@ const PostTypedefs = gql`
     }
 
     extend type Mutation {
-      createPost(Input: CreatePostInput!): ErrorOrMessage!
+        createPost(Input: CreatePostInput!): ErrorOrMessage!
         deletePost(${POST_ID_TYPE}!): ErrorOrMessage!
         likePost(Input: PostAndPostOwnerIDInput!): ErrorOrMessage!
         removeLikePost(Input: PostAndPostOwnerIDInput!): ErrorOrMessage!
         commentPost(Input: CommentPost!): ErrorOrMessage!
         removeCommentPost(Input: RemoveCommentInput!): ErrorOrMessage!
+        editPost(Input:EditPostInput!): ErrorOrMessage!
     }
 
     type SinglePost {
@@ -30,6 +31,8 @@ const PostTypedefs = gql`
        ${POST_ID_TYPE}!
        ${ERROR_OR_MESSAGE_TYPE}
        ${IMAGE}
+       headline: String!
+        markdown: Boolean!
     }
 
     type ReturnAllPost {
@@ -70,8 +73,17 @@ const PostTypedefs = gql`
     input CreatePostInput{
       ${text}!
       ${IMAGE}
+      headline: String!
+      markdown: Boolean!
     }
 
+    input EditPostInput{
+      ${POST_ID_TYPE}!
+      ${text}
+      ${IMAGE}
+      headline: String
+      markdown: Boolean
+    }
 
     input GetAllPostInput {
       start: Int!

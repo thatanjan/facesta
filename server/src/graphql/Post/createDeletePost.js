@@ -7,14 +7,20 @@ import NewsFeedModel from 'models/NewsFeed'
 import uploadImage from 'utils/uploadToCloudinary'
 import imageConfig from 'variables/cloudinaryVariables'
 
+export const postPath = id => `posts/${id}/`
+
 const resolver = {
 	Mutation: {
-		createPost: async (_, { Input: { text, image } }, { user: { id } }) => {
+		createPost: async (
+			_,
+			{ Input: { headline, markdown, text, image } },
+			{ user: { id } }
+		) => {
 			try {
 				const Post = createPostModel(id)
 
 				const imagePublicID = await uploadImage(image, {
-					folder: `posts/${id}/`,
+					folder: postPath(),
 					...imageConfig,
 				})
 
@@ -22,12 +28,10 @@ const resolver = {
 					return sendErrorMessage(imagePublicID)
 				}
 
-				console.log(imagePublicID)
-
 				let postObject
 
 				if (imagePublicID && typeof imagePublicID === 'string') {
-					postObject = { text, imageURL: imagePublicID }
+					postObject = { text, image: imagePublicID, headline, markdown }
 				}
 
 				const newPost = new Post(postObject)
