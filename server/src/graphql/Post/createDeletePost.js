@@ -7,6 +7,8 @@ import NewsFeedModel from 'models/NewsFeed'
 import uploadImage from 'utils/uploadToCloudinary'
 import imageConfig from 'variables/cloudinaryVariables'
 
+export const postPath = id => `posts/${id}/`
+
 const resolver = {
 	Mutation: {
 		createPost: async (
@@ -18,7 +20,7 @@ const resolver = {
 				const Post = createPostModel(id)
 
 				const imagePublicID = await uploadImage(image, {
-					folder: `posts/${id}/`,
+					folder: postPath(),
 					...imageConfig,
 				})
 
