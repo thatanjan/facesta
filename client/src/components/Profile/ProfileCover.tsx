@@ -19,30 +19,16 @@ const useStyles = makeStyles((theme: Theme) => ({
 		height: 0,
 		paddingTop: '56.25%',
 		position: 'relative',
-		marginBottom: '15%',
+		marginBottom: '5%',
 		boxShadow: 'none',
-	},
-	test: {
-		top: '75%',
-		left: '50%',
-		position: 'absolute',
-		width: '30%',
-		paddingTop: '23.25%',
-		transform: 'translateX(-50%)',
-		backgroundSize: 'cover',
-		// borderRadius: theme.spacing.borderRadius,
-		borderRadius: '20px',
 	},
 }))
 
 const imagelink =
 	'https://www.1a-webradio.de/sites/default/files/BildNebenText/taylor-swift-press-photo-2016-billboard-1548.jpg'
 
-const profileImageLink =
-	'https://im0-tub-com.yandex.net/i?id=3824c666facfe5d76794d2fb1ac8943e&n=13&exp=1'
-
 export const ProfileCover = () => {
-	const { container, test, media } = useStyles()
+	const { container, media } = useStyles()
 	const { data, error } = useGetPersonalData('name bio')
 
 	if (error) return <div>failed to load</div>
@@ -56,10 +42,7 @@ export const ProfileCover = () => {
 		<>
 			<Paper elevation={0}>
 				<Card className={container}>
-					<CardMedia className={media} image={imagelink}>
-						<CardMedia className={test} image={profileImageLink} />
-						{/* <Image src='/images/log_in_background_image.jpg' layout='fill' /> */}
-					</CardMedia>
+					<CardMedia className={media} image={imagelink}></CardMedia>
 
 					<Typography variant='h3' align='center'>
 						{name}
