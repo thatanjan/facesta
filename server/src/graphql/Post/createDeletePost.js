@@ -31,7 +31,7 @@ const resolver = {
 				let postObject
 
 				if (imagePublicID && typeof imagePublicID === 'string') {
-					postObject = { text, imageURL: imagePublicID, headline, markdown }
+					postObject = { text, image: imagePublicID, headline, markdown }
 				}
 
 				const newPost = new Post(postObject)

@@ -22,7 +22,7 @@ const resolvers = {
 						...imageConfig,
 					})
 
-					post.imageURL = imagePublicID
+					post.image = imagePublicID
 
 					const oldImageID = post.image
 					if (oldImageID) {
@@ -31,7 +31,7 @@ const resolvers = {
 				}
 
 				if (image === '') {
-					post.imageURL = ''
+					post.image = ''
 				}
 
 				const inputKeys = Object.keys(Input)
