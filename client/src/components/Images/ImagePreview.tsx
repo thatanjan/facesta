@@ -1,3 +1,4 @@
+import Image from 'next/image'
 import Dialog from '@material-ui/core/Dialog'
 import Card from '@material-ui/core/Card'
 import CardMedia from '@material-ui/core/CardMedia'
@@ -39,11 +40,17 @@ const ImagePreviewModal = ({
 	}
 
 	return (
-		<Dialog open={previewOpen}>
-			<DialogContent>
-				<Card>
-					<CardMedia image={file.previewLink} />
-				</Card>
+		<Dialog
+			fullWidth
+			aria-labelledby='simple-dialog-title'
+			maxWidth='lg'
+			open={previewOpen}
+		>
+			<DialogContent style={{ padding: 0 }}>
+				<CardMedia
+					style={{ height: 0, paddingTop: '56.25%' }}
+					image={file.previewLink}
+				/>
 			</DialogContent>
 
 			<DialogActions>
