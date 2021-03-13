@@ -56,7 +56,7 @@ const UploadModal = ({ open, setOpen }: Props) => {
 			const realFile = acceptedFiles[0]
 
 			Object.assign(realFile, {
-				preview: URL.createObjectURL(realFile),
+				previewLink: URL.createObjectURL(realFile),
 			})
 
 			setFile(realFile)
