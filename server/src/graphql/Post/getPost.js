@@ -26,6 +26,8 @@ const mainResolver = field => {
 
 					singlePost.postID = singlePost._id
 
+					singlePost.image = singlePost.imageURL
+
 					return singlePost
 
 				case ALL_POST:
