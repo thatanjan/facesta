@@ -2,14 +2,16 @@ import { useDropzone } from 'react-dropzone'
 import React, { useState } from 'react'
 import DialogTitle from '@material-ui/core/DialogTitle'
 import MuiDialogContent from '@material-ui/core/DialogContent'
-import IconButton from '@material-ui/core/IconButton'
-import Typography from '@material-ui/core/DialogContentText'
 import DialogActions from '@material-ui/core/DialogActions'
 import PublishIcon from '@material-ui/icons/Publish'
 import Dialog from '@material-ui/core/Dialog'
 import Button from '@material-ui/core/Button'
 import { makeStyles } from '@material-ui/core/styles'
+
 import ImagePreviewModal from 'components/Images/ImagePreview'
+import createRequest from 'utils/createRequest'
+
+import { uploadProfilePicture } from 'graphql/mutations/userMutations'
 
 interface Props {
 	open: boolean
@@ -28,11 +30,21 @@ const useStyles = makeStyles({
 const UploadModal = ({ open, setOpen }: Props) => {
 	const { dialogContentStyle, uploadIconStyle } = useStyles()
 
+	const [uploading, setUploading] = useState(false)
 	const [previewOpen, setPreviewOpen] = useState(false)
 	const [rejected, setRejected] = useState(false)
 	const [file, setFile] = useState({})
 
-	const action = (a: any) => console.log(a)
+	const action = async (image: ArrayBuffer | string | null) => {
+		const data = await createRequest({
+			key: uploadProfilePicture,
+			values: { image },
+		})
+
+		const {
+			uploadProfilePicture: { errorMessage, message },
+		} = data
+	}
 
 	const imagePreviewModalProps = {
 		previewOpen,
