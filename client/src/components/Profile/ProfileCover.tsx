@@ -66,7 +66,9 @@ export const ProfileCover = () => {
 								layout='responsive'
 								height={720}
 								width={1280}
-								src={pictureData?.getProfilePicture?.imageID}
+								src={
+									pictureData?.getProfilePicture?.imageID || '/images/woman_avatar.png'
+								}
 							/>
 							<IconButton onClick={openUploadModal} className={editIconStyle}>
 								<EditIcon />
