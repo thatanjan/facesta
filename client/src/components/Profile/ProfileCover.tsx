@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import CardMedia from '@material-ui/core/CardMedia'
+import Image from 'next/image'
 import Paper from '@material-ui/core/Paper'
 import Grid from '@material-ui/core/Grid'
 import Typography from '@material-ui/core/Typography'
@@ -10,6 +10,7 @@ import IconButton from '@material-ui/core/IconButton'
 import EditIcon from '@material-ui/icons/Edit'
 import { makeStyles, Theme } from '@material-ui/core/styles'
 import useGetPersonalData from 'hooks/useGetPersonalProfile'
+import useGetProfilePicture from 'hooks/useGetProfilePictue'
 import ImageUploadModal from 'components/Modals/ImageUploadModal'
 
 import createRequest from 'utils/createRequest'
@@ -32,19 +33,13 @@ const useStyles = makeStyles((theme: Theme) => ({
 	editIconStyle: { marginLeft: '100%', transform: 'translate(-100%, -100%)' },
 }))
 
-const imagelink =
-	'https://www.1a-webradio.de/sites/default/files/BildNebenText/taylor-swift-press-photo-2016-billboard-1548.jpg'
-
 export const ProfileCover = () => {
 	const { container, media, editIconStyle } = useStyles()
 	const { data, error } = useGetPersonalData('name bio')
 
-	const action = async (image: ArrayBuffer | string | null) => {
-		const data = await createRequest({
-			key: uploadProfilePicture,
-			values: { image },
-		})
-	}
+	const { data: pictureData, error: pictureDataError } = useGetProfilePicture()
+
+	const action = async (image: ArrayBuffer | string | null) => {}
 
 	const [uploadModalOpen, setUploadModalOpen] = useState(false)
 
@@ -61,20 +56,31 @@ export const ProfileCover = () => {
 		<>
 			<Paper elevation={0}>
 				<Card className={container}>
-					<CardMedia className={media} image={imagelink}>
-						<IconButton onClick={openUploadModal} className={editIconStyle}>
-							{' '}
-							<EditIcon />{' '}
-						</IconButton>
+					{!pictureData && <div>loading...</div>}
+					{pictureDataError && <div>failed to load</div>}
 
-						{uploadModalOpen && (
-							<ImageUploadModal
-								action={action}
-								open={uploadModalOpen}
-								setOpen={setUploadModalOpen}
+					{pictureData && (
+						<>
+							<Image
+								className={media}
+								layout='responsive'
+								height={720}
+								width={1280}
+								src={pictureData?.getProfilePicture?.imageID}
 							/>
-						)}
-					</CardMedia>
+							<IconButton onClick={openUploadModal} className={editIconStyle}>
+								<EditIcon />
+							</IconButton>
+
+							{uploadModalOpen && (
+								<ImageUploadModal
+									action={action}
+									open={uploadModalOpen}
+									setOpen={setUploadModalOpen}
+								/>
+							)}
+						</>
+					)}
 
 					<Typography variant='h3' align='center'>
 						{name}
