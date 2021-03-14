@@ -2,7 +2,7 @@ import { useState, useRef, useEffect } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import LinearProgress from '@material-ui/core/LinearProgress'
 
-const FAILED = 'failed'
+export const FAILED = 'failed'
 
 const useStyles = makeStyles({
 	root: {
@@ -40,6 +40,10 @@ const LinearBuffer = ({ shouldStop, setShouldStop, success }: Props) => {
 	useEffect(() => {
 		progressRef.current = () => {
 			if (shouldStop) {
+				return true
+			}
+
+			if (progress === 90 && shouldStop === false) {
 				return true
 			}
 
