@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import Image from 'next/image'
 import Paper from '@material-ui/core/Paper'
 import Grid from '@material-ui/core/Grid'
@@ -6,20 +6,13 @@ import Typography from '@material-ui/core/Typography'
 import Divider from '@material-ui/core/Divider'
 import Card from '@material-ui/core/Card'
 import Button from '@material-ui/core/Button'
-import IconButton from '@material-ui/core/IconButton'
-import EditIcon from '@material-ui/icons/Edit'
-import { mutate } from 'swr'
 import { makeStyles, Theme } from '@material-ui/core/styles'
-import ImageUploadModal from 'components/Modals/ImageUploadModal'
 
-import createRequest from 'utils/createRequest'
-
-import { useProfileUserID } from 'hooks/profileContextHooks'
+import { useIsSelf } from 'hooks/profileContextHooks'
 import useGetPersonalData from 'hooks/useGetPersonalProfile'
 import useGetProfilePicture from 'hooks/useGetProfilePictue'
 
-import { getProfilePicture } from 'graphql/queries/profileQueries'
-import { uploadProfilePicture } from 'graphql/mutations/userMutations'
+import ProfilePictureUpload from './ProfilePictureUpload'
 
 const useStyles = makeStyles((theme: Theme) => ({
 	container: {
@@ -34,32 +27,15 @@ const useStyles = makeStyles((theme: Theme) => ({
 		marginBottom: '5%',
 		boxShadow: 'none',
 	},
-	editIconStyle: { marginLeft: '100%', transform: 'translate(-100%, -100%)' },
 }))
 
 export const ProfileCover = () => {
-	const { container, media, editIconStyle } = useStyles()
+	const { container, media } = useStyles()
+
+	const isSelf = useIsSelf()
 	const { data, error } = useGetPersonalData('name bio')
 
 	const { data: pictureData, error: pictureDataError } = useGetProfilePicture()
-	const profileUserID = useProfileUserID()
-
-	const [uploadModalOpen, setUploadModalOpen] = useState(false)
-
-	const openUploadModal = () => setUploadModalOpen(true)
-
-	const action = async (image: ArrayBuffer | string | null) => {
-		const res = await createRequest({
-			key: uploadProfilePicture,
-			values: { image },
-		})
-
-		if (res?.uploadProfilePicture.message) {
-			mutate([getProfilePicture, profileUserID])
-		}
-
-		setUploadModalOpen(false)
-	}
 
 	if (error) return <div>failed to load</div>
 	if (!data) return <div>loading...</div>
@@ -76,30 +52,19 @@ export const ProfileCover = () => {
 					{pictureDataError && <div>failed to load</div>}
 
 					{pictureData && (
-						<>
-							<Image
-								className={media}
-								layout='responsive'
-								height={720}
-								width={1280}
-								objectFit='cover'
-								src={
-									pictureData?.getProfilePicture?.imageID || '/images/woman_avatar.png'
-								}
-							/>
-							<IconButton onClick={openUploadModal} className={editIconStyle}>
-								<EditIcon />
-							</IconButton>
-
-							{uploadModalOpen && (
-								<ImageUploadModal
-									action={action}
-									open={uploadModalOpen}
-									setOpen={setUploadModalOpen}
-								/>
-							)}
-						</>
+						<Image
+							className={media}
+							layout='responsive'
+							height={720}
+							width={1280}
+							objectFit='cover'
+							src={
+								pictureData?.getProfilePicture?.imageID || '/images/woman_avatar.png'
+							}
+						/>
 					)}
+
+					{isSelf && <ProfilePictureUpload />}
 
 					<Typography variant='h3' align='center'>
 						{name}
