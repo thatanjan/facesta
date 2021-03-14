@@ -8,13 +8,17 @@ import Card from '@material-ui/core/Card'
 import Button from '@material-ui/core/Button'
 import IconButton from '@material-ui/core/IconButton'
 import EditIcon from '@material-ui/icons/Edit'
+import { mutate } from 'swr'
 import { makeStyles, Theme } from '@material-ui/core/styles'
-import useGetPersonalData from 'hooks/useGetPersonalProfile'
-import useGetProfilePicture from 'hooks/useGetProfilePictue'
 import ImageUploadModal from 'components/Modals/ImageUploadModal'
 
 import createRequest from 'utils/createRequest'
 
+import { useProfileUserID } from 'hooks/profileContextHooks'
+import useGetPersonalData from 'hooks/useGetPersonalProfile'
+import useGetProfilePicture from 'hooks/useGetProfilePictue'
+
+import { getProfilePicture } from 'graphql/queries/profileQueries'
 import { uploadProfilePicture } from 'graphql/mutations/userMutations'
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -38,12 +42,24 @@ export const ProfileCover = () => {
 	const { data, error } = useGetPersonalData('name bio')
 
 	const { data: pictureData, error: pictureDataError } = useGetProfilePicture()
-
-	const action = async (image: ArrayBuffer | string | null) => {}
+	const profileUserID = useProfileUserID()
 
 	const [uploadModalOpen, setUploadModalOpen] = useState(false)
 
 	const openUploadModal = () => setUploadModalOpen(true)
+
+	const action = async (image: ArrayBuffer | string | null) => {
+		const res = await createRequest({
+			key: uploadProfilePicture,
+			values: { image },
+		})
+
+		if (res?.uploadProfilePicture.message) {
+			mutate([getProfilePicture, profileUserID])
+		}
+
+		setUploadModalOpen(false)
+	}
 
 	if (error) return <div>failed to load</div>
 	if (!data) return <div>loading...</div>
@@ -66,6 +82,7 @@ export const ProfileCover = () => {
 								layout='responsive'
 								height={720}
 								width={1280}
+								objectFit='cover'
 								src={
 									pictureData?.getProfilePicture?.imageID || '/images/woman_avatar.png'
 								}
