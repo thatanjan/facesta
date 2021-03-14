@@ -9,22 +9,11 @@ export const getPersonalData = (output?: string | undefined): string => gql`
 		 }
 } `
 
-export const getExperience = (output: string): string => gql`
-	query getExperience($profileOwnerID: ID!) {
-		getExperience(  profileOwnerID: $profileOwnerID ){
-			    ${output}
-		}
-} `
-
-export const getEducation: string = gql`
-	query getEducation($profileOwnerID: ID!) {
-		getEducation(profileOwnerID: $profileOwnerID) {
-			id
-			school
-			degree
-			fieldOfStudy
-			from
-			to
+export const getProfilePicture = gql`
+	query getPersonalData($userID: ID!) {
+		getProfilePicture(userID: $userID) {
+			imageID
+			errorMessage
 		}
 	}
 `
