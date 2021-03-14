@@ -12,6 +12,10 @@ import { makeStyles, Theme } from '@material-ui/core/styles'
 import useGetPersonalData from 'hooks/useGetPersonalProfile'
 import ImageUploadModal from 'components/Modals/ImageUploadModal'
 
+import createRequest from 'utils/createRequest'
+
+import { uploadProfilePicture } from 'graphql/mutations/userMutations'
+
 const useStyles = makeStyles((theme: Theme) => ({
 	container: {
 		maxWidth: '100%',
@@ -35,6 +39,13 @@ export const ProfileCover = () => {
 	const { container, media, editIconStyle } = useStyles()
 	const { data, error } = useGetPersonalData('name bio')
 
+	const action = async (image: ArrayBuffer | string | null) => {
+		const data = await createRequest({
+			key: uploadProfilePicture,
+			values: { image },
+		})
+	}
+
 	const [uploadModalOpen, setUploadModalOpen] = useState(false)
 
 	const openUploadModal = () => setUploadModalOpen(true)
@@ -57,7 +68,11 @@ export const ProfileCover = () => {
 						</IconButton>
 
 						{uploadModalOpen && (
-							<ImageUploadModal open={uploadModalOpen} setOpen={setUploadModalOpen} />
+							<ImageUploadModal
+								action={action}
+								open={uploadModalOpen}
+								setOpen={setUploadModalOpen}
+							/>
 						)}
 					</CardMedia>
 

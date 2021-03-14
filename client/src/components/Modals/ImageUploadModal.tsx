@@ -9,13 +9,11 @@ import Button from '@material-ui/core/Button'
 import { makeStyles } from '@material-ui/core/styles'
 
 import ImagePreviewModal from 'components/Images/ImagePreview'
-import createRequest from 'utils/createRequest'
-
-import { uploadProfilePicture } from 'graphql/mutations/userMutations'
 
 interface Props {
 	open: boolean
 	setOpen(value: boolean): void
+	action: (file: ArrayBuffer | null | string) => void
 }
 
 const useStyles = makeStyles({
@@ -27,24 +25,12 @@ const useStyles = makeStyles({
 	uploadIconStyle: {},
 })
 
-const UploadModal = ({ open, setOpen }: Props) => {
+const UploadModal = ({ open, setOpen, action }: Props) => {
 	const { dialogContentStyle, uploadIconStyle } = useStyles()
 
-	const [uploading, setUploading] = useState(false)
 	const [previewOpen, setPreviewOpen] = useState(false)
 	const [rejected, setRejected] = useState(false)
 	const [file, setFile] = useState({})
-
-	const action = async (image: ArrayBuffer | string | null) => {
-		const data = await createRequest({
-			key: uploadProfilePicture,
-			values: { image },
-		})
-
-		const {
-			uploadProfilePicture: { errorMessage, message },
-		} = data
-	}
 
 	const imagePreviewModalProps = {
 		previewOpen,
