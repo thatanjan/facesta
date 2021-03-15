@@ -7,10 +7,13 @@ import Dialog from '@material-ui/core/Dialog'
 import Button from '@material-ui/core/Button'
 import { makeStyles } from '@material-ui/core/styles'
 
+export type ApprovedType = boolean | null
+
 interface Props {
 	setFile: Function
 	uploadModalOpen: boolean
 	setUploadModalOpen: (bool: boolean) => void
+	setApproved: (param: ApprovedType) => void
 }
 
 const useStyles = makeStyles({
@@ -26,6 +29,7 @@ const UploadModal = ({
 	uploadModalOpen,
 	setUploadModalOpen,
 	setFile,
+	setApproved,
 }: Props) => {
 	const { dialogContentStyle, uploadIconStyle } = useStyles()
 
@@ -45,6 +49,7 @@ const UploadModal = ({
 			})
 
 			setFile(realFile)
+			setApproved(null)
 			handleClose()
 		},
 	})
