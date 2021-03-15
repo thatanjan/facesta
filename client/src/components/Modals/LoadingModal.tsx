@@ -28,7 +28,14 @@ export default function AlertDialogSlide({ open, title, setOpen }: Props) {
 
 	const ProgressBarProps = { success, shouldStop, setShouldStop }
 
-	const handleClose = () => setOpen(false)
+	const handleClose = () => {
+		if (success) {
+			setTimeout(() => {
+				setOpen(false)
+			}, 1500)
+		}
+	}
+
 	return (
 		<div>
 			<Dialog
