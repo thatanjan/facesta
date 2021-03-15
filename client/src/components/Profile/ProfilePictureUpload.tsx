@@ -12,6 +12,7 @@ import LoadingModal from 'components/Modals/LoadingModal'
 
 import { useProfileUserID } from 'hooks/profileContextHooks'
 import createRequest from 'utils/createRequest'
+import makeBase64 from 'utils/makeBase64Image'
 import { getProfilePicture } from 'graphql/queries/profileQueries'
 import { uploadProfilePicture } from 'graphql/mutations/userMutations'
 
@@ -21,8 +22,11 @@ const useStyles = makeStyles(() => ({
 	editIconStyle: { marginLeft: '100%', transform: 'translate(-100%, -100%)' },
 }))
 
+type Base64 = ArrayBuffer | string | null
+
 const ProfilePictureUpload = () => {
 	const [file, setFile] = useState<CustomFile | {}>({})
+	const [base64, setBase64] = useState<Base64>('')
 	const [approved, setApproved] = useState<NullOrBooleanType>(null)
 	const [loading, setLoading] = useState(false)
 	const [success, setSuccess] = useState<NullOrBooleanType>(false)
@@ -43,15 +47,13 @@ const ProfilePictureUpload = () => {
 
 	const openUploadModal = () => setUploadModalOpen(true)
 
-	const action = async (image: ArrayBuffer | string | null) => {
+	const action = async (image: Base64) => {
 		const res = await createRequest({
 			key: uploadProfilePicture,
 			values: { image },
 		})
 
-		if (res?.uploadProfilePicture.message) {
-			mutate([getProfilePicture, profileUserID])
-		}
+		return res
 	}
 
 	useEffect(() => {
@@ -67,10 +69,14 @@ const ProfilePictureUpload = () => {
 
 	useEffect(() => {
 		if (approved) {
+			setShowPreview(false)
 			setLoading(true)
-			setTimeout(() => {
-				setLoading(false)
-			}, 2000)
+
+			makeBase64(file as CustomFile, setBase64)
+
+			// setTimeout(() => {
+			// 	setLoading(false)
+			// }, 2000)
 		}
 
 		if (approved === false) {
@@ -78,6 +84,21 @@ const ProfilePictureUpload = () => {
 			setUploadModalOpen(true)
 		}
 	}, [approved])
+
+	useEffect(() => {
+		if (base64) {
+			;(async () => {
+				const res = await action(base64)
+				if (res) {
+					setLoading(false)
+
+					if (res?.uploadProfilePicture.message) {
+						mutate([getProfilePicture, profileUserID])
+					}
+				}
+			})()
+		}
+	}, [base64])
 
 	const imagePreviewProps = { previewLink, showPreview, setApproved }
 	const loadingModalProps = {
