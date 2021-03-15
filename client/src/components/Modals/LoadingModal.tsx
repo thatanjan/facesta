@@ -18,16 +18,17 @@ const Transition = forwardRef(function Transition(
 
 interface Props {
 	open: boolean
-	handleClose: (event: {}, reason: 'escapeKeyDown' | 'backdropClick') => void
+	setOpen: Function
 	title: string
 }
 
-export default function AlertDialogSlide({ open, title, handleClose }: Props) {
+export default function AlertDialogSlide({ open, title, setOpen }: Props) {
 	const [success, setSuccess] = useState(false)
 	const [shouldStop, setShouldStop] = useState(false)
 
 	const ProgressBarProps = { success, shouldStop, setShouldStop }
 
+	const handleClose = () => setOpen(false)
 	return (
 		<div>
 			<Dialog
