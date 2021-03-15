@@ -5,7 +5,7 @@ import { makeStyles } from '@material-ui/core/styles'
 import { mutate } from 'swr'
 
 import ImageUploadModal, {
-	ApprovedType,
+	NullOrBooleanType,
 } from 'components/Modals/ImageUploadModal'
 import ImagePreview from 'components/Images/ImagePreview'
 import LoadingModal from 'components/Modals/LoadingModal'
@@ -23,9 +23,9 @@ const useStyles = makeStyles(() => ({
 
 const ProfilePictureUpload = () => {
 	const [file, setFile] = useState<CustomFile | {}>({})
-	const [approved, setApproved] = useState<ApprovedType>(null)
+	const [approved, setApproved] = useState<NullOrBooleanType>(null)
 	const [loading, setLoading] = useState(false)
-	const [success, setSuccess] = useState(false)
+	const [success, setSuccess] = useState<NullOrBooleanType>(false)
 	const [uploadModalOpen, setUploadModalOpen] = useState(false)
 	const [showPreview, setShowPreview] = useState(false)
 	const [previewLink, setPreviewLink] = useState('')

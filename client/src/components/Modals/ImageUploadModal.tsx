@@ -7,13 +7,13 @@ import Dialog from '@material-ui/core/Dialog'
 import Button from '@material-ui/core/Button'
 import { makeStyles } from '@material-ui/core/styles'
 
-export type ApprovedType = boolean | null
+export type NullOrBooleanType = boolean | null
 
 interface Props {
 	setFile: Function
 	uploadModalOpen: boolean
 	setUploadModalOpen: (bool: boolean) => void
-	setApproved: (param: ApprovedType) => void
+	setApproved: (param: NullOrBooleanType) => void
 }
 
 const useStyles = makeStyles({
