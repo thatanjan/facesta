@@ -17,8 +17,8 @@ interface Props {
 	setRejected: (bool: boolean) => void
 	file: CustomFile
 	action: (file: ArrayBuffer | null | string) => void
-	setShowProgress: (bool: boolean) => void
 	setUploadModalOpen: (bool: boolean) => void
+	setLoadingModalOpen: Function
 }
 
 const ImagePreviewModal = ({
@@ -27,14 +27,14 @@ const ImagePreviewModal = ({
 	file,
 	setRejected,
 	action,
-	setShowProgress,
 	setUploadModalOpen,
+	setLoadingModalOpen,
 }: Props) => {
 	const handleClose = () => {
 		// setShowProgress(true)
 		makeBase64Image(file, action)
 		setPreviewOpen(false)
-		setShowProgress(true)
+		setLoadingModalOpen(true)
 	}
 
 	const handleReject = () => {

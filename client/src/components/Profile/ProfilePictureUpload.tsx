@@ -20,13 +20,15 @@ const ProfilePictureUpload = () => {
 	const { editIconStyle } = useStyles()
 
 	const [uploadModalOpen, setUploadModalOpen] = useState(false)
-	const [loadingModalOpen,setLoadingModalOpen] = useState(false)
+	const [loadingModalOpen, setLoadingModalOpen] = useState(false)
 
 	const profileUserID = useProfileUserID()
 
 	const openUploadModal = () => setUploadModalOpen(true)
 
 	const action = async (image: ArrayBuffer | string | null) => {
+		setLoadingModalOpen(true)
+
 		const res = await createRequest({
 			key: uploadProfilePicture,
 			values: { image },
@@ -48,13 +50,17 @@ const ProfilePictureUpload = () => {
 					action={action}
 					open={uploadModalOpen}
 					setOpen={setUploadModalOpen}
+					setLoadingModalOpen={setLoadingModalOpen}
 				/>
 			)}
 
 			{loadingModalOpen && (
-				<LoadingModal title='profile picture is uploading' open={loadingModalOpen} setOpen={setLoadingModalOpen} /> 
+				<LoadingModal
+					title='profile picture is uploading'
+					open={loadingModalOpen}
+					setOpen={setLoadingModalOpen}
+				/>
 			)}
-
 		</>
 	)
 }
