@@ -1,6 +1,9 @@
-import { useState, useRef, useEffect } from 'react'
+import { useState, useRef, useEffect, ReactElement, forwardRef, Ref } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import LinearProgress from '@material-ui/core/LinearProgress'
+import { TransitionProps } from '@material-ui/core/transitions'
+import Dialog from '@material-ui/core/Dialog'
+import Slide from '@material-ui/core/Slide'
 
 export const FAILED = 'failed'
 
@@ -10,14 +13,26 @@ const useStyles = makeStyles({
 	},
 })
 
+
+type SetStateBool = (bool: boolean)  => void
+
 interface Props {
-	success: boolean | string
+	open: boolean
+	setOpen: SetStateBool
+	success: boolean | string | null
 	shouldStop: boolean
-	setShouldStop: (bool: boolean) => void
+	setShouldStop: SetStateBool
 }
 
-const LinearBuffer = ({ shouldStop, setShouldStop, success }: Props) => {
-	const classes = useStyles()
+const Transition = forwardRef(function Transition(
+	props: TransitionProps & { children?: ReactElement<any, any> },
+	ref: Ref<unknown>
+) {
+	return <Slide direction='up' ref={ref} {...props} />
+})
+
+const LinearBuffer = ({open, setOpen, shouldStop, setShouldStop, success }: Props) => {
+	const classes = useStyles() 
 	const [progress, setProgress] = useState(0)
 	const [buffer, setBuffer] = useState(10)
 
@@ -71,10 +86,19 @@ const LinearBuffer = ({ shouldStop, setShouldStop, success }: Props) => {
 		}
 	}, [])
 
+	const handleClose = () => setOpen(false)
+
 	return (
-		<div className={classes.root}>
+		<Dialog
+			open={open}
+			TransitionComponent={Transition}
+			keepMounted
+			onClose={handleClose}
+			aria-labelledby='alert-dialog-slide-title'
+			aria-describedby='alert-dialog-slide-description'
+		>
 			<LinearProgress variant='buffer' value={progress} valueBuffer={buffer} />
-		</div>
+		</Dialog>
 	)
 }
 
