@@ -4,43 +4,23 @@ import DialogActions from '@material-ui/core/DialogActions'
 import DialogContent from '@material-ui/core/DialogContent'
 import Button from '@material-ui/core/Button'
 
-import makeBase64Image from 'utils/makeBase64Image'
-import { useEffect, useState } from 'react'
-
-export interface CustomFile extends File {
-	previewLink: string
-}
-
 interface Props {
-	previewOpen: boolean
-	setPreviewOpen: Function
-	setRejected: (bool: boolean) => void
-	file: CustomFile
-	action: (file: ArrayBuffer | null | string) => void
-	setUploadModalOpen: (bool: boolean) => void
-	setLoadingModalOpen: Function
+	previewLink: string
+	showPreview: boolean
+	setApproved: (bool: boolean) => void
 }
 
 const ImagePreviewModal = ({
-	setPreviewOpen,
-	previewOpen,
-	file,
-	setRejected,
-	action,
-	setUploadModalOpen,
-	setLoadingModalOpen,
+	previewLink,
+	showPreview,
+	setApproved,
 }: Props) => {
 	const handleClose = () => {
-		// setShowProgress(true)
-		makeBase64Image(file, action)
-		setPreviewOpen(false)
-		setLoadingModalOpen(true)
+		setApproved(true)
 	}
 
 	const handleReject = () => {
-		setRejected(true)
-		setPreviewOpen(false)
-		setUploadModalOpen(true)
+		setApproved(false)
 	}
 
 	return (
@@ -48,12 +28,12 @@ const ImagePreviewModal = ({
 			fullWidth
 			aria-labelledby='simple-dialog-title'
 			maxWidth='lg'
-			open={previewOpen}
+			open={showPreview}
 		>
 			<DialogContent style={{ padding: 0 }}>
 				<CardMedia
 					style={{ height: 0, paddingTop: '56.25%' }}
-					image={file.previewLink}
+					image={previewLink}
 				/>
 			</DialogContent>
 
