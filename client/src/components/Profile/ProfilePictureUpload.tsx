@@ -17,27 +17,32 @@ const useStyles = makeStyles(() => ({
 }))
 
 const ProfilePictureUpload = () => {
+	const [file, setFile] = useState({})
+	const [approved, setApproved] = useState(false)
+	const [loading, setLoading] = useState(false)
+	const [success, setSuccess] = useState(false)
+	const [uploadModalOpen, setUploadModalOpen] = useState(false)
+
 	const { editIconStyle } = useStyles()
 
-	const [uploadModalOpen, setUploadModalOpen] = useState(false)
-	const [loadingModalOpen, setLoadingModalOpen] = useState(false)
+	const uploadModalProps = { setFile, uploadModalOpen, setUploadModalOpen }
 
-	const profileUserID = useProfileUserID()
+	// const profileUserID = useProfileUserID()
 
 	const openUploadModal = () => setUploadModalOpen(true)
 
-	const action = async (image: ArrayBuffer | string | null) => {
-		setLoadingModalOpen(true)
+	// const action = async (image: ArrayBuffer | string | null) => {
+	// 	setLoadingModalOpen(true)
 
-		const res = await createRequest({
-			key: uploadProfilePicture,
-			values: { image },
-		})
+	// 	const res = await createRequest({
+	// 		key: uploadProfilePicture,
+	// 		values: { image },
+	// 	})
 
-		if (res?.uploadProfilePicture.message) {
-			mutate([getProfilePicture, profileUserID])
-		}
-	}
+	// 	if (res?.uploadProfilePicture.message) {
+	// 		mutate([getProfilePicture, profileUserID])
+	// 	}
+	// }
 
 	return (
 		<>
@@ -45,22 +50,15 @@ const ProfilePictureUpload = () => {
 				<EditIcon />
 			</IconButton>
 
-			{uploadModalOpen && (
-				<ImageUploadModal
-					action={action}
-					open={uploadModalOpen}
-					setOpen={setUploadModalOpen}
-					setLoadingModalOpen={setLoadingModalOpen}
-				/>
-			)}
+			{uploadModalOpen && <ImageUploadModal {...uploadModalProps} />}
 
-			{loadingModalOpen && (
-				<LoadingModal
-					title='profile picture is uploading'
-					open={loadingModalOpen}
-					setOpen={setLoadingModalOpen}
-				/>
-			)}
+			{/* {loading && ( */}
+			{/* 	<LoadingModal */}
+			{/* 		title='profile picture is uploading' */}
+			{/* 		open={loadingModalOpen} */}
+			{/* 		setOpen={setLoadingModalOpen} */}
+			{/* 	/> */}
+			{/* )} */}
 		</>
 	)
 }
