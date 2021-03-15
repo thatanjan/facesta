@@ -59,6 +59,7 @@ const UploadModal = ({ open, setOpen, action }: Props) => {
 
 			setFile(realFile)
 			setPreviewOpen(true)
+			setOpen(false)
 		},
 	})
 
@@ -84,7 +85,7 @@ const UploadModal = ({ open, setOpen, action }: Props) => {
 				</MuiDialogContent>
 				<DialogActions>
 					<Button autoFocus onClick={handleClose} color='primary'>
-						Done
+						Close
 					</Button>
 				</DialogActions>
 			</Dialog>

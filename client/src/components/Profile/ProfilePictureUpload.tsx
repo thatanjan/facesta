@@ -33,11 +33,10 @@ const ProfilePictureUpload = () => {
 		if (res?.uploadProfilePicture.message) {
 			mutate([getProfilePicture, profileUserID])
 		}
-
-		setUploadModalOpen(false)
 	}
+
 	return (
-		<div>
+		<>
 			<IconButton onClick={openUploadModal} className={editIconStyle}>
 				<EditIcon />
 			</IconButton>
@@ -49,7 +48,7 @@ const ProfilePictureUpload = () => {
 					setOpen={setUploadModalOpen}
 				/>
 			)}
-		</div>
+		</>
 	)
 }
 
