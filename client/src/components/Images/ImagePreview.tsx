@@ -1,6 +1,3 @@
-import LinearBufferProgress, {
-	FAILED,
-} from 'components/Progress/LinearBufferProgress'
 import Dialog from '@material-ui/core/Dialog'
 import CardMedia from '@material-ui/core/CardMedia'
 import DialogActions from '@material-ui/core/DialogActions'
@@ -29,16 +26,10 @@ const ImagePreviewModal = ({
 	setRejected,
 	action,
 }: Props) => {
-	const [showProgress, setShowProgress] = useState(false)
-	const [success, setSuccess] = useState<null | boolean | string>(null)
-	const [shouldStop, setShouldStop] = useState(false)
-	const progressProps = { shouldStop, setShouldStop, success }
-
 	const handleClose = () => {
 		// setShowProgress(true)
 		makeBase64Image(file, action)
 		setPreviewOpen(false)
-		setUploadModalOpen(false)
 	}
 
 	const handleReject = () => {
@@ -64,12 +55,6 @@ const ImagePreviewModal = ({
 				<Button onClick={handleReject}>discard</Button>
 				<Button onClick={handleClose}>OK</Button>
 			</DialogActions>
-
-			{/* {showProgress && ( */}
-			{/* <Dialog open={showProgress}> */}
-			{/* 	<LinearBufferProgress {...progressProps} /> */}
-			{/* </Dialog> */}
-			{/* )} */}
 		</Dialog>
 	)
 }

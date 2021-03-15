@@ -8,6 +8,7 @@ import Dialog from '@material-ui/core/Dialog'
 import Button from '@material-ui/core/Button'
 import { makeStyles } from '@material-ui/core/styles'
 
+import LinearBufferProgress from 'components/Progress/LinearBufferProgress'
 import ImagePreviewModal, { CustomFile } from 'components/Images/ImagePreview'
 
 interface Props {
@@ -27,7 +28,9 @@ const useStyles = makeStyles({
 
 const UploadModal = ({ open, setOpen, action }: Props) => {
 	const { dialogContentStyle, uploadIconStyle } = useStyles()
-
+	const [showProgress, setShowProgress] = useState(false)
+	const [success, setSuccess] = useState<null | boolean | string>(null)
+	const [shouldStop, setShouldStop] = useState(false)
 	const [previewOpen, setPreviewOpen] = useState(false)
 	const [rejected, setRejected] = useState(false)
 	const [file, setFile] = useState<CustomFile>({})
@@ -40,6 +43,8 @@ const UploadModal = ({ open, setOpen, action }: Props) => {
 		file,
 		action,
 	}
+
+	const progressProps = { shouldStop, setShouldStop, success }
 
 	const {
 		getRootProps,
@@ -57,7 +62,7 @@ const UploadModal = ({ open, setOpen, action }: Props) => {
 				previewLink: URL.createObjectURL(realFile),
 			})
 
-			setFile(realFile)
+			setFile((realFile as unknown) as CustomFile)
 			setPreviewOpen(true)
 			setOpen(false)
 		},
@@ -91,6 +96,8 @@ const UploadModal = ({ open, setOpen, action }: Props) => {
 			</Dialog>
 
 			<ImagePreviewModal {...imagePreviewModalProps} />
+
+			{showProgress && <LinearBufferProgress {...progressProps} />}
 		</>
 	)
 }
