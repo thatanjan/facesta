@@ -8,7 +8,7 @@ import Dialog from '@material-ui/core/Dialog'
 import Button from '@material-ui/core/Button'
 import { makeStyles } from '@material-ui/core/styles'
 
-import ImagePreviewModal from 'components/Images/ImagePreview'
+import ImagePreviewModal, { CustomFile } from 'components/Images/ImagePreview'
 
 interface Props {
 	open: boolean
@@ -30,7 +30,7 @@ const UploadModal = ({ open, setOpen, action }: Props) => {
 
 	const [previewOpen, setPreviewOpen] = useState(false)
 	const [rejected, setRejected] = useState(false)
-	const [file, setFile] = useState({})
+	const [file, setFile] = useState<CustomFile>({})
 
 	const imagePreviewModalProps = {
 		previewOpen,
