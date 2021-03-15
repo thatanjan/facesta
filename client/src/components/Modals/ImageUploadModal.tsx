@@ -42,6 +42,8 @@ const UploadModal = ({ open, setOpen, action }: Props) => {
 		setRejected,
 		file,
 		action,
+		setShowProgress,
+		setUploadModalOpen: setOpen,
 	}
 
 	const progressProps = { shouldStop, setShouldStop, success }
