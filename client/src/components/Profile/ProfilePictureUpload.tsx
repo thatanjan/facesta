@@ -5,6 +5,7 @@ import { makeStyles } from '@material-ui/core/styles'
 import { mutate } from 'swr'
 
 import ImageUploadModal from 'components/Modals/ImageUploadModal'
+import LoadingModal from 'components/Modals/LoadingModal'
 
 import { useProfileUserID } from 'hooks/profileContextHooks'
 import createRequest from 'utils/createRequest'
@@ -19,6 +20,7 @@ const ProfilePictureUpload = () => {
 	const { editIconStyle } = useStyles()
 
 	const [uploadModalOpen, setUploadModalOpen] = useState(false)
+	const [loadingModalOpen,setLoadingModalOpen] = useState(false)
 
 	const profileUserID = useProfileUserID()
 
@@ -48,6 +50,11 @@ const ProfilePictureUpload = () => {
 					setOpen={setUploadModalOpen}
 				/>
 			)}
+
+			{loadingModalOpen && (
+				<LoadingModal title='profile picture is uploading' open={loadingModalOpen} setOpen={setLoadingModalOpen} /> 
+			)}
+
 		</>
 	)
 }
