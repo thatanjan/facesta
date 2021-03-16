@@ -25,7 +25,13 @@ const useStyles = makeStyles(() => ({
 
 type Base64 = ArrayBuffer | string | null
 
-const ProfilePictureUpload = () => {
+interface Props {
+	action: (base64: Base64) => any
+	type: 'uploadProfilePicture' | 'createPost'
+	setPostPreviewLink: (link: string) => void
+}
+
+const ProfilePictureUpload = ({ action, type }: Props) => {
 	const [file, setFile] = useState<CustomFile | {}>({})
 	const [base64, setBase64] = useState<Base64>('')
 	const [approved, setApproved] = useState<NullOrBooleanType>(null)
@@ -41,6 +47,8 @@ const ProfilePictureUpload = () => {
 
 	const { editIconStyle } = useStyles()
 
+	const openUploadModal = () => setUploadModalOpen(true)
+
 	const uploadModalProps = {
 		setFile,
 		uploadModalOpen,
@@ -50,16 +58,14 @@ const ProfilePictureUpload = () => {
 
 	const profileUserID = useProfileUserID()
 
-	const openUploadModal = () => setUploadModalOpen(true)
+	// const action = async (image: Base64) => {
+	// 	const res = await createRequest({
+	// 		key: uploadProfilePicture,
+	// 		values: { image },
+	// 	})
 
-	const action = async (image: Base64) => {
-		const res = await createRequest({
-			key: uploadProfilePicture,
-			values: { image },
-		})
-
-		return res
-	}
+	// 	return res
+	// }
 
 	useEffect(() => {
 		const { valid, previewLink: link } = file as CustomFile
@@ -72,10 +78,12 @@ const ProfilePictureUpload = () => {
 
 	useEffect(() => {
 		if (approved) {
-			setShowPreview(false)
-			setLoading(true)
-
-			makeBase64(file as CustomFile, setBase64)
+			if (type === 'createPost') {
+				setShowPreview(false)
+			} else {
+				setLoading(true)
+				makeBase64(file as CustomFile, setBase64)
+			}
 		}
 
 		if (approved === false) {
@@ -91,7 +99,7 @@ const ProfilePictureUpload = () => {
 				if (res) {
 					setLoading(false)
 
-					if (res?.uploadProfilePicture.message) {
+					if (res[type].message) {
 						setUploadAlertProps(prev => ({
 							...prev,
 							message: res?.uploadProfilePicture.message,
@@ -101,7 +109,7 @@ const ProfilePictureUpload = () => {
 						mutate([getProfilePicture, profileUserID])
 					}
 
-					if (res?.uploadProfilePicture.errorMessage) {
+					if (res[type].errorMessage) {
 						setUploadAlertProps(prev => ({
 							...prev,
 							message: res?.uploadProfilePicture.errorMessage,
