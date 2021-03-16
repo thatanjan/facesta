@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Image from 'next/image'
 import Paper from '@material-ui/core/Paper'
 import Grid from '@material-ui/core/Grid'
@@ -11,8 +11,10 @@ import { makeStyles, Theme } from '@material-ui/core/styles'
 import { useIsSelf } from 'hooks/profileContextHooks'
 import useGetPersonalData from 'hooks/useGetPersonalProfile'
 import useGetProfilePicture from 'hooks/useGetProfilePictue'
+import createRequest from 'utils/createRequest'
+import { uploadProfilePicture } from 'graphql/mutations/userMutations'
 
-import ProfilePictureUpload from './ProfilePictureUpload'
+import ProfilePictureUpload, { Base64 } from './ProfilePictureUpload'
 
 const useStyles = makeStyles((theme: Theme) => ({
 	container: {
@@ -32,10 +34,28 @@ const useStyles = makeStyles((theme: Theme) => ({
 export const ProfileCover = () => {
 	const { container, media } = useStyles()
 
+	const [uploadingPost, setUploadingPost] = useState(false)
+
 	const isSelf = useIsSelf()
 	const { data, error } = useGetPersonalData('name bio')
 
 	const { data: pictureData, error: pictureDataError } = useGetProfilePicture()
+
+	const action = async (image: Base64) => {
+		setUploadingPost(true)
+		const res = await createRequest({
+			key: uploadProfilePicture,
+			values: { image },
+		})
+
+		return res
+	}
+
+	const profilePictureUploadProps = {
+		action,
+		uploadingPost,
+		type: 'uploadProfilePicture',
+	}
 
 	if (error) return <div>failed to load</div>
 	if (!data) return <div>loading...</div>
@@ -64,7 +84,7 @@ export const ProfileCover = () => {
 						/>
 					)}
 
-					{isSelf && <ProfilePictureUpload />}
+					{isSelf && <ProfilePictureUpload {...profilePictureUploadProps} />}
 
 					<Typography variant='h3' align='center'>
 						{name}

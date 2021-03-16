@@ -11,10 +11,8 @@ import ImagePreview from 'components/Images/ImagePreview'
 import LoadingModal from 'components/Modals/LoadingModal'
 
 import { useProfileUserID } from 'hooks/profileContextHooks'
-import createRequest from 'utils/createRequest'
 import makeBase64 from 'utils/makeBase64Image'
 import { getProfilePicture } from 'graphql/queries/profileQueries'
-import { uploadProfilePicture } from 'graphql/mutations/userMutations'
 import UploadAlert, { Props as AlertProps } from 'components/Alerts/UploadAlert'
 
 import { CustomFile } from 'interfaces/upload'
@@ -23,15 +21,21 @@ const useStyles = makeStyles(() => ({
 	editIconStyle: { marginLeft: '100%', transform: 'translate(-100%, -100%)' },
 }))
 
-type Base64 = ArrayBuffer | string | null
+export type Base64 = ArrayBuffer | string | null
 
 interface Props {
 	action: (base64: Base64) => any
 	type: 'uploadProfilePicture' | 'createPost'
-	setPostPreviewLink: (link: string) => void
+	setPostPreviewLink?: (link: string) => void
+	uploadingPost?: boolean
 }
 
-const ProfilePictureUpload = ({ action, type }: Props) => {
+const ProfilePictureUpload = ({
+	action,
+	type,
+	setPostPreviewLink,
+	uploadingPost,
+}: Props) => {
 	const [file, setFile] = useState<CustomFile | {}>({})
 	const [base64, setBase64] = useState<Base64>('')
 	const [approved, setApproved] = useState<NullOrBooleanType>(null)
@@ -58,15 +62,6 @@ const ProfilePictureUpload = ({ action, type }: Props) => {
 
 	const profileUserID = useProfileUserID()
 
-	// const action = async (image: Base64) => {
-	// 	const res = await createRequest({
-	// 		key: uploadProfilePicture,
-	// 		values: { image },
-	// 	})
-
-	// 	return res
-	// }
-
 	useEffect(() => {
 		const { valid, previewLink: link } = file as CustomFile
 
@@ -80,7 +75,10 @@ const ProfilePictureUpload = ({ action, type }: Props) => {
 		if (approved) {
 			if (type === 'createPost') {
 				setShowPreview(false)
-			} else {
+				if (setPostPreviewLink) setPostPreviewLink(previewLink)
+			}
+			if (type === 'uploadProfilePicture') {
+				console.log('hit')
 				setLoading(true)
 				makeBase64(file as CustomFile, setBase64)
 			}
@@ -137,6 +135,13 @@ const ProfilePictureUpload = ({ action, type }: Props) => {
 			}, 3000)
 		}
 	}, [showAlert])
+
+	useEffect(() => {
+		if (uploadingPost) {
+			makeBase64(file as CustomFile, setBase64)
+			setLoading(true)
+		}
+	}, [uploadingPost])
 
 	const imagePreviewProps = { previewLink, showPreview, setApproved }
 	const loadingModalProps = {
