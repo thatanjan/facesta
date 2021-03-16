@@ -13,7 +13,6 @@ import TextField from '@material-ui/core/TextField'
 import { createPost } from 'graphql/mutations/postMutations'
 import createRequest from 'utils/createRequest'
 
-import PrivacyMenu from './PrivacyMenu'
 import TextFieldComponent from './PostTextField'
 
 const useStyles = makeStyles(theme => ({
@@ -111,9 +110,6 @@ const CreatePostModal = ({ isClicked, setIsClicked }: Props) => {
 						<Divider variant='middle' className={dividerStyle} />
 
 						<Grid container alignItems='flex-end' justify='space-between'>
-							<Grid item>
-								<PrivacyMenu />
-							</Grid>
 							<Grid item>
 								<Button
 									variant='contained'
