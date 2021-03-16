@@ -1,5 +1,5 @@
-import React from 'react'
-import CardMedia from '@material-ui/core/CardMedia'
+import React, { useState } from 'react'
+import Image from 'next/image'
 import Paper from '@material-ui/core/Paper'
 import Grid from '@material-ui/core/Grid'
 import Typography from '@material-ui/core/Typography'
@@ -7,7 +7,14 @@ import Divider from '@material-ui/core/Divider'
 import Card from '@material-ui/core/Card'
 import Button from '@material-ui/core/Button'
 import { makeStyles, Theme } from '@material-ui/core/styles'
+
+import { useIsSelf } from 'hooks/profileContextHooks'
 import useGetPersonalData from 'hooks/useGetPersonalProfile'
+import useGetProfilePicture from 'hooks/useGetProfilePictue'
+import createRequest from 'utils/createRequest'
+import { uploadProfilePicture } from 'graphql/mutations/userMutations'
+
+import ProfilePictureUpload, { Base64 } from './ProfilePictureUpload'
 
 const useStyles = makeStyles((theme: Theme) => ({
 	container: {
@@ -19,31 +26,36 @@ const useStyles = makeStyles((theme: Theme) => ({
 		height: 0,
 		paddingTop: '56.25%',
 		position: 'relative',
-		marginBottom: '15%',
+		marginBottom: '5%',
 		boxShadow: 'none',
-	},
-	test: {
-		top: '75%',
-		left: '50%',
-		position: 'absolute',
-		width: '30%',
-		paddingTop: '23.25%',
-		transform: 'translateX(-50%)',
-		backgroundSize: 'cover',
-		// borderRadius: theme.spacing.borderRadius,
-		borderRadius: '20px',
 	},
 }))
 
-const imagelink =
-	'https://www.1a-webradio.de/sites/default/files/BildNebenText/taylor-swift-press-photo-2016-billboard-1548.jpg'
-
-const profileImageLink =
-	'https://im0-tub-com.yandex.net/i?id=3824c666facfe5d76794d2fb1ac8943e&n=13&exp=1'
-
 export const ProfileCover = () => {
-	const { container, test, media } = useStyles()
+	const { container, media } = useStyles()
+
+	const [uploadingPost, setUploadingPost] = useState(false)
+
+	const isSelf = useIsSelf()
 	const { data, error } = useGetPersonalData('name bio')
+
+	const { data: pictureData, error: pictureDataError } = useGetProfilePicture()
+
+	const action = async (image: Base64) => {
+		setUploadingPost(true)
+		const res = await createRequest({
+			key: uploadProfilePicture,
+			values: { image },
+		})
+
+		return res
+	}
+
+	const profilePictureUploadProps = {
+		action,
+		uploadingPost,
+		type: 'uploadProfilePicture',
+	}
 
 	if (error) return <div>failed to load</div>
 	if (!data) return <div>loading...</div>
@@ -56,10 +68,23 @@ export const ProfileCover = () => {
 		<>
 			<Paper elevation={0}>
 				<Card className={container}>
-					<CardMedia className={media} image={imagelink}>
-						<CardMedia className={test} image={profileImageLink} />
-						{/* <Image src='/images/log_in_background_image.jpg' layout='fill' /> */}
-					</CardMedia>
+					{!pictureData && <div>loading...</div>}
+					{pictureDataError && <div>failed to load</div>}
+
+					{pictureData && (
+						<Image
+							className={media}
+							layout='responsive'
+							height={720}
+							width={1280}
+							objectFit='cover'
+							src={
+								pictureData?.getProfilePicture?.imageID || '/images/woman_avatar.png'
+							}
+						/>
+					)}
+
+					{isSelf && <ProfilePictureUpload {...profilePictureUploadProps} />}
 
 					<Typography variant='h3' align='center'>
 						{name}

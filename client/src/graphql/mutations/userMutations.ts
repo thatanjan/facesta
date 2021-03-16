@@ -27,3 +27,11 @@ export const updatePersonalData = gql`
 		}
 	}
 `
+
+export const uploadProfilePicture = gql`
+	mutation uploadProfilePicture($image: String!){
+		uploadProfilePicture(image: $image){
+			${ERROR_OR_MESSAGE}
+		}
+	}
+`

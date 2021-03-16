@@ -21,7 +21,7 @@ const ifProduction = process.env.NODE_ENV === PRODUCTION
 
 const END_POINT = ifProduction
 	? process.env.NEXT_PUBLIC_SERVER_URL
-	: 'http://localhost:8000/graphql'
+	: 'http://localhost:9000/graphql'
 
 const FOLLOWERS = 'followers'
 const FOLLOWEES = 'followees'
