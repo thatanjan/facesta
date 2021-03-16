@@ -12,6 +12,9 @@ import TextField from '@material-ui/core/TextField'
 import CardMedia from '@material-ui/core/CardMedia'
 import Image from 'next/image'
 
+import UploadImage, {
+	Props as UploadImageProps,
+} from 'components/Profile/ProfilePictureUpload'
 import { createPost } from 'graphql/mutations/postMutations'
 import createRequest from 'utils/createRequest'
 
@@ -60,6 +63,8 @@ const CreatePostModal = ({ isClicked, setIsClicked }: Props) => {
 	const [title, setTitle] = useState('')
 	const [dialogOpen, setDialogOpen] = useState(false)
 	const [file, setFile] = useState('')
+	const [postPreviewLink, setPostPreviewLink] = useState('')
+	const [uploadingPost, setUploadingPost] = useState(false)
 
 	const modalProps = { inputText, setInputText }
 
@@ -76,12 +81,33 @@ const CreatePostModal = ({ isClicked, setIsClicked }: Props) => {
 		setIsClicked(false)
 	}
 
-	const handleSubmit = (text: string) => {
-		createRequest({ key: createPost, values: { text, image: file } })
+	const handleSubmit = () => {
+		setUploadingPost(true)
+	}
 
-		setTimeout(() => {
-			setIsClicked(false)
-		}, 2000)
+	const action = async () => {
+		const values = {
+			headline: title,
+			text: inputText,
+			image: file,
+			markdown: false,
+		}
+
+		console.log(values)
+		const res = await createRequest({
+			key: createPost,
+			values,
+		})
+
+		return res
+	}
+
+	const uploadImageProps: UploadImageProps = {
+		setPostPreviewLink,
+		type: 'createPost',
+		uploadingPost,
+		setUploadingPost,
+		action,
 	}
 
 	return (
@@ -110,6 +136,7 @@ const CreatePostModal = ({ isClicked, setIsClicked }: Props) => {
 							image='https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/f94558af-be11-4968-be28-085d6e57abd6/dlqc69-0b6b17a2-3b57-47d2-9cba-f5ddc861bcfa.jpg/v1/fill/w_1168,h_849,q_75,strp/cat__s_eye_nebula_by_decorinason.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwic3ViIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsImF1ZCI6WyJ1cm46c2VydmljZTppbWFnZS5vcGVyYXRpb25zIl0sIm9iaiI6W1t7InBhdGgiOiIvZi9mOTQ1NThhZi1iZTExLTQ5NjgtYmUyOC0wODVkNmU1N2FiZDYvZGxxYzY5LTBiNmIxN2EyLTNiNTctNDdkMi05Y2JhLWY1ZGRjODYxYmNmYS5qcGciLCJ3aWR0aCI6Ijw9MTE2OCIsImhlaWdodCI6Ijw9ODQ5In1dXX0.rWHrviSjWBmkcqLRYgMXuLYoh6g1ZSWT1Zi1JdZkkwU'
 							className={postImageStyle}
 						/>
+						<UploadImage {...uploadImageProps} />
 
 						<TextField
 							className={titleStyle}
@@ -127,11 +154,7 @@ const CreatePostModal = ({ isClicked, setIsClicked }: Props) => {
 
 						<Grid container alignItems='flex-end' justify='space-between'>
 							<Grid item>
-								<Button
-									variant='contained'
-									color='secondary'
-									onClick={() => handleSubmit(inputText)}
-								>
+								<Button variant='contained' color='secondary' onClick={handleSubmit}>
 									Submit
 								</Button>
 							</Grid>

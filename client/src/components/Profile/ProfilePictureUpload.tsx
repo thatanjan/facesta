@@ -10,7 +10,7 @@ import ImageUploadModal, {
 import ImagePreview from 'components/Images/ImagePreview'
 import LoadingModal from 'components/Modals/LoadingModal'
 
-import { useProfileUserID } from 'hooks/profileContextHooks'
+import { useOwnUserId } from 'hooks/userhooks'
 import makeBase64 from 'utils/makeBase64Image'
 import { getProfilePicture } from 'graphql/queries/profileQueries'
 import UploadAlert, { Props as AlertProps } from 'components/Alerts/UploadAlert'
@@ -23,11 +23,12 @@ const useStyles = makeStyles(() => ({
 
 export type Base64 = ArrayBuffer | string | null
 
-interface Props {
+export interface Props {
 	action: (base64: Base64) => any
 	type: 'uploadProfilePicture' | 'createPost'
 	setPostPreviewLink?: (link: string) => void
 	uploadingPost?: boolean
+	setUploadingPost?: (bool: boolean) => void
 }
 
 const ProfilePictureUpload = ({
@@ -35,6 +36,7 @@ const ProfilePictureUpload = ({
 	type,
 	setPostPreviewLink,
 	uploadingPost,
+	setUploadingPost,
 }: Props) => {
 	const [file, setFile] = useState<CustomFile | {}>({})
 	const [base64, setBase64] = useState<Base64>('')
@@ -60,7 +62,7 @@ const ProfilePictureUpload = ({
 		setApproved,
 	}
 
-	const profileUserID = useProfileUserID()
+	const ownUserID = useOwnUserId()
 
 	useEffect(() => {
 		const { valid, previewLink: link } = file as CustomFile
@@ -97,20 +99,21 @@ const ProfilePictureUpload = ({
 				if (res) {
 					setLoading(false)
 
+					console.log(res)
 					if (res[type].message) {
 						setUploadAlertProps(prev => ({
 							...prev,
-							message: res?.uploadProfilePicture.message,
+							message: res[type].message,
 							severity: 'success',
 						}))
 						setSuccess(true)
-						mutate([getProfilePicture, profileUserID])
+						mutate([getProfilePicture, ownUserID])
 					}
 
 					if (res[type].errorMessage) {
 						setUploadAlertProps(prev => ({
 							...prev,
-							message: res?.uploadProfilePicture.errorMessage,
+							message: res[type].errorMessage,
 							severity: 'error',
 						}))
 						setSuccess(false)
@@ -123,6 +126,9 @@ const ProfilePictureUpload = ({
 	useEffect(() => {
 		if (success || success === false) {
 			setShowAlert(true)
+		}
+		if (uploadingPost && setUploadingPost) {
+			setUploadingPost(false)
 		}
 	}, [success])
 
