@@ -15,6 +15,7 @@ import createRequest from 'utils/createRequest'
 import makeBase64 from 'utils/makeBase64Image'
 import { getProfilePicture } from 'graphql/queries/profileQueries'
 import { uploadProfilePicture } from 'graphql/mutations/userMutations'
+import UploadAlert, { Props as AlertProps } from 'components/Alerts/UploadAlert'
 
 import { CustomFile } from 'interfaces/upload'
 
@@ -29,10 +30,14 @@ const ProfilePictureUpload = () => {
 	const [base64, setBase64] = useState<Base64>('')
 	const [approved, setApproved] = useState<NullOrBooleanType>(null)
 	const [loading, setLoading] = useState(false)
-	const [success, setSuccess] = useState<NullOrBooleanType>(false)
+	const [success, setSuccess] = useState<NullOrBooleanType>(null)
 	const [uploadModalOpen, setUploadModalOpen] = useState(false)
 	const [showPreview, setShowPreview] = useState(false)
 	const [previewLink, setPreviewLink] = useState('')
+	const [showAlert, setShowAlert] = useState<NullOrBooleanType>(false)
+	const [uploadAlertProps, setUploadAlertProps] = useState<AlertProps | {}>({
+		checked: true,
+	})
 
 	const { editIconStyle } = useStyles()
 
@@ -63,8 +68,6 @@ const ProfilePictureUpload = () => {
 			setPreviewLink(link)
 			setShowPreview(true)
 		}
-
-		return () => console.log('unmounted')
 	}, [file])
 
 	useEffect(() => {
@@ -73,10 +76,6 @@ const ProfilePictureUpload = () => {
 			setLoading(true)
 
 			makeBase64(file as CustomFile, setBase64)
-
-			// setTimeout(() => {
-			// 	setLoading(false)
-			// }, 2000)
 		}
 
 		if (approved === false) {
@@ -93,12 +92,43 @@ const ProfilePictureUpload = () => {
 					setLoading(false)
 
 					if (res?.uploadProfilePicture.message) {
+						setUploadAlertProps(prev => ({
+							...prev,
+							message: res?.uploadProfilePicture.message,
+							severity: 'success',
+						}))
+						setSuccess(true)
 						mutate([getProfilePicture, profileUserID])
+					}
+
+					if (res?.uploadProfilePicture.errorMessage) {
+						setUploadAlertProps(prev => ({
+							...prev,
+							message: res?.uploadProfilePicture.errorMessage,
+							severity: 'error',
+						}))
+						setSuccess(false)
 					}
 				}
 			})()
 		}
 	}, [base64])
+
+	useEffect(() => {
+		if (success || success === false) {
+			setShowAlert(true)
+		}
+	}, [success])
+
+	useEffect(() => {
+		if (showAlert) {
+			setSuccess(null)
+			setTimeout(() => {
+				setShowAlert(false)
+				setShowAlert(null)
+			}, 3000)
+		}
+	}, [showAlert])
 
 	const imagePreviewProps = { previewLink, showPreview, setApproved }
 	const loadingModalProps = {
@@ -118,6 +148,8 @@ const ProfilePictureUpload = () => {
 			{showPreview && <ImagePreview {...imagePreviewProps} />}
 
 			{loading && <LoadingModal {...loadingModalProps} />}
+
+			{showAlert && <UploadAlert {...(uploadAlertProps as AlertProps)} />}
 		</>
 	)
 }
