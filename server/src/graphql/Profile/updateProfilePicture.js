@@ -35,10 +35,7 @@ const mainResolver = operation => async (
 				return { imageID: currentImage }
 			}
 
-			const hasDeleted = await deleteImage(currentImage)
-
-			if (hasDeleted.result !== 'ok')
-				return sendErrorMessage('something went worng')
+			await deleteImage(currentImage)
 
 			if (operation === REMOVE) {
 				profileData[PROFILE_PICTUE] = ''
