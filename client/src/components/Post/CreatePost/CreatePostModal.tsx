@@ -7,55 +7,14 @@ import Paper from '@material-ui/core/Paper'
 import Divider from '@material-ui/core/Divider'
 import Typography from '@material-ui/core/Typography'
 import Grid from '@material-ui/core/Grid'
-import IconButton from '@material-ui/core/IconButton'
 import Button from '@material-ui/core/Button'
-import ImageIcon from '@material-ui/icons/Image'
-import GifIcon from '@material-ui/icons/Gif'
-import MovieIcon from '@material-ui/icons/Movie'
-import { nanoid } from 'nanoid'
+import TextField from '@material-ui/core/TextField'
 
 import { createPost } from 'graphql/mutations/postMutations'
 import createRequest from 'utils/createRequest'
 
 import PrivacyMenu from './PrivacyMenu'
 import TextFieldComponent from './PostTextField'
-import UploadModal from './UploadModal'
-
-class MediaTypeBuilder {
-	accept: string
-
-	id: string
-
-	Component: Function
-
-	name: string
-
-	constructor(accept: string, id: string, component: Function, name: string) {
-		this.accept = accept
-		this.id = id
-		this.Component = component
-		this.name = name
-	}
-}
-
-const image: MediaTypeBuilder = new MediaTypeBuilder(
-	'image/*',
-	'pick-image',
-	ImageIcon,
-	'image'
-)
-const gif: MediaTypeBuilder = new MediaTypeBuilder(
-	'*.gif',
-	'pick-gif',
-	GifIcon,
-	'gif'
-)
-const video: MediaTypeBuilder = new MediaTypeBuilder(
-	'video/*',
-	'pick-video',
-	MovieIcon,
-	'video'
-)
 
 const useStyles = makeStyles(theme => ({
 	modal: {
@@ -78,21 +37,16 @@ const useStyles = makeStyles(theme => ({
 		margin: '10px 0px',
 	},
 
-	addToPostGrid: {
-		padding: '1rem',
-		border: '1px solid',
-		borderRadius: theme.shape.borderRadius,
-	},
-
 	addToPostText: {},
 	headerStyle: {
 		[theme.breakpoints.down('xs')]: {
 			fontSize: theme.typography.h5.fontSize,
 		},
 	},
+	titleStyle: {
+		marginBottom: theme.spacing(2),
+	},
 }))
-
-const mediaType = [image, gif, video]
 
 interface Props {
 	isClicked: boolean
@@ -101,13 +55,13 @@ interface Props {
 
 const CreatePostModal = ({ isClicked, setIsClicked }: Props) => {
 	const [inputText, setInputText] = useState('')
+	const [title, setTitle] = useState('')
 	const [dialogOpen, setDialogOpen] = useState(false)
 	const [file, setFile] = useState('')
 
-	console.log(file)
 	const modalProps = { inputText, setInputText }
 
-	const { modal, paper, dividerStyle, addToPostGrid, headerStyle } = useStyles()
+	const { modal, paper, dividerStyle, headerStyle, titleStyle } = useStyles()
 
 	const handleClose = () => {
 		setIsClicked(false)
@@ -120,8 +74,6 @@ const CreatePostModal = ({ isClicked, setIsClicked }: Props) => {
 			setIsClicked(false)
 		}, 2000)
 	}
-
-	const openDialog = () => setDialogOpen(true)
 
 	return (
 		<>
@@ -144,35 +96,19 @@ const CreatePostModal = ({ isClicked, setIsClicked }: Props) => {
 						</Typography>
 						<Divider variant='middle' className={dividerStyle} />
 
+						<TextField
+							className={titleStyle}
+							fullWidth
+							id='filled-basic'
+							label='Title'
+							variant='filled'
+							onChange={e => {
+								setTitle(e.target.value)
+							}}
+						/>
 						<TextFieldComponent {...modalProps} />
 
 						<Divider variant='middle' className={dividerStyle} />
-
-						<Grid
-							container
-							alignItems='center'
-							justify='space-evenly'
-							className={addToPostGrid}
-						>
-							<Grid item>
-								<Typography variant='button'>Add to post</Typography>
-							</Grid>
-
-							{mediaType.map(({ accept, id, Component, name }: any) => (
-								<Grid item key={nanoid()}>
-									<IconButton onClick={openDialog}>
-										<Component />
-									</IconButton>
-								</Grid>
-							))}
-						</Grid>
-
-						<UploadModal
-							setFile={setFile}
-							open={dialogOpen}
-							setOpen={setDialogOpen}
-							file={file}
-						/>
 
 						<Grid container alignItems='flex-end' justify='space-between'>
 							<Grid item>
