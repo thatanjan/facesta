@@ -74,11 +74,11 @@ const ProfilePictureUpload = ({
 	useEffect(() => {
 		if (approved) {
 			if (type === 'createPost') {
-				setShowPreview(false)
 				if (setPostPreviewLink) setPostPreviewLink(previewLink)
+				setShowPreview(false)
 			}
 			if (type === 'uploadProfilePicture') {
-				console.log('hit')
+				setShowPreview(false)
 				setLoading(true)
 				makeBase64(file as CustomFile, setBase64)
 			}
