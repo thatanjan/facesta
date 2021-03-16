@@ -9,6 +9,8 @@ import Typography from '@material-ui/core/Typography'
 import Grid from '@material-ui/core/Grid'
 import Button from '@material-ui/core/Button'
 import TextField from '@material-ui/core/TextField'
+import CardMedia from '@material-ui/core/CardMedia'
+import Image from 'next/image'
 
 import { createPost } from 'graphql/mutations/postMutations'
 import createRequest from 'utils/createRequest'
@@ -45,6 +47,7 @@ const useStyles = makeStyles(theme => ({
 	titleStyle: {
 		marginBottom: theme.spacing(2),
 	},
+	postImageStyle: { height: 0, paddingTop: '56.25%' },
 }))
 
 interface Props {
@@ -60,7 +63,14 @@ const CreatePostModal = ({ isClicked, setIsClicked }: Props) => {
 
 	const modalProps = { inputText, setInputText }
 
-	const { modal, paper, dividerStyle, headerStyle, titleStyle } = useStyles()
+	const {
+		modal,
+		paper,
+		dividerStyle,
+		headerStyle,
+		titleStyle,
+		postImageStyle,
+	} = useStyles()
 
 	const handleClose = () => {
 		setIsClicked(false)
@@ -94,6 +104,12 @@ const CreatePostModal = ({ isClicked, setIsClicked }: Props) => {
 							Create Post{' '}
 						</Typography>
 						<Divider variant='middle' className={dividerStyle} />
+
+						{/* <Image src='/no_image.png' layout='fill' /> */}
+						<CardMedia
+							image='https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/f94558af-be11-4968-be28-085d6e57abd6/dlqc69-0b6b17a2-3b57-47d2-9cba-f5ddc861bcfa.jpg/v1/fill/w_1168,h_849,q_75,strp/cat__s_eye_nebula_by_decorinason.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwic3ViIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsImF1ZCI6WyJ1cm46c2VydmljZTppbWFnZS5vcGVyYXRpb25zIl0sIm9iaiI6W1t7InBhdGgiOiIvZi9mOTQ1NThhZi1iZTExLTQ5NjgtYmUyOC0wODVkNmU1N2FiZDYvZGxxYzY5LTBiNmIxN2EyLTNiNTctNDdkMi05Y2JhLWY1ZGRjODYxYmNmYS5qcGciLCJ3aWR0aCI6Ijw9MTE2OCIsImhlaWdodCI6Ijw9ODQ5In1dXX0.rWHrviSjWBmkcqLRYgMXuLYoh6g1ZSWT1Zi1JdZkkwU'
+							className={postImageStyle}
+						/>
 
 						<TextField
 							className={titleStyle}
