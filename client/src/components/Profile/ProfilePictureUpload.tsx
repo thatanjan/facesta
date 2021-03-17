@@ -29,6 +29,7 @@ export interface Props {
 	setPostPreviewLink?: (link: string) => void
 	uploadingPost?: boolean
 	setUploadingPost?: (bool: boolean) => void
+	closePostModal?: () => void
 }
 
 const ProfilePictureUpload = ({
@@ -37,6 +38,7 @@ const ProfilePictureUpload = ({
 	setPostPreviewLink,
 	uploadingPost,
 	setUploadingPost,
+	closePostModal,
 }: Props) => {
 	const [file, setFile] = useState<CustomFile | {}>({})
 	const [base64, setBase64] = useState<Base64>('')
@@ -99,7 +101,6 @@ const ProfilePictureUpload = ({
 				if (res) {
 					setLoading(false)
 
-					console.log(res)
 					if (res[type].message) {
 						setUploadAlertProps(prev => ({
 							...prev,
@@ -116,6 +117,7 @@ const ProfilePictureUpload = ({
 							message: res[type].errorMessage,
 							severity: 'error',
 						}))
+
 						setSuccess(false)
 					}
 				}
@@ -137,6 +139,7 @@ const ProfilePictureUpload = ({
 			setSuccess(null)
 			setTimeout(() => {
 				setShowAlert(false)
+				if (closePostModal) closePostModal()
 				setShowAlert(null)
 			}, 3000)
 		}

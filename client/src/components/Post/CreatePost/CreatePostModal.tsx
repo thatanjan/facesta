@@ -10,7 +10,6 @@ import Grid from '@material-ui/core/Grid'
 import Button from '@material-ui/core/Button'
 import TextField from '@material-ui/core/TextField'
 import CardMedia from '@material-ui/core/CardMedia'
-import Image from 'next/image'
 
 import UploadImage, {
 	Props as UploadImageProps,
@@ -76,7 +75,7 @@ const CreatePostModal = ({ isClicked, setIsClicked }: Props) => {
 		postImageStyle,
 	} = useStyles()
 
-	const handleClose = () => {
+	const closePostModal = () => {
 		setIsClicked(false)
 	}
 
@@ -106,6 +105,7 @@ const CreatePostModal = ({ isClicked, setIsClicked }: Props) => {
 		uploadingPost,
 		setUploadingPost,
 		action,
+		closePostModal,
 	}
 
 	return (
@@ -115,7 +115,7 @@ const CreatePostModal = ({ isClicked, setIsClicked }: Props) => {
 				aria-describedby='transition-modal-description'
 				className={modal}
 				open={isClicked}
-				onClose={handleClose}
+				onClose={closePostModal}
 				closeAfterTransition
 				BackdropComponent={Backdrop}
 				BackdropProps={{
@@ -156,6 +156,10 @@ const CreatePostModal = ({ isClicked, setIsClicked }: Props) => {
 							<Grid item>
 								<Button variant='contained' color='secondary' onClick={handleSubmit}>
 									Submit
+								</Button>
+
+								<Button variant='contained' color='secondary' onClick={closePostModal}>
+									Cancel
 								</Button>
 							</Grid>
 						</Grid>
