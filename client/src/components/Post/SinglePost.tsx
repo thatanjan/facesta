@@ -99,7 +99,14 @@ const SinglePost = ({ headline, image, text }: PostType) => {
 				title={headline}
 				subheader='September 14, 2016'
 			/>
-			<Image className={media} src={image} />
+			<Image
+				src={image}
+				className={media}
+				layout='responsive'
+				height={720}
+				width={1280}
+				objectFit='cover'
+			/>
 			<CardContent>
 				<Typography variant='body2' color='textSecondary' component='p'>
 					{text}
