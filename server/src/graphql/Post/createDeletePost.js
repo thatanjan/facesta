@@ -44,43 +44,47 @@ const resolver = {
 
 				const { followers } = await Follow.findOne({ user: id }, FOLLOWERS)
 
+				const promises = []
 				for (let i = 0; i < followers.length; i++) {
 					const follower = followers[i]
 					// eslint-disable-next-line
-					const newsfeed = await NewsFeedModel.findOne({ user: follower }, 'posts')
 
 					const pushedObject = { postUser: id, postId: newPost._id }
 
-					if (!newsfeed) {
-						const newNewsfeed = new NewsFeedModel()
-
-						newNewsfeed.user = follower
-						newNewsfeed.posts.push(pushedObject)
-
-						Promise.all([newNewsfeed.save()])
-					} else {
-						newsfeed.posts.push(pushedObject)
-
-						Promise.all([newsfeed.save()])
-					}
+					promises.push(
+						NewsFeedModel.updateOne(
+							{ user: follower },
+							{ $push: { posts: pushedObject } }
+						)
+					)
 				}
+				await Promise.all(promises)
 
 				return sendMessage('post is published')
 			} catch (error) {
 				sendErrorMessage(error)
 			}
 		},
-		deletePost: async (_, { Input: { postID } }, { user: { id } }) => {
+		deletePost: async (_, { postID }, { user: { id } }) => {
 			const followersQuery = await Follow.findOne({ user: id }, FOLLOWERS)
 
 			const { followers } = followersQuery
 
-			followers.forEach(async follower => {
-				const newsfeed = await NewsFeedModel.findOne({
-					user: { follower: 'posts' },
-				})
-				console.log(newsfeed)
-			})
+			const query = await NewsFeedModel.updateMany(
+				{},
+				{
+					$pull: {
+						posts: { postId: postID },
+					},
+				}
+			)
+
+			if (
+				query.nModified > 0 ||
+				(followers.length === 0 && query.nModified === 0)
+			) {
+				return sendMessage('post deleted')
+			}
 
 			return sendErrorMessage('error')
 		},
