@@ -72,6 +72,7 @@ const LovePost = () => {
 }
 
 const SinglePost = ({ headline, image, text }: PostType) => {
+	const visibleTextLength = 500
 	const { root, media, expand, expandOpen, cardHeaderStyle } = useStyles()
 
 	const moreOptions = ['save', 'Report']
@@ -81,6 +82,8 @@ const SinglePost = ({ headline, image, text }: PostType) => {
 	const handleExpandClick = () => {
 		setExpanded(!expanded)
 	}
+
+	const partOfText = text.substr(0, visibleTextLength)
 
 	return (
 		<Card className={root} raised>
@@ -109,8 +112,10 @@ const SinglePost = ({ headline, image, text }: PostType) => {
 			/>
 			<CardContent>
 				<Typography variant='body2' color='textSecondary' component='p'>
-					{text}
+					{partOfText}
+					{text.length >= visibleTextLength ? '...' : null}
 				</Typography>
+				<Typography variant='button'> show more</Typography>
 			</CardContent>
 			<CardActions disableSpacing>
 				<LovePost />
