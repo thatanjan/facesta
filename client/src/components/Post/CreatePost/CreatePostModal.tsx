@@ -14,6 +14,7 @@ import Image from 'next/image'
 
 import UploadImage, {
 	Props as UploadImageProps,
+	Base64,
 } from 'components/Profile/ProfilePictureUpload'
 import { createPost } from 'graphql/mutations/postMutations'
 import createRequest from 'utils/createRequest'
@@ -61,8 +62,6 @@ interface Props {
 const CreatePostModal = ({ isClicked, setIsClicked }: Props) => {
 	const [inputText, setInputText] = useState('')
 	const [title, setTitle] = useState('')
-	const [dialogOpen, setDialogOpen] = useState(false)
-	const [file, setFile] = useState('')
 	const [postPreviewLink, setPostPreviewLink] = useState('')
 	const [uploadingPost, setUploadingPost] = useState(false)
 
@@ -85,15 +84,14 @@ const CreatePostModal = ({ isClicked, setIsClicked }: Props) => {
 		setUploadingPost(true)
 	}
 
-	const action = async () => {
+	const action = async (image: Base64) => {
 		const values = {
 			headline: title,
 			text: inputText,
-			image: file,
+			image,
 			markdown: false,
 		}
 
-		console.log(values)
 		const res = await createRequest({
 			key: createPost,
 			values,
@@ -131,9 +129,11 @@ const CreatePostModal = ({ isClicked, setIsClicked }: Props) => {
 						</Typography>
 						<Divider variant='middle' className={dividerStyle} />
 
-						{/* <Image src='/no_image.png' layout='fill' /> */}
 						<CardMedia
-							image='https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/f94558af-be11-4968-be28-085d6e57abd6/dlqc69-0b6b17a2-3b57-47d2-9cba-f5ddc861bcfa.jpg/v1/fill/w_1168,h_849,q_75,strp/cat__s_eye_nebula_by_decorinason.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwic3ViIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsImF1ZCI6WyJ1cm46c2VydmljZTppbWFnZS5vcGVyYXRpb25zIl0sIm9iaiI6W1t7InBhdGgiOiIvZi9mOTQ1NThhZi1iZTExLTQ5NjgtYmUyOC0wODVkNmU1N2FiZDYvZGxxYzY5LTBiNmIxN2EyLTNiNTctNDdkMi05Y2JhLWY1ZGRjODYxYmNmYS5qcGciLCJ3aWR0aCI6Ijw9MTE2OCIsImhlaWdodCI6Ijw9ODQ5In1dXX0.rWHrviSjWBmkcqLRYgMXuLYoh6g1ZSWT1Zi1JdZkkwU'
+							image={
+								postPreviewLink ||
+								'https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/f94558af-be11-4968-be28-085d6e57abd6/dlqc69-0b6b17a2-3b57-47d2-9cba-f5ddc861bcfa.jpg/v1/fill/w_1168,h_849,q_75,strp/cat__s_eye_nebula_by_decorinason.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwic3ViIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsImF1ZCI6WyJ1cm46c2VydmljZTppbWFnZS5vcGVyYXRpb25zIl0sIm9iaiI6W1t7InBhdGgiOiIvZi9mOTQ1NThhZi1iZTExLTQ5NjgtYmUyOC0wODVkNmU1N2FiZDYvZGxxYzY5LTBiNmIxN2EyLTNiNTctNDdkMi05Y2JhLWY1ZGRjODYxYmNmYS5qcGciLCJ3aWR0aCI6Ijw9MTE2OCIsImhlaWdodCI6Ijw9ODQ5In1dXX0.rWHrviSjWBmkcqLRYgMXuLYoh6g1ZSWT1Zi1JdZkkwU'
+							}
 							className={postImageStyle}
 						/>
 						<UploadImage {...uploadImageProps} />
