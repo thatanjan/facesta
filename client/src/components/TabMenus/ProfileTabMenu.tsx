@@ -10,6 +10,9 @@ import { useRouter } from 'next/router'
 import { FOLLOWEES, FOLLOWERS } from 'variables/global'
 import { useFollowers, useFollowees } from 'hooks/useFollow'
 
+const PostsSection = dynamic(
+	() => import('components/Profile/Tabs/Posts/Posts')
+)
 const AboutTab = dynamic(() => import('components/Profile/Tabs/About/About'))
 const FollowSection = dynamic(
 	() => import('components/Profile/Tabs/Follow/Follow')
@@ -43,7 +46,9 @@ const Followees: TabBuilder = new TabBuilder(FOLLOWEES, FollowSection).addHook(
 	useFollowees
 )
 
-const tabs: TabBuilder[] = [About, Followers, Followees]
+const Posts: TabBuilder = new TabBuilder('Posts', PostsSection)
+
+const tabs: TabBuilder[] = [Posts, Followers, Followees, About]
 
 const TabPanel = ({ value, ...other }: any) => {
 	const { Component, ...others } = tabs[value]
