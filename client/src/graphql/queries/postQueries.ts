@@ -7,6 +7,8 @@ export const getAllPost = gql`
 			posts {
 				text
 				postID
+				image
+				headline 
 				${ERROR_MESSAGE}
 			}
 				${ERROR_OR_MESSAGE}
@@ -19,6 +21,8 @@ export const getSinglePost = gql`
 		getSinglePost(Input: { postID: $postID, postOwnerID: $postOwnerID }) {
 				text
 				postID
+				image
+				headline 
 				${ERROR_MESSAGE}
 		}
 	}
