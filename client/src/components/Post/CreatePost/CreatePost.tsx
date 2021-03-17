@@ -69,19 +69,6 @@ export const CreatePost = () => {
 							<CreatePostModal isClicked={isClicked} setIsClicked={setIsClicked} />
 						)}
 					</Grid>
-					<Divider />
-
-					<CardActions className={buttonGroupStyle}>
-						<Button fullWidth variant='text' startIcon={<LiveTvIcon />}>
-							Go Live
-						</Button>
-						<Button fullWidth variant='text' startIcon={<ImageIcon />}>
-							Share Image
-						</Button>
-						<Button fullWidth variant='text' startIcon={<EmojiEmotionsIcon />}>
-							Feelings
-						</Button>
-					</CardActions>
 				</CardContent>
 			</Card>
 		</>
