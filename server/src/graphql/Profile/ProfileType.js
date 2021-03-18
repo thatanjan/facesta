@@ -1,21 +1,16 @@
 import { gql } from 'apollo-server-express'
-import {
-	USER_ID_TYPE,
-	PROFILE_OWNER_ID_TYPE,
-	ERROR_MESSAGE_TYPE,
-	IMAGE,
-} from 'variables/commonText'
 
-const ProfileMutationTypeDefs = gql`
+const ProfileTypedefs = gql`
 	extend type Mutation {
 		updatePersonalData(Input: PersonalDataInput): ErrorOrMessage!
-		uploadProfilePicture(${IMAGE}!): ErrorOrMessage!
+		uploadProfilePicture(image: String!): ErrorOrMessage!
 		removeProfilePicture: ErrorOrMessage!
 	}
 
-`
-
-const InputTypedefs = gql`
+	extend type Query {
+		getPersonalData(user: String!): PersonalData!
+		getProfilePicture(user: String!): ProfilePicture!
+	}
 
 	input PersonalDataInput {
 		dateOfBirth: Date
@@ -27,24 +22,10 @@ const InputTypedefs = gql`
 		name: String
 	}
 
-     input ProfileIDInput {
-          ${PROFILE_OWNER_ID_TYPE}!
-     }
-`
-
-const ProfileTypedefs = gql`
-	extend type Query {
-		getPersonalData(${USER_ID_TYPE}): PersonalData!
-		getProfilePicture(${USER_ID_TYPE}): ProfilePicture!
-	}
-
 	type ProfilePicture {
 		imageID: String
-		${ERROR_MESSAGE_TYPE}
+		errorMessage: String
 	}
-
-	${ProfileMutationTypeDefs}
-	${InputTypedefs}
 
 	type PersonalData {
 		dateOfBirth: Date
@@ -54,8 +35,7 @@ const ProfileTypedefs = gql`
 		skills: [String!]
 		bio: String
 		name: String
-		${ERROR_MESSAGE_TYPE}
-
+		errorMessage: String
 	}
 `
 
