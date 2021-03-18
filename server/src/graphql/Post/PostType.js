@@ -3,7 +3,7 @@ import { gql } from 'apollo-server-express'
 const PostTypedefs = gql`
 	extend type Query {
 		getSinglePost(Input: GetPostInput!): SinglePost!
-		getAllPost(user: ID!): ReturnAllPost!
+		getAllPost(Input: GetAllPostInput!): ReturnAllPost!
 		getNewsFeedPost: ReturnAllPost!
 		getTotalLikes(Input: GetPostInput!): TotalLikes!
 		getTotalComments(Input: GetPostInput!): TotalComments!
@@ -60,6 +60,11 @@ const PostTypedefs = gql`
 	type ReturnAllPost {
 		posts: [Post!]
 		errorMessage: String
+	}
+
+	input GetAllPostInput {
+		user: ID!
+		start: int!
 	}
 
 	input GetPostInput {
