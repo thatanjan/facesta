@@ -5,6 +5,7 @@ import sendMessage from 'utils/message'
 import { FOLLOWERS } from 'variables/global'
 import NewsFeedModel from 'models/NewsFeed'
 import uploadImage from 'utils/uploadToCloudinary'
+import deleteImage from 'utils/deleteImageFromCloudinary'
 import imageConfig from 'variables/cloudinaryVariables'
 
 export const postPath = id => `posts/${id}/`
@@ -20,7 +21,7 @@ const resolver = {
 				const Post = createPostModel(id)
 
 				const imagePublicID = await uploadImage(image, {
-					folder: postPath(),
+					folder: postPath(id),
 					...imageConfig,
 				})
 
@@ -44,6 +45,8 @@ const resolver = {
 
 				const { followers } = await Follow.findOne({ user: id }, FOLLOWERS)
 
+				followers.push(id)
+
 				const promises = []
 				for (let i = 0; i < followers.length; i++) {
 					const follower = followers[i]
@@ -66,6 +69,22 @@ const resolver = {
 			}
 		},
 		deletePost: async (_, { postID }, { user: { id } }) => {
+			const Post = createPostModel(id)
+
+			const actualPost = await Post.findByIdAndRemove(postID, {
+				projection: 'image',
+			})
+
+			if (!actualPost) {
+				return sendErrorMessage('no post found')
+			}
+
+			const imageDeleted = await deleteImage(actualPost.image)
+
+			if (!imageDeleted || imageDeleted.result !== 'ok') {
+				return sendErrorMessage('something went wrong')
+			}
+
 			const followersQuery = await Follow.findOne({ user: id }, FOLLOWERS)
 
 			const { followers } = followersQuery
