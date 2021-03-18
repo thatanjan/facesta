@@ -2,8 +2,8 @@ import {
 	findUser,
 	createProfile,
 	createFollowCollection,
-	generateHashPassword,
 } from 'utils/authentication'
+import { hash } from 'bcryptjs'
 import generateToken from 'utils/generateToken'
 import sendErrorMessage from 'utils/errorMessage'
 import validateRegisterInput from 'validation/register'
@@ -14,7 +14,7 @@ import { ERROR_MESSAGE } from 'variables/global'
 // eslint-disable-next-line
 const createUser = async ({ name, email, password }) => {
 	try {
-		const hashedPassword = await generateHashPassword(password)
+		const hashedPassword = await hash(password, 10)
 
 		const profile = await createProfile()
 
