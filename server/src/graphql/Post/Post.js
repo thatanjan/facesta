@@ -6,7 +6,7 @@ import getPost from 'graphql/Post/getPost'
 import likePost from 'graphql/Post/likePost'
 import commentPost from 'graphql/Post/commentPost'
 import editPost from 'graphql/Post/editPost'
-import getLikes from 'graphql/Post/getLikes'
+import getTotal from 'graphql/Post/getTotal'
 
 export const PostTypedefs = [PostType]
 
@@ -16,5 +16,5 @@ export const PostResolvers = merge(
 	commentPost,
 	likePost,
 	editPost,
-	getLikes
+	getTotal
 )
