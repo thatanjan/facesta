@@ -57,18 +57,3 @@ export const createFollowCollection = async id => {
 		throwError
 	}
 }
-
-export const generateHashPassword = password => {
-	const passwordPromise = new Promise((resolve, reject) => {
-		bcryptjs.genSalt(10, (_, salt) => {
-			bcryptjs.hash(password, salt, (error, hash) => {
-				if (error) reject(error)
-
-				password = hash
-				resolve(password)
-			})
-		})
-	})
-
-	return passwordPromise
-}
