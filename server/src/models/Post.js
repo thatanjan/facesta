@@ -18,6 +18,8 @@ const CommentedUserSchema = new Schema({
 const schema = {
 	text: { type: String, required: true },
 	likes: [user],
+	totalLikes: { type: Number, default: 0 },
+	totalComments: { type: Number, default: 0 },
 	comments: [CommentedUserSchema],
 	headline: { type: String, required: true },
 	markdown: { type: Boolean, required: true },
@@ -29,7 +31,7 @@ const schema = {
 	date: { type: Date, default: Date.now() },
 }
 
-export const PostSchema = new Schema(schema, { versionKey: '1' })
+export const PostSchema = new Schema(schema)
 
 const PostModel = modelName => {
 	const PostConnection = createConnection(process.env.POSTS_DB_URI)
