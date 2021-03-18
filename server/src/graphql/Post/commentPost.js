@@ -30,13 +30,13 @@ const addComment = (comments, { id, text }) => {
 const mainResolver = operation => {
 	return async (
 		_,
-		{ Input: { postID, text, commentID, postOwnerID } },
+		{ Input: { postID, text, commentID, user } },
 		{ user: { id } }
 	) => {
 		try {
 			let returnMessage = ''
 
-			const Post = createPostModel(postOwnerID || id)
+			const Post = createPostModel(user)
 
 			const post = await findPost(Post, postID)
 
@@ -62,7 +62,7 @@ const mainResolver = operation => {
 
 					const commentedUser = comment.user.toString()
 
-					if (!ownsComment({ id, postUserId: postOwnerID, commentedUser })) {
+					if (!ownsComment({ id, postUserId: user, commentedUser })) {
 						return sendErrorMessage('not authorized')
 					}
 

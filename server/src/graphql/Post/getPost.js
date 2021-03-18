@@ -8,25 +8,21 @@ const ALL_POST = 'allPost'
 const ALL_NEWS_FEED_POST = 'allNewsFeedPost'
 
 const mainResolver = field => {
-	return async (
-		_,
-		{ Input: { postID, userID, postOwnerID, start } },
-		{ user: { id } }
-	) => {
+	return async (_, { Input: { postID, user, start } }) => {
 		try {
-			const Post = createPostModel(userID || postOwnerID || id)
+			const Post = createPostModel(user)
 
 			switch (field) {
 				case SINGLE_POST:
-					const singlePost = await Post.findById(postID)
+					const post = await Post.findById(postID)
 
-					if (ifNullOrFalse(singlePost)) {
+					if (ifNullOrFalse(post)) {
 						return sendErrorMessage('no post found')
 					}
 
-					singlePost.postID = singlePost._id
+					post.postID = post._id
 
-					return singlePost
+					return { post }
 
 				case ALL_POST:
 					const allPost = {}
@@ -47,14 +43,6 @@ const mainResolver = field => {
 					allPost.posts = posts
 
 					return allPost
-
-				// case ALL_NEWS_FEED_POST:
-				//	 const allNewsFeedPost = await NewsFeedModel.findOne(
-				//		 { user: ownerID },
-				//		 'posts'
-				//	 )
-
-				//	 break
 
 				default:
 					return sendErrorMessage('nothing found')
