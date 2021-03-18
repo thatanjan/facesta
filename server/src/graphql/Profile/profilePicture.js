@@ -32,7 +32,7 @@ const mainResolver = operation => async (
 
 		if (currentImage) {
 			if (operation === GET) {
-				return { imageID: currentImage }
+				return { image: currentImage }
 			}
 
 			await deleteImage(currentImage)
