@@ -7,7 +7,7 @@ import getProfile from './getProfile'
 import addToProfile from './addToProfile'
 import updateSocial from './updateSocial'
 import updateSingleField from './updateSingleField'
-import updateProfilePicture from './updateProfilePicture'
+import updateProfilePicture from './profilePicture'
 
 export const ProfileTypedefs = [ProfileType]
 
