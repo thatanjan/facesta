@@ -16,18 +16,22 @@ const resolvers = {
 
 				const { image } = Input
 
+				const oldImageID = post.image
+
+				if (oldImageID) {
+					await deleteImage(oldImageID)
+				}
+
 				if (image) {
 					const imagePublicID = await uploadImage(image, {
-						folder: postPath(),
+						folder: postPath(id),
 						...imageConfig,
 					})
 
-					post.image = imagePublicID
+					if (!imagePublicID || typeof imagePublicID !== 'string')
+						return sendErrorMessage('Could not update the profile')
 
-					const oldImageID = post.image
-					if (oldImageID) {
-						await deleteImage(oldImageID)
-					}
+					post.image = imagePublicID
 				}
 
 				if (image === '') {
