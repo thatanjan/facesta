@@ -14,6 +14,11 @@ const PostTypedefs = gql`
         getSinglePost(Input: PostAndPostOwnerIDInput!): SinglePost!
         getAllPost(Input: GetAllPostInput!): ReturnAllPost!
         getNewsFeedPost: ReturnNewsFeedPosts!
+        getTotalLikes(Input: PostAndPostOwnerIDInput!): TotalLikes!
+        getTotalComments(Input: PostAndPostOwnerIDInput!): TotalComments!
+        getAllComments(Input: GetAllCommentsLikesInput!): GetAllComments!
+        getAllLikes(Input: GetAllCommentsLikesInput!): GetAllLikes!
+        hasLiked(Input: PostAndPostOwnerIDInput!): Boolean!
     }
 
     extend type Mutation {
@@ -24,6 +29,28 @@ const PostTypedefs = gql`
         commentPost(Input: CommentPost!): ErrorOrMessage!
         removeCommentPost(Input: RemoveCommentInput!): ErrorOrMessage!
         editPost(Input:EditPostInput!): ErrorOrMessage!
+    }
+
+    type GetAllLikes{
+        users: [ID]!
+    }
+
+    type Comment {
+        user: ID!
+        text: String!
+        date: Date!
+    }
+
+    type GetAllComments {
+        comments : [Comment]
+    } 
+
+    type TotalComments {
+        totalComments: Int!
+    }
+
+    type TotalLikes {
+        totalLikes: Int!
     }
 
     type SinglePost {
@@ -55,7 +82,6 @@ const PostTypedefs = gql`
     input PostAndPostOwnerIDInput{
       ${POST_ID_TYPE}!
       ${POST_OWNER_ID_TYPE}
-      ${IMAGE}
     }
 
     input CommentPost {
@@ -88,6 +114,12 @@ const PostTypedefs = gql`
     input GetAllPostInput {
       start: Int!
       ${USER_ID_TYPE}
+    }
+
+    input GetAllCommentsLikesInput {
+      start: Int!
+      ${POST_ID_TYPE}!
+      ${POST_OWNER_ID_TYPE}
     }
 `
 export default PostTypedefs
