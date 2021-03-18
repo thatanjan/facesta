@@ -3,7 +3,7 @@ import merge from 'lodash/merge'
 import ProfileType from './ProfileType'
 
 import updatePersonal from './updatePersonal'
-import getProfile from './getProfile'
+import getProfile from './getPersonalData'
 import ProfilePicture from './profilePicture'
 
 export const ProfileTypedefs = [ProfileType]
