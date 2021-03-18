@@ -21,15 +21,15 @@ export const getUsers = field => async (_, { userID }, { user: { id } }) => {
 	}
 }
 
-const checkIfUser = field => async (_, { userID }, { user: { id } }) => {
+const checkIfUser = field => async (_, { user }, { user: { id } }) => {
 	try {
-		if (userID === id) {
+		if (user === id) {
 			return sendErrorMessage('both id are same')
 		}
 
 		const query = await Follow.findOne({ user: id }, field)
 
-		const ifUserExist = query[field].includes(userID)
+		const ifUserExist = query[field].includes(user)
 
 		const result = {}
 
