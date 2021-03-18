@@ -24,6 +24,7 @@ const PostTypedefs = gql`
 
 	type GetAllLikes {
 		users: [ID]!
+		errorMessage: String
 	}
 
 	type Comment {
@@ -34,14 +35,17 @@ const PostTypedefs = gql`
 
 	type GetAllComments {
 		comments: [Comment]
+		errorMessage: String
 	}
 
 	type TotalComments {
 		totalComments: Int!
+		errorMessage: String
 	}
 
 	type TotalLikes {
 		totalLikes: Int!
+		errorMessage: String
 	}
 
 	type Post {
