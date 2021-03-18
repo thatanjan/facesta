@@ -14,7 +14,7 @@ const ownsComment = ({ postUserId, id, commentedUser }) =>
 	commentedUser === postUserId || commentedUser === id
 
 const findPost = async (model, id) => {
-	const post = await model.findById(id, 'comments')
+	const post = await model.findById(id, 'comments totalComments')
 	return post
 }
 
@@ -49,6 +49,7 @@ const mainResolver = operation => {
 			switch (operation) {
 				case ADD_COMMENT:
 					addComment(comments, { id, text })
+					post.totalComments++
 					returnMessage = ADD_COMMENT_MESSAGE
 
 					break
@@ -67,6 +68,7 @@ const mainResolver = operation => {
 					}
 
 					comment.remove()
+					post.totalComments--
 
 					returnMessage = REMOVE_COMMENT_MESSAGE
 					break
