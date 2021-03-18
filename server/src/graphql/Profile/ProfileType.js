@@ -23,7 +23,7 @@ const ProfileTypedefs = gql`
 	}
 
 	type ProfilePicture {
-		imageID: String
+		image: String
 		errorMessage: String
 	}
 
