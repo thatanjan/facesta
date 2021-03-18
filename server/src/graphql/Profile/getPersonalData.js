@@ -4,15 +4,15 @@ import sendErrorMessage from 'utils/errorMessage'
 const PERSONAL = 'personal'
 
 const resolverFunction = field => {
-	return async (_, { userID }, { user: { id } }) => {
+	return async (_, { user }, { user: { id } }) => {
 		try {
-			const query = await Profile.findOne({ user: userID || id }, field).populate(
+			const query = await Profile.findOne({ user: user || id }, field).populate(
 				'user'
 			)
 
 			if (!query) return sendErrorMessage('no profile found')
 
-			const data = query[`${field}`]
+			const data = query[field]
 
 			data.name = query.user.name
 
