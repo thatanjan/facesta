@@ -64,7 +64,7 @@ const PostTypedefs = gql`
 
 	input GetAllPostInput {
 		user: ID!
-		start: int!
+		start: Int!
 	}
 
 	input GetPostInput {
@@ -97,11 +97,6 @@ const PostTypedefs = gql`
 		image: String
 		headline: String
 		markdown: Boolean
-	}
-
-	input GetAllPostInput {
-		start: Int!
-		user: ID!
 	}
 
 	input GetAllCommentsLikesInput {
