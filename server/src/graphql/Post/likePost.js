@@ -6,19 +6,28 @@ const REMOVE_LIKE = 'removeLike'
 const LIKES = 'likes'
 
 // eslint-disable-next-line
-const queryPostLikes = async (model, id) => await model.findById(id, LIKES)
+const queryPostLikes = async (model, id) =>
+	await model.findById(id, `${LIKES} totalLikes`)
 
 const hasLiked = (array, id) => array.includes(id)
 
-const modifyLikes = ({ operation, likes, id }) => {
+const modifyLikes = ({ operation, likesQuery, id }) => {
+	const { likes } = likesQuery
+
 	switch (operation) {
 		case LIKE:
 			likes.push(id)
+
+			// eslint-disable-next-line
+			likesQuery.totalLikes++
 
 			break
 
 		case REMOVE_LIKE:
 			likes.pull(id)
+
+			// eslint-disable-next-line
+			likesQuery.totalLikes--
 			break
 
 		default:
@@ -34,7 +43,7 @@ const responseMessage = operation => {
 			return sendErrorMessage('you have liked this post')
 
 		case REMOVE_LIKE:
-			return sendErrorMessage('you have remove like from the post')
+			return sendErrorMessage('you have removed like from the post')
 
 		default:
 			return false
@@ -59,7 +68,7 @@ const mainFunction = operation => {
 			return sendErrorMessage('you have not liked this post.')
 		}
 
-		modifyLikes({ operation, likes, id })
+		modifyLikes({ operation, id, likesQuery })
 
 		likesQuery.save()
 
