@@ -22,13 +22,18 @@ const PostTypedefs = gql`
 		editPost(Input: EditPostInput!): ErrorOrMessage!
 	}
 
+	type UserNameAndID {
+		name: String!
+		_id: ID!
+	}
+
 	type GetAllLikes {
-		users: [ID]!
+		users: [UserNameAndID]!
 		errorMessage: String
 	}
 
 	type Comment {
-		user: ID!
+		user: UserNameAndID!
 		text: String!
 		date: Date!
 	}
