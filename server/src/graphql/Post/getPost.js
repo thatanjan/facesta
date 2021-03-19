@@ -25,10 +25,12 @@ const mainResolver = field => {
 
 					let { posts } = allPost
 
-					posts = await Post.find({}).sort({ _id: '-1' }).skip(start).limit(3)
+					posts = await Post.find({}, 'text _id image headline markdown')
+						.sort({ _id: '-1' })
+						.skip(start)
+						.limit(3)
 
-					console.log(posts)
-					if (posts.length <= 0) {
+					if (!posts && posts.length <= 0) {
 						return sendErrorMessage('you have no post')
 					}
 
