@@ -2,9 +2,19 @@ import Follow from 'models/Follow'
 import sendErrorMessage from 'utils/errorMessage'
 import { FOLLOWEES, FOLLOWERS } from 'variables/global'
 
-export const getUsers = field => async (_, { userID }, { user: { id } }) => {
+export const getUsers = field => async (_, { Input: { user, start } }) => {
+	const projection = {}
+
+	if (field === FOLLOWERS) {
+		projection[FOLLOWERS] = { $slice: [start, start + 10] }
+		projection[FOLLOWEES] = { $slice: 0 }
+	} else {
+		projection[FOLLOWEES] = { $slice: [start, start + 10] }
+		projection[FOLLOWERS] = { $slice: 0 }
+	}
+
 	try {
-		const query = await Follow.findOne({ user: userID || id }, field).populate(
+		const query = await Follow.findOne({ user }, projection).populate(
 			field,
 			'name _id'
 		)
