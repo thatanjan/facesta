@@ -7,16 +7,28 @@ const resolvers = {
 			try {
 				const PostModel = createPostModel(user)
 
-				const post = await PostModel.findById(postID).slice('comments', [
-					start,
-					start + 10,
-				])
+				const post = await PostModel.findById(postID, {
+					comments: { $slice: [start, start + 10] },
+					likes: { $slice: 0 },
+				})
 
-				const comments = post.comments
+				return { comments: post.comments }
+			} catch (error) {
+				return sendErrorMessage(error)
+			}
+		},
+		getAllLikes: async (_, { Input: { start, postID, user } }) => {
+			try {
+				const PostModel = createPostModel(user)
 
-				return { comments }
-			} catch (err) {
-				return sendErrorMessage(err)
+				const post = await PostModel.findById(postID, {
+					likes: { $slice: [start, start + 10] },
+					comments: { $slice: 0 },
+				})
+
+				return { users: post.likes }
+			} catch (error) {
+				return sendErrorMessage(error)
 			}
 		},
 	},
