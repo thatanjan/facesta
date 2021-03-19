@@ -52,7 +52,7 @@ const resolver = {
 					const follower = followers[i]
 					// eslint-disable-next-line
 
-					const pushedObject = { postUser: id, postId: newPost._id }
+					const pushedObject = { user: id, post: newPost._id }
 
 					promises.push(
 						NewsFeedModel.updateOne(
@@ -93,7 +93,7 @@ const resolver = {
 				{},
 				{
 					$pull: {
-						posts: { postId: postID },
+						posts: { post: postID },
 					},
 				}
 			)
