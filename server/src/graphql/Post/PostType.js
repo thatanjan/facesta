@@ -4,7 +4,7 @@ const PostTypedefs = gql`
 	extend type Query {
 		getSinglePost(Input: GetPostInput!): SinglePost!
 		getAllPost(Input: GetAllPostInput!): ReturnAllPost!
-		getNewsFeedPost: ReturnAllPost!
+		getNewsFeedPost(start: Int!): ReturnAllPost!
 		getTotalLikes(Input: GetPostInput!): TotalLikes!
 		getTotalComments(Input: GetPostInput!): TotalComments!
 		getAllComments(Input: GetAllCommentsLikesInput!): GetAllComments!
@@ -55,7 +55,7 @@ const PostTypedefs = gql`
 
 	type Post {
 		text: String!
-		postID: ID!
+		_id: ID!
 		image: String!
 		headline: String!
 		markdown: Boolean!
