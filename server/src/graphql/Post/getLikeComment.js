@@ -10,6 +10,9 @@ const resolvers = {
 				const post = await PostModel.findById(postID, {
 					comments: { $slice: [start, start + 10] },
 					likes: { $slice: 0 },
+				}).populate({
+					path: 'comments',
+					populate: { path: 'user', select: 'name _id' },
 				})
 
 				return { comments: post.comments }
@@ -24,7 +27,7 @@ const resolvers = {
 				const post = await PostModel.findById(postID, {
 					likes: { $slice: [start, start + 10] },
 					comments: { $slice: 0 },
-				})
+				}).populate('likes', 'name _id')
 
 				return { users: post.likes }
 			} catch (error) {
