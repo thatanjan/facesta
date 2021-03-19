@@ -9,7 +9,11 @@ const LIKES = 'likes'
 const queryPostLikes = async (model, id) =>
 	await model.findById(id, `${LIKES} totalLikes`)
 
-const hasLiked = (array, id) => array.includes(id)
+const hasLiked = async ({ postID, postOwnerID, myID }) => {
+	const PostModel = createPostModel(postOwnerID.toString())
+
+	return PostModel.findOne({ _id: postID, likes: { $in: myID } }, 'likes')
+}
 
 const modifyLikes = ({ operation, likesQuery, id }) => {
 	const { likes } = likesQuery
@@ -54,17 +58,19 @@ const mainFunction = operation => {
 	return async (_, { Input: { postID, user } }, { user: { id } }) => {
 		const Post = createPostModel(user)
 
-		const likesQuery = await queryPostLikes(Post, postID)
-
-		if (!likesQuery) return sendErrorMessage('no post found')
-
 		const { likes } = likesQuery
 
-		if (operation === LIKE && hasLiked(likes, id)) {
+		if (
+			operation === LIKE &&
+			(await hasLiked({ postID, postOwnerID: user, myID: id }))
+		) {
 			return sendErrorMessage('you have already liked this post')
 		}
 
-		if (operation === REMOVE_LIKE && !hasLiked(likes, id)) {
+		if (
+			operation === REMOVE_LIKE &&
+			!(await hasLiked({ postID, postOwnerID: user, myID: id }))
+		) {
 			return sendErrorMessage('you have not liked this post.')
 		}
 
@@ -83,13 +89,11 @@ const resolver = {
 	},
 	Query: {
 		hasLiked: async (_, { Input: { postID, user } }, { user: { id } }) => {
-			const PostModel = createPostModel(user.toString())
-
-			const doesUserExist = await PostModel.findOne(
-				{ _id: postID, likes: { $in: id } },
-				'likes'
-			)
-
+			const doesUserExist = await hasLiked({
+				postID,
+				postOwnerID: user,
+				myID: id,
+			})
 			if (doesUserExist) return true
 
 			return false
