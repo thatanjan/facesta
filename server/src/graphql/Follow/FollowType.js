@@ -2,8 +2,8 @@ import { gql } from 'apollo-server-express'
 
 const FollowType = gql`
 	extend type Query {
-		getFollowers(user: ID!): Followers!
-		getFollowees(user: ID!): Followees!
+		getFollowers(Input: GetAllInput!): Followers!
+		getFollowees(Input: GetAllInput!): Followees!
 		getIsFollowee(user: ID!): IsFollowee!
 		getIsFollower(user: ID!): IsFollower!
 	}
@@ -36,6 +36,11 @@ const FollowType = gql`
 	type IsFollower {
 		isFollower: Boolean
 		errorMessage: String
+	}
+
+	input GetAllInput {
+		user: ID!
+		start: Int!
 	}
 `
 
