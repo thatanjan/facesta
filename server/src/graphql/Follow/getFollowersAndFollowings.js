@@ -37,16 +37,23 @@ const checkIfUser = field => async (_, { user }, { user: { id } }) => {
 			return sendErrorMessage('both id are same')
 		}
 
-		const query = await Follow.findOne({ user: id }, field)
+		const filter = {}
+		filter[field] = { $in: user }
 
-		const ifUserExist = query[field].includes(user)
+		const query = await Follow.findOne({ user: id, ...filter }, 'user')
+
+		let doesUserExist = false
+
+		if (query) {
+			doesUserExist = true
+		}
 
 		const result = {}
 
 		if (field === FOLLOWEES) {
-			result.isFollowee = ifUserExist
+			result.isFollowee = doesUserExist
 		} else {
-			result.isFollower = ifUserExist
+			result.isFollower = doesUserExist
 		}
 
 		return result
