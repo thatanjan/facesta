@@ -1,11 +1,9 @@
 import createPostModel from 'models/Post'
 import ifNullOrFalse from 'utils/checkNullFalse'
 import sendErrorMessage from 'utils/errorMessage'
-import NewsFeedModel from 'models/NewsFeed'
 
 const SINGLE_POST = 'singlePost'
 const ALL_POST = 'allPost'
-const ALL_NEWS_FEED_POST = 'allNewsFeedPost'
 
 const mainResolver = field => {
 	return async (_, { Input: { postID, user, start } }) => {
@@ -20,8 +18,6 @@ const mainResolver = field => {
 						return sendErrorMessage('no post found')
 					}
 
-					post.postID = post._id
-
 					return { post }
 
 				case ALL_POST:
@@ -34,11 +30,6 @@ const mainResolver = field => {
 					if (posts.length <= 0) {
 						return sendErrorMessage('you have no post')
 					}
-
-					posts.forEach(item => {
-						// eslint-disable-next-line
-						item.postID = item._id
-					})
 
 					allPost.posts = posts
 
@@ -57,7 +48,6 @@ const resolver = {
 	Query: {
 		getAllPost: mainResolver(ALL_POST),
 		getSinglePost: mainResolver(SINGLE_POST),
-		getNewsFeedPost: mainResolver(ALL_NEWS_FEED_POST),
 	},
 }
 
