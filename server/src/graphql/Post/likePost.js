@@ -81,6 +81,20 @@ const resolver = {
 		likePost: mainFunction(LIKE),
 		removeLikePost: mainFunction(REMOVE_LIKE),
 	},
+	Query: {
+		hasLiked: async (_, { Input: { postID, user } }, { user: { id } }) => {
+			const PostModel = createPostModel(user.toString())
+
+			const doesUserExist = await PostModel.findOne(
+				{ _id: postID, likes: { $in: id } },
+				'likes'
+			)
+
+			if (doesUserExist) return true
+
+			return false
+		},
+	},
 }
 
 export default resolver
