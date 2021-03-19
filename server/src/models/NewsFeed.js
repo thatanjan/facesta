@@ -11,11 +11,12 @@ const user = {
 }
 
 const posts = {
-	postUser: {
+	user: {
 		type: objectId,
 		required: true,
+		ref: User,
 	},
-	postId: {
+	post: {
 		type: objectId,
 		required: true,
 	},
