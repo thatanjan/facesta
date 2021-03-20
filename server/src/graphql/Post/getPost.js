@@ -11,7 +11,8 @@ const mainResolver = field => {
 		try {
 			const Post = createPostModel(user)
 
-			const projection = 'text  markdown _id headline'
+			const projection =
+				'text image markdown _id headline totalLikes totalComments'
 
 			switch (field) {
 				case SINGLE_POST:
@@ -26,10 +27,27 @@ const mainResolver = field => {
 						select: 'profilePicture',
 					})
 
-					const { text, markdown, _id, headline } = post
+					const {
+						text,
+						markdown,
+						image,
+						_id,
+						headline,
+						totalComments,
+						totalLikes,
+					} = post
 
 					const response = {
-						post: { text, markdown, _id, headline, user: userInfo },
+						post: {
+							text,
+							markdown,
+							_id,
+							headline,
+							image,
+							totalComments,
+							totalLikes,
+							user: userInfo,
+						},
 					}
 
 					return response
@@ -37,9 +55,9 @@ const mainResolver = field => {
 				case ALL_POST:
 					const allPost = {}
 
-					let { posts } = allPost
+					let posts
 
-					posts = await Post.find({}, 'text _id image headline markdown')
+					posts = await Post.find({}, projection)
 						.sort({ _id: '-1' })
 						.skip(start)
 						.limit(3)
