@@ -8,8 +8,8 @@ const ProfileTypedefs = gql`
 	}
 
 	extend type Query {
-		getPersonalData(user: String!): PersonalData!
-		getProfilePicture(user: String!): ProfilePicture!
+		getPersonalData(user: ID!): PersonalData!
+		getProfilePicture(user: ID!): ProfilePicture!
 	}
 
 	input PersonalDataInput {
