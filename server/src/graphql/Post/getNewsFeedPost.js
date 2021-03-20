@@ -15,6 +15,10 @@ const resolvers = {
 						populate: {
 							path: 'user',
 							select: 'name',
+							populate: {
+								path: 'profile',
+								select: 'profilePicture',
+							},
 						},
 					})
 
@@ -22,7 +26,6 @@ const resolvers = {
 
 				const allPosts = posts.map(({ post: postId, user: { _id: userID } }) => {
 					const PostModel = createPostModel(userID.toString())
-
 					return PostModel.findById(postId, 'text _id image headline markdown')
 				})
 
@@ -31,8 +34,8 @@ const resolvers = {
 				const responseObject = { posts: [] }
 				posts.forEach((__, index) => {
 					const newObject = {
-						user: posts[index].user,
-						post: postsWithContent[index],
+						...postsWithContent[index].toObject(),
+						user: posts[index].user.toObject(),
 					}
 
 					responseObject.posts.push(newObject)
