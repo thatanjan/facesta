@@ -8,13 +8,13 @@ import { useProfileUserID } from 'hooks/profileContextHooks'
 
 const useGetAllPost = (start: number) => {
 	const mutation = getAllPost
-	const userID = useProfileUserID()
-	const values = { userID, start }
+	const user = useProfileUserID()
+	const values = { user, start }
 
 	return useSWRgql({
 		key: mutation,
 		values,
-		swrDependencies: userID,
+		swrDependencies: user,
 	})
 }
 
