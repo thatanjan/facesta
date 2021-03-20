@@ -4,7 +4,7 @@ import Button from '@material-ui/core/Button'
 import { mutate } from 'swr'
 
 import createRequest from 'utils/createRequest'
-import { useIsFollower, useIsFollowee } from 'hooks/useFollow'
+import { useIsFollower, useIsFollowee } from 'hooks/followHooks'
 import { useProfileUserID } from 'hooks/profileContextHooks'
 import { follow, unfollow } from 'graphql/mutations/followMutations'
 import {
@@ -56,7 +56,7 @@ const FollowButton = () => {
 	const followMutation = async () => {
 		await createRequest({
 			key: follow,
-			values: { userID: profileUserId },
+			values: { user: profileUserId },
 		})
 		mutateData()
 	}
@@ -64,7 +64,7 @@ const FollowButton = () => {
 	const unFollowMutation = async () => {
 		await createRequest({
 			key: unfollow,
-			values: { userID: profileUserId },
+			values: { user: profileUserId },
 		})
 		mutateData()
 	}
