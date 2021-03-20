@@ -1,3 +1,4 @@
+import User from 'models/User'
 import createPostModel from 'models/Post'
 import ifNullOrFalse from 'utils/checkNullFalse'
 import sendErrorMessage from 'utils/errorMessage'
@@ -10,15 +11,28 @@ const mainResolver = field => {
 		try {
 			const Post = createPostModel(user)
 
+			const projection = 'text  markdown _id headline'
+
 			switch (field) {
 				case SINGLE_POST:
-					const post = await Post.findById(postID)
+					const post = await Post.findById(postID, projection)
 
 					if (ifNullOrFalse(post)) {
 						return sendErrorMessage('no post found')
 					}
 
-					return { post }
+					const userInfo = await User.findById(user, 'name profile').populate({
+						path: 'profile',
+						select: 'profilePicture',
+					})
+
+					const { text, markdown, _id, headline } = post
+
+					const response = {
+						post: { text, markdown, _id, headline, user: userInfo },
+					}
+
+					return response
 
 				case ALL_POST:
 					const allPost = {}
