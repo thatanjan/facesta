@@ -96,7 +96,7 @@ export const getAllLikes = gql`
 `
 
 export const hasLiked = gql`
-	query getAllLikes($postID: ID!, $user: ID!) {
+	query hasLiked($postID: ID!, $user: ID!) {
 		hasLiked(Input: { postID: $postID, user: $user })
 	}
 `
