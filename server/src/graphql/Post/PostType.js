@@ -22,18 +22,16 @@ const PostTypedefs = gql`
 		editPost(Input: EditPostInput!): ErrorOrMessage!
 	}
 
-	type UserNameAndID {
-		name: String!
-		_id: ID!
-	}
-
 	type Post {
 		text: String!
 		_id: ID!
 		image: String!
 		headline: String!
 		markdown: Boolean!
-		user: UserNameAndID!
+		"""
+		UserNameIDPic type is from graphql/Follow/FollowType file
+		"""
+		user: UserNameIDPic
 	}
 
 	type SinglePost {
@@ -47,12 +45,12 @@ const PostTypedefs = gql`
 	}
 
 	type GetAllLikes {
-		users: [UserNameAndID]
+		users: [UserNameIDPic]
 		errorMessage: String
 	}
 
 	type Comment {
-		user: UserNameAndID!
+		user: UserNameIDPic!
 		text: String!
 		date: Date!
 	}
