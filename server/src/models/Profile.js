@@ -2,66 +2,6 @@ import { Schema, model } from 'mongoose'
 
 const objectId = Schema.Types.ObjectId
 
-const ExperienceSchema = new Schema({
-	title: {
-		type: String,
-		required: true,
-	},
-	company: {
-		type: String,
-		required: true,
-	},
-	from: {
-		type: Date,
-	},
-	to: {
-		type: Date,
-	},
-})
-
-const EducationSchema = new Schema({
-	school: {
-		type: String,
-		required: true,
-	},
-	degree: {
-		type: String,
-		required: true,
-	},
-	field_of_study: {
-		type: String,
-	},
-	from: {
-		type: Date,
-	},
-	to: {
-		type: Date,
-	},
-})
-
-const SocialSchema = {
-	youtube: {
-		type: String,
-		default: '',
-	},
-	twitter: {
-		type: String,
-		default: '',
-	},
-	facebook: {
-		type: String,
-		default: '',
-	},
-	linkedin: {
-		type: String,
-		default: '',
-	},
-	instagram: {
-		type: String,
-		default: '',
-	},
-}
-
 const data = {
 	user: {
 		type: objectId,
@@ -89,16 +29,9 @@ const data = {
 			type: String,
 		},
 	},
-	experience: [ExperienceSchema],
-	education: [EducationSchema],
-
-	social: SocialSchema,
-	public: {
-		type: Boolean,
-		default: true,
-	},
 	profilePicture: {
 		type: String,
+		default: '',
 	},
 	date: {
 		type: Date,
