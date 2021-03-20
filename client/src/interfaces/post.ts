@@ -4,3 +4,8 @@ export default interface Post {
 	image: string
 	markdown: boolean
 }
+
+export interface PostUser {
+	name: string
+	_id: string
+}
