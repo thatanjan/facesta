@@ -1,4 +1,5 @@
 import mongoose from 'mongoose'
+import User from 'models/User'
 
 const Schema = mongoose.Schema
 
@@ -6,7 +7,7 @@ const objectId = Schema.Types.ObjectId
 
 const user = {
 	type: objectId,
-	ref: 'users',
+	ref: User,
 	required: true,
 }
 
