@@ -4,7 +4,7 @@ import CircularProgress from '@material-ui/core/CircularProgress'
 import Box from '@material-ui/core/Box'
 import { nanoid } from 'nanoid'
 
-import useGetPersonal from 'hooks/useGetPersonalProfile'
+import useGetPersonal from 'hooks/useGetProfileData'
 import { useIsSelf } from 'hooks/profileContextHooks'
 import { DATE_OF_BIRTH, SKILLS } from 'variables/global'
 import parseCamelCase from 'utils/parseCamelCase'

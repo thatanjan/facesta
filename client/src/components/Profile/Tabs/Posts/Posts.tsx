@@ -2,7 +2,7 @@ import React from 'react'
 
 import PostType from 'interfaces/post'
 import SinglePost from 'components/Post/SinglePost'
-import useGetAllPosts from 'hooks/useGetAllpost'
+import useGetAllPosts from 'hooks/useGetPost'
 import { nanoid } from 'nanoid'
 
 const Posts = () => {

@@ -8,7 +8,7 @@ import { nanoid } from 'nanoid'
 import { useRouter } from 'next/router'
 
 import { FOLLOWEES, FOLLOWERS } from 'variables/global'
-import { useFollowers, useFollowees } from 'hooks/useFollow'
+import { useGetFollowers, useGetFollowees } from 'hooks/followHooks'
 
 const PostsSection = dynamic(
 	() => import('components/Profile/Tabs/Posts/Posts')
@@ -39,11 +39,11 @@ class TabBuilder {
 const About = new TabBuilder('About', AboutTab)
 
 const Followers: TabBuilder = new TabBuilder(FOLLOWERS, FollowSection).addHook(
-	useFollowers
+	useGetFollowers
 )
 
 const Followees: TabBuilder = new TabBuilder(FOLLOWEES, FollowSection).addHook(
-	useFollowees
+	useGetFollowees
 )
 
 const Posts: TabBuilder = new TabBuilder('Posts', PostsSection)
