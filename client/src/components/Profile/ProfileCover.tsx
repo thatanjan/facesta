@@ -8,11 +8,11 @@ import Card from '@material-ui/core/Card'
 import Button from '@material-ui/core/Button'
 import { makeStyles, Theme } from '@material-ui/core/styles'
 
-import { useIsSelf } from 'hooks/profileContextHooks'
-import useGetPersonalData from 'hooks/useGetPersonalProfile'
-import useGetProfilePicture from 'hooks/useGetProfilePictue'
+import { useIsSelf, useProfileUserID } from 'hooks/profileContextHooks'
+import useGetPersonalData from 'hooks/useGetProfileData'
+import useGetProfilePicture from 'hooks/useGetProfilePicture'
 import createRequest from 'utils/createRequest'
-import { uploadProfilePicture } from 'graphql/mutations/userMutations'
+import { uploadProfilePicture } from 'graphql/mutations/profileMutations'
 
 import ProfilePictureUpload, { Base64 } from './ProfilePictureUpload'
 
@@ -34,12 +34,15 @@ const useStyles = makeStyles((theme: Theme) => ({
 export const ProfileCover = () => {
 	const { container, media } = useStyles()
 
+	const profileUserId = useProfileUserID()
 	const [uploadingPost, setUploadingPost] = useState(false)
 
 	const isSelf = useIsSelf()
 	const { data, error } = useGetPersonalData('name bio')
 
-	const { data: pictureData, error: pictureDataError } = useGetProfilePicture()
+	const { data: pictureData, error: pictureDataError } = useGetProfilePicture(
+		profileUserId
+	)
 
 	const action = async (image: Base64) => {
 		setUploadingPost(true)
