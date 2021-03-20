@@ -67,6 +67,8 @@ export const ProfileCover = () => {
 		getPersonalData: { name, bio },
 	} = data
 
+	const avatar = 'confession/profile/woman_avatar_vyfco8.png'
+
 	return (
 		<>
 			<Paper elevation={0}>
@@ -81,9 +83,7 @@ export const ProfileCover = () => {
 							height={720}
 							width={1280}
 							objectFit='cover'
-							src={
-								pictureData?.getProfilePicture?.imageID || '/images/woman_avatar.png'
-							}
+							src={pictureData?.getProfilePicture?.image || avatar}
 						/>
 					)}
 
