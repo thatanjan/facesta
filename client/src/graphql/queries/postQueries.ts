@@ -4,8 +4,13 @@ export const getAllPost = gql`
 	query getAllPost($start: Int!, $user: ID!) {
 		getAllPost(Input: { start: $start, user: $user }) {
 			posts {
+				text
+				_id
+				image
+				headline
+				markdown
 			}
-				errorMessage
+			errorMessage
 		}
 	}
 `
