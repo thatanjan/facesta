@@ -1,15 +1,13 @@
 import { getProfilePicture } from 'graphql/queries/profileQueries'
 import useSWRgql from 'hooks/useSWRgql'
-import { useProfileUserID } from 'hooks/profileContextHooks'
 
-const useGetProfilePicture = () => {
-	const userID = useProfileUserID()
-	const values = { userID }
+const useGetProfilePicture = (user: string) => {
+	const values = { user }
 
 	return useSWRgql({
 		key: getProfilePicture,
 		values,
-		swrDependencies: userID,
+		swrDependencies: user,
 	})
 }
 
