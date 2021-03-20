@@ -4,7 +4,7 @@ const PostTypedefs = gql`
 	extend type Query {
 		getSinglePost(Input: GetPostInput!): SinglePost!
 		getAllPost(Input: GetAllPostInput!): ReturnAllPost!
-		getNewsFeedPost(start: Int!): NewsFeedPosts!
+		getNewsFeedPost(start: Int!): ReturnAllPost!
 		getTotalLikes(Input: GetPostInput!): TotalLikes!
 		getTotalComments(Input: GetPostInput!): TotalComments!
 		getAllComments(Input: GetAllCommentsLikesInput!): GetAllComments!
@@ -27,18 +27,27 @@ const PostTypedefs = gql`
 		_id: ID!
 	}
 
-	type SingleNewsFeedPost {
+	type Post {
+		text: String!
+		_id: ID!
+		image: String!
+		headline: String!
+		markdown: Boolean!
 		user: UserNameAndID!
-		post: Post!
 	}
 
-	type NewsFeedPosts {
-		posts: [SingleNewsFeedPost]
+	type SinglePost {
+		post: Post
+		errorMessage: String
+	}
+
+	type ReturnAllPost {
+		posts: [Post]
 		errorMessage: String
 	}
 
 	type GetAllLikes {
-		users: [UserNameAndID]!
+		users: [UserNameAndID]
 		errorMessage: String
 	}
 
@@ -54,30 +63,12 @@ const PostTypedefs = gql`
 	}
 
 	type TotalComments {
-		totalComments: Int!
+		totalComments: Int
 		errorMessage: String
 	}
 
 	type TotalLikes {
-		totalLikes: Int!
-		errorMessage: String
-	}
-
-	type Post {
-		text: String!
-		_id: ID!
-		image: String!
-		headline: String!
-		markdown: Boolean!
-	}
-
-	type SinglePost {
-		post: Post
-		errorMessage: String
-	}
-
-	type ReturnAllPost {
-		posts: [Post!]
+		totalLikes: Int
 		errorMessage: String
 	}
 
