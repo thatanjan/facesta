@@ -28,6 +28,8 @@ const PostTypedefs = gql`
 		image: String!
 		headline: String!
 		markdown: Boolean!
+		totalLikes: Int!
+		totalComments: Int!
 		"""
 		UserNameIDPic type is from graphql/Follow/FollowType file
 		"""
