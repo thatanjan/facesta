@@ -13,9 +13,13 @@ const FollowType = gql`
 		unfollowUser(user: ID!): ErrorOrMessage!
 	}
 
+	type Profile {
+		profilePicture: String
+	}
 	type UserList {
 		name: String!
 		_id: ID!
+		profile: Profile
 	}
 
 	type Followers {
