@@ -1,29 +1,23 @@
 import { gql } from 'graphql-request'
-import { ERROR_MESSAGE, ERROR_OR_MESSAGE } from 'variables/global'
 
 export const getAllPost = gql`
-	query getAllPost($start: Int!, $userID: ID) {
-		getAllPost(Input: { start: $start, userID: $userID }) {
+	query getAllPost($start: Int!, $user: ID!) {
+		getAllPost(Input: { start: $start, user: $user }) {
 			posts {
-				text
-				postID
-				image
-				headline 
-				${ERROR_MESSAGE}
 			}
-				${ERROR_OR_MESSAGE}
+				errorMessage
 		}
 	}
 `
 
 export const getSinglePost = gql`
-	query getSinglePost($postID: ID!, $postOwnerID: ID) {
-		getSinglePost(Input: { postID: $postID, postOwnerID: $postOwnerID }) {
-				text
-				postID
-				image
-				headline 
-				${ERROR_MESSAGE}
+	query getSinglePost($postID: ID!, $user: ID!) {
+		getSinglePost(Input: { postID: $postID, user: $user }) {
+			text
+			_id
+			image
+			headline
+			markdown
 		}
 	}
 `

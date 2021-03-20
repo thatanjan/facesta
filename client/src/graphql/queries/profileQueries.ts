@@ -3,16 +3,16 @@ import { gql } from 'graphql-request'
 const expectedOutput = 'dateOfBirth skills name bio website status location'
 
 export const getPersonalData = (output?: string | undefined): string => gql`
-	 query getPersonalData($userID: ID!) {
-		 getPersonalData(userID: $userID) {
+	 query getPersonalData($user: ID!) {
+		 getPersonalData(user: $user) {
 			    ${output || expectedOutput}
 		 }
 } `
 
 export const getProfilePicture = gql`
-	query getPersonalData($userID: ID!) {
-		getProfilePicture(userID: $userID) {
-			imageID
+	query getPersonalData($user: ID!) {
+		getProfilePicture(user: $user) {
+			image
 			errorMessage
 		}
 	}

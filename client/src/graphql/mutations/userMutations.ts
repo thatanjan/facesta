@@ -1,5 +1,4 @@
 import { gql } from 'graphql-request'
-import { ERROR_OR_MESSAGE } from 'variables/global'
 
 // eslint-disable-next-line
 export const updatePersonalData = gql`
@@ -23,15 +22,17 @@ export const updatePersonalData = gql`
 				dateOfBirth: $dateOfBirth
 			}
 		) {
-			${ERROR_OR_MESSAGE}
+			errorMessage
+			message
 		}
 	}
 `
 
 export const uploadProfilePicture = gql`
-	mutation uploadProfilePicture($image: String!){
-		uploadProfilePicture(image: $image){
-			${ERROR_OR_MESSAGE}
+	mutation uploadProfilePicture($image: String!) {
+		uploadProfilePicture(image: $image) {
+			errorMessage
+			message
 		}
 	}
 `
