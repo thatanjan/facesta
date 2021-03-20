@@ -10,13 +10,16 @@ import Grid from '@material-ui/core/Grid'
 import Button from '@material-ui/core/Button'
 import TextField from '@material-ui/core/TextField'
 import CardMedia from '@material-ui/core/CardMedia'
+import { mutate } from 'swr'
 
 import UploadImage, {
 	Props as UploadImageProps,
 	Base64,
 } from 'components/Profile/ProfilePictureUpload'
 import { createPost } from 'graphql/mutations/postMutations'
+import { getNewsFeedPost } from 'graphql/queries/postQueries'
 import createRequest from 'utils/createRequest'
+import { useOwnUserId } from 'hooks/userhooks'
 
 import TextFieldComponent from './PostTextField'
 
@@ -83,6 +86,8 @@ const CreatePostModal = ({ isClicked, setIsClicked }: Props) => {
 		setUploadingPost(true)
 	}
 
+	const ownUserID = useOwnUserId()
+
 	const action = async (image: Base64) => {
 		const values = {
 			headline: title,
@@ -96,6 +101,7 @@ const CreatePostModal = ({ isClicked, setIsClicked }: Props) => {
 			values,
 		})
 
+		mutate([getNewsFeedPost, ownUserID])
 		return res
 	}
 
