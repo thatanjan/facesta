@@ -14,21 +14,22 @@ const FollowType = gql`
 	}
 
 	type Profile {
-		profilePicture: String
+		profilePicture: String!
 	}
-	type UserList {
+
+	type UserNameIDPic {
 		name: String!
 		_id: ID!
-		profile: Profile
+		profile: Profile!
 	}
 
 	type Followers {
-		followers: [UserList!]
+		followers: [UserNameIDPic!]
 		errorMessage: String
 	}
 
 	type Followees {
-		followees: [UserList!]
+		followees: [UserNameIDPic!]
 		errorMessage: String
 	}
 
