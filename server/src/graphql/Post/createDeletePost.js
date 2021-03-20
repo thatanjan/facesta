@@ -8,7 +8,7 @@ import uploadImage from 'utils/uploadToCloudinary'
 import deleteImage from 'utils/deleteImageFromCloudinary'
 import imageConfig from 'variables/cloudinaryVariables'
 
-export const postPath = id => `posts/${id}/`
+export const postPath = id => `confession/post/${id}/`
 
 const resolver = {
 	Mutation: {

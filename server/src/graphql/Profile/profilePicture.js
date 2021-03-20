@@ -5,7 +5,7 @@ import sendMessage from 'utils/message'
 import imageConfig from 'variables/cloudinaryVariables'
 import deleteImage from 'utils/deleteImageFromCloudinary'
 
-const PATH = 'profile/'
+const PATH = 'confession/profile/'
 
 const PROFILE_PICTUE = 'profilePicture'
 
