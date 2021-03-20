@@ -36,3 +36,12 @@ export const uploadProfilePicture = gql`
 		}
 	}
 `
+
+export const removeProfilePicture = gql`
+	mutation removeProfilePicture {
+		removeProfilePicture {
+			errorMessage
+			message
+		}
+	}
+`
