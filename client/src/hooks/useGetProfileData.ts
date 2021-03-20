@@ -4,8 +4,8 @@ import { useProfileUserID } from 'hooks/profileContextHooks'
 
 const useGetPersonalData = (output?: string | undefined) => {
 	const mutation = getPersonalData(output)
-	const userID = useProfileUserID()
-	const values = { userID }
+	const user = useProfileUserID()
+	const values = { user }
 
 	return useSWRgql({
 		key: mutation,
