@@ -4,6 +4,7 @@ import {
 	getNewsFeedPost,
 } from 'graphql/queries/postQueries'
 import useSWRgql from 'hooks/useSWRgql'
+import { useOwnUserId } from 'hooks/userhooks'
 import { useProfileUserID } from 'hooks/profileContextHooks'
 
 const useGetAllPost = (start: number) => {
@@ -34,11 +35,12 @@ export const useGetSinglePost = ({ user, postID }: SinglePost) => {
 
 export const useGetNewsFeedPost = (start: number) => {
 	const values = { start }
+	const userID = useOwnUserId()
 
 	return useSWRgql({
 		key: getNewsFeedPost,
 		values,
-		swrDependencies: start,
+		swrDependencies: userID,
 	})
 }
 
