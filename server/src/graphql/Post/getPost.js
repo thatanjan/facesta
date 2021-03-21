@@ -2,6 +2,7 @@ import User from 'models/User'
 import createPostModel from 'models/Post'
 import ifNullOrFalse from 'utils/checkNullFalse'
 import sendErrorMessage from 'utils/errorMessage'
+import { postProjection as projection } from 'variables/global'
 
 const SINGLE_POST = 'singlePost'
 const ALL_POST = 'allPost'
@@ -10,9 +11,6 @@ const mainResolver = field => {
 	return async (_, { Input: { postID, user, start } }) => {
 		try {
 			const Post = createPostModel(user)
-
-			const projection =
-				'text image markdown _id headline totalLikes totalComments'
 
 			switch (field) {
 				case SINGLE_POST:

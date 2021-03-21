@@ -7,6 +7,9 @@ const ERROR_MESSAGE = 'errorMessage'
 const MESSAGE = 'message'
 const ERROR = 'error'
 
+const postProjection =
+	'text image markdown _id headline totalLikes totalComments'
+
 export {
 	FOLLOWERS,
 	FOLLOWEE,
@@ -16,4 +19,5 @@ export {
 	MESSAGE,
 	ERROR_MESSAGE,
 	ERROR,
+	postProjection,
 }

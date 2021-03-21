@@ -1,6 +1,7 @@
 import NewsFeedModel from 'models/NewsFeed'
 import createPostModel from 'models/Post'
 import sendErrorMessage from 'utils/errorMessage'
+import { postProjection as projection } from 'variables/global'
 
 const resolvers = {
 	Query: {
@@ -26,7 +27,7 @@ const resolvers = {
 
 				const allPosts = posts.map(({ post: postId, user: { _id: userID } }) => {
 					const PostModel = createPostModel(userID.toString())
-					return PostModel.findById(postId, 'text _id image headline markdown')
+					return PostModel.findById(postId, projection)
 				})
 
 				const postsWithContent = await Promise.all(allPosts)
