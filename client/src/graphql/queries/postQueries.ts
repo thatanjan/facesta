@@ -9,6 +9,8 @@ export const getAllPost = gql`
 				image
 				headline
 				markdown
+				totalLikes
+				totalComments
 			}
 			errorMessage
 		}
@@ -23,6 +25,17 @@ export const getSinglePost = gql`
 			image
 			headline
 			markdown
+			totalLikes
+			totalComments
+
+			user {
+				name
+				_id
+
+				profile {
+					profilePicture
+				}
+			}
 		}
 	}
 `
@@ -31,17 +44,23 @@ export const getNewsFeedPost = gql`
 	query getNewsFeedPost($start: Int!) {
 		getNewsFeedPost(start: $start) {
 			posts {
-				user {
-					name
-					_id
-				}
-
 				post {
 					text
 					_id
 					image
 					headline
 					markdown
+					totalLikes
+					totalComments
+
+					user {
+						name
+						_id
+
+						profile {
+							profilePicture
+						}
+					}
 				}
 			}
 			errorMessage
