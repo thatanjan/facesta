@@ -1,14 +1,9 @@
 import React from 'react'
 import { nanoid } from 'nanoid'
 
-import Post, { PostUser } from 'interfaces/post'
+import Post from 'interfaces/post'
 import SinglePost from 'components/Post/SinglePost'
 import { useGetNewsFeedPost } from 'hooks/useGetPost'
-
-interface EachPosts {
-	post: Post
-	user: PostUser
-}
 
 const PostsSection = () => {
 	const { data, error } = useGetNewsFeedPost(0)
@@ -22,7 +17,7 @@ const PostsSection = () => {
 
 	return (
 		<>
-			{posts.map(({ post }: EachPosts) => (
+			{posts.map((post: Post) => (
 				<SinglePost key={nanoid()} {...post} />
 			))}
 		</>
