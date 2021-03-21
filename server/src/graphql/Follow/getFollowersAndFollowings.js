@@ -14,18 +14,22 @@ export const getUsers = field => async (_, { Input: { user, start } }) => {
 	}
 
 	try {
-		const query = await Follow.findOne({ user }, projection).populate(
-			field,
-			'name _id'
-		)
+		const query = await Follow.findOne({ user }, projection).populate({
+			path: field,
+			select: 'name _id',
+			populate: {
+				path: 'profile',
+				select: 'profilePicture',
+			},
+		})
 
 		const users = query[field]
 
-		const returnObject = {}
+		const response = {}
 
-		returnObject[field] = users
+		response[field] = users
 
-		return returnObject
+		return response
 	} catch (error) {
 		return sendErrorMessage(error)
 	}
