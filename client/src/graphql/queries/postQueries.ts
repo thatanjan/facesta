@@ -44,22 +44,20 @@ export const getNewsFeedPost = gql`
 	query getNewsFeedPost($start: Int!) {
 		getNewsFeedPost(start: $start) {
 			posts {
-				post {
-					text
+				text
+				_id
+				image
+				headline
+				markdown
+				totalLikes
+				totalComments
+
+				user {
+					name
 					_id
-					image
-					headline
-					markdown
-					totalLikes
-					totalComments
 
-					user {
-						name
-						_id
-
-						profile {
-							profilePicture
-						}
+					profile {
+						profilePicture
 					}
 				}
 			}
