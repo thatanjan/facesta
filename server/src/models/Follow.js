@@ -1,12 +1,8 @@
-import mongoose from 'mongoose'
+import { model, Schema, ObjectId } from 'mongoose'
 import User from 'models/User'
 
-const Schema = mongoose.Schema
-
-const objectId = Schema.Types.ObjectId
-
 const user = {
-	type: objectId,
+	type: ObjectId,
 	ref: User,
 	required: true,
 }
@@ -15,10 +11,12 @@ const schema = {
 	user,
 	followers: [user],
 	followees: [user],
+	totalFollowers: { type: Number, default: 0 },
+	totalFollowees: { type: Number, default: 0 },
 }
 
-export const FollowSchema = new Schema(schema, { versionKey: '1' })
+export const FollowSchema = new Schema(schema)
 
-const Follow = mongoose.model('follow', FollowSchema)
+const Follow = model('follow', FollowSchema)
 
 export default Follow
