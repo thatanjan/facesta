@@ -2,15 +2,27 @@ import NewsFeedModel from 'models/NewsFeed'
 import createPostModel from 'models/Post'
 import sendErrorMessage from 'utils/errorMessage'
 import { postProjection as projection } from 'variables/global'
+import skippingList from 'utils/skippingList'
 
 const resolvers = {
 	Query: {
-		getNewsFeedPost: async (_, { start }, { user: { id } }) => {
+		getNewsFeedPost: async (_, { skip }, { user: { id } }) => {
 			try {
+				const { totalPosts } = await NewsFeedModel.findOne(
+					{
+						user: id,
+					},
+					'totalPosts'
+				)
+
+				const { newSkip, returnNumber, empty } = skippingList(skip, totalPosts)
+
+				if (empty) return { posts: [] }
+
 				const NewsFeedPosts = await NewsFeedModel.findOne({
 					user: id,
 				})
-					.slice('posts', [start, start + 10])
+					.slice('posts', [-Math.abs(newSkip || skip), returnNumber || 10])
 					.populate({
 						path: 'posts',
 						populate: {
