@@ -1,4 +1,5 @@
 export default interface Post {
+	_id: string
 	text: string
 	headline: string
 	image: string
