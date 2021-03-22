@@ -45,7 +45,7 @@ const FollowType = gql`
 
 	input GetAllInput {
 		user: ID!
-		start: Int!
+		skip: Int!
 	}
 `
 
