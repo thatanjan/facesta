@@ -17,6 +17,7 @@ import MoreVertIcon from '@material-ui/icons/MoreVert'
 import CommentIcon from '@material-ui/icons/Comment'
 import Image from 'next/image'
 
+import MuiLink from 'components/Links/MuiLink'
 import PostType from 'interfaces/post'
 
 const DropDownMenu = dynamic(
@@ -71,7 +72,13 @@ const LovePost = () => {
 	)
 }
 
-const SinglePost = ({ headline, image, text }: PostType) => {
+const SinglePost = ({
+	headline,
+	image,
+	text,
+	_id: postID,
+	user: { _id: postUserID },
+}: PostType) => {
 	const visibleTextLength = 500
 	const { root, media, expand, expandOpen, cardHeaderStyle } = useStyles()
 
@@ -84,6 +91,8 @@ const SinglePost = ({ headline, image, text }: PostType) => {
 	}
 
 	const partOfText = text.substr(0, visibleTextLength)
+
+	const showMoreLink = `/post/${postUserID}/${postID}`
 
 	return (
 		<Card className={root} raised>
@@ -113,9 +122,15 @@ const SinglePost = ({ headline, image, text }: PostType) => {
 			<CardContent>
 				<Typography variant='body2' color='textSecondary' component='p'>
 					{partOfText}
-					{text.length >= visibleTextLength ? '...' : null}
+					{text.length >= visibleTextLength ? (
+						<>
+							<span>...</span>
+							<MuiLink href={showMoreLink} MuiComponent={Typography} variant='button'>
+								show more
+							</MuiLink>
+						</>
+					) : null}
 				</Typography>
-				<Typography variant='button'> show more</Typography>
 			</CardContent>
 			<CardActions disableSpacing>
 				<LovePost />
