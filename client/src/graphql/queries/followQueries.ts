@@ -1,7 +1,7 @@
 import { gql } from 'graphql-request'
 
 export const getFollowers: string = gql`
-	query getFollowers($user: ID!, $start: ID!) {
+	query getFollowers($user: ID!, $skip: ID!) {
 		getFollowers(user: $user) {
 			followers {
 				name
@@ -13,7 +13,7 @@ export const getFollowers: string = gql`
 `
 
 export const getFollowees: string = gql`
-	query getFollowees($user: ID!, $start: ID!) {
+	query getFollowees($user: ID!, $skip: ID!) {
 		getFollowees(user: $user) {
 			followees {
 				name

@@ -7,21 +7,21 @@ import {
 import uswSWRgql from './useSWRgql'
 import { useProfileUserID } from './profileContextHooks'
 
-export const useGetFollowers = (start: number) => {
+export const useGetFollowers = (skip: number) => {
 	const user = useProfileUserID()
 	return uswSWRgql({
 		key: getFollowers,
 		swrDependencies: user,
-		values: { user, start },
+		values: { user, skip },
 	})
 }
 
-export const useGetFollowees = (start: number) => {
+export const useGetFollowees = (skip: number) => {
 	const user = useProfileUserID()
 	return uswSWRgql({
 		key: getFollowees,
 		swrDependencies: user,
-		values: { user, start },
+		values: { user, skip },
 	})
 }
 

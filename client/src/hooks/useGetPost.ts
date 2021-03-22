@@ -7,10 +7,10 @@ import useSWRgql from 'hooks/useSWRgql'
 import { useOwnUserId } from 'hooks/userhooks'
 import { useProfileUserID } from 'hooks/profileContextHooks'
 
-const useGetAllPost = (start: number) => {
+const useGetAllPost = (skip: number) => {
 	const mutation = getAllPost
 	const user = useProfileUserID()
-	const values = { user, start }
+	const values = { user, skip }
 
 	return useSWRgql({
 		key: mutation,
@@ -33,8 +33,8 @@ export const useGetSinglePost = ({ user, postID }: SinglePost) => {
 	})
 }
 
-export const useGetNewsFeedPost = (start: number) => {
-	const values = { start }
+export const useGetNewsFeedPost = (skip: number) => {
+	const values = { skip }
 	const userID = useOwnUserId()
 
 	return useSWRgql({

@@ -1,8 +1,8 @@
 import { gql } from 'graphql-request'
 
 export const getAllPost = gql`
-	query getAllPost($start: Int!, $user: ID!) {
-		getAllPost(Input: { start: $start, user: $user }) {
+	query getAllPost($skip: Int!, $user: ID!) {
+		getAllPost(Input: { skip: $skip, user: $user }) {
 			posts {
 				text
 				_id
@@ -41,8 +41,8 @@ export const getSinglePost = gql`
 `
 
 export const getNewsFeedPost = gql`
-	query getNewsFeedPost($start: Int!) {
-		getNewsFeedPost(start: $start) {
+	query getNewsFeedPost($skip: Int!) {
+		getNewsFeedPost(skip: $skip) {
 			posts {
 				text
 				_id
@@ -85,8 +85,8 @@ export const getTotalComments = gql`
 `
 
 export const getAllComments = gql`
-	query getAllComments($postID: ID!, $user: ID!, $start: Int!) {
-		getAllComments(Input: { postID: $postID, user: $user, start: $start }) {
+	query getAllComments($postID: ID!, $user: ID!, $skip: Int!) {
+		getAllComments(Input: { postID: $postID, user: $user, skip: $skip }) {
 			comments {
 				user {
 					name
@@ -101,8 +101,8 @@ export const getAllComments = gql`
 `
 
 export const getAllLikes = gql`
-	query getAllLikes($postID: ID!, $user: ID!, $start: Int!) {
-		getAllLikes(Input: { postID: $postID, user: $user, start: $start }) {
+	query getAllLikes($postID: ID!, $user: ID!, $skip: Int!) {
+		getAllLikes(Input: { postID: $postID, user: $user, skip: $skip }) {
 			users {
 				name
 				_id
