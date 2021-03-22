@@ -18,12 +18,12 @@ const posts = {
 		type: objectId,
 		required: true,
 	},
-	totalPosts: { type: Number, default: 0 },
 }
 
 const schema = {
 	user,
 	posts: [posts],
+	totalPosts: { type: Number, default: 0 },
 }
 
 const NewsFeedSchema = new Schema(schema)
