@@ -20,15 +20,7 @@ const Posts = () => {
 	return (
 		<div>
 			{Array.isArray(posts) &&
-				posts.map(({ image, headline, text }: PostType) => {
-					const props = {
-						image,
-						headline,
-						text,
-						markdown: false,
-					}
-					return <SinglePost key={nanoid()} {...props} />
-				})}{' '}
+				posts.map((post: PostType) => <SinglePost key={nanoid()} {...post} />)}
 		</div>
 	)
 }
