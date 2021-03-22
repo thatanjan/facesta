@@ -1,7 +1,5 @@
-import mongoose from 'mongoose'
+import { Schema, model } from 'mongoose'
 import User from 'models/User'
-
-const Schema = mongoose.Schema
 
 const objectId = Schema.Types.ObjectId
 
@@ -20,6 +18,7 @@ const posts = {
 		type: objectId,
 		required: true,
 	},
+	totalPosts: { type: Number, default: 0 },
 }
 
 const schema = {
@@ -27,8 +26,8 @@ const schema = {
 	posts: [posts],
 }
 
-const NewsFeedSchema = new Schema(schema, { versionKey: '1' })
+const NewsFeedSchema = new Schema(schema)
 
-const NewsFeedModel = mongoose.model('newsfeed', NewsFeedSchema)
+const NewsFeedModel = model('newsfeed', NewsFeedSchema)
 
 export default NewsFeedModel
