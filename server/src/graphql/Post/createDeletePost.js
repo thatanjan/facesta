@@ -57,7 +57,7 @@ const resolver = {
 					promises.push(
 						NewsFeedModel.updateOne(
 							{ user: follower },
-							{ $push: { posts: pushedObject } }
+							{ $push: { posts: pushedObject }, $inc: { totalPosts: 1 } }
 						)
 					)
 				}
@@ -95,6 +95,7 @@ const resolver = {
 					$pull: {
 						posts: { post: postID },
 					},
+					$inc: { totalPosts: -1 },
 				}
 			)
 
