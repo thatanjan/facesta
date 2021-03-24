@@ -6,20 +6,31 @@ import SinglePost from 'components/Post/SinglePost'
 import { useGetNewsFeedPost } from 'hooks/useGetPost'
 
 const PostsSection = () => {
-	const { data, error } = useGetNewsFeedPost(0)
+	const { data, error, setSize, size } = useGetNewsFeedPost()
 
-	if (error) return <div>failed to load</div>
-	if (!data) return <div>loading...</div>
+	let allPost: Post[] = []
 
-	const {
-		getNewsFeedPost: { posts },
-	} = data
+	if (data) {
+		data.forEach(element => {
+			allPost = [...allPost, ...element.getNewsFeedPost.posts]
+		})
+	}
 
 	return (
 		<>
-			{posts.map((post: Post) => (
+			<button
+				type='button'
+				onClick={() => {
+					setSize(size + 1)
+				}}
+			>
+				add
+			</button>
+			{allPost.map((post: Post) => (
 				<SinglePost key={nanoid()} {...post} />
 			))}
+
+			{error && 'error happened'}
 		</>
 	)
 }
