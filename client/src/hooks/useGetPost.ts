@@ -37,10 +37,14 @@ export const useGetSinglePost = ({ user, postID }: SinglePost) => {
 	})
 }
 
-export const useGetNewsFeedPost = (skip: number) => {
+export const useGetNewsFeedPost = () => {
 	const userID = useOwnUserId()
 
-	const getKey = () => [getNewsFeedPost, skip, userID]
+	const getKey = (index: number) => {
+		const skipnum: number = (index + 1) * 10
+
+		return [getNewsFeedPost, skipnum, userID]
+	}
 
 	return useSWRInfinite(getKey, async (key, num) =>
 		createRequest({ key, values: { skip: num } })
