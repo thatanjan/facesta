@@ -20,20 +20,22 @@ export const getAllPost = gql`
 export const getSinglePost = gql`
 	query getSinglePost($postID: ID!, $user: ID!) {
 		getSinglePost(Input: { postID: $postID, user: $user }) {
-			text
-			_id
-			image
-			headline
-			markdown
-			totalLikes
-			totalComments
-
-			user {
-				name
+			post {
+				text
 				_id
+				image
+				headline
+				markdown
+				totalLikes
+				totalComments
 
-				profile {
-					profilePicture
+				user {
+					name
+					_id
+
+					profile {
+						profilePicture
+					}
 				}
 			}
 		}
