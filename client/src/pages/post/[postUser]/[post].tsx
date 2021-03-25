@@ -2,6 +2,8 @@ import React from 'react'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
 import { GetServerSideProps } from 'next'
+import Box from '@material-ui/core/Box'
+import Image from 'next/image'
 
 import PageWrapper from 'components/Layout/PageWrapper'
 import PageLayoutComponent from 'components/Layout/PageLayoutComponent'
@@ -32,7 +34,17 @@ const PageContent = () => {
 
 	console.log(data)
 
-	return null
+	const {
+		getSinglePost: {
+			post: { image },
+		},
+	} = data
+
+	return (
+		<Box>
+			<Image src={image} layout='responsive' height={720} width={1280} />
+		</Box>
+	)
 }
 
 const Post = ({ userData }: Props) => {
