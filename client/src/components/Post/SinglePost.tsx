@@ -20,6 +20,8 @@ import Image from 'next/image'
 import MuiLink from 'components/Links/MuiLink'
 import PostType from 'interfaces/post'
 import { useHasLiked } from 'hooks/likeHooks'
+import createRequest from 'utils/createRequest'
+import { likePost, removeLikePost } from 'graphql/mutations/postMutations'
 
 const DropDownMenu = dynamic(
 	() => import('components/DropDownMenu/DropDownMenu')
@@ -69,7 +71,7 @@ const LovePost = ({ postUserID, postID }: LoveProps) => {
 	const [isLoved, setIsLoved] = useState(false)
 	const { loveStyle } = useStyles()
 
-	const { data: hasLikedData, error } = useHasLiked({
+	const { data: hasLikedData, error, mutate } = useHasLiked({
 		postID,
 		user: postUserID,
 	})
@@ -82,9 +84,22 @@ const LovePost = ({ postUserID, postID }: LoveProps) => {
 		}
 	}, [hasLiked])
 
+	const clickHandeler = async () => {
+		setIsLoved(!isLoved)
+		const key = hasLiked ? removeLikePost : likePost
+		const values = { postID, user: postUserID }
+
+		const response = await createRequest({ key, values })
+
+		if (response) {
+			mutate()
+		}
+		console.log(response)
+	}
+
 	const style = clsx(isLoved && loveStyle)
 	return (
-		<IconButton aria-label='love' onClick={() => setIsLoved(!isLoved)}>
+		<IconButton aria-label='love' onClick={clickHandeler}>
 			<FavoriteIcon className={style} />
 		</IconButton>
 	)
