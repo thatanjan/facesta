@@ -91,7 +91,7 @@ const resolver = {
 					myID: id,
 				})
 
-				if (!doesUserExist) return true
+				if (doesUserExist) return true
 
 				return false
 			} catch (err) {
