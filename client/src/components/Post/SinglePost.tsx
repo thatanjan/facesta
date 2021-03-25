@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useMemo, useEffect } from 'react'
 import dynamic from 'next/dynamic'
 import clsx from 'clsx'
 import { makeStyles } from '@material-ui/core/styles'
@@ -19,6 +19,7 @@ import Image from 'next/image'
 
 import MuiLink from 'components/Links/MuiLink'
 import PostType from 'interfaces/post'
+import { useHasLiked } from 'hooks/likeHooks'
 
 const DropDownMenu = dynamic(
 	() => import('components/DropDownMenu/DropDownMenu')
@@ -59,10 +60,27 @@ const useStyles = makeStyles(theme => ({
 	},
 }))
 
-const LovePost = () => {
-	const [isLoved, setIsLoved] = useState(false)
+interface LoveProps {
+	postUserID: string
+	postID: string
+}
 
+const LovePost = ({ postUserID, postID }: LoveProps) => {
+	const [isLoved, setIsLoved] = useState(false)
 	const { loveStyle } = useStyles()
+
+	const { data: hasLikedData, error } = useHasLiked({
+		postID,
+		user: postUserID,
+	})
+
+	const hasLiked = hasLikedData?.hasLiked
+
+	useEffect(() => {
+		if (hasLiked) {
+			setIsLoved(hasLiked)
+		}
+	}, [hasLiked])
 
 	const style = clsx(isLoved && loveStyle)
 	return (
@@ -93,6 +111,8 @@ const SinglePost = ({
 	const partOfText = text.substr(0, visibleTextLength)
 
 	const showMoreLink = `/post/${postUserID}/${postID}`
+
+	const loveProps = { postID, postUserID }
 
 	return (
 		<Card className={root} raised>
@@ -133,7 +153,7 @@ const SinglePost = ({
 				</Typography>
 			</CardContent>
 			<CardActions disableSpacing>
-				<LovePost />
+				<LovePost {...loveProps} />
 				<IconButton aria-label='comment'>
 					<CommentIcon />
 				</IconButton>
