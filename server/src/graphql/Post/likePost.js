@@ -1,4 +1,5 @@
 import createPostModel from 'models/Post'
+import sendMessage from 'utils/message'
 import sendErrorMessage from 'utils/errorMessage'
 
 const LIKE = 'like'
@@ -20,7 +21,7 @@ const modifyLikes = async ({ postID, postOwnerID, myID }, operation) => {
 				{ $push: { likes: myID }, $inc: { totalLikes: 1 } }
 			)
 
-			if (res || res.nModified < 0) return true
+			if (res || res.nModified > 0) return true
 
 			return false
 
@@ -30,23 +31,21 @@ const modifyLikes = async ({ postID, postOwnerID, myID }, operation) => {
 				{ $pull: { likes: myID }, $inc: { totalLikes: -1 } }
 			)
 
-			if (res2 || res2.nModified < 0) return true
+			if (res2 || res2.nModified > 0) return true
 			return false
 
 		default:
 			return false
 	}
-
-	return false
 }
 
 const responseMessage = operation => {
 	switch (operation) {
 		case LIKE:
-			return sendErrorMessage('you have liked this post')
+			return sendMessage('you have liked this post')
 
 		case REMOVE_LIKE:
-			return sendErrorMessage('you have removed like from the post')
+			return sendMessage('you have removed like from the post')
 
 		default:
 			return false
