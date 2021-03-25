@@ -23,7 +23,7 @@ export const createPost = gql`
 `
 
 export const likePost = gql`
-	mutation likePost($postID: String!, $user: String!) {
+	mutation likePost($postID: ID!, $user: ID!) {
 		likePost(Input: { postID: $postID, user: $user }) {
 			errorMessage
 			message
@@ -32,7 +32,7 @@ export const likePost = gql`
 `
 
 export const removeLikePost = gql`
-	mutation removeLikePost($postID: String!, $user: String!) {
+	mutation removeLikePost($postID: ID!, $user: ID!) {
 		removeLikePost(Input: { postID: $postID, user: $user }) {
 			errorMessage
 			message
@@ -41,7 +41,7 @@ export const removeLikePost = gql`
 `
 
 export const commentPost = gql`
-	mutation commentPost($postID: String!, $user: String!, $text: String!) {
+	mutation commentPost($postID: ID!, $user: ID!, $text: String!) {
 		commentPost(Input: { postID: $postID, user: $user, text: $text }) {
 			errorMessage
 			message
@@ -51,9 +51,9 @@ export const commentPost = gql`
 
 export const removeCommentPost = gql`
 	mutation removeCommentPost(
-		$postID: String!
-		$user: String!
-		$commentID: String!
+		$postID: ID!
+		$user: ID!
+		$commentID: ID!
 	) {
 		removeCommentPost(
 			Input: { postID: $postID, user: $user, commentID: $commentID }
