@@ -3,13 +3,11 @@ import {
 	getSinglePost,
 	getNewsFeedPost,
 } from 'graphql/queries/postQueries'
-import fetcher, { Parameters as FetcherParameters } from 'utils/swrFetcher'
 import createRequest from 'utils/createRequest'
 import useSWRgql from 'hooks/useSWRgql'
 import { useSWRInfinite } from 'swr'
 import { useOwnUserId } from 'hooks/userhooks'
 import { useProfileUserID } from 'hooks/profileContextHooks'
-import { useEffect, useState } from 'react'
 
 const useGetAllPost = (skip: number) => {
 	const mutation = getAllPost
@@ -46,8 +44,10 @@ export const useGetNewsFeedPost = () => {
 		return [getNewsFeedPost, skipnum, userID]
 	}
 
-	return useSWRInfinite(getKey, async (key, num) =>
-		createRequest({ key, values: { skip: num } })
+	return useSWRInfinite(
+		getKey,
+		async (key, num) => createRequest({ key, values: { skip: num } }),
+		{ revalidateOnFocus: false }
 	)
 }
 
