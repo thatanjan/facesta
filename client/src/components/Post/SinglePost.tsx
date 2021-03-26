@@ -65,10 +65,13 @@ const useStyles = makeStyles(theme => ({
 interface LoveProps {
 	postUserID: string
 	postID: string
+	totalLikes: number
 }
 
-const LovePost = ({ postUserID, postID }: LoveProps) => {
+const LovePost = ({ totalLikes, postUserID, postID }: LoveProps) => {
 	const [isLoved, setIsLoved] = useState(false)
+	const [totalNumberOfLikes, setTotalNumberOfLikes] = useState(0)
+	const [sendingRequest, setSendingRequst] = useState(false)
 	const { loveStyle } = useStyles()
 
 	const { data: hasLikedData, error, mutate } = useHasLiked({
@@ -85,23 +88,43 @@ const LovePost = ({ postUserID, postID }: LoveProps) => {
 	}, [hasLiked])
 
 	const clickHandeler = async () => {
-		setIsLoved(!isLoved)
-		const key = hasLiked ? removeLikePost : likePost
-		const values = { postID, user: postUserID }
-
-		const response = await createRequest({ key, values })
-
-		if (response) {
-			mutate()
+		if (isLoved) {
+			setTotalNumberOfLikes(prev => prev - 1)
+			setIsLoved(!isLoved)
+		} else {
+			setTotalNumberOfLikes(prev => prev + 1)
+			setIsLoved(!isLoved)
 		}
-		console.log(response)
+
+		if (!sendingRequest) {
+			setSendingRequst(true)
+
+			const key = hasLiked ? removeLikePost : likePost
+			const values = { postID, user: postUserID }
+
+			const response = await createRequest({ key, values })
+
+			if (response) {
+				setSendingRequst(false)
+			}
+
+			console.log(response)
+		}
 	}
+
+	useEffect(() => {
+		setTotalNumberOfLikes(totalLikes)
+		setIsLoved(hasLiked)
+	}, [totalLikes])
 
 	const style = clsx(isLoved && loveStyle)
 	return (
-		<IconButton aria-label='love' onClick={clickHandeler}>
-			<FavoriteIcon className={style} />
-		</IconButton>
+		<>
+			{totalNumberOfLikes}
+			<IconButton aria-label='love' onClick={clickHandeler}>
+				<FavoriteIcon className={style} />
+			</IconButton>{' '}
+		</>
 	)
 }
 
@@ -111,6 +134,7 @@ const SinglePost = ({
 	text,
 	_id: postID,
 	user: { _id: postUserID },
+	totalLikes,
 }: PostType) => {
 	const visibleTextLength = 500
 	const { root, media, expand, expandOpen, cardHeaderStyle } = useStyles()
@@ -127,7 +151,7 @@ const SinglePost = ({
 
 	const showMoreLink = `/post/${postUserID}/${postID}`
 
-	const loveProps = { postID, postUserID }
+	const loveProps = { postID, postUserID, totalLikes }
 
 	return (
 		<Card className={root} raised>
@@ -175,22 +199,7 @@ const SinglePost = ({
 				<IconButton aria-label='share'>
 					<ShareIcon />
 				</IconButton>
-				<IconButton
-					className={clsx(expand, {
-						[expandOpen]: expanded,
-					})}
-					onClick={handleExpandClick}
-					aria-expanded={expanded}
-					aria-label='show more'
-				>
-					<ExpandMoreIcon />
-				</IconButton>
 			</CardActions>
-			<Collapse in={expanded} timeout='auto' unmountOnExit>
-				<CardContent>
-					<Typography paragraph>Hello world</Typography>
-				</CardContent>
-			</Collapse>
 		</Card>
 	)
 }
