@@ -36,6 +36,7 @@ const resolvers = {
 					})
 
 				const { posts } = NewsFeedPosts
+				posts.reverse()
 
 				const allPosts = posts.map(({ post: postId, user: { _id: userID } }) => {
 					const PostModel = createPostModel(userID.toString())

@@ -64,6 +64,8 @@ const mainResolver = field => {
 						return sendErrorMessage('you have no post')
 					}
 
+					posts.reverse()
+
 					allPost.posts = posts
 
 					return allPost
