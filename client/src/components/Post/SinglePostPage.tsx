@@ -7,12 +7,13 @@ import CardContent from '@material-ui/core/CardContent'
 import CardActions from '@material-ui/core/CardActions'
 import IconButton from '@material-ui/core/IconButton'
 import Typography from '@material-ui/core/Typography'
-import FavoriteIcon from '@material-ui/icons/Favorite'
 import ShareIcon from '@material-ui/icons/Share'
 import MoreVertIcon from '@material-ui/icons/MoreVert'
 import { useRouter } from 'next/router'
 
 import { useGetSinglePost } from 'hooks/useGetPost'
+import Post from 'interfaces/post'
+import { LovePost } from './SinglePost'
 
 const useStyles = makeStyles((theme: Theme) =>
 	createStyles({
@@ -45,9 +46,15 @@ const SinglePostPage = () => {
 
 	const {
 		getSinglePost: {
-			post: { image, headline, text },
+			post: { image, headline, text, totalLikes },
 		},
 	} = data
+
+	const loveProps = {
+		postID: post as string,
+		postUserID: postUser as string,
+		totalLikes,
+	}
 
 	return (
 		<Card className={root}>
@@ -74,9 +81,7 @@ const SinglePostPage = () => {
 			</CardContent>
 
 			<CardActions disableSpacing>
-				<IconButton aria-label='add to favorites'>
-					<FavoriteIcon />
-				</IconButton>
+				<LovePost {...loveProps} />
 				<IconButton aria-label='share'>
 					<ShareIcon />
 				</IconButton>

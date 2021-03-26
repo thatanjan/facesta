@@ -68,7 +68,7 @@ interface LoveProps {
 	totalLikes: number
 }
 
-const LovePost = ({ totalLikes, postUserID, postID }: LoveProps) => {
+export const LovePost = ({ totalLikes, postUserID, postID }: LoveProps) => {
 	const [isLoved, setIsLoved] = useState(false)
 	const [totalNumberOfLikes, setTotalNumberOfLikes] = useState(0)
 	const [sendingRequest, setSendingRequst] = useState(false)
