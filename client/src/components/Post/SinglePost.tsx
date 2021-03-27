@@ -1,22 +1,20 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import { useRouter } from 'next/router'
 import dynamic from 'next/dynamic'
 import { makeStyles } from '@material-ui/core/styles'
 import Card from '@material-ui/core/Card'
 import CardHeader from '@material-ui/core/CardHeader'
-import CardContent from '@material-ui/core/CardContent'
 import CardActions from '@material-ui/core/CardActions'
 import IconButton from '@material-ui/core/IconButton'
-import Typography from '@material-ui/core/Typography'
 import ShareIcon from '@material-ui/icons/Share'
 import MoreVertIcon from '@material-ui/icons/MoreVert'
 import CommentIcon from '@material-ui/icons/Comment'
 import Image from 'next/image'
 
-import MuiLink from 'components/Links/MuiLink'
 import PostType from 'interfaces/post'
 
 import LovePost from './LovePost'
+import PostContent from './PostContent'
 
 const DropDownMenu = dynamic(
 	() => import('components/DropDownMenu/DropDownMenu')
@@ -40,6 +38,10 @@ const useStyles = makeStyles(theme => ({
 	},
 }))
 
+interface Props extends PostType {
+	postPage: boolean
+}
+
 const SinglePost = ({
 	headline,
 	image,
@@ -47,19 +49,19 @@ const SinglePost = ({
 	_id: postID,
 	user: { _id: postUserID },
 	totalLikes,
-}: PostType) => {
+	postPage,
+}: Props) => {
 	const { push } = useRouter()
 
-	const visibleTextLength = 500
 	const { root, imageHover, cardHeaderStyle } = useStyles()
 
 	const moreOptions = ['save', 'Report']
 
-	const partOfText = text.substr(0, visibleTextLength)
-
 	const showMoreLink = `/post/${postUserID}/${postID}`
 
 	const loveProps = { postID, postUserID, totalLikes }
+
+	const postContentProps = { text, postPage, showMoreLink }
 
 	const redirectToPostPage = () => {
 		push(showMoreLink)
@@ -100,19 +102,8 @@ const SinglePost = ({
 					<ShareIcon />
 				</IconButton>
 			</CardActions>
-			<CardContent>
-				<Typography variant='body2' color='textSecondary' component='p'>
-					{partOfText}
-					{text.length >= visibleTextLength ? (
-						<>
-							<span>...</span>
-							<MuiLink href={showMoreLink} MuiComponent={Typography} variant='button'>
-								show more
-							</MuiLink>
-						</>
-					) : null}
-				</Typography>
-			</CardContent>
+
+			<PostContent {...postContentProps} />
 		</Card>
 	)
 }
