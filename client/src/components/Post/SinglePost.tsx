@@ -3,6 +3,7 @@ import { useRouter } from 'next/router'
 import dynamic from 'next/dynamic'
 import clsx from 'clsx'
 import { makeStyles } from '@material-ui/core/styles'
+import Box from '@material-ui/core/Box'
 import Card from '@material-ui/core/Card'
 import CardHeader from '@material-ui/core/CardHeader'
 import CardContent from '@material-ui/core/CardContent'
@@ -104,12 +105,12 @@ export const LovePost = ({ totalLikes, postUserID, postID }: LoveProps) => {
 
 	const style = clsx(isLoved && loveStyle)
 	return (
-		<>
-			{totalNumberOfLikes}
+		<Box>
+			<Typography variant='caption'>{totalNumberOfLikes}</Typography>
 			<IconButton aria-label='love' onClick={clickHandeler}>
 				<FavoriteIcon className={style} />
-			</IconButton>{' '}
-		</>
+			</IconButton>
+		</Box>
 	)
 }
 
