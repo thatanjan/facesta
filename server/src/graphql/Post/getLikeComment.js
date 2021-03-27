@@ -12,7 +12,7 @@ const resolvers = {
 
 				const { newSkip, returnNumber, empty } = skippingList(skip, totalComments)
 
-				if (empty) return { posts: [] }
+				if (empty) return { comments: [] }
 
 				const post = await PostModel.findById(postID)
 					.slice('comments', [-Math.abs(newSkip || skip), returnNumber || 10])
@@ -34,16 +34,28 @@ const resolvers = {
 				return sendErrorMessage(error)
 			}
 		},
-		getAllLikes: async (_, { Input: { start, postID, user } }) => {
+		getAllLikes: async (_, { Input: { skip, postID, user } }) => {
 			try {
 				const PostModel = createPostModel(user)
 
-				const post = await PostModel.findById(postID, {
-					likes: { $slice: [start, start + 10] },
-					comments: { $slice: 0 },
-				}).populate('likes', 'name _id')
+				const { totalLikes } = await PostModel.findById(postID, 'totalLikes')
 
-				return { users: post.likes }
+				const { newSkip, returnNumber, empty } = skippingList(skip, totalLikes)
+
+				if (empty) return { comments: [] }
+				const post = await PostModel.findById(postID, {
+					likes: { $slice: [-Math.abs(newSkip || skip), returnNumber || 10] },
+					comments: { $slice: 0 },
+				}).populate({
+					path: 'likes',
+					select: 'name _id',
+					populate: {
+						path: 'profile',
+						select: 'profilePicture',
+					},
+				})
+
+				return { users: post.likes.reverse() }
 			} catch (error) {
 				return sendErrorMessage(error)
 			}
