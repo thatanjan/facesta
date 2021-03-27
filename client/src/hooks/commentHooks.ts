@@ -3,7 +3,7 @@ import createRequest from 'utils/createRequest'
 import { useSWRInfinite } from 'swr'
 import { useOwnUserId } from 'hooks/userhooks'
 
-interface Input {
+export interface Input {
 	postID: string
 	postUserID: string
 }

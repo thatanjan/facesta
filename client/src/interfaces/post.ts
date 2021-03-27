@@ -19,7 +19,7 @@ export interface Comment {
 interface PostUser {
 	name: string
 	_id: string
-	profile?: {
+	profile: {
 		profilePicture: string
 	}
 }
