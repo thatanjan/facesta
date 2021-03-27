@@ -3,10 +3,10 @@ import { useRouter } from 'next/router'
 import dynamic from 'next/dynamic'
 import { makeStyles } from '@material-ui/core/styles'
 import Card from '@material-ui/core/Card'
+import Box from '@material-ui/core/Box'
 import CardHeader from '@material-ui/core/CardHeader'
 import CardActions from '@material-ui/core/CardActions'
 import IconButton from '@material-ui/core/IconButton'
-import ShareIcon from '@material-ui/icons/Share'
 import MoreVertIcon from '@material-ui/icons/MoreVert'
 import CommentIcon from '@material-ui/icons/Comment'
 import Image from 'next/image'
@@ -15,6 +15,7 @@ import PostType from 'interfaces/post'
 
 import LovePost from './LovePost'
 import PostContent from './PostContent'
+import Typography from '@material-ui/core/Typography'
 
 const DropDownMenu = dynamic(
 	() => import('components/DropDownMenu/DropDownMenu')
@@ -39,6 +40,9 @@ const useStyles = makeStyles(theme => ({
 	noShadow: {
 		boxShadow: 'none',
 	},
+	CardActionsStyle: {
+		justifyContent: 'space-evenly',
+	},
 }))
 
 interface Props extends PostType {
@@ -52,11 +56,18 @@ const SinglePost = ({
 	_id: postID,
 	user: { _id: postUserID },
 	totalLikes,
+	totalComments,
 	postPage,
 }: Props) => {
 	const { push } = useRouter()
 
-	const { noShadow, root, imageHover, cardHeaderStyle } = useStyles()
+	const {
+		CardActionsStyle,
+		noShadow,
+		root,
+		imageHover,
+		cardHeaderStyle,
+	} = useStyles()
 
 	const moreOptions = ['save', 'Report']
 
@@ -101,14 +112,15 @@ const SinglePost = ({
 				objectFit='cover'
 				onClick={redirectToPostPage}
 			/>
-			<CardActions disableSpacing>
+			<CardActions disableSpacing className={CardActionsStyle}>
 				<LovePost {...loveProps} />
-				<IconButton aria-label='comment'>
-					<CommentIcon />
-				</IconButton>
-				<IconButton aria-label='share'>
-					<ShareIcon />
-				</IconButton>
+
+				<Box>
+					<Typography variant='caption'>{totalComments}</Typography>
+					<IconButton aria-label='comment'>
+						<CommentIcon />
+					</IconButton>
+				</Box>
 			</CardActions>
 
 			<PostContent {...postContentProps} />
