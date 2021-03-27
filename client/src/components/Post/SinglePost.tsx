@@ -36,6 +36,9 @@ const useStyles = makeStyles(theme => ({
 			},
 		},
 	},
+	noShadow: {
+		boxShadow: 'none',
+	},
 }))
 
 interface Props extends PostType {
@@ -53,7 +56,7 @@ const SinglePost = ({
 }: Props) => {
 	const { push } = useRouter()
 
-	const { root, imageHover, cardHeaderStyle } = useStyles()
+	const { noShadow, root, imageHover, cardHeaderStyle } = useStyles()
 
 	const moreOptions = ['save', 'Report']
 
@@ -68,7 +71,12 @@ const SinglePost = ({
 	}
 
 	return (
-		<Card className={root} raised>
+		<Card
+			className={root}
+			classes={{
+				root: postPage ? noShadow : undefined,
+			}}
+		>
 			<CardHeader
 				className={cardHeaderStyle}
 				action={
