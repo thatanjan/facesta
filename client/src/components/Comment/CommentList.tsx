@@ -11,6 +11,7 @@ import { nanoid } from 'nanoid'
 
 import { useGetAllComments, Input as HookInput } from 'hooks/commentHooks'
 import { Comment } from 'interfaces/post'
+import Box from '@material-ui/core/Box'
 
 const useStyles = makeStyles((theme: Theme) =>
 	createStyles({
@@ -56,16 +57,37 @@ const CommentList = ({ postID, postUserID }: HookInput) => {
 								profile: { profilePicture },
 							},
 						}: Comment) => (
-							<>
-								<ListItem alignItems='flex-start' key={nanoid()}>
+							<Box key={nanoid()}>
+								<ListItem alignItems='flex-start'>
 									<ListItemAvatar>
 										<Avatar
 											alt={name}
 											src={`https://res.cloudinary.com/thatanjan/${profilePicture}`}
 										/>
 									</ListItemAvatar>
+
+									<ListItemText
+										primaryTypographyProps={{
+											variant: 'h6',
+										}}
+										secondaryTypographyProps={{
+											component: Box,
+										}}
+										primary={name}
+										secondary={
+											<>
+												<Typography variant='body2' color='textPrimary'>
+													{new Date(date).toDateString()}
+												</Typography>
+												<Typography variant='subtitle1' color='textPrimary'>
+													{text}
+												</Typography>
+											</>
+										}
+									/>
 								</ListItem>
-							</>
+								<Divider variant='inset' component='li' />
+							</Box>
 						)
 					)}
 			</List>

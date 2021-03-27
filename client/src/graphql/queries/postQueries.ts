@@ -90,6 +90,7 @@ export const getAllComments = gql`
 	query getAllComments($postID: ID!, $user: ID!, $skip: Int!) {
 		getAllComments(Input: { postID: $postID, user: $user, skip: $skip }) {
 			comments {
+				date
 				text
 				user {
 					name
