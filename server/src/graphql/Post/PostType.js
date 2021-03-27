@@ -30,6 +30,7 @@ const PostTypedefs = gql`
 		markdown: Boolean!
 		totalLikes: Int!
 		totalComments: Int!
+		date: Date!
 		"""
 		UserNameIDPic type is from graphql/Follow/FollowType file
 		"""

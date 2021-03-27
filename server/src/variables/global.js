@@ -8,7 +8,7 @@ const MESSAGE = 'message'
 const ERROR = 'error'
 
 const postProjection =
-	'text image markdown _id headline totalLikes totalComments'
+	'text image markdown _id headline totalLikes totalComments date'
 
 export {
 	FOLLOWERS,
