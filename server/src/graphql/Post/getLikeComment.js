@@ -14,22 +14,22 @@ const resolvers = {
 
 				if (empty) return { posts: [] }
 
-				const post = await PostModel.findById(postID, {
-					comments: { $slice: [-Math.abs(newSkip || skip), returnNumber || 10] },
-					likes: { $slice: 0 },
-				}).populate({
-					path: 'comments',
-					populate: {
-						path: 'user',
-						select: 'name _id ',
+				const post = await PostModel.findById(postID)
+					.slice('comments', [-Math.abs(newSkip || skip), returnNumber || 10])
+					.slice('likes', 0)
+					.populate({
+						path: 'comments',
 						populate: {
-							path: 'profile',
-							select: 'profilePicture',
+							path: 'user',
+							select: 'name _id ',
+							populate: {
+								path: 'profile',
+								select: 'profilePicture',
+							},
 						},
-					},
-				})
+					})
 
-				return { comments: post.comments }
+				return { comments: post.comments.reverse() }
 			} catch (error) {
 				return sendErrorMessage(error)
 			}
