@@ -1,4 +1,5 @@
-import React, { useState, useMemo, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
+import { useRouter } from 'next/router'
 import dynamic from 'next/dynamic'
 import clsx from 'clsx'
 import { makeStyles } from '@material-ui/core/styles'
@@ -6,13 +7,10 @@ import Card from '@material-ui/core/Card'
 import CardHeader from '@material-ui/core/CardHeader'
 import CardContent from '@material-ui/core/CardContent'
 import CardActions from '@material-ui/core/CardActions'
-import Collapse from '@material-ui/core/Collapse'
 import IconButton from '@material-ui/core/IconButton'
 import Typography from '@material-ui/core/Typography'
-import red from '@material-ui/core/colors/red'
 import FavoriteIcon from '@material-ui/icons/Favorite'
 import ShareIcon from '@material-ui/icons/Share'
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 import MoreVertIcon from '@material-ui/icons/MoreVert'
 import CommentIcon from '@material-ui/icons/Comment'
 import Image from 'next/image'
@@ -32,23 +30,10 @@ const useStyles = makeStyles(theme => ({
 		maxWidth: '100%',
 		marginTop: theme.spacing(4),
 	},
-	media: {
-		height: 0,
-		paddingTop: '56.25%', // 16:9
+	imageHover: {
+		cursor: 'pointer',
 	},
-	expand: {
-		transform: 'rotate(0deg)',
-		marginLeft: 'auto',
-		transition: theme.transitions.create('transform', {
-			duration: theme.transitions.duration.shortest,
-		}),
-	},
-	expandOpen: {
-		transform: 'rotate(180deg)',
-	},
-	avatar: {
-		backgroundColor: red[500],
-	},
+
 	loveStyle: {
 		fill: '#ea0000',
 	},
@@ -74,7 +59,7 @@ export const LovePost = ({ totalLikes, postUserID, postID }: LoveProps) => {
 	const [sendingRequest, setSendingRequst] = useState(false)
 	const { loveStyle } = useStyles()
 
-	const { data: hasLikedData, error, mutate } = useHasLiked({
+	const { data: hasLikedData } = useHasLiked({
 		postID,
 		user: postUserID,
 	})
@@ -136,22 +121,22 @@ const SinglePost = ({
 	user: { _id: postUserID },
 	totalLikes,
 }: PostType) => {
+	const { push } = useRouter()
+
 	const visibleTextLength = 500
-	const { root, media, expand, expandOpen, cardHeaderStyle } = useStyles()
+	const { root, imageHover, cardHeaderStyle } = useStyles()
 
 	const moreOptions = ['save', 'Report']
-
-	const [expanded, setExpanded] = React.useState(false)
-
-	const handleExpandClick = () => {
-		setExpanded(!expanded)
-	}
 
 	const partOfText = text.substr(0, visibleTextLength)
 
 	const showMoreLink = `/post/${postUserID}/${postID}`
 
 	const loveProps = { postID, postUserID, totalLikes }
+
+	const redirectToPostPage = () => {
+		push(showMoreLink)
+	}
 
 	return (
 		<Card className={root} raised>
@@ -172,11 +157,12 @@ const SinglePost = ({
 			/>
 			<Image
 				src={image}
-				className={media}
+				className={imageHover}
 				layout='responsive'
 				height={720}
 				width={1280}
 				objectFit='cover'
+				onClick={redirectToPostPage}
 			/>
 			<CardContent>
 				<Typography variant='body2' color='textSecondary' component='p'>
