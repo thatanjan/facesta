@@ -7,6 +7,13 @@ export default interface Post {
 	totalLikes: number
 	totalComments: number
 	user: PostUser
+	date: Date
+}
+
+export interface Comment {
+	text: string
+	date: Date
+	user: PostUser
 }
 
 interface PostUser {
