@@ -9,84 +9,42 @@ import IconButton from '@material-ui/core/IconButton'
 import Typography from '@material-ui/core/Typography'
 import ShareIcon from '@material-ui/icons/Share'
 import MoreVertIcon from '@material-ui/icons/MoreVert'
+import CommentIcon from '@material-ui/icons/Comment'
 import { useRouter } from 'next/router'
 
 import { useGetSinglePost } from 'hooks/useGetPost'
 import Post from 'interfaces/post'
-import { LovePost } from './SinglePost'
+import SinglePost from './SinglePost'
 
 const useStyles = makeStyles((theme: Theme) =>
 	createStyles({
 		root: {
 			boxShadow: 'none',
 		},
-		media: {
-			height: 0,
-			paddingTop: '56.25%', // 16:9
-		},
 	})
 )
 
 const SinglePostPage = () => {
-	const { root, media } = useStyles()
-
 	const {
-		query: { post, postUser },
+		query: { post: postID, postUser },
 	} = useRouter()
 
 	const { data, error } = useGetSinglePost({
 		user: postUser as string,
-		postID: post as string,
+		postID: postID as string,
 	})
 
 	if (error) return <div>failed to load</div>
 	if (!data) return <div>loading...</div>
 
-	console.log(data)
-
 	const {
-		getSinglePost: {
-			post: { image, headline, text, totalLikes },
-		},
+		getSinglePost: { post },
 	} = data
 
-	const loveProps = {
-		postID: post as string,
-		postUserID: postUser as string,
-		totalLikes,
-	}
-
 	return (
-		<Card className={root}>
-			<CardHeader
-				action={
-					<IconButton aria-label='settings'>
-						<MoreVertIcon />
-					</IconButton>
-				}
-				title={headline}
-				subheader='September 14, 2016'
-			/>
-			<Image
-				className={media}
-				src={image}
-				layout='responsive'
-				height={720}
-				width={1280}
-			/>
-			<CardContent>
-				<Typography variant='body2' color='textSecondary' component='p'>
-					{text}
-				</Typography>
-			</CardContent>
-
-			<CardActions disableSpacing>
-				<LovePost {...loveProps} />
-				<IconButton aria-label='share'>
-					<ShareIcon />
-				</IconButton>
-			</CardActions>
-		</Card>
+		<>
+			<SinglePost {...(post as Post)} postPage />
+		</>
 	)
 }
 
