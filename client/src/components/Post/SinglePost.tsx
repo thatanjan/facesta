@@ -9,13 +9,14 @@ import CardActions from '@material-ui/core/CardActions'
 import IconButton from '@material-ui/core/IconButton'
 import MoreVertIcon from '@material-ui/icons/MoreVert'
 import CommentIcon from '@material-ui/icons/Comment'
+import Typography from '@material-ui/core/Typography'
 import Image from 'next/image'
 
+import MuiLink from 'components/Links/MuiLink'
 import PostType from 'interfaces/post'
 
 import LovePost from './LovePost'
 import PostContent from './PostContent'
-import Typography from '@material-ui/core/Typography'
 
 const DropDownMenu = dynamic(
 	() => import('components/DropDownMenu/DropDownMenu')
@@ -54,10 +55,11 @@ const SinglePost = ({
 	image,
 	text,
 	_id: postID,
-	user: { _id: postUserID },
+	user: { _id: postUserID, name },
 	totalLikes,
 	totalComments,
 	postPage,
+	date,
 }: Props) => {
 	const { push } = useRouter()
 
@@ -81,6 +83,8 @@ const SinglePost = ({
 		push(showMoreLink)
 	}
 
+	console.log(date)
+
 	return (
 		<Card
 			className={root}
@@ -101,7 +105,20 @@ const SinglePost = ({
 					</>
 				}
 				title={headline}
-				subheader='September 14, 2016'
+				subheader={
+					<Box>
+						<Typography component='span'>
+							{new Date(date).toDateString()},{' by '}
+						</Typography>
+						<MuiLink
+							href={`/profile/${postUserID}`}
+							MuiComponent={Typography}
+							color='textPrimary'
+						>
+							{name}
+						</MuiLink>
+					</Box>
+				}
 			/>
 			<Image
 				src={image}
