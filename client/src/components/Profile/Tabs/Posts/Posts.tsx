@@ -6,21 +6,26 @@ import useGetAllPosts from 'hooks/useGetPost'
 import { nanoid } from 'nanoid'
 
 const Posts = () => {
-	const { data, error } = useGetAllPosts(0)
-
-	console.log(data)
+	const { data, error } = useGetAllPosts()
 
 	if (!data) return <div>... loading</div>
 	if (error) return 'error happened'
 
-	const {
-		getAllPost: { posts },
-	} = data
+	let allPost: PostType[] = []
+
+	if (data) {
+		data.forEach(element => {
+			allPost = [...allPost, ...element.getAllPost.posts]
+		})
+	}
+	console.log(allPost)
 
 	return (
 		<div>
-			{Array.isArray(posts) &&
-				posts.map((post: PostType) => <SinglePost key={nanoid()} {...post} />)}
+			{Array.isArray(allPost) &&
+				allPost.map((post: PostType) => (
+					<SinglePost key={nanoid()} {...post} postPage={false} />
+				))}
 		</div>
 	)
 }
