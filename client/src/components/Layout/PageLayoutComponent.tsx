@@ -21,15 +21,18 @@ interface Props {
 	Content: Function
 }
 
-const useStyles = makeStyles({
+const useStyles = makeStyles(theme => ({
 	containerStyle: {
 		marginTop: '0px',
 		marginBottom: '0px',
 	},
 	contentContainerStyle: {
 		padding: '0 2rem',
+		[theme.breakpoints.down('lg')]: {
+			padding: '0 .5rem',
+		},
 	},
-})
+}))
 
 const PageLayoutComponent = ({ Content }: Props) => {
 	const matches = useMediaQuery(screenSizeDrawer)
@@ -50,7 +53,7 @@ const PageLayoutComponent = ({ Content }: Props) => {
 						</Grid>
 					)}
 					{Content && typeof Content === 'function' && (
-						<Grid item xs={11} lg={9} className={contentContainerStyle}>
+						<Grid item xs={12} lg={9} className={contentContainerStyle}>
 							<Content />
 						</Grid>
 					)}
