@@ -60,13 +60,16 @@ const Profile = ({ userData, ...profileContextProps }: Props) => {
 	const { profileUserID } = profileContextProps
 
 	const { data, error } = useProfileInfo(profileUserID)
+	console.log(data)
 
 	if (error) return <div>failed to load</div>
 	if (!data) return <div>loading...</div>
 
 	const {
-		name,
-		profile: { profilePicture },
+		getUser: {
+			name,
+			profile: { profilePicture },
+		},
 	} = data
 
 	const moreProps = { name, profilePicture }
