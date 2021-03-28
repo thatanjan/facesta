@@ -8,9 +8,12 @@ import Card from '@material-ui/core/Card'
 import Button from '@material-ui/core/Button'
 import { makeStyles, Theme } from '@material-ui/core/styles'
 
-import { useIsSelf, useProfileUserID } from 'hooks/profileContextHooks'
+import {
+	useIsSelf,
+	useProfileUserID,
+	useNameImageID,
+} from 'hooks/profileContextHooks'
 import useGetPersonalData from 'hooks/useGetProfileData'
-import useGetProfilePicture from 'hooks/useGetProfilePicture'
 import createRequest from 'utils/createRequest'
 import { uploadProfilePicture } from 'graphql/mutations/profileMutations'
 
@@ -34,15 +37,16 @@ const useStyles = makeStyles((theme: Theme) => ({
 export const ProfileCover = () => {
 	const { container, media } = useStyles()
 
-	const profileUserId = useProfileUserID()
 	const [uploadingPost, setUploadingPost] = useState(false)
 
 	const isSelf = useIsSelf()
 	const { data, error } = useGetPersonalData('name bio')
 
-	const { data: pictureData, error: pictureDataError } = useGetProfilePicture(
-		profileUserId
-	)
+	const nameImageID = useNameImageID()
+
+	const {
+		profile: { profilePicture },
+	} = nameImageID
 
 	const action = async (image: Base64) => {
 		setUploadingPost(true)
@@ -73,19 +77,14 @@ export const ProfileCover = () => {
 		<>
 			<Paper elevation={0}>
 				<Card className={container}>
-					{!pictureData && <div>loading...</div>}
-					{pictureDataError && <div>failed to load</div>}
-
-					{pictureData && (
-						<Image
-							className={media}
-							layout='responsive'
-							height={720}
-							width={1280}
-							objectFit='cover'
-							src={pictureData?.getProfilePicture?.image || avatar}
-						/>
-					)}
+					<Image
+						className={media}
+						layout='responsive'
+						height={720}
+						width={1280}
+						objectFit='cover'
+						src={profilePicture || avatar}
+					/>
 
 					{isSelf && <ProfilePictureUpload {...profilePictureUploadProps} />}
 
