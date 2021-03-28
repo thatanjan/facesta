@@ -21,6 +21,7 @@ const FollowType = gql`
 		name: String!
 		_id: ID!
 		profile: Profile!
+		errorMessage: String
 	}
 
 	type Followers {
