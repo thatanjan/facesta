@@ -9,16 +9,20 @@ import { useSWRInfinite } from 'swr'
 import { useOwnUserId } from 'hooks/userhooks'
 import { useProfileUserID } from 'hooks/profileContextHooks'
 
-const useGetAllPost = (skip: number) => {
-	const mutation = getAllPost
+const useGetAllPost = () => {
 	const user = useProfileUserID()
-	const values = { user, skip }
 
-	return useSWRgql({
-		key: mutation,
-		values,
-		swrDependencies: user,
-	})
+	const getKey = (index: number) => {
+		const skipnum: number = (index + 1) * 10
+
+		return [getAllPost, skipnum, user]
+	}
+
+	return useSWRInfinite(
+		getKey,
+		async (key, num) => createRequest({ key, values: { skip: num, user } }),
+		{ revalidateOnFocus: false }
+	)
 }
 
 interface SinglePost {
