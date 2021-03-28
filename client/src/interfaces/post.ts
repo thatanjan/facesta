@@ -16,7 +16,7 @@ export interface Comment {
 	user: PostUser
 }
 
-interface PostUser {
+export interface PostUser {
 	name: string
 	_id: string
 	profile: {
