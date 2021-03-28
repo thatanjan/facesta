@@ -20,7 +20,7 @@ export const getProfilePicture = gql`
 
 export const getUser = gql`
 	query getUser($userID: ID!) {
-		getUser(userID: userID) {
+		getUser(userID: $userID) {
 			name
 			_id
 			profile {

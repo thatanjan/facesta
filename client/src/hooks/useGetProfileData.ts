@@ -14,9 +14,7 @@ const useGetPersonalData = (output?: string | undefined) => {
 	})
 }
 
-export const useProfileInfo = () => {
-	const userID = useProfileUserID()
-
+export const useProfileInfo = (userID: string) => {
 	return useSWRgql({
 		key: getUser,
 		values: { userID },
