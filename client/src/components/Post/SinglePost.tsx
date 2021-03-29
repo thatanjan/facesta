@@ -10,8 +10,10 @@ import IconButton from '@material-ui/core/IconButton'
 import MoreVertIcon from '@material-ui/icons/MoreVert'
 import CommentIcon from '@material-ui/icons/Comment'
 import Typography from '@material-ui/core/Typography'
+import Avatar from '@material-ui/core/Avatar'
 import Image from 'next/image'
 
+import { cloudinaryURL } from 'variables/global'
 import MuiLink from 'components/Links/MuiLink'
 import PostType from 'interfaces/post'
 
@@ -55,7 +57,11 @@ const SinglePost = ({
 	image,
 	text,
 	_id: postID,
-	user: { _id: postUserID, name },
+	user: {
+		_id: postUserID,
+		name,
+		profile: { profilePicture },
+	},
 	totalLikes,
 	totalComments,
 	postPage,
@@ -83,8 +89,6 @@ const SinglePost = ({
 		push(showMoreLink)
 	}
 
-	console.log(date)
-
 	return (
 		<Card
 			className={root}
@@ -94,6 +98,7 @@ const SinglePost = ({
 		>
 			<CardHeader
 				className={cardHeaderStyle}
+				avatar={<Avatar alt={name} src={cloudinaryURL(profilePicture)} />}
 				action={
 					<>
 						<DropDownMenu
