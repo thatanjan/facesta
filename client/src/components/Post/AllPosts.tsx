@@ -1,4 +1,4 @@
-import React, { UIEvent } from 'react'
+import React, { useState, UIEvent } from 'react'
 import { nanoid } from 'nanoid'
 import Box from '@material-ui/core/Box'
 import { makeStyles } from '@material-ui/core/styles'
@@ -22,10 +22,15 @@ const useStyles = makeStyles({
 
 const PostsSection = () => {
 	const { postContainerStyle } = useStyles()
-	const { data, error, setSize, size } = useGetNewsFeedPost()
 
-	const handleScroll = (event: UIEvent) => {
-		/* console.log(event) */
+	const { data, error, setSize, size, isValidating } = useGetNewsFeedPost()
+
+	const isLoadingInitialData = !data && !error
+	const isLoadingMore =
+		isLoadingInitialData ||
+		(size > 0 && data && typeof data[size - 1] === 'undefined')
+
+	const handleScroll = (event: any) => {
 		const {
 			target: { scrollHeight, clientHeight, scrollTop },
 		} = event
@@ -61,6 +66,8 @@ const PostsSection = () => {
 			</Box>
 
 			{error && 'error happened'}
+
+			{isLoadingMore && <div>loading</div>}
 		</>
 	)
 }
