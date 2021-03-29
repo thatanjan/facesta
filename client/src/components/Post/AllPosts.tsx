@@ -2,6 +2,7 @@ import React, { useState, UIEvent } from 'react'
 import { nanoid } from 'nanoid'
 import Box from '@material-ui/core/Box'
 import { makeStyles } from '@material-ui/core/styles'
+import InfiniteScroll from 'react-infinite-scroll-component'
 
 import Post from 'interfaces/post'
 import SinglePost from 'components/Post/SinglePost'
@@ -47,6 +48,7 @@ const PostsSection = () => {
 			allPost = [...allPost, ...element.getNewsFeedPost.posts]
 		})
 	}
+	/* hasMore={ data?[data?.length- 1].getNewsFeedPost.posts.length === 0 ? false:   true} */
 
 	return (
 		<>
@@ -59,15 +61,20 @@ const PostsSection = () => {
 				add
 			</button>
 
-			<Box onScroll={handleScroll} className={postContainerStyle}>
+			<InfiniteScroll
+				dataLength={allPost.length}
+				next={() => setSize(size + 1)}
+				hasMore
+				loader={<h4>Loading...</h4>}
+			>
 				{allPost.map((post: Post) => (
 					<SinglePost key={nanoid()} {...post} postPage={false} />
 				))}
-			</Box>
+			</InfiniteScroll>
 
 			{error && 'error happened'}
 
-			{isLoadingMore && <div>loading</div>}
+			{/* {isLoadingMore && <div>loading</div>} */}
 		</>
 	)
 }
