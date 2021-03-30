@@ -8,11 +8,14 @@ import useSWRgql from 'hooks/useSWRgql'
 import { useSWRInfinite } from 'swr'
 import { useOwnUserId } from 'hooks/userhooks'
 import { useProfileUserID } from 'hooks/profileContextHooks'
+import { AnyObject } from 'interfaces/global'
 
 const useGetAllPost = () => {
 	const user = useProfileUserID()
 
-	const getKey = (index: number) => {
+	const getKey = (index: number, previousPageData: AnyObject) => {
+		if (previousPageData && previousPageData.getAllPost.posts.length === 0)
+			return null
 		const skipnum: number = (index + 1) * 10
 
 		return [getAllPost, skipnum, user]
@@ -42,7 +45,10 @@ export const useGetSinglePost = ({ user, postID }: SinglePost) => {
 export const useGetNewsFeedPost = () => {
 	const userID = useOwnUserId()
 
-	const getKey = (index: number) => {
+	const getKey = (index: number, previousPageData: AnyObject) => {
+		if (previousPageData && previousPageData.getNewsFeedPost.posts.length === 0)
+			return null
+
 		const skipnum: number = (index + 1) * 10
 
 		return [getNewsFeedPost, skipnum, userID]
