@@ -8,6 +8,8 @@ import Card from '@material-ui/core/Card'
 import Button from '@material-ui/core/Button'
 import { makeStyles, Theme } from '@material-ui/core/styles'
 
+import ProfilePictureUpload, { Base64 } from 'components/Upload/ImageUpload'
+
 import {
 	useIsSelf,
 	useProfileUserID,
@@ -16,8 +18,6 @@ import {
 import useGetPersonalData from 'hooks/useGetProfileData'
 import createRequest from 'utils/createRequest'
 import { uploadProfilePicture } from 'graphql/mutations/profileMutations'
-
-import ProfilePictureUpload, { Base64 } from './ProfilePictureUpload'
 
 const useStyles = makeStyles((theme: Theme) => ({
 	container: {

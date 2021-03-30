@@ -15,7 +15,7 @@ import { mutate } from 'swr'
 import UploadImage, {
 	Props as UploadImageProps,
 	Base64,
-} from 'components/Profile/ProfilePictureUpload'
+} from 'components/Upload/ImageUpload'
 import { createPost } from 'graphql/mutations/postMutations'
 import { getNewsFeedPost } from 'graphql/queries/postQueries'
 import createRequest from 'utils/createRequest'
