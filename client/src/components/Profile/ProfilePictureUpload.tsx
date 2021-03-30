@@ -23,9 +23,11 @@ const useStyles = makeStyles(() => ({
 
 export type Base64 = ArrayBuffer | string | null
 
+type Action = 'uploadProfilePicture' | 'createPost'
+
 export interface Props {
 	action: (base64: Base64) => any
-	type: 'uploadProfilePicture' | 'createPost'
+	type: Action
 	setPostPreviewLink?: (link: string) => void
 	uploadingPost?: boolean
 	setUploadingPost?: (bool: boolean) => void
@@ -53,6 +55,11 @@ const ProfilePictureUpload = ({
 		checked: true,
 	})
 
+	const UPLOAD_PROFILE_PICTURE: Action = 'uploadProfilePicture'
+	const CREATE_POST: Action = 'createPost'
+
+	const isCreatingPost = (actionType: Action) => actionType === CREATE_POST
+
 	const { editIconStyle } = useStyles()
 
 	const openUploadModal = () => setUploadModalOpen(true)
@@ -77,11 +84,11 @@ const ProfilePictureUpload = ({
 
 	useEffect(() => {
 		if (approved) {
-			if (type === 'createPost') {
+			if (isCreatingPost(CREATE_POST)) {
 				if (setPostPreviewLink) setPostPreviewLink(previewLink)
 				setShowPreview(false)
 			}
-			if (type === 'uploadProfilePicture') {
+			if (!isCreatingPost(UPLOAD_PROFILE_PICTURE)) {
 				setShowPreview(false)
 				setLoading(true)
 				makeBase64(file as CustomFile, setBase64)
