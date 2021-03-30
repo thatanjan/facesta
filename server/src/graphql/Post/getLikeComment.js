@@ -15,7 +15,7 @@ const resolvers = {
 				if (empty) return { comments: [] }
 
 				const post = await PostModel.findById(postID)
-					.slice('comments', [-Math.abs(newSkip || skip), returnNumber || 10])
+					.slice('comments', [-Math.abs(newSkip), returnNumber])
 					.slice('likes', 0)
 					.populate({
 						path: 'comments',
@@ -42,9 +42,10 @@ const resolvers = {
 
 				const { newSkip, returnNumber, empty } = skippingList(skip, totalLikes)
 
-				if (empty) return { comments: [] }
+				if (empty) return { likes: [] }
+
 				const post = await PostModel.findById(postID, {
-					likes: { $slice: [-Math.abs(newSkip || skip), returnNumber || 10] },
+					likes: { $slice: [-Math.abs(newSkip), returnNumber] },
 					comments: { $slice: 0 },
 				}).populate({
 					path: 'likes',
