@@ -15,7 +15,6 @@ import ProfileContextProvider, {
 	State as ProfileContextInterface,
 } from 'context/profileContext'
 import { useIsSelf } from 'hooks/profileContextHooks'
-import { useProfileInfo } from 'hooks/useGetProfileData'
 
 import getToken from 'utils/getToken'
 import decodeToken from 'utils/decodeToken'
@@ -57,26 +56,9 @@ const Content = () => {
 }
 
 const Profile = ({ userData, ...profileContextProps }: Props) => {
-	const { profileUserID } = profileContextProps
-
-	const { data, error } = useProfileInfo(profileUserID)
-	console.log(data)
-
-	if (error) return <div>failed to load</div>
-	if (!data) return <div>loading...</div>
-
-	const {
-		getUser: {
-			name,
-			profile: { profilePicture },
-		},
-	} = data
-
-	const moreProps = { name, profilePicture }
-
 	return (
 		<PageWrapper userData={userData}>
-			<ProfileContextProvider {...profileContextProps} {...moreProps}>
+			<ProfileContextProvider {...profileContextProps}>
 				<PageLayoutComponent Content={Content} />
 			</ProfileContextProvider>
 		</PageWrapper>

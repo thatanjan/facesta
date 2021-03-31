@@ -4,15 +4,11 @@ interface Props {
 	children: ReactNode
 	isSelf: boolean
 	profileUserID: string
-	name: string
-	profilePicture: string
 }
 
 export interface State {
 	profileUserID: string
 	isSelf: boolean
-	name: string
-	profilePicture: string
 }
 
 interface ContextData {
@@ -23,8 +19,6 @@ interface ContextData {
 const initialState: State = {
 	profileUserID: '',
 	isSelf: false,
-	name: '',
-	profilePicture: '',
 }
 
 export const ProfileContext = createContext({} as ContextData)
