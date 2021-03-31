@@ -10,12 +10,8 @@ import { makeStyles, Theme } from '@material-ui/core/styles'
 
 import ProfilePictureUpload, { Base64 } from 'components/Upload/ImageUpload'
 
-import {
-	useIsSelf,
-	useProfileUserID,
-	useNameImageID,
-} from 'hooks/profileContextHooks'
-import useGetPersonalData from 'hooks/useGetProfileData'
+import { useIsSelf, useProfileUserID } from 'hooks/profileContextHooks'
+import useGetPersonalData, { useProfileInfo } from 'hooks/useGetProfileData'
 import createRequest from 'utils/createRequest'
 import { uploadProfilePicture } from 'graphql/mutations/profileMutations'
 
@@ -35,6 +31,7 @@ const useStyles = makeStyles((theme: Theme) => ({
 }))
 
 export const ProfileCover = () => {
+	const profileUserID = useProfileUserID()
 	const { container, media } = useStyles()
 
 	const [uploadingPost, setUploadingPost] = useState(false)
@@ -42,11 +39,10 @@ export const ProfileCover = () => {
 	const isSelf = useIsSelf()
 	const { data, error } = useGetPersonalData('name bio')
 
-	const nameImageID = useNameImageID()
-
 	const {
-		profile: { profilePicture },
-	} = nameImageID
+		data: profilePictureData,
+		error: profilePictureError,
+	} = useProfileInfo(profileUserID)
 
 	const action = async (image: Base64) => {
 		setUploadingPost(true)
@@ -64,8 +60,16 @@ export const ProfileCover = () => {
 		type: 'uploadProfilePicture',
 	}
 
-	if (error) return <div>failed to load</div>
-	if (!data) return <div>loading...</div>
+	if (profilePictureError || error) return <div>failed to load</div>
+	if (!data || !profilePictureData) return <div>loading...</div>
+
+	const {
+		getUser: {
+			profile: { profilePicture },
+		},
+	} = profilePictureData
+
+	console.log(profilePictureData)
 
 	const {
 		getPersonalData: { name, bio },
