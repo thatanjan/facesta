@@ -8,11 +8,10 @@ import ImageUploadModal, {
 	NullOrBooleanType,
 } from 'components/Modals/ImageUploadModal'
 import ImagePreview from 'components/Images/ImagePreview'
-import LoadingModal from 'components/Modals/LoadingModal'
 
 import { useOwnUserId } from 'hooks/userhooks'
 import makeBase64 from 'utils/makeBase64Image'
-import { getUser, getProfilePicture } from 'graphql/queries/profileQueries'
+import { getUser } from 'graphql/queries/profileQueries'
 import UploadAlert, { Props as AlertProps } from 'components/Alerts/UploadAlert'
 
 import { CustomFile } from 'interfaces/upload'
@@ -120,6 +119,7 @@ const ProfilePictureUpload = ({
 						setSuccess(true)
 
 						if (!isCreatingPost(type)) {
+							console.log('ran')
 							mutate([getUser, ownUserID])
 						}
 					}
@@ -165,12 +165,19 @@ const ProfilePictureUpload = ({
 		}
 	}, [uploadingPost])
 
+	useEffect(() => {
+		if (loading) {
+			setUploadAlertProps(prev => ({
+				...prev,
+				severity: 'info',
+				message: isCreatingPost(type)
+					? 'Post is uploading'
+					: 'Profile picture is uploading',
+			}))
+		}
+	}, [loading])
+
 	const imagePreviewProps = { previewLink, showPreview, setApproved }
-	const loadingModalProps = {
-		open: loading,
-		setOpen: setLoading,
-		title: 'profile picture is uploading',
-	}
 
 	return (
 		<>
@@ -182,7 +189,7 @@ const ProfilePictureUpload = ({
 
 			{showPreview && <ImagePreview {...imagePreviewProps} />}
 
-			{loading && <LoadingModal {...loadingModalProps} />}
+			{loading && <UploadAlert {...(uploadAlertProps as AlertProps)} />}
 
 			{showAlert && <UploadAlert {...(uploadAlertProps as AlertProps)} />}
 		</>
