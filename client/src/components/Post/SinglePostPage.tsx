@@ -2,6 +2,8 @@ import React, { useState } from 'react'
 import { useRouter } from 'next/router'
 import Avatar from '@material-ui/core/Avatar/Avatar'
 import Grid from '@material-ui/core/Grid'
+import Button from '@material-ui/core/Button'
+import { makeStyles } from '@material-ui/core/styles'
 
 import { cloudinaryURL } from 'variables/global'
 import CommentList from 'components/Comment/CommentList'
@@ -12,7 +14,13 @@ import Post from 'interfaces/post'
 import CommentTextField from './CreatePost/PostTextField'
 import SinglePost from './SinglePost'
 
+const useStyles = makeStyles({
+	buttonStyle: { margin: '2% 0' },
+})
+
 const SinglePostPage = () => {
+	const { buttonStyle } = useStyles()
+
 	const ownUserID = useOwnUserId()
 	const [inputText, setInputText] = useState('')
 	const {
@@ -59,6 +67,13 @@ const SinglePostPage = () => {
 					<CommentTextField
 						{...{ cookieName: 'comment', inputText, setInputText }}
 					/>
+				</Grid>
+				<Grid item container xs={11} justify='flex-end' className={buttonStyle}>
+					<Grid item>
+						<Button variant='contained' color='primary' type='submit'>
+							comment
+						</Button>
+					</Grid>
 				</Grid>
 			</Grid>
 
