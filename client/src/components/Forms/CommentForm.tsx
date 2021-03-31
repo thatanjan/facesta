@@ -1,40 +1,47 @@
 import * as React from 'react'
 import { Formik, Form, Field } from 'formik'
-import { Button, LinearProgress } from '@material-ui/core'
-import { TextField } from 'formik-material-ui'
+import Button from '@material-ui/core/Button'
 import AutoExpandField from 'components/TextFields/AutoExpandField'
 
+import createRequest from 'utils/createRequest'
+import { commentPost } from 'graphql/mutations/postMutations'
+
 interface Values {
-	email: string
-	password: string
+	comment: ''
 }
 
-function App() {
+interface Props {
+	postID: string
+	ownUserID: string
+}
+
+function CommentForm({ postID, ownUserID }: Props) {
 	return (
 		<Formik
 			initialValues={{
 				comment: '',
 			}}
-			validate={values => {
+			validate={(values: Values) => {
 				const errors: Partial<Values> = {}
 				if (!values.comment) {
 					errors.comment = 'Required'
 				}
 				return errors
 			}}
-			onSubmit={(values, { setSubmitting }) => {
-				console.log(values)
-				setTimeout(() => {
-					setSubmitting(false)
-					alert(JSON.stringify(values, null, 2))
-				}, 500)
+			onSubmit={async ({ comment }, { setSubmitting }) => {
+				const values = { text: comment, postID, user: ownUserID }
+				const res = await createRequest({ key: commentPost, values })
+
+				if (res) {
+					console.log(res)
+				}
 			}}
 		>
 			{({ submitForm, isSubmitting }) => (
 				<Form>
 					<Field component={AutoExpandField} name='comment' />
 					<br />
-					{isSubmitting && <LinearProgress />}
+					{isSubmitting && <div>Submitting</div>}
 					<br />
 					<Button
 						variant='contained'
@@ -50,4 +57,4 @@ function App() {
 	)
 }
 
-export default App
+export default CommentForm
