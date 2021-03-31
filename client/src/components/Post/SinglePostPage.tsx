@@ -1,16 +1,18 @@
-import React, { useState } from 'react'
+import React, { useState, FormEvent } from 'react'
 import { useRouter } from 'next/router'
 import Avatar from '@material-ui/core/Avatar/Avatar'
 import Grid from '@material-ui/core/Grid'
 import Button from '@material-ui/core/Button'
 import { makeStyles } from '@material-ui/core/styles'
 
+import { commentPost } from 'graphql/mutations/postMutations'
 import { cloudinaryURL } from 'variables/global'
 import CommentList from 'components/Comment/CommentList'
 import { useGetSinglePost } from 'hooks/useGetPost'
 import { useProfileInfo } from 'hooks/useGetProfileData'
 import { useOwnUserId } from 'hooks/userhooks'
 import Post from 'interfaces/post'
+import createRequest from 'utils/createRequest'
 import CommentTextField from './CreatePost/PostTextField'
 import SinglePost from './SinglePost'
 
@@ -56,10 +58,18 @@ const SinglePostPage = () => {
 		},
 	} = profilePictureData
 
+	const handleSubmit = async (e: FormEvent) => {
+		e.preventDefault()
+		console.log('ran')
+		const values = { text: inputText, postID, user: ownUserID }
+		const res = await createRequest({ key: commentPost, values })
+		console.log(res)
+	}
+
 	return (
 		<>
 			<SinglePost {...(post as Post)} postPage />
-			<Grid container>
+			<Grid container component='form'>
 				<Grid item xs={1} alignItems='center'>
 					<Avatar alt={name} src={cloudinaryURL(profilePicture)} />
 				</Grid>
@@ -70,7 +80,12 @@ const SinglePostPage = () => {
 				</Grid>
 				<Grid item container xs={11} justify='flex-end' className={buttonStyle}>
 					<Grid item>
-						<Button variant='contained' color='primary' type='submit'>
+						<Button
+							variant='contained'
+							color='primary'
+							type='submit'
+							onSubmit={handleSubmit}
+						>
 							comment
 						</Button>
 					</Grid>
