@@ -110,6 +110,9 @@ const SinglePost = ({
 					</>
 				}
 				title={headline}
+				titleTypographyProps={{
+					variant: 'h5',
+				}}
 				subheader={
 					<Box>
 						<Typography component='span'>
