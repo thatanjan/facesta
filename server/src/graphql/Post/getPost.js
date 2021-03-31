@@ -62,7 +62,7 @@ const mainResolver = field => {
 						return sendErrorMessage('something went wrong')
 					}
 
-					posts.reverse()
+					// posts.reverse()
 
 					allPost.posts = posts
 
