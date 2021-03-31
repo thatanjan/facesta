@@ -7,6 +7,7 @@ import { useEffect } from 'react'
 interface TextFieldProps {
 	inputText: string
 	setInputText: Function
+	cookieName: string
 }
 
 const useStyles = makeStyles(theme => ({
@@ -19,10 +20,12 @@ const useStyles = makeStyles(theme => ({
 	},
 }))
 
-const TextFieldComponent = ({ inputText, setInputText }: TextFieldProps) => {
+const TextFieldComponent = ({
+	cookieName,
+	inputText,
+	setInputText,
+}: TextFieldProps) => {
 	const { textFieldStyle } = useStyles()
-
-	const cookieName = 'post'
 
 	useEffect(() => {
 		const cookieValue = Cookies.get(cookieName)
