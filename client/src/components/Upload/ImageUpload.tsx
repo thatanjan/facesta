@@ -106,22 +106,28 @@ const ProfilePictureUpload = ({
 			;(async () => {
 				const res = await action(base64)
 				if (res) {
+					const message = res[type]?.message
+					const errorMessage = res[type]?.errorMessage
+
 					setLoading(false)
 
-					if (res[type].message) {
+					if (message) {
 						setUploadAlertProps(prev => ({
 							...prev,
-							message: res[type].message,
+							message,
 							severity: 'success',
 						}))
 						setSuccess(true)
-						mutate([getProfilePicture, ownUserID])
+
+						if (!isCreatingPost(type)) {
+							mutate([getProfilePicture, ownUserID])
+						}
 					}
 
-					if (res[type].errorMessage) {
+					if (errorMessage) {
 						setUploadAlertProps(prev => ({
 							...prev,
-							message: res[type].errorMessage,
+							message: errorMessage,
 							severity: 'error',
 						}))
 
