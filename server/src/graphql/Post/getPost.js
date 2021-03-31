@@ -8,7 +8,7 @@ const SINGLE_POST = 'singlePost'
 const ALL_POST = 'allPost'
 
 const mainResolver = field => {
-	return async (_, { Input: { postID, user, start } }) => {
+	return async (_, { Input: { postID, user, skip } }) => {
 		try {
 			const Post = createPostModel(user)
 
@@ -53,15 +53,13 @@ const mainResolver = field => {
 				case ALL_POST:
 					const allPost = {}
 
-					let posts
-
-					posts = await Post.find({}, projection)
+					const posts = await Post.find({}, projection)
+						.skip(skip - 10)
+						.limit(10)
 						.sort({ _id: '-1' })
-						.skip(start)
-						.limit(3)
 
-					if (!posts && posts.length <= 0) {
-						return sendErrorMessage('you have no post')
+					if (!posts) {
+						return sendErrorMessage('something went wrong')
 					}
 
 					posts.reverse()
