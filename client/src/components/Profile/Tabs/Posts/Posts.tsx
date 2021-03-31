@@ -3,14 +3,17 @@ import React from 'react'
 import PostType from 'interfaces/post'
 import SinglePost from 'components/Post/SinglePost'
 import useGetAllPosts from 'hooks/useGetPost'
-import { useNameImageID } from 'hooks/profileContextHooks'
+import { useProfileInfo } from 'hooks/useGetProfileData'
 import { nanoid } from 'nanoid'
 
 const Posts = () => {
 	const { data, error } = useGetAllPosts()
+	const { data: profileData, error: profileError } = useProfileInfo()
 
-	if (!data) return <div>... loading</div>
-	if (error) return 'error happened'
+	if (profileData || error) return <div>failed to load</div>
+	if (!data || !profileError) return <div>loading...</div>
+
+	const { getUser: user } = profileData
 
 	let allPost: PostType[] = []
 
@@ -20,19 +23,13 @@ const Posts = () => {
 		})
 	}
 
-	const nameImageID = useNameImageID()
 	console.log(allPost)
 
 	return (
 		<div>
 			{Array.isArray(allPost) &&
 				allPost.map((post: PostType) => (
-					<SinglePost
-						key={nanoid()}
-						{...post}
-						postPage={false}
-						{...{ user: nameImageID }}
-					/>
+					<SinglePost key={nanoid()} {...post} postPage={false} {...user} />
 				))}
 		</div>
 	)
