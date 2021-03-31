@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { useRouter } from 'next/router'
 import Avatar from '@material-ui/core/Avatar/Avatar'
+import Grid from '@material-ui/core/Grid'
 
 import { cloudinaryURL } from 'variables/global'
 import CommentList from 'components/Comment/CommentList'
@@ -50,8 +51,16 @@ const SinglePostPage = () => {
 	return (
 		<>
 			<SinglePost {...(post as Post)} postPage />
-			<Avatar alt={name} src={cloudinaryURL(profilePicture)} />
-			<CommentTextField {...{ cookieName: 'comment', inputText, setInputText }} />
+			<Grid container>
+				<Grid item xs={1} alignItems='center'>
+					<Avatar alt={name} src={cloudinaryURL(profilePicture)} />
+				</Grid>
+				<Grid item xs={11}>
+					<CommentTextField
+						{...{ cookieName: 'comment', inputText, setInputText }}
+					/>
+				</Grid>
+			</Grid>
 
 			<CommentList {...commentListProps} />
 		</>
