@@ -9,9 +9,10 @@ import { nanoid } from 'nanoid'
 const Posts = () => {
 	const { data, error } = useGetAllPosts()
 	const { data: profileData, error: profileError } = useProfileInfo()
+	console.log(data)
 
-	if (profileData || error) return <div>failed to load</div>
-	if (!data || !profileError) return <div>loading...</div>
+	if (profileError || error) return <div>failed to load</div>
+	if (!data || !profileData) return <div>loading...</div>
 
 	const { getUser: user } = profileData
 
@@ -23,13 +24,11 @@ const Posts = () => {
 		})
 	}
 
-	console.log(allPost)
-
 	return (
 		<div>
 			{Array.isArray(allPost) &&
 				allPost.map((post: PostType) => (
-					<SinglePost key={nanoid()} {...post} postPage={false} {...user} />
+					<SinglePost key={nanoid()} {...post} postPage={false} user={user} />
 				))}
 		</div>
 	)
