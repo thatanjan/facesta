@@ -14,13 +14,12 @@ const useGetPersonalData = (output?: string | undefined) => {
 	})
 }
 
-export const useProfileInfo = () => {
-	const userID = useProfileUserID()
+export const useProfileInfo = (ID: string) => {
 	return useSWRgql({
 		key: getUser,
-		values: { userID },
+		values: { userID: ID },
 		swrOptions: { revalidateOnFocus: false },
-		swrDependencies: userID,
+		swrDependencies: ID,
 	})
 }
 
