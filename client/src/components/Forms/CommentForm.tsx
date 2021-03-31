@@ -1,6 +1,8 @@
 import * as React from 'react'
 import { Formik, Form, Field } from 'formik'
 import Button from '@material-ui/core/Button'
+import Cookies from 'js-cookie'
+
 import AutoExpandField from 'components/TextFields/AutoExpandField'
 
 import createRequest from 'utils/createRequest'
@@ -19,7 +21,7 @@ function CommentForm({ postID, ownUserID }: Props) {
 	return (
 		<Formik
 			initialValues={{
-				comment: '',
+				comment: Cookies.get('comment') || '',
 			}}
 			validate={(values: Values) => {
 				const errors: Partial<Values> = {}
