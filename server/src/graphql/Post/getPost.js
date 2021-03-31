@@ -25,25 +25,9 @@ const mainResolver = field => {
 						select: 'profilePicture',
 					})
 
-					const {
-						text,
-						markdown,
-						image,
-						_id,
-						headline,
-						totalComments,
-						totalLikes,
-					} = post
-
 					const response = {
 						post: {
-							text,
-							markdown,
-							_id,
-							headline,
-							image,
-							totalComments,
-							totalLikes,
+							...post.toObject(),
 							user: userInfo,
 						},
 					}
@@ -61,8 +45,6 @@ const mainResolver = field => {
 					if (!posts) {
 						return sendErrorMessage('something went wrong')
 					}
-
-					// posts.reverse()
 
 					allPost.posts = posts
 
