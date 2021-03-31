@@ -12,7 +12,7 @@ import LoadingModal from 'components/Modals/LoadingModal'
 
 import { useOwnUserId } from 'hooks/userhooks'
 import makeBase64 from 'utils/makeBase64Image'
-import { getProfilePicture } from 'graphql/queries/profileQueries'
+import { getUser, getProfilePicture } from 'graphql/queries/profileQueries'
 import UploadAlert, { Props as AlertProps } from 'components/Alerts/UploadAlert'
 
 import { CustomFile } from 'interfaces/upload'
@@ -120,7 +120,7 @@ const ProfilePictureUpload = ({
 						setSuccess(true)
 
 						if (!isCreatingPost(type)) {
-							mutate([getProfilePicture, ownUserID])
+							mutate([getUser, ownUserID])
 						}
 					}
 
