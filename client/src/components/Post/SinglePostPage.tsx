@@ -6,11 +6,13 @@ import { cloudinaryURL } from 'variables/global'
 import CommentList from 'components/Comment/CommentList'
 import { useGetSinglePost } from 'hooks/useGetPost'
 import { useProfileInfo } from 'hooks/useGetProfileData'
+import { useOwnUserId } from 'hooks/userhooks'
 import Post from 'interfaces/post'
 import CommentTextField from './CreatePost/PostTextField'
 import SinglePost from './SinglePost'
 
 const SinglePostPage = () => {
+	const ownUserID = useOwnUserId()
 	const [inputText, setInputText] = useState('')
 	const {
 		query: { post: postID, postUser },
@@ -24,10 +26,10 @@ const SinglePostPage = () => {
 	const {
 		data: profilePictureData,
 		error: profilePictureError,
-	} = useProfileInfo()
+	} = useProfileInfo(ownUserID)
 
 	if (error || profilePictureError) return <div>failed to load</div>
-	if (!data && !profilePictureData) return <div>loading...</div>
+	if (!data || !profilePictureData) return <div>loading...</div>
 
 	const commentListProps = {
 		postID: postID as string,
