@@ -1,4 +1,6 @@
 const skippingList = (skip, total) => {
+	if (total === 0) return { empty: true }
+
 	if (skip <= total) {
 		return { newSkip: skip, returnNumber: 10 }
 	}
