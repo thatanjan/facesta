@@ -3,11 +3,13 @@ import TextField from '@material-ui/core/TextField'
 import { AnyObject } from 'interfaces/global'
 import Cookies from 'js-cookie'
 import { useEffect } from 'react'
+import clsx from 'clsx'
 
 interface TextFieldProps {
 	inputText: string
 	setInputText: Function
 	cookieName: string
+	extraStyle?: string
 }
 
 const useStyles = makeStyles(theme => ({
@@ -24,6 +26,7 @@ const TextFieldComponent = ({
 	cookieName,
 	inputText,
 	setInputText,
+	extraStyle,
 }: TextFieldProps) => {
 	const { textFieldStyle } = useStyles()
 
@@ -72,7 +75,7 @@ const TextFieldComponent = ({
 	}
 	return (
 		<TextField
-			className={textFieldStyle}
+			className={clsx(textFieldStyle, true && extraStyle)}
 			id='filled-multiline-static'
 			label='Write Your Feelings'
 			fullWidth

@@ -1,12 +1,17 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useRouter } from 'next/router'
+import Avatar from '@material-ui/core/Avatar/Avatar'
 
+import { cloudinaryURL } from 'variables/global'
 import CommentList from 'components/Comment/CommentList'
 import { useGetSinglePost } from 'hooks/useGetPost'
+import { useProfileInfo } from 'hooks/useGetProfileData'
 import Post from 'interfaces/post'
+import CommentTextField from './CreatePost/PostTextField'
 import SinglePost from './SinglePost'
 
 const SinglePostPage = () => {
+	const [inputText, setInputText] = useState('')
 	const {
 		query: { post: postID, postUser },
 	} = useRouter()
@@ -16,8 +21,13 @@ const SinglePostPage = () => {
 		postID: postID as string,
 	})
 
-	if (error) return <div>failed to load</div>
-	if (!data) return <div>loading...</div>
+	const {
+		data: profilePictureData,
+		error: profilePictureError,
+	} = useProfileInfo()
+
+	if (error || profilePictureError) return <div>failed to load</div>
+	if (!data && !profilePictureData) return <div>loading...</div>
 
 	const commentListProps = {
 		postID: postID as string,
@@ -28,9 +38,19 @@ const SinglePostPage = () => {
 		getSinglePost: { post },
 	} = data
 
+	const {
+		getUser: {
+			name,
+			profile: { profilePicture },
+		},
+	} = profilePictureData
+
 	return (
 		<>
 			<SinglePost {...(post as Post)} postPage />
+			<Avatar alt={name} src={cloudinaryURL(profilePicture)} />
+			<CommentTextField {...{ cookieName: 'comment', inputText, setInputText }} />
+
 			<CommentList {...commentListProps} />
 		</>
 	)
