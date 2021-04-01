@@ -12,6 +12,7 @@ import createRequest from 'utils/createRequest'
 import { likePost, removeLikePost } from 'graphql/mutations/postMutations'
 
 const UserListModal = dynamic(() => import('components/Modals/UserListModal'))
+const AllLovedUser = dynamic(() => import('./AllLovedUser'))
 
 interface LoveProps {
 	postUserID: string
@@ -74,6 +75,7 @@ const LovePost = ({ totalLikes, postUserID, postID }: LoveProps) => {
 	}, [totalLikes])
 
 	const style = clsx(isLoved && loveStyle)
+
 	return (
 		<Box>
 			<Typography variant='caption'>{totalNumberOfLikes}</Typography>
@@ -83,8 +85,14 @@ const LovePost = ({ totalLikes, postUserID, postID }: LoveProps) => {
 
 			{showUsers && (
 				<UserListModal
-					{...{ showUsers, setShowUsers, title: 'People who liked this post' }}
-				/>
+					{...{
+						showUsers,
+						setShowUsers,
+						title: 'People who liked this post',
+					}}
+				>
+					<AllLovedUser />
+				</UserListModal>
 			)}
 		</Box>
 	)
