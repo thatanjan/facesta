@@ -42,7 +42,7 @@ const resolvers = {
 
 				const { newSkip, returnNumber, empty } = skippingList(skip, totalLikes)
 
-				if (empty) return { likes: [] }
+				if (empty) return { users: [] }
 
 				const post = await PostModel.findById(postID, {
 					likes: { $slice: [-Math.abs(newSkip), returnNumber] },
