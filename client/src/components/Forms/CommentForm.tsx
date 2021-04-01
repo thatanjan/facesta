@@ -1,6 +1,8 @@
 import * as React from 'react'
 import { Formik, Form, Field } from 'formik'
 import Button from '@material-ui/core/Button'
+import { Theme } from '@material-ui/core/styles'
+import useMediaQuery from '@material-ui/core/useMediaQuery'
 import Cookies from 'js-cookie'
 
 import AutoExpandField from 'components/TextFields/AutoExpandField'
@@ -18,6 +20,8 @@ interface Props {
 }
 
 function CommentForm({ postID, ownUserID }: Props) {
+	const matches = useMediaQuery((theme: Theme) => theme.breakpoints.up('md'))
+
 	return (
 		<Formik
 			initialValues={{
@@ -46,6 +50,7 @@ function CommentForm({ postID, ownUserID }: Props) {
 					{isSubmitting && <div>Submitting</div>}
 					<br />
 					<Button
+						size={matches ? 'medium' : 'small'}
 						variant='contained'
 						color='primary'
 						disabled={isSubmitting}
