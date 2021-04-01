@@ -27,15 +27,6 @@ const PostsSection = () => {
 
 	return (
 		<>
-			<button
-				type='button'
-				onClick={() => {
-					setSize(size + 1)
-				}}
-			>
-				add
-			</button>
-
 			<InfiniteScroll
 				dataLength={allPost.length}
 				next={() => setSize(size + 1)}
