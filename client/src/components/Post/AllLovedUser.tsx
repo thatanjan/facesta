@@ -2,6 +2,7 @@ import React from 'react'
 import InfiniteScroll from 'react-infinite-scroll-component'
 import { useRouter } from 'next/router'
 
+import ListContainer from 'components/List/UserListContainer'
 import { PostUser as User } from 'interfaces/post'
 import { useGetAllLikes } from 'hooks/likeHooks'
 
@@ -38,14 +39,16 @@ const AllLovedUser = ({ children }: Props) => {
 	}
 
 	return (
-		<InfiniteScroll
-			dataLength={allLikers.length}
-			next={() => setSize(size + 1)}
-			hasMore={isLoadingMore}
-			loader={<h4>Loading...</h4>}
-		>
-			{children}
-		</InfiniteScroll>
+		<ListContainer>
+			<InfiniteScroll
+				dataLength={allLikers.length}
+				next={() => setSize(size + 1)}
+				hasMore={isLoadingMore}
+				loader={<h4>Loading...</h4>}
+			>
+				{children}
+			</InfiniteScroll>
+		</ListContainer>
 	)
 }
 
