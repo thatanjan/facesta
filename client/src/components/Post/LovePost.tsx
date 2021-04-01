@@ -78,7 +78,9 @@ const LovePost = ({ totalLikes, postUserID, postID }: LoveProps) => {
 
 	return (
 		<Box>
-			<Typography variant='caption'>{totalNumberOfLikes}</Typography>
+			<Typography variant='caption' onClick={() => setShowUsers(true)}>
+				{totalNumberOfLikes}
+			</Typography>
 			<IconButton aria-label='love' onClick={clickHandeler}>
 				<FavoriteIcon className={style} />
 			</IconButton>
@@ -91,7 +93,7 @@ const LovePost = ({ totalLikes, postUserID, postID }: LoveProps) => {
 						title: 'People who liked this post',
 					}}
 				>
-					<AllLovedUser />
+					<AllLovedUser showUsers={showUsers} />
 				</UserListModal>
 			)}
 		</Box>

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import InfiniteScroll from 'react-infinite-scroll-component'
 import { useRouter } from 'next/router'
 
@@ -8,14 +8,16 @@ import UserList from 'components/List/UserList'
 import { PostUser as User } from 'interfaces/post'
 import { useGetAllLikes } from 'hooks/likeHooks'
 
-interface Props {}
+interface Props {
+	showUsers: boolean
+}
 
-const AllLovedUser = (_: Props) => {
+const AllLovedUser = ({ showUsers }: Props) => {
 	const {
 		query: { post: postID, postUser },
 	} = useRouter()
 
-	const { data, error, size, setSize } = useGetAllLikes({
+	const { data, error, size, setSize, mutate } = useGetAllLikes({
 		postID: postID as string,
 		user: postUser as string,
 	})
@@ -37,6 +39,21 @@ const AllLovedUser = (_: Props) => {
 			allLikers = [...allLikers, ...element.getAllLikes.users]
 		})
 	}
+
+	useEffect(() => {
+		/* console.log(allLikers) */
+		/* mutate() */
+		/* mutate(data, false) */
+		return () => {
+			console.log('ran')
+
+			mutate()
+			/* mutate(data, false) */
+			/* 	setSize(0) */
+		}
+	}, [])
+
+	console.log(size)
 
 	return (
 		<ListContainer>
