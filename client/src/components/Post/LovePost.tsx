@@ -1,14 +1,17 @@
 import React, { useState, useEffect } from 'react'
+import dynamic from 'next/dynamic'
 import clsx from 'clsx'
 import FavoriteIcon from '@material-ui/icons/Favorite'
 import Box from '@material-ui/core/Box'
-import {makeStyles} from '@material-ui/core/styles'
+import { makeStyles } from '@material-ui/core/styles'
 import Typography from '@material-ui/core/Typography'
 import IconButton from '@material-ui/core/IconButton'
 
 import { useHasLiked } from 'hooks/likeHooks'
 import createRequest from 'utils/createRequest'
 import { likePost, removeLikePost } from 'graphql/mutations/postMutations'
+
+const UserListModal = dynamic(() => import('components/Modals/UserListModal'))
 
 interface LoveProps {
 	postUserID: string
@@ -17,13 +20,13 @@ interface LoveProps {
 }
 
 const useStyles = makeStyles({
-
 	loveStyle: {
 		fill: '#ea0000',
 	},
 })
 
 const LovePost = ({ totalLikes, postUserID, postID }: LoveProps) => {
+	const [showUsers, setShowUsers] = useState(false)
 	const [isLoved, setIsLoved] = useState(false)
 	const [totalNumberOfLikes, setTotalNumberOfLikes] = useState(0)
 	const [sendingRequest, setSendingRequst] = useState(false)
@@ -62,8 +65,6 @@ const LovePost = ({ totalLikes, postUserID, postID }: LoveProps) => {
 			if (response) {
 				setSendingRequst(false)
 			}
-
-			console.log(response)
 		}
 	}
 
@@ -79,10 +80,14 @@ const LovePost = ({ totalLikes, postUserID, postID }: LoveProps) => {
 			<IconButton aria-label='love' onClick={clickHandeler}>
 				<FavoriteIcon className={style} />
 			</IconButton>
+
+			{showUsers && (
+				<UserListModal
+					{...{ showUsers, setShowUsers, title: 'People who liked this post' }}
+				/>
+			)}
 		</Box>
 	)
 }
-
-
 
 export default LovePost
