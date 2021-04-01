@@ -112,6 +112,10 @@ export const getAllLikes = gql`
 			users {
 				name
 				_id
+
+				profile {
+					profilePicture
+				}
 			}
 			errorMessage
 		}
