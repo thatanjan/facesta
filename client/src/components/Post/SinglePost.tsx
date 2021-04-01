@@ -111,7 +111,10 @@ const SinglePost = ({
 				}
 				title={headline}
 				titleTypographyProps={{
-					variant: 'h5',
+					variant: 'h1',
+					style: {
+						fontSize: '1.5rem',
+					},
 				}}
 				subheader={
 					<Box>
@@ -127,6 +130,12 @@ const SinglePost = ({
 						</MuiLink>
 					</Box>
 				}
+				subheaderTypographyProps={{
+					variant: 'h2',
+					style: {
+						fontSize: '0.8rem',
+					},
+				}}
 			/>
 			<Image
 				src={image}
