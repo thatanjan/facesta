@@ -82,7 +82,7 @@ const TextFieldComponent = (props: Props) => {
 			inputProps={{
 				onChange: inputChangeHandler,
 				className: 'autoExpand',
-				rows: cookieName === 'comment' ? '1' : '3',
+				rows: name === 'comment' ? '1' : '3',
 				dataminrows: '3',
 			}}
 			{...fieldToTextField(props)}
