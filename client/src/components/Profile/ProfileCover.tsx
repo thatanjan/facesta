@@ -28,11 +28,17 @@ const useStyles = makeStyles((theme: Theme) => ({
 		marginBottom: '5%',
 		boxShadow: 'none',
 	},
+	profileNameStyle: {
+		fontSize: '2rem',
+		[theme.breakpoints.up('md')]: {
+			fontSize: '3rem',
+		},
+	},
 }))
 
 export const ProfileCover = () => {
 	const profileUserID = useProfileUserID()
-	const { container, media } = useStyles()
+	const { container, media, profileNameStyle } = useStyles()
 
 	const [uploadingPost, setUploadingPost] = useState(false)
 
@@ -92,7 +98,7 @@ export const ProfileCover = () => {
 
 					{isSelf && <ProfilePictureUpload {...profilePictureUploadProps} />}
 
-					<Typography variant='h3' align='center'>
+					<Typography variant='h1' align='center' className={profileNameStyle}>
 						{name}
 					</Typography>
 					<Grid container>
