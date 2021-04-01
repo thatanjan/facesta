@@ -6,13 +6,20 @@ import Button from '@material-ui/core/Button'
 import { makeStyles } from '@material-ui/core/styles'
 
 import { commentPost } from 'graphql/mutations/postMutations'
+
 import { cloudinaryURL } from 'variables/global'
+
 import CommentList from 'components/Comment/CommentList'
+import CommentForm from 'components/Forms/CommentForm'
+
 import { useGetSinglePost } from 'hooks/useGetPost'
 import { useProfileInfo } from 'hooks/useGetProfileData'
 import { useOwnUserId } from 'hooks/userhooks'
+
 import Post from 'interfaces/post'
+
 import createRequest from 'utils/createRequest'
+
 import CommentTextField from './CreatePost/PostTextField'
 import SinglePost from './SinglePost'
 
@@ -58,37 +65,17 @@ const SinglePostPage = () => {
 		},
 	} = profilePictureData
 
-	const handleSubmit = async (e: FormEvent) => {
-		e.preventDefault()
-		console.log('ran')
-		const values = { text: inputText, postID, user: ownUserID }
-		const res = await createRequest({ key: commentPost, values })
-		console.log(res)
-	}
+	const commentFormProps = { postID: postID as string, ownUserID }
 
 	return (
 		<>
 			<SinglePost {...(post as Post)} postPage />
-			<Grid container component='form'>
-				<Grid item xs={1} alignItems='center'>
+			<Grid container alignItems='center'>
+				<Grid item xs={1}>
 					<Avatar alt={name} src={cloudinaryURL(profilePicture)} />
 				</Grid>
 				<Grid item xs={11}>
-					<CommentTextField
-						{...{ cookieName: 'comment', inputText, setInputText }}
-					/>
-				</Grid>
-				<Grid item container xs={11} justify='flex-end' className={buttonStyle}>
-					<Grid item>
-						<Button
-							variant='contained'
-							color='primary'
-							type='submit'
-							onSubmit={handleSubmit}
-						>
-							comment
-						</Button>
-					</Grid>
+					<CommentForm {...commentFormProps} />
 				</Grid>
 			</Grid>
 
