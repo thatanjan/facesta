@@ -9,9 +9,15 @@ interface Props {
 	showUsers: boolean
 	setShowUsers: (e: boolean) => void
 	title: string
+	InfiniteScroll: React.ElementType
 }
 
-const UserListModal = ({ setShowUsers, showUsers, title }: Props) => {
+const UserListModal = ({
+	setShowUsers,
+	showUsers,
+	title,
+	InfiniteScroll,
+}: Props) => {
 	const [scroll] = React.useState<DialogProps['scroll']>('paper')
 
 	const handleClose = () => {
@@ -38,7 +44,11 @@ const UserListModal = ({ setShowUsers, showUsers, title }: Props) => {
 				aria-describedby='scroll-dialog-description'
 			>
 				<DialogTitle id='scroll-dialog-title'>{title}</DialogTitle>
-				<DialogContent dividers>Users</DialogContent>
+				<DialogContent dividers>
+					<InfiniteScroll>
+						<h1> hello </h1>
+					</InfiniteScroll>
+				</DialogContent>
 				<DialogActions>
 					<Button onClick={handleClose} color='primary'>
 						close
