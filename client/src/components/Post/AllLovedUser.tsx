@@ -6,7 +6,7 @@ import { PostUser as User } from 'interfaces/post'
 import { useGetAllLikes } from 'hooks/likeHooks'
 
 interface Props {
-	children: React.ElementType
+	children: React.ReactNode
 }
 
 const AllLovedUser = ({ children }: Props) => {
@@ -27,13 +27,13 @@ const AllLovedUser = ({ children }: Props) => {
 
 	if (data) {
 		if (data[size - 1]) {
-			if (data[size - 1].getAllLikes?.posts.length === 0) {
+			if (data[size - 1].getAllLikes?.users.length === 0) {
 				isLoadingMore = false
 			}
 		}
 
 		data.forEach(element => {
-			allLikers = [...allLikers, ...element.getAllLikes.posts]
+			allLikers = [...allLikers, ...element.getAllLikes.users]
 		})
 	}
 
