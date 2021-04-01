@@ -1,7 +1,6 @@
 import { getAllComments } from 'graphql/queries/postQueries'
 import createRequest from 'utils/createRequest'
 import { useSWRInfinite } from 'swr'
-import { useOwnUserId } from 'hooks/userhooks'
 
 export interface Input {
 	postID: string
@@ -10,18 +9,16 @@ export interface Input {
 
 // eslint-disable-next-line
 export const useGetAllComments = ({ postUserID, postID }: Input) => {
-	const userID = useOwnUserId()
-
 	const getKey = (index: number) => {
 		const skipnum: number = (index + 1) * 10
 
-		return [getAllComments, skipnum, userID]
+		return [getAllComments, skipnum, postUserID, postID]
 	}
 
 	return useSWRInfinite(
 		getKey,
-		async (key, num) =>
-			createRequest({ key, values: { skip: num, postID, user: postUserID } }),
+		async (key, num, user, postID) =>
+			createRequest({ key, values: { skip: num, postID, user } }),
 		{ revalidateOnFocus: false }
 	)
 }

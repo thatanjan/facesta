@@ -11,6 +11,7 @@ export const getAllPost = gql`
 				markdown
 				totalLikes
 				totalComments
+				date
 			}
 			errorMessage
 		}
@@ -28,6 +29,7 @@ export const getSinglePost = gql`
 				markdown
 				totalLikes
 				totalComments
+				date
 
 				user {
 					name
@@ -53,6 +55,7 @@ export const getNewsFeedPost = gql`
 				markdown
 				totalLikes
 				totalComments
+				date
 
 				user {
 					name
@@ -109,6 +112,10 @@ export const getAllLikes = gql`
 			users {
 				name
 				_id
+
+				profile {
+					profilePicture
+				}
 			}
 			errorMessage
 		}

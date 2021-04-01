@@ -17,12 +17,14 @@ const resolvers = {
 
 				const { newSkip, returnNumber, empty } = skippingList(skip, totalPosts)
 
+				console.table([newSkip, returnNumber])
+
 				if (empty) return { posts: [] }
 
 				const NewsFeedPosts = await NewsFeedModel.findOne({
 					user: id,
 				})
-					.slice('posts', [-Math.abs(newSkip || skip), returnNumber || 10])
+					.slice('posts', [-Math.abs(newSkip), returnNumber])
 					.populate({
 						path: 'posts',
 						populate: {

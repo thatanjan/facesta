@@ -8,13 +8,12 @@ import Card from '@material-ui/core/Card'
 import Button from '@material-ui/core/Button'
 import { makeStyles, Theme } from '@material-ui/core/styles'
 
+import ProfilePictureUpload, { Base64 } from 'components/Upload/ImageUpload'
+
 import { useIsSelf, useProfileUserID } from 'hooks/profileContextHooks'
-import useGetPersonalData from 'hooks/useGetProfileData'
-import useGetProfilePicture from 'hooks/useGetProfilePicture'
+import useGetPersonalData, { useProfileInfo } from 'hooks/useGetProfileData'
 import createRequest from 'utils/createRequest'
 import { uploadProfilePicture } from 'graphql/mutations/profileMutations'
-
-import ProfilePictureUpload, { Base64 } from './ProfilePictureUpload'
 
 const useStyles = makeStyles((theme: Theme) => ({
 	container: {
@@ -32,17 +31,18 @@ const useStyles = makeStyles((theme: Theme) => ({
 }))
 
 export const ProfileCover = () => {
+	const profileUserID = useProfileUserID()
 	const { container, media } = useStyles()
 
-	const profileUserId = useProfileUserID()
 	const [uploadingPost, setUploadingPost] = useState(false)
 
 	const isSelf = useIsSelf()
 	const { data, error } = useGetPersonalData('name bio')
 
-	const { data: pictureData, error: pictureDataError } = useGetProfilePicture(
-		profileUserId
-	)
+	const {
+		data: profilePictureData,
+		error: profilePictureError,
+	} = useProfileInfo(profileUserID)
 
 	const action = async (image: Base64) => {
 		setUploadingPost(true)
@@ -60,8 +60,16 @@ export const ProfileCover = () => {
 		type: 'uploadProfilePicture',
 	}
 
-	if (error) return <div>failed to load</div>
-	if (!data) return <div>loading...</div>
+	if (profilePictureError || error) return <div>failed to load</div>
+	if (!data || !profilePictureData) return <div>loading...</div>
+
+	const {
+		getUser: {
+			profile: { profilePicture },
+		},
+	} = profilePictureData
+
+	console.log(profilePictureData)
 
 	const {
 		getPersonalData: { name, bio },
@@ -73,19 +81,14 @@ export const ProfileCover = () => {
 		<>
 			<Paper elevation={0}>
 				<Card className={container}>
-					{!pictureData && <div>loading...</div>}
-					{pictureDataError && <div>failed to load</div>}
-
-					{pictureData && (
-						<Image
-							className={media}
-							layout='responsive'
-							height={720}
-							width={1280}
-							objectFit='cover'
-							src={pictureData?.getProfilePicture?.image || avatar}
-						/>
-					)}
+					<Image
+						className={media}
+						layout='responsive'
+						height={720}
+						width={1280}
+						objectFit='cover'
+						src={profilePicture || avatar}
+					/>
 
 					{isSelf && <ProfilePictureUpload {...profilePictureUploadProps} />}
 

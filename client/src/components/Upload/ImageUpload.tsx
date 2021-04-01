@@ -8,11 +8,10 @@ import ImageUploadModal, {
 	NullOrBooleanType,
 } from 'components/Modals/ImageUploadModal'
 import ImagePreview from 'components/Images/ImagePreview'
-import LoadingModal from 'components/Modals/LoadingModal'
 
 import { useOwnUserId } from 'hooks/userhooks'
 import makeBase64 from 'utils/makeBase64Image'
-import { getProfilePicture } from 'graphql/queries/profileQueries'
+import { getUser } from 'graphql/queries/profileQueries'
 import UploadAlert, { Props as AlertProps } from 'components/Alerts/UploadAlert'
 
 import { CustomFile } from 'interfaces/upload'
@@ -23,9 +22,11 @@ const useStyles = makeStyles(() => ({
 
 export type Base64 = ArrayBuffer | string | null
 
+type Action = 'uploadProfilePicture' | 'createPost'
+
 export interface Props {
 	action: (base64: Base64) => any
-	type: 'uploadProfilePicture' | 'createPost'
+	type: Action
 	setPostPreviewLink?: (link: string) => void
 	uploadingPost?: boolean
 	setUploadingPost?: (bool: boolean) => void
@@ -53,6 +54,11 @@ const ProfilePictureUpload = ({
 		checked: true,
 	})
 
+	const UPLOAD_PROFILE_PICTURE: Action = 'uploadProfilePicture'
+	const CREATE_POST: Action = 'createPost'
+
+	const isCreatingPost = (actionType: Action) => actionType === CREATE_POST
+
 	const { editIconStyle } = useStyles()
 
 	const openUploadModal = () => setUploadModalOpen(true)
@@ -77,11 +83,11 @@ const ProfilePictureUpload = ({
 
 	useEffect(() => {
 		if (approved) {
-			if (type === 'createPost') {
+			if (isCreatingPost(CREATE_POST)) {
 				if (setPostPreviewLink) setPostPreviewLink(previewLink)
 				setShowPreview(false)
 			}
-			if (type === 'uploadProfilePicture') {
+			if (!isCreatingPost(UPLOAD_PROFILE_PICTURE)) {
 				setShowPreview(false)
 				setLoading(true)
 				makeBase64(file as CustomFile, setBase64)
@@ -99,22 +105,29 @@ const ProfilePictureUpload = ({
 			;(async () => {
 				const res = await action(base64)
 				if (res) {
+					const message = res[type]?.message
+					const errorMessage = res[type]?.errorMessage
+
 					setLoading(false)
 
-					if (res[type].message) {
+					if (message) {
 						setUploadAlertProps(prev => ({
 							...prev,
-							message: res[type].message,
+							message,
 							severity: 'success',
 						}))
 						setSuccess(true)
-						mutate([getProfilePicture, ownUserID])
+
+						if (!isCreatingPost(type)) {
+							console.log('ran')
+							mutate([getUser, ownUserID])
+						}
 					}
 
-					if (res[type].errorMessage) {
+					if (errorMessage) {
 						setUploadAlertProps(prev => ({
 							...prev,
-							message: res[type].errorMessage,
+							message: errorMessage,
 							severity: 'error',
 						}))
 
@@ -152,12 +165,19 @@ const ProfilePictureUpload = ({
 		}
 	}, [uploadingPost])
 
+	useEffect(() => {
+		if (loading) {
+			setUploadAlertProps(prev => ({
+				...prev,
+				severity: 'info',
+				message: isCreatingPost(type)
+					? 'Post is uploading'
+					: 'Profile picture is uploading',
+			}))
+		}
+	}, [loading])
+
 	const imagePreviewProps = { previewLink, showPreview, setApproved }
-	const loadingModalProps = {
-		open: loading,
-		setOpen: setLoading,
-		title: 'profile picture is uploading',
-	}
 
 	return (
 		<>
@@ -169,7 +189,7 @@ const ProfilePictureUpload = ({
 
 			{showPreview && <ImagePreview {...imagePreviewProps} />}
 
-			{loading && <LoadingModal {...loadingModalProps} />}
+			{loading && <UploadAlert {...(uploadAlertProps as AlertProps)} />}
 
 			{showAlert && <UploadAlert {...(uploadAlertProps as AlertProps)} />}
 		</>

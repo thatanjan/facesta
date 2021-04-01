@@ -1,14 +1,13 @@
+import { fieldToTextField, TextFieldProps } from 'formik-material-ui'
 import { makeStyles } from '@material-ui/core/styles'
 import TextField from '@material-ui/core/TextField'
 import { AnyObject } from 'interfaces/global'
 import Cookies from 'js-cookie'
-import { useEffect } from 'react'
+import { useCallback, FormEvent, TableHTMLAttributes } from 'react'
 import clsx from 'clsx'
 
-interface TextFieldProps {
-	inputText: string
-	setInputText: Function
-	cookieName: string
+interface Props extends TextFieldProps {
+	cookieName?: string
 	extraStyle?: string
 }
 
@@ -22,20 +21,16 @@ const useStyles = makeStyles(theme => ({
 	},
 }))
 
-const TextFieldComponent = ({
-	cookieName,
-	inputText,
-	setInputText,
-	extraStyle,
-}: TextFieldProps) => {
-	const { textFieldStyle } = useStyles()
+const TextFieldComponent = (props: Props) => {
+	const {
+		cookieName,
 
-	useEffect(() => {
-		const cookieValue = Cookies.get(cookieName)
-		if (cookieValue) {
-			setInputText(cookieValue)
-		}
-	}, [])
+		extraStyle,
+		field: { name },
+		form: { setFieldValue },
+	} = props
+
+	const { textFieldStyle } = useStyles()
 
 	const getScrollHeight = (elm: any) => {
 		const element: any = elm
@@ -46,15 +41,17 @@ const TextFieldComponent = ({
 		element.value = savedValue
 	}
 
-	const inputChangeHandler = ({ target }: AnyObject) => {
+	const inputChangeHandler = ({
+		target,
+	}: FormEvent<HTMLInputElement | HTMLTextAreaElement>) => {
 		const targetElement: AnyObject = target
 
-		const targetValue = target.value
+		const { value: targetValue } = target as HTMLTextAreaElement
 		const expires = { expires: 1 / 48 }
 
-		Cookies.set(cookieName, targetValue, expires)
+		Cookies.set(cookieName || name, targetValue, expires)
 
-		setInputText(targetValue)
+		setFieldValue(name, targetValue)
 
 		// make sure the input event originated from a textarea and it's desired to be auto-expandable
 		if (
@@ -82,13 +79,13 @@ const TextFieldComponent = ({
 			multiline
 			variant='filled'
 			color='secondary'
-			value={inputText}
 			inputProps={{
 				onChange: inputChangeHandler,
 				className: 'autoExpand',
 				rows: cookieName === 'comment' ? '1' : '3',
 				dataminrows: '3',
 			}}
+			{...fieldToTextField(props)}
 		/>
 	)
 }

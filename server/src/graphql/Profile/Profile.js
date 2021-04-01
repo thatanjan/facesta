@@ -5,11 +5,13 @@ import ProfileType from './ProfileType'
 import updatePersonal from './updatePersonal'
 import getProfile from './getPersonalData'
 import ProfilePicture from './profilePicture'
+import getUser from './getUser'
 
 export const ProfileTypedefs = [ProfileType]
 
 export const ProfileResolvers = merge(
 	updatePersonal,
 	getProfile,
-	ProfilePicture
+	ProfilePicture,
+	getUser
 )

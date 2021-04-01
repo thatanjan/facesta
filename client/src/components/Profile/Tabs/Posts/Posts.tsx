@@ -1,26 +1,51 @@
 import React from 'react'
+import { nanoid } from 'nanoid'
+import InfiniteScroll from 'react-infinite-scroll-component'
 
-import PostType from 'interfaces/post'
+import Post from 'interfaces/post'
 import SinglePost from 'components/Post/SinglePost'
 import useGetAllPosts from 'hooks/useGetPost'
-import { nanoid } from 'nanoid'
+import { useProfileInfo } from 'hooks/useGetProfileData'
 
 const Posts = () => {
-	const { data, error } = useGetAllPosts(0)
-
+	const { data, error, size, setSize } = useGetAllPosts()
+	const { data: profileData, error: profileError } = useProfileInfo()
 	console.log(data)
 
-	if (!data) return <div>... loading</div>
-	if (error) return 'error happened'
+	if (profileError || error) return <div>failed to load</div>
+	if (!data || !profileData) return <div>loading...</div>
 
-	const {
-		getAllPost: { posts },
-	} = data
+	const { getUser: user } = profileData
+
+	let isLoadingMore = true
+	let allPost: Post[] = []
+
+	if (data) {
+		if (data[size - 1]) {
+			if (data[size - 1].getNewsFeedPost?.posts.length === 0) {
+				isLoadingMore = false
+			}
+		}
+
+		data.forEach(element => {
+			allPost = [...allPost, ...element.getAllPost.posts]
+		})
+	}
 
 	return (
 		<div>
-			{Array.isArray(posts) &&
-				posts.map((post: PostType) => <SinglePost key={nanoid()} {...post} />)}
+			<InfiniteScroll
+				dataLength={allPost.length}
+				next={() => setSize(size + 1)}
+				hasMore={isLoadingMore as boolean}
+				loader={<h4>Loading...</h4>}
+			>
+				{allPost.map((post: Post) => (
+					<SinglePost key={nanoid()} {...post} postPage={false} user={user} />
+				))}
+			</InfiniteScroll>
+
+			{error && 'error happened'}
 		</div>
 	)
 }

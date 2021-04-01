@@ -36,6 +36,9 @@ const MESSAGE = 'message'
 
 const ERROR_OR_MESSAGE = `${ERROR_MESSAGE} ${MESSAGE}`
 
+const cloudinaryURL = (publicID: string) =>
+	`https://res.cloudinary.com/thatanjan/${publicID}`
+
 export {
 	AUTHENTICATION,
 	TOKEN_NAME,
@@ -57,4 +60,5 @@ export {
 	ERROR_MESSAGE,
 	MESSAGE,
 	ERROR_OR_MESSAGE,
+	cloudinaryURL,
 }
