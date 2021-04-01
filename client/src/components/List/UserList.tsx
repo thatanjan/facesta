@@ -19,6 +19,7 @@ interface User {
 }
 
 interface Props {
+	InfiniteScroll: React.ElementType
 	users: Array<User>
 }
 
@@ -35,25 +36,27 @@ const useStyles = makeStyles((theme: Theme) => ({
 	},
 }))
 
-const UserList = ({ users }: Props) => {
+const UserList = ({ users, InfiniteScroll }: Props) => {
 	const { root } = useStyles()
 
 	return (
 		<List className={root}>
-			{users.map(({ name, _id, profile: { profilePicture } }) => (
-				<MuiLink
-					MuiComponent={ListItem}
-					button
-					key={nanoid()}
-					href={`/profile/${_id}`}
-				>
-					<ListItemAvatar>
-						<Avatar src={cloudinaryURL(profilePicture)} />
-					</ListItemAvatar>
+			<InfiniteScroll>
+				{users.map(({ name, _id, profile: { profilePicture } }) => (
+					<MuiLink
+						MuiComponent={ListItem}
+						button
+						key={nanoid()}
+						href={`/profile/${_id}`}
+					>
+						<ListItemAvatar>
+							<Avatar src={cloudinaryURL(profilePicture)} />
+						</ListItemAvatar>
 
-					<ListItemText primary={name} />
-				</MuiLink>
-			))}
+						<ListItemText primary={name} />
+					</MuiLink>
+				))}
+			</InfiniteScroll>
 		</List>
 	)
 }
