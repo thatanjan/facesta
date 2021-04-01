@@ -3,14 +3,14 @@ import InfiniteScroll from 'react-infinite-scroll-component'
 import { useRouter } from 'next/router'
 
 import ListContainer from 'components/List/UserListContainer'
+import UserList from 'components/List/UserList'
+
 import { PostUser as User } from 'interfaces/post'
 import { useGetAllLikes } from 'hooks/likeHooks'
 
-interface Props {
-	children: React.ReactNode
-}
+interface Props {}
 
-const AllLovedUser = ({ children }: Props) => {
+const AllLovedUser = (_: Props) => {
 	const {
 		query: { post: postID, postUser },
 	} = useRouter()
@@ -46,7 +46,7 @@ const AllLovedUser = ({ children }: Props) => {
 				hasMore={isLoadingMore}
 				loader={<h4>Loading...</h4>}
 			>
-				{children}
+				<UserList users={allLikers} />
 			</InfiniteScroll>
 		</ListContainer>
 	)
