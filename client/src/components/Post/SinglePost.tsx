@@ -13,6 +13,10 @@ import Typography from '@material-ui/core/Typography'
 import Avatar from '@material-ui/core/Avatar'
 import Image from 'next/image'
 
+import { responseInterface } from 'swr'
+
+import { useGetTotalComment } from 'hooks/commentHooks'
+
 import { cloudinaryURL } from 'variables/global'
 import MuiLink from 'components/Links/MuiLink'
 import PostType from 'interfaces/post'
@@ -89,6 +93,12 @@ const SinglePost = ({
 		push(showMoreLink)
 	}
 
+	const { data, error }: responseInterface<any, any> = useGetTotalComment({
+		postPage,
+		postUserID,
+		postID,
+	})
+
 	return (
 		<Card
 			className={root}
@@ -150,7 +160,9 @@ const SinglePost = ({
 				<LovePost {...loveProps} />
 
 				<Box>
-					<Typography variant='caption'>{totalComments}</Typography>
+					<Typography variant='caption'>
+						{data?.getTotalComments?.totalComments || totalComments}
+					</Typography>
 					<IconButton aria-label='comment'>
 						<CommentIcon />
 					</IconButton>
