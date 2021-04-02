@@ -3,6 +3,7 @@ import React from 'react'
 import Head from 'next/head'
 import CssBaseline from '@material-ui/core/CssBaseline'
 import { ThemeProvider } from '@material-ui/core/styles'
+import useSWR, { SWRConfig } from 'swr'
 
 import theme from 'themes/theme'
 
@@ -29,7 +30,13 @@ export default function MyApp(props: AppProps) {
 
 			<ThemeProvider theme={theme}>
 				<CssBaseline />
-				<Component {...pageProps} />
+				<SWRConfig
+					value={{
+						revalidateOnFocus: false,
+					}}
+				>
+					<Component {...pageProps} />
+				</SWRConfig>
 			</ThemeProvider>
 		</>
 	)
