@@ -1,9 +1,32 @@
 import React, { useEffect } from 'react'
 import Cookies from 'js-cookie'
 import { useRouter } from 'next/router'
-import { LOGIN_URL } from 'variables/global'
+import Typography from '@material-ui/core/Typography'
+import Grid from '@material-ui/core/Grid'
+import { makeStyles, Theme } from '@material-ui/core/styles'
+
+import { LOGIN_URL, APP_NAME } from 'variables/global'
+
+const useStyles = makeStyles((theme: Theme) => ({
+	container: {
+		minWidth: '100vw',
+		minHeight: '100vh',
+	},
+	title: {
+		[theme.breakpoints.down('sm')]: {
+			fontSize: '3rem',
+		},
+	},
+	subTitle: {
+		[theme.breakpoints.down('sm')]: {
+			fontSize: '1.5rem',
+		},
+	},
+}))
 
 const Logout = () => {
+	const { container, title, subTitle } = useStyles()
+
 	const { push } = useRouter()
 
 	Cookies.remove('jwt')
@@ -14,7 +37,23 @@ const Logout = () => {
 		}, 3000)
 	})
 
-	return <div>You are logging out.</div>
+	return (
+		<>
+			<Grid container className={container} alignContent='center'>
+				<Grid item xs={12}>
+					<Typography className={title} align='center' variant='h1'>
+						{APP_NAME}
+					</Typography>
+				</Grid>
+
+				<Grid item xs={12}>
+					<Typography className={subTitle} variant='h3' align='center'>
+						We are logging you out
+					</Typography>
+				</Grid>
+			</Grid>
+		</>
+	)
 }
 
 export default Logout
