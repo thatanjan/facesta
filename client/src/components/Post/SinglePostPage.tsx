@@ -1,8 +1,10 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { useRouter } from 'next/router'
 import Avatar from '@material-ui/core/Avatar/Avatar'
-import Grid from '@material-ui/core/Grid'
-import { makeStyles } from '@material-ui/core/styles'
+import ListItem from '@material-ui/core/ListItem'
+import List from '@material-ui/core/List'
+import ListItemAvatar from '@material-ui/core/ListItemAvatar'
+import { makeStyles, Theme } from '@material-ui/core/styles'
 
 import { cloudinaryURL } from 'variables/global'
 
@@ -17,17 +19,19 @@ import Post from 'interfaces/post'
 
 import SinglePost from './SinglePost'
 
-const useStyles = makeStyles({
-	buttonStyle: { margin: '2% 0' },
-	avatarStyle: { margin: '0 auto' },
-	avatarContainerStyle: {
-		alignSelf: 'center',
-		marginBottom: '5%',
+const useStyles = makeStyles((theme: Theme) => ({
+	root: {
+		width: '100%',
+		backgroundColor: theme.palette.background.paper,
+
+		'& form ': {
+			flex: '1 1 auto',
+		},
 	},
-})
+}))
 
 const SinglePostPage = () => {
-	const { avatarStyle, avatarContainerStyle } = useStyles()
+	const { root } = useStyles()
 
 	const ownUserID = useOwnUserId()
 	const {
@@ -68,18 +72,16 @@ const SinglePostPage = () => {
 	return (
 		<>
 			<SinglePost {...(post as Post)} postPage />
-			<Grid container alignItems='center'>
-				<Grid item xs={2} md={1} className={avatarContainerStyle}>
-					<Avatar
-						alt={name}
-						src={cloudinaryURL(profilePicture)}
-						className={avatarStyle}
-					/>
-				</Grid>
-				<Grid item xs={10}>
+
+			<List className={root}>
+				<ListItem alignItems='flex-start'>
+					<ListItemAvatar>
+						<Avatar alt={name} src={cloudinaryURL(profilePicture)} />
+					</ListItemAvatar>
+
 					<CommentForm {...commentFormProps} />
-				</Grid>
-			</Grid>
+				</ListItem>
+			</List>
 
 			<CommentList {...commentListProps} />
 		</>
