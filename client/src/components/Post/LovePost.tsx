@@ -11,7 +11,6 @@ import { useHasLiked } from 'hooks/likeHooks'
 import createRequest from 'utils/createRequest'
 import { likePost, removeLikePost } from 'graphql/mutations/postMutations'
 
-const UserListModal = dynamic(() => import('components/Modals/UserListModal'))
 const AllLovedUser = dynamic(() => import('./AllLovedUser'))
 
 interface LoveProps {
@@ -86,15 +85,13 @@ const LovePost = ({ totalLikes, postUserID, postID }: LoveProps) => {
 			</IconButton>
 
 			{showUsers && (
-				<UserListModal
+				<AllLovedUser
 					{...{
 						showUsers,
 						setShowUsers,
 						title: 'People who liked this post',
 					}}
-				>
-					<AllLovedUser showUsers={showUsers} />
-				</UserListModal>
+				/>
 			)}
 		</Box>
 	)

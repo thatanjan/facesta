@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react'
+import dynamic from 'next/dynamic'
 import InfiniteScroll from 'react-infinite-scroll-component'
 import { useRouter } from 'next/router'
 
@@ -8,11 +9,15 @@ import UserList from 'components/List/UserList'
 import { PostUser as User } from 'interfaces/post'
 import { useGetAllLikes } from 'hooks/likeHooks'
 
+const UserListModal = dynamic(() => import('components/Modals/UserListModal'))
+
 interface Props {
 	showUsers: boolean
+	setShowUsers: (value: boolean) => void
+	title: string
 }
 
-const AllLovedUser = ({ showUsers }: Props) => {
+const AllLovedUser = ({ showUsers, setShowUsers, title }: Props) => {
 	const {
 		query: { post: postID, postUser },
 	} = useRouter()
@@ -41,31 +46,22 @@ const AllLovedUser = ({ showUsers }: Props) => {
 	}
 
 	useEffect(() => {
-		/* console.log(allLikers) */
-		/* mutate() */
-		/* mutate(data, false) */
-		return () => {
-			console.log('ran')
-
-			mutate()
-			/* mutate(data, false) */
-			/* 	setSize(0) */
-		}
+		mutate()
 	}, [])
 
-	console.log(size)
-
 	return (
-		<ListContainer>
-			<InfiniteScroll
-				dataLength={allLikers.length}
-				next={() => setSize(size + 1)}
-				hasMore={isLoadingMore}
-				loader={<h4>Loading...</h4>}
-			>
-				<UserList users={allLikers} />
-			</InfiniteScroll>
-		</ListContainer>
+		<UserListModal {...{ showUsers, setShowUsers, title, mutate }}>
+			<ListContainer>
+				<InfiniteScroll
+					dataLength={allLikers.length}
+					next={() => setSize(size + 1)}
+					hasMore={isLoadingMore}
+					loader={<h4>Loading...</h4>}
+				>
+					<UserList users={allLikers} />
+				</InfiniteScroll>
+			</ListContainer>
+		</UserListModal>
 	)
 }
 
