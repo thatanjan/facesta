@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { createStyles, Theme, makeStyles } from '@material-ui/core/styles'
 import List from '@material-ui/core/List'
 import ListItem from '@material-ui/core/ListItem'
@@ -25,10 +25,14 @@ const useStyles = makeStyles((theme: Theme) =>
 	})
 )
 
-const CommentList = ({ postID, postUserID }: HookInput) => {
+interface Props extends HookInput {
+	newCommentAdded: boolean
+}
+
+const CommentList = ({ postID, postUserID, newCommentAdded }: Props) => {
 	const classes = useStyles()
 
-	const { data, error, setSize, size } = useGetAllComments({
+	const { data, error, setSize, size, mutate } = useGetAllComments({
 		postID,
 		postUserID,
 	})
@@ -42,6 +46,12 @@ const CommentList = ({ postID, postUserID }: HookInput) => {
 			allComments = [...allComments, ...element.getAllComments.comments]
 		})
 	}
+
+	useEffect(() => {
+		if (newCommentAdded) {
+			mutate()
+		}
+	}, [newCommentAdded])
 
 	return (
 		<>

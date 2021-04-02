@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
 import Avatar from '@material-ui/core/Avatar/Avatar'
 import ListItem from '@material-ui/core/ListItem'
@@ -31,6 +31,8 @@ const useStyles = makeStyles((theme: Theme) => ({
 }))
 
 const SinglePostPage = () => {
+	const [newCommentAdded, setNewCommentAdded] = useState(false)
+
 	const { root } = useStyles()
 
 	const ownUserID = useOwnUserId()
@@ -47,6 +49,14 @@ const SinglePostPage = () => {
 		data: profilePictureData,
 		error: profilePictureError,
 	} = useProfileInfo(ownUserID)
+
+	useEffect(() => {
+		if (newCommentAdded) {
+			setTimeout(() => {
+				setNewCommentAdded(false)
+			})
+		}
+	}, [newCommentAdded])
 
 	if (error || profilePictureError) return <div>failed to load</div>
 	if (!data || !profilePictureData) return <div>loading...</div>
