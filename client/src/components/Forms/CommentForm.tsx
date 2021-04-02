@@ -17,9 +17,10 @@ interface Values {
 interface Props {
 	postID: string
 	ownUserID: string
+	setNewCommentAdded: (val: boolean) => void
 }
 
-function CommentForm({ postID, ownUserID }: Props) {
+function CommentForm({ postID, ownUserID, setNewCommentAdded }: Props) {
 	const matches = useMediaQuery((theme: Theme) => theme.breakpoints.up('md'))
 
 	return (
@@ -30,15 +31,16 @@ function CommentForm({ postID, ownUserID }: Props) {
 			validate={(values: Values) => {
 				const errors: Partial<Values> = {}
 				if (!values.comment) {
-					errors.comment = 'Required'
+					errors.comment = 'Required' as ''
 				}
 				return errors
 			}}
-			onSubmit={async ({ comment }, { setSubmitting }) => {
+			onSubmit={async ({ comment }) => {
 				const values = { text: comment, postID, user: ownUserID }
 				const res = await createRequest({ key: commentPost, values })
 
 				if (res) {
+					setNewCommentAdded(true)
 					console.log(res)
 				}
 			}}

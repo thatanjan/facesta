@@ -54,7 +54,7 @@ const SinglePostPage = () => {
 		if (newCommentAdded) {
 			setTimeout(() => {
 				setNewCommentAdded(false)
-			})
+			}, 2000)
 		}
 	}, [newCommentAdded])
 
@@ -64,6 +64,7 @@ const SinglePostPage = () => {
 	const commentListProps = {
 		postID: postID as string,
 		postUserID: postUser as string,
+		newCommentAdded,
 	}
 
 	const {
@@ -77,7 +78,11 @@ const SinglePostPage = () => {
 		},
 	} = profilePictureData
 
-	const commentFormProps = { postID: postID as string, ownUserID }
+	const commentFormProps = {
+		postID: postID as string,
+		ownUserID,
+		setNewCommentAdded,
+	}
 
 	return (
 		<>
