@@ -4,8 +4,11 @@ import Button from '@material-ui/core/Button'
 import { Theme } from '@material-ui/core/styles'
 import useMediaQuery from '@material-ui/core/useMediaQuery'
 import Cookies from 'js-cookie'
+import { mutate } from 'swr'
 
 import AutoExpandField from 'components/TextFields/AutoExpandField'
+
+import { getTotalComments } from 'graphql/queries/postQueries'
 
 import createRequest from 'utils/createRequest'
 import { commentPost } from 'graphql/mutations/postMutations'
@@ -16,11 +19,17 @@ interface Values {
 
 interface Props {
 	postID: string
+	postUserID: string
 	ownUserID: string
 	setNewCommentAdded: (val: boolean) => void
 }
 
-function CommentForm({ postID, ownUserID, setNewCommentAdded }: Props) {
+function CommentForm({
+	postID,
+	ownUserID,
+	setNewCommentAdded,
+	postUserID,
+}: Props) {
 	const matches = useMediaQuery((theme: Theme) => theme.breakpoints.up('md'))
 
 	return (
@@ -41,6 +50,7 @@ function CommentForm({ postID, ownUserID, setNewCommentAdded }: Props) {
 
 				if (res) {
 					setNewCommentAdded(true)
+					mutate([getTotalComments, postUserID])
 					console.log(res)
 				}
 			}}

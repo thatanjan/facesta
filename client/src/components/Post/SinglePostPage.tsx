@@ -82,6 +82,7 @@ const SinglePostPage = () => {
 		postID: postID as string,
 		ownUserID,
 		setNewCommentAdded,
+		postUserID: postUser as string,
 	}
 
 	return (
