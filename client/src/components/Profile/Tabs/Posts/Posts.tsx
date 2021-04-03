@@ -6,11 +6,12 @@ import Post from 'interfaces/post'
 import SinglePost from 'components/Post/SinglePost'
 import useGetAllPosts from 'hooks/useGetPost'
 import { useProfileInfo } from 'hooks/useGetProfileData'
+import { useProfileUserID } from 'hooks/profileContextHooks'
 
 const Posts = () => {
+	const profileID = useProfileUserID()
 	const { data, error, size, setSize } = useGetAllPosts()
-	const { data: profileData, error: profileError } = useProfileInfo()
-	console.log(data)
+	const { data: profileData, error: profileError } = useProfileInfo(profileID)
 
 	if (profileError || error) return <div>failed to load</div>
 	if (!data || !profileData) return <div>loading...</div>
