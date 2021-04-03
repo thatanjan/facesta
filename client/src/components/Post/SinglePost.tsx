@@ -93,11 +93,21 @@ const SinglePost = ({
 		push(showMoreLink)
 	}
 
-	const { data, error }: responseInterface<any, any> = useGetTotalComment({
+	let totalNumberOfComments: number | undefined
+
+	const totalCommentsResult: responseInterface<
+		any,
+		any
+	> | null = useGetTotalComment({
 		postPage,
 		postUserID,
 		postID,
 	})
+
+	if (totalCommentsResult?.data) {
+		const data = totalCommentsResult?.data
+		totalNumberOfComments = data?.getTotalComments?.totalComments
+	}
 
 	return (
 		<Card
@@ -161,7 +171,7 @@ const SinglePost = ({
 
 				<Box>
 					<Typography variant='caption'>
-						{data?.getTotalComments?.totalComments || totalComments}
+						{totalNumberOfComments || totalComments}
 					</Typography>
 					<IconButton aria-label='comment'>
 						<CommentIcon />
