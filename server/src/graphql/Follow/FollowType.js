@@ -25,12 +25,12 @@ const FollowType = gql`
 	}
 
 	type Followers {
-		followers: [UserNameIDPic!]
+		followers: [UserNameIDPic]
 		errorMessage: String
 	}
 
 	type Followees {
-		followees: [UserNameIDPic!]
+		followees: [UserNameIDPic]
 		errorMessage: String
 	}
 
