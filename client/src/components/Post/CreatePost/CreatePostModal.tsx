@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Formik, Form, Field } from 'formik'
 import { makeStyles, Theme } from '@material-ui/core/styles'
 import Modal from '@material-ui/core/Modal'
@@ -9,7 +9,6 @@ import Divider from '@material-ui/core/Divider'
 import Typography from '@material-ui/core/Typography'
 import Grid from '@material-ui/core/Grid'
 import Button from '@material-ui/core/Button'
-import TextField from '@material-ui/core/TextField'
 import CardMedia from '@material-ui/core/CardMedia'
 import { mutate } from 'swr'
 import useMediaQuery from '@material-ui/core/useMediaQuery'
@@ -69,10 +68,19 @@ interface Values {
 	postText: string
 }
 
+interface Inputs {
+	headline: string
+	text: string
+	image: string
+	markdown: boolean
+}
+
 const CreatePostModal = ({ isClicked, setIsClicked }: Props) => {
 	const matches = useMediaQuery((theme: Theme) => theme.breakpoints.up('md'))
 	const [postPreviewLink, setPostPreviewLink] = useState('')
 	const [uploadingPost, setUploadingPost] = useState(false)
+	const [inputs, setInputs] = useState<Inputs | {}>({})
+	const [goingToSubmit, setGoingToSubmit] = useState(false)
 
 	const POST_TEXT = 'postText'
 	const POST_HEADER = 'postHeader'
@@ -98,11 +106,12 @@ const CreatePostModal = ({ isClicked, setIsClicked }: Props) => {
 
 	const action = async (image: Base64) => {
 		const values = {
-			headline: Cookies.get(POST_HEADER),
-			text: Cookies.get(POST_TEXT),
+			...inputs,
 			image,
 			markdown: false,
 		}
+
+		console.log(values)
 
 		const res = await createRequest({
 			key: createPost,
@@ -123,6 +132,13 @@ const CreatePostModal = ({ isClicked, setIsClicked }: Props) => {
 
 	const postHeader: string = Cookies.get(POST_HEADER) || ''
 	const postText: string = Cookies.get(POST_TEXT) || ''
+
+	useEffect(() => {
+		if (goingToSubmit) {
+			handleSubmit()
+		}
+		setGoingToSubmit(false)
+	}, [goingToSubmit])
 
 	return (
 		<>
@@ -161,7 +177,15 @@ const CreatePostModal = ({ isClicked, setIsClicked }: Props) => {
 
 								return errors
 							}}
-							onSubmit={handleSubmit}
+							onSubmit={({ postText, postHeader }) => {
+								setInputs(prev => ({
+									...prev,
+									text: postText,
+									headline: postHeader,
+								}))
+
+								setGoingToSubmit(true)
+							}}
 						>
 							{({ submitForm, isSubmitting }) => (
 								<Form>
