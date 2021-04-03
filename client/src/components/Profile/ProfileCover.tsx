@@ -8,7 +8,9 @@ import Card from '@material-ui/core/Card'
 import Button from '@material-ui/core/Button'
 import { makeStyles, Theme } from '@material-ui/core/styles'
 
-import ProfilePictureUpload, { Base64 } from 'components/Upload/ImageUpload'
+import ProfilePictureUpload, {
+	Base64,
+} from 'components/Upload/ProfilePictureUpload'
 
 import { useIsSelf, useProfileUserID } from 'hooks/profileContextHooks'
 import useGetPersonalData, { useProfileInfo } from 'hooks/useGetProfileData'
