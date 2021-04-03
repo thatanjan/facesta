@@ -6,12 +6,19 @@ import ListItem from '@material-ui/core/ListItem'
 import ListItemIcon from '@material-ui/core/ListItemIcon'
 import ListItemText from '@material-ui/core/ListItemText'
 import useMediaQuery from '@material-ui/core/useMediaQuery'
+import Avatar from '@material-ui/core/Avatar'
 
 import MuiLink from 'components/Links/MuiLink'
 import { useDrawerState, useDrawerDispatch } from 'hooks/drawerHooks'
 import useGetUser, { useOwnUserId } from 'hooks/userhooks'
+import { useProfileInfo } from 'hooks/useGetProfileData'
+import {
+	screenSizeDrawer,
+	FOLLOWERS,
+	FOLLOWING,
+	cloudinaryURL,
+} from 'variables/global'
 import listComponents, { Components } from './NavigationDrawerListData'
-import { screenSizeDrawer, FOLLOWERS, FOLLOWING } from 'variables/global'
 
 export const convertSpaceToDash = (text: string): string | boolean => {
 	if (typeof text === 'string') {
@@ -35,7 +42,9 @@ const useStyles = makeStyles({
 
 const NavigationDrawerList = () => {
 	const matches = useMediaQuery(screenSizeDrawer)
-	const ownUserId = useOwnUserId()
+	const ownUserID = useOwnUserId()
+
+	const { data, error } = useProfileInfo(ownUserID)
 
 	const { iconStyle, logOutIconStyle, listItemTextStyle } = useStyles()
 
@@ -43,6 +52,16 @@ const NavigationDrawerList = () => {
 	const drawerDispatch = useDrawerDispatch()
 
 	const { name } = useGetUser()
+
+	if (error) return <div>failed to load</div>
+	if (!data) return <div>loading...</div>
+
+	const {
+		getUser: {
+			name: profileName,
+			profile: { profilePicture },
+		},
+	} = data
 
 	const itemClickHandler = (event: any, index: number) => {
 		if (index === listComponents.length - 1) {
@@ -63,7 +82,7 @@ const NavigationDrawerList = () => {
 	}
 
 	const linkModifier = (title: string, link: string) => {
-		const baseUrl = (num: number) => `/profile/${ownUserId}?show=${num}`
+		const baseUrl = (num: number) => `/profile/${ownUserID}?show=${num}`
 
 		switch (title) {
 			case FOLLOWERS:
@@ -87,10 +106,14 @@ const NavigationDrawerList = () => {
 						onClick={(event: MouseEvent) => itemClickHandler(event, index)}
 					>
 						<ListItemIcon>
-							<Component
-								className={title === 'log out' ? logOutIconStyle : iconStyle}
-								color='secondary'
-							/>
+							{index === 1 ? (
+								<Avatar alt={profileName} src={cloudinaryURL(profilePicture)} />
+							) : (
+								<Component
+									className={title === 'log out' ? logOutIconStyle : iconStyle}
+									color='secondary'
+								/>
+							)}
 						</ListItemIcon>
 						<ListItemText
 							className={listItemTextStyle}
