@@ -1,8 +1,8 @@
 import { gql } from 'graphql-request'
 
 export const getFollowers: string = gql`
-	query getFollowers($user: ID!, $skip: ID!) {
-		getFollowers(user: $user) {
+	query getFollowers($user: ID!, $skip: Int!) {
+		getFollowers(Input: { user: $user, skip: $skip }) {
 			followers {
 				name
 				_id

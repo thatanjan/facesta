@@ -37,7 +37,7 @@ interface Users {
 
 export const FollowComponent = ({ name, hook }: Props) => {
 	const profileUserId = useProfileUserID()
-	const { data, error } = hook(profileUserId)
+	const { data, error } = hook(10)
 	const { root } = useStyles()
 
 	if (error) {
@@ -47,6 +47,8 @@ export const FollowComponent = ({ name, hook }: Props) => {
 	}
 
 	if (!data) return <div> loading </div>
+
+	console.log(data)
 
 	let users: Users[]
 
