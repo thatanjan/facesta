@@ -5,6 +5,7 @@ import ListItem from '@material-ui/core/ListItem'
 import ListItemText from '@material-ui/core/ListItemText'
 import ListItemAvatar from '@material-ui/core/ListItemAvatar'
 import Avatar from '@material-ui/core/Avatar'
+import ReactInfiniteScroll from 'react-infinite-scroll-component'
 import { nanoid } from 'nanoid'
 
 import { PostUser as User } from 'interfaces/post'
@@ -31,7 +32,7 @@ interface Props {
 }
 
 export const FollowComponent = ({ name, hook }: Props) => {
-	const { data, error, size } = hook()
+	const { data, error, size, setSize } = hook()
 	const { root } = useStyles()
 
 	if (error) return <div> error </div>
@@ -77,7 +78,14 @@ export const FollowComponent = ({ name, hook }: Props) => {
 
 	return (
 		<>
-			<List className={root}>
+			<List
+				className={root}
+				component={ReactInfiniteScroll}
+				dataLength={users.length}
+				next={() => setSize(size + 1)}
+				hasMore={isLoadingMore as boolean}
+				loader={<h4>Loading...</h4>}
+			>
 				{Array.isArray(users) &&
 					users.map(({ name: userName, _id, profile: { profilePicture } }: User) => (
 						<MuiLink
