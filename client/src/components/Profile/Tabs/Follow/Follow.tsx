@@ -9,7 +9,6 @@ import ReactInfiniteScroll from 'react-infinite-scroll-component'
 import { nanoid } from 'nanoid'
 
 import { PostUser as User } from 'interfaces/post'
-import { useProfileUserID } from 'hooks/profileContextHooks'
 import MuiLink from 'components/Links/MuiLink'
 import { cloudinaryURL, FOLLOWEES, FOLLOWERS } from 'variables/global'
 
@@ -21,7 +20,10 @@ const useStyles = makeStyles((theme: Theme) => ({
 		backgroundColor: theme.palette.background.paper,
 
 		'& > a': {
-			flexBasis: '100%',
+			flexGrow: 1,
+			[theme.breakpoints.up('sm')]: {
+				flexBasis: '50%',
+			},
 		},
 	},
 }))
