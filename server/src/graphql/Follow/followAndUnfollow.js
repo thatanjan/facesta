@@ -2,10 +2,7 @@ import Follow from 'models/Follow'
 import User from 'models/User'
 import sendErrorMessage from 'utils/errorMessage'
 import sendMessage from 'utils/message'
-import { FOLLOWEES, FOLLOWERS } from 'variables/global'
-
-const FOLLOW = 'follow'
-const UNFOLLOW = 'unfollow'
+import { FOLLOWEES } from 'variables/global'
 
 const checkIfUserExist = async (field, myID, otherUserID) => {
 	const filter = {}
@@ -16,12 +13,6 @@ const checkIfUserExist = async (field, myID, otherUserID) => {
 	return query
 }
 
-const getQuery = async (id, projection) => {
-	const users = await Follow.findOne({ user: id }, projection)
-
-	return users
-}
-
 const sameId = (id1, id2) => {
 	if (id1 === id2) {
 		return true
@@ -29,11 +20,7 @@ const sameId = (id1, id2) => {
 	return false
 }
 
-const saveDocuments = documents => {
-	documents.forEach(document => document.save())
-}
-
-const mainResolver = field => async (_, { user }, { user: { id } }) => {
+const unfollowUser = async (_, { user }, { user: { id } }) => {
 	try {
 		if (sameId(user, id)) {
 			return sendErrorMessage('ownerId and other user id is same')
@@ -45,43 +32,31 @@ const mainResolver = field => async (_, { user }, { user: { id } }) => {
 			return sendErrorMessage('user does not exist')
 		}
 
-		const myFollowees = await getQuery(id, FOLLOWEES)
-		const { followees } = myFollowees
+		const filter = {}
+		filter.followees = { $in: user }
 
-		if (field === FOLLOW && followees.includes(user)) {
-			return sendErrorMessage('You are already following the user')
-		}
+		const followeesQuery = await checkIfUserExist(FOLLOWEES, id, user)
 
-		if (field === UNFOLLOW && !followees.includes(user)) {
+		if (!followeesQuery) {
 			return sendErrorMessage('You are not following the user')
 		}
 
-		const hisFollowers = await getQuery(user, FOLLOWERS)
+		const followeesUpdate = await Follow.updateOne(
+			{ user: id },
+			{ $pull: { followees: user } }
+		)
 
-		const { followers } = hisFollowers
+		const followersUpdate = await Follow.updateOne(
+			{ user },
+			{ $pull: { followers: id } }
+		)
 
-		switch (field) {
-			case FOLLOW:
-				followers.push(id)
-				followees.push(user)
+		if (followeesUpdate.nModified === 1 && followersUpdate.nModified === 1)
+			return sendMessage('you have unfollowed this user')
 
-				saveDocuments([myFollowees, hisFollowers])
-
-				return sendMessage('you are now following this user')
-
-			case UNFOLLOW:
-				followers.remove(id)
-				followees.remove(user)
-
-				saveDocuments([myFollowees, hisFollowers])
-
-				return sendMessage('you have unfollowed this user')
-
-			default:
-				return true
-		}
+		return sendErrorMessage('something went wrong')
 	} catch (error) {
-		sendErrorMessage(error)
+		return sendErrorMessage(error)
 	}
 }
 
@@ -100,7 +75,7 @@ const followUser = async (_, { user }, { user: { id } }) => {
 		const filter = {}
 		filter.followees = { $in: user }
 
-		const followeesQuery = await checkIfUserExist('followees', id, user)
+		const followeesQuery = await checkIfUserExist(FOLLOWEES, id, user)
 
 		if (followeesQuery) {
 			return sendErrorMessage('You are already following the user')
@@ -128,7 +103,7 @@ const followUser = async (_, { user }, { user: { id } }) => {
 const resolver = {
 	Mutation: {
 		followUser,
-		unfollowUser: mainResolver(UNFOLLOW),
+		unfollowUser,
 	},
 }
 
