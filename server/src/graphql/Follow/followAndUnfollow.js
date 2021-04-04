@@ -43,12 +43,12 @@ const unfollowUser = async (_, { user }, { user: { id } }) => {
 
 		const followeesUpdate = await Follow.updateOne(
 			{ user: id },
-			{ $pull: { followees: user } }
+			{ $pull: { followees: user }, $inc: { totalFollowees: -1 } }
 		)
 
 		const followersUpdate = await Follow.updateOne(
 			{ user },
-			{ $pull: { followers: id } }
+			{ $pull: { followers: id }, $inc: { totalFollowers: -1 } }
 		)
 
 		if (followeesUpdate.nModified === 1 && followersUpdate.nModified === 1)
@@ -83,12 +83,12 @@ const followUser = async (_, { user }, { user: { id } }) => {
 
 		const followeesUpdate = await Follow.updateOne(
 			{ user: id },
-			{ $push: { followees: user } }
+			{ $push: { followees: user },  $inc: { totalFollowees: 1 } }
 		)
 
 		const followersUpdate = await Follow.updateOne(
 			{ user },
-			{ $push: { followers: id } }
+			{ $push: { followers: id }, $inc: { totalFollowers: 1 } }
 		)
 
 		if (followeesUpdate.nModified === 1 && followersUpdate.nModified === 1)
