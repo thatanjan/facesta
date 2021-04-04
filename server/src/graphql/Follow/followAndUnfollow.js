@@ -76,9 +76,49 @@ const mainResolver = field => async (_, { user }, { user: { id } }) => {
 	}
 }
 
+const followUser = async (_, { user }, { user: { id } }) => {
+	try {
+		if (sameId(user, id)) {
+			return sendErrorMessage('ownerId and other user id is same')
+		}
+
+		const doesUserExist = await User.findById(user, 'name')
+
+		if (!doesUserExist) {
+			return sendErrorMessage('user does not exist')
+		}
+
+		const filter = {}
+		filter.followees = { $in: user }
+
+		const followeesQuery = await Follow.findOne({ user: id, ...filter }, 'user')
+
+		if (followeesQuery) {
+			return sendErrorMessage('You are already following the user')
+		}
+
+		const followeesUpdate = await Follow.updateOne(
+			{ user: id },
+			{ $push: { followees: user } }
+		)
+
+		const followersUpdate = await Follow.updateOne(
+			{ user },
+			{ $push: { followers: id } }
+		)
+
+		if (followeesUpdate.nModified === 1 && followersUpdate.nModified === 1)
+			return sendMessage('you are now following this user')
+
+		return sendErrorMessage('something went wrong')
+	} catch (error) {
+		return sendErrorMessage(error)
+	}
+}
+
 const resolver = {
 	Mutation: {
-		followUser: mainResolver(FOLLOW),
+		followUser,
 		unfollowUser: mainResolver(UNFOLLOW),
 	},
 }
