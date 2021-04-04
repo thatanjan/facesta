@@ -6,6 +6,10 @@ export const getFollowers: string = gql`
 			followers {
 				name
 				_id
+
+				profile {
+					profilePicture
+				}
 			}
 			errorMessage
 		}
@@ -18,6 +22,9 @@ export const getFollowees: string = gql`
 			followees {
 				name
 				_id
+				profile {
+					profilePicture
+				}
 			}
 			errorMessage
 		}
