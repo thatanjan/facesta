@@ -12,8 +12,10 @@ import DialogTitle from '@material-ui/core/DialogTitle'
 import { MuiPickersUtilsProvider } from '@material-ui/pickers'
 import DayUtils from '@date-io/dayjs'
 import { mutate } from 'swr'
-import { createStyles, Theme, makeStyles } from '@material-ui/core/styles'
-// import ChipsForm from 'components/arrayChips/chipsForm'
+import { createStyles, makeStyles } from '@material-ui/core/styles'
+
+import AutoExpandField from 'components/TextFields/AutoExpandField'
+
 import { getPersonalData as getPersonalDataMutation } from 'graphql/queries/profileQueries'
 import { updatePersonalData } from 'graphql/mutations/profileMutations'
 import useGetPersonal from 'hooks/useGetProfileData'
@@ -28,6 +30,10 @@ const ifDateOfBirth = (compare: string) => compare === DATE_OF_BIRTH
 const doIfDateOfBirthComponent = (value: string) => {
 	if (ifDateOfBirth(value)) {
 		return DatePicker
+	}
+
+	if (value === 'bio') {
+		return AutoExpandField
 	}
 
 	return TextField
@@ -57,7 +63,8 @@ const NewDetailsForm = ({ setIsAdding, isAdding }: Props) => {
 	if (error) return <div>...error</div>
 	if (!data) return <div>...loading</div>
 
-	console.log(data)
+	const userID = useOwnUserId()
+
 	const { getPersonalData } = data
 
 	const initialData = getPersonalData
@@ -69,7 +76,7 @@ const NewDetailsForm = ({ setIsAdding, isAdding }: Props) => {
 		}
 	})
 
-	const [skills, setSkills] = useState(initialData.skills)
+	const [skills] = useState(initialData.skills)
 
 	return (
 		<Dialog
@@ -83,20 +90,27 @@ const NewDetailsForm = ({ setIsAdding, isAdding }: Props) => {
 			<MuiPickersUtilsProvider utils={DayUtils}>
 				<Formik
 					initialValues={initialData}
-					onSubmit={(values, { setSubmitting }) => {
+					onSubmit={async (values, { setSubmitting }) => {
 						const mutation1 = getPersonalDataMutation('name bio')
 						const mutation2 = getPersonalDataMutation()
 						// eslint-disable-next-line no-param-reassign
 						values.skills = skills
 
-						createRequest({ key: updatePersonalData, values })
-						mutate([mutation1, mutation2])
-						mutate([mutation2, mutation2])
+						if (typeof values.dateOfBirth === 'object') {
+							values.dateOfBirth = values.dateOfBirth.$d.toISOString()
+						}
 
-						setIsAdding(false)
-						setTimeout(() => {
-							setSubmitting(false)
-						}, 500)
+						const res = await createRequest({ key: updatePersonalData, values })
+
+						if (res) {
+							mutate([mutation1, userID])
+							mutate([mutation2, userID])
+
+							setTimeout(() => {
+								setIsAdding(false)
+								setSubmitting(false)
+							}, 500)
+						}
 					}}
 				>
 					{({ submitForm, isSubmitting }) => (
