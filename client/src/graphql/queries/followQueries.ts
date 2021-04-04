@@ -13,7 +13,7 @@ export const getFollowers: string = gql`
 `
 
 export const getFollowees: string = gql`
-	query getFollowees($user: ID!, $skip: ID!) {
+	query getFollowees($user: ID!, $skip: Int!) {
 		getFollowees(Input: { user: $user, skip: $skip }) {
 			followees {
 				name
