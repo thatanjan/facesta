@@ -6,13 +6,11 @@ import ListItemText from '@material-ui/core/ListItemText'
 import ListItemAvatar from '@material-ui/core/ListItemAvatar'
 import Avatar from '@material-ui/core/Avatar'
 import { nanoid } from 'nanoid'
-import InfiniteScroll from 'react-infinite-scroll-component'
 
 import { PostUser as User } from 'interfaces/post'
 import { useProfileUserID } from 'hooks/profileContextHooks'
 import MuiLink from 'components/Links/MuiLink'
-import { FOLLOWEES, FOLLOWERS } from 'variables/global'
-import { cloudinaryURL } from 'variables/global'
+import { cloudinaryURL, FOLLOWEES, FOLLOWERS } from 'variables/global'
 
 const useStyles = makeStyles((theme: Theme) => ({
 	root: {
@@ -33,19 +31,12 @@ interface Props {
 }
 
 export const FollowComponent = ({ name, hook }: Props) => {
-	const profileUserId = useProfileUserID()
-	const { data, error, setSize, size } = hook()
+	const { data, error, size } = hook()
 	const { root } = useStyles()
 
-	if (error) {
-		// eslint-disable-next-line
-		console.log(error)
-		return <div> error </div>
-	}
+	if (error) return <div> error </div>
 
 	if (!data) return <div> loading </div>
-
-	console.log(data)
 
 	let isLoadingMore = true
 
@@ -60,11 +51,10 @@ export const FollowComponent = ({ name, hook }: Props) => {
 					}
 				}
 
-				data.forEach(element => {
+				data.forEach((element: { getFollowees: { followees: User[] } }) => {
 					users = [...users, ...element.getFollowees.followees]
 				})
 
-				users = data.getFollowees?.followees
 				break
 
 			case FOLLOWERS:
@@ -74,20 +64,16 @@ export const FollowComponent = ({ name, hook }: Props) => {
 					}
 				}
 
-				data.forEach(element => {
+				data.forEach((element: { getFollowers: { followers: User[] } }) => {
 					users = [...users, ...element.getFollowers.followers]
 				})
 
-				users = data.getFollowers?.followers
 				break
 
 			default:
 				users = []
 		}
 	}
-
-	const avatar =
-		'https://www.thehairpin.com/wp-content/uploads/2010/12/0SjOFPkAOxl_4Yy2l.jpg'
 
 	return (
 		<>
@@ -101,7 +87,10 @@ export const FollowComponent = ({ name, hook }: Props) => {
 							href={`/profile/${_id}`}
 						>
 							<ListItemAvatar>
-								<Avatar alt={userName} src={cloudinaryURL(profilePicture)} />
+								<Avatar
+									alt={userName}
+									src={profilePicture && cloudinaryURL(profilePicture)}
+								/>
 							</ListItemAvatar>
 
 							<ListItemText primary={userName} />
