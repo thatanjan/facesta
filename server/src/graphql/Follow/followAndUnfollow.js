@@ -7,6 +7,15 @@ import { FOLLOWEES, FOLLOWERS } from 'variables/global'
 const FOLLOW = 'follow'
 const UNFOLLOW = 'unfollow'
 
+const checkIfUserExist = async (field, myID, otherUserID) => {
+	const filter = {}
+	filter[field] = { $in: otherUserID }
+
+	const query = await Follow.findOne({ user: myID, ...filter }, 'user')
+
+	return query
+}
+
 const getQuery = async (id, projection) => {
 	const users = await Follow.findOne({ user: id }, projection)
 
@@ -91,7 +100,7 @@ const followUser = async (_, { user }, { user: { id } }) => {
 		const filter = {}
 		filter.followees = { $in: user }
 
-		const followeesQuery = await Follow.findOne({ user: id, ...filter }, 'user')
+		const followeesQuery = await checkIfUserExist('followees', id, user)
 
 		if (followeesQuery) {
 			return sendErrorMessage('You are already following the user')
