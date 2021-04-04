@@ -2,19 +2,22 @@ import React, { useState } from 'react'
 import { Formik, Form, Field } from 'formik'
 import Button from '@material-ui/core/Button'
 import LinearProgress from '@material-ui/core/LinearProgress'
-import Grid from '@material-ui/core/Grid'
+import Box from '@material-ui/core/Box'
 import { DatePicker } from 'formik-material-ui-pickers'
 import { TextField } from 'formik-material-ui'
+import Dialog from '@material-ui/core/Dialog'
+import DialogActions from '@material-ui/core/DialogActions'
+import DialogContent from '@material-ui/core/DialogContent'
+import DialogTitle from '@material-ui/core/DialogTitle'
 import { MuiPickersUtilsProvider } from '@material-ui/pickers'
 import DayUtils from '@date-io/dayjs'
 import { mutate } from 'swr'
-
+import { createStyles, Theme, makeStyles } from '@material-ui/core/styles'
 // import ChipsForm from 'components/arrayChips/chipsForm'
 import { getPersonalData as getPersonalDataMutation } from 'graphql/queries/profileQueries'
 import { updatePersonalData } from 'graphql/mutations/profileMutations'
 import useGetPersonal from 'hooks/useGetProfileData'
 import { useOwnUserId } from 'hooks/userhooks'
-import { PersonalData } from 'interfaces/profile'
 import { DATE_OF_BIRTH, SKILLS } from 'variables/global'
 import createRequest from 'utils/createRequest'
 
@@ -32,11 +35,24 @@ const doIfDateOfBirthComponent = (value: string) => {
 
 interface Props {
 	setIsAdding: Function
+	isAdding: boolean
 }
 
-const NewDetailsForm = ({ setIsAdding }: Props) => {
-	const ownUserId = useOwnUserId()
+const useStyles = makeStyles(() =>
+	createStyles({
+		inputStyle: {
+			width: '100%',
+		},
+	})
+)
+
+const NewDetailsForm = ({ setIsAdding, isAdding }: Props) => {
+	const { inputStyle } = useStyles()
 	const { data, error } = useGetPersonal()
+
+	const handleClose = () => {
+		setIsAdding(false)
+	}
 
 	if (error) return <div>...error</div>
 	if (!data) return <div>...loading</div>
@@ -45,7 +61,6 @@ const NewDetailsForm = ({ setIsAdding }: Props) => {
 	const { getPersonalData } = data
 
 	const initialData = getPersonalData
-	// const initialData = {}
 
 	personalDetailsField.forEach((item: string) => {
 		const value = initialData[`${item}`]
@@ -56,78 +71,73 @@ const NewDetailsForm = ({ setIsAdding }: Props) => {
 
 	const [skills, setSkills] = useState(initialData.skills)
 
-	const chipsProps = { skills, setSkills }
-
 	return (
-		<MuiPickersUtilsProvider utils={DayUtils}>
-			<Formik
-				initialValues={initialData}
-				onSubmit={(values, { setSubmitting }) => {
-					const mutation1 = getPersonalDataMutation('name bio')
-					const mutation2 = getPersonalDataMutation()
-					// eslint-disable-next-line no-param-reassign
-					values.skills = skills
+		<Dialog
+			open={isAdding}
+			onClose={handleClose}
+			aria-labelledby='form-dialog-title'
+			fullWidth
+		>
+			<DialogTitle id='form-dialog-title'>Update your information </DialogTitle>
 
-					createRequest({ key: updatePersonalData, values })
-					mutate([mutation1, mutation2])
-					mutate([mutation2, mutation2])
+			<MuiPickersUtilsProvider utils={DayUtils}>
+				<Formik
+					initialValues={initialData}
+					onSubmit={(values, { setSubmitting }) => {
+						const mutation1 = getPersonalDataMutation('name bio')
+						const mutation2 = getPersonalDataMutation()
+						// eslint-disable-next-line no-param-reassign
+						values.skills = skills
 
-					setIsAdding(false)
-					setTimeout(() => {
-						setSubmitting(false)
-					}, 500)
-				}}
-			>
-				{({ submitForm, isSubmitting }) => (
-					<Form>
-						{personalDetailsField.map((item: string) => (
-							<div key={item}>
-								{item === SKILLS ? (
-									''
-								) : (
-									<Field
-										type='text'
-										component={doIfDateOfBirthComponent(item)}
-										name={item}
-										label={doIfDateOfBirthField(item)}
-										placeholder={item}
-									/>
-								)}
-							</div>
-						))}
+						createRequest({ key: updatePersonalData, values })
+						mutate([mutation1, mutation2])
+						mutate([mutation2, mutation2])
 
-						<br />
-						{isSubmitting && <LinearProgress />}
-						<br />
+						setIsAdding(false)
+						setTimeout(() => {
+							setSubmitting(false)
+						}, 500)
+					}}
+				>
+					{({ submitForm, isSubmitting }) => (
+						<Form>
+							<DialogContent>
+								{personalDetailsField.map((item: string) => (
+									<Box key={item}>
+										{item === SKILLS ? (
+											''
+										) : (
+											<Field
+												className={inputStyle}
+												type='text'
+												component={doIfDateOfBirthComponent(item)}
+												name={item}
+												label={doIfDateOfBirthField(item)}
+												placeholder={item}
+											/>
+										)}
+									</Box>
+								))}
 
-						<Grid container justify='space-between'>
-							<Grid item>
-								<Button
-									variant='contained'
-									color='primary'
-									disabled={isSubmitting}
-									onClick={submitForm}
-								>
-									Submit
-								</Button>
-							</Grid>
-							<Grid item>
-								<Button
-									variant='contained'
-									color='secondary'
-									disabled={isSubmitting}
-									onClick={() => setIsAdding(false)}
-								>
-									cancel
-								</Button>
-							</Grid>
-						</Grid>
-					</Form>
-				)}
-			</Formik>
-		</MuiPickersUtilsProvider>
+								<br />
+								{isSubmitting && <LinearProgress />}
+								<br />
+
+								<DialogActions>
+									<Button disabled={isSubmitting} onClick={handleClose} color='primary'>
+										Cancel
+									</Button>
+									<Button disabled={isSubmitting} onClick={submitForm} color='primary'>
+										Submit
+									</Button>
+								</DialogActions>
+							</DialogContent>{' '}
+						</Form>
+					)}
+				</Formik>
+			</MuiPickersUtilsProvider>
+		</Dialog>
 	)
 }
 
-// {/* <ChipsForm {...chipsProps} /> */}
 export default NewDetailsForm

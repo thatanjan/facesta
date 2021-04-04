@@ -21,6 +21,8 @@ const NewDetails = () => {
 	const { buttonStyle } = useStyles()
 	const [isAdding, setIsAdding] = useState(false)
 
+	const formProps = { isAdding, setIsAdding }
+
 	return (
 		<>
 			<Grid container justify='flex-end'>
@@ -37,7 +39,7 @@ const NewDetails = () => {
 				</Grid>
 			</Grid>
 
-			{isAdding && <NewDetailsForm setIsAdding={setIsAdding} />}
+			{isAdding && <NewDetailsForm {...formProps} />}
 		</>
 	)
 }
