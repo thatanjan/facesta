@@ -164,6 +164,7 @@ const SinglePost = ({
 				height={720}
 				width={1280}
 				objectFit='cover'
+				quality={50}
 				onClick={redirectToPostPage}
 			/>
 			<CardActions disableSpacing className={CardActionsStyle}>
