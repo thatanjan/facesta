@@ -7,6 +7,7 @@ import ListItemText from '@material-ui/core/ListItemText'
 import ListItemAvatar from '@material-ui/core/ListItemAvatar'
 import Avatar from '@material-ui/core/Avatar'
 import Typography from '@material-ui/core/Typography'
+import ReactInfiniteScroll from 'react-infinite-scroll-component'
 import { nanoid } from 'nanoid'
 
 import { useGetAllComments, Input as HookInput } from 'hooks/commentHooks'
@@ -30,7 +31,7 @@ interface Props extends HookInput {
 }
 
 const CommentList = ({ postID, postUserID, newCommentAdded }: Props) => {
-	const classes = useStyles()
+	const { root } = useStyles()
 
 	const { data, error, setSize, size, mutate } = useGetAllComments({
 		postID,
@@ -39,9 +40,16 @@ const CommentList = ({ postID, postUserID, newCommentAdded }: Props) => {
 
 	console.log(data)
 
+	let isLoadingMore = true
 	let allComments: Comment[] = []
 
 	if (data) {
+		if (data[size - 1]) {
+			if (data[size - 1].getAllComments?.comments.length === 0) {
+				isLoadingMore = false
+			}
+		}
+
 		data.forEach(element => {
 			allComments = [...allComments, ...element.getAllComments.comments]
 		})
@@ -55,7 +63,14 @@ const CommentList = ({ postID, postUserID, newCommentAdded }: Props) => {
 
 	return (
 		<>
-			<List className={classes.root}>
+			<List
+				className={root}
+				component={ReactInfiniteScroll}
+				dataLength={allComments.length}
+				next={() => setSize(size + 1)}
+				hasMore={isLoadingMore as boolean}
+				loader={<h4>Loading...</h4>}
+			>
 				{Array.isArray(data) &&
 					allComments.map(
 						({
