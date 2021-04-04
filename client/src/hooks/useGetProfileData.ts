@@ -10,7 +10,7 @@ const useGetPersonalData = (output?: string | undefined) => {
 	return useSWRgql({
 		key: mutation,
 		values,
-		swrDependencies: getPersonalData(),
+		swrDependencies: user,
 	})
 }
 
