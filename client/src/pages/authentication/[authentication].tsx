@@ -5,65 +5,50 @@ import { useRouter } from 'next/router'
 import Image from 'next/image'
 import React, { useState, useEffect } from 'react'
 import CircularProgress from '@material-ui/core/CircularProgress'
-import Box from '@material-ui/core/Box'
+import Grid from '@material-ui/core/Grid'
+import Paper from '@material-ui/core/Paper'
 import {
 	makeStyles,
 	createStyles,
 	ThemeProvider,
+	Theme,
 } from '@material-ui/core/styles'
-
-import Paper from '@material-ui/core/Paper'
+import clsx from 'clsx'
 
 import { lightTheme } from 'themes/theme'
 import capitalize from 'utils/capitalize'
-import { LOGIN, SIGN_UP } from 'variables/global'
+import { LOGIN, SIGN_UP, APP_NAME } from 'variables/global'
 import getToken from 'utils/getToken'
 import createRedirectObject from 'utils/createRedirectObject'
 import checkValidJwt from 'utils/checkValidJwt'
 import Requset from 'interfaces/requsetResponse'
 
-const useStyles = makeStyles(() =>
+const useStyles = makeStyles((theme: Theme) =>
 	createStyles({
-		boxContainerStyle: {
+		containerStyle: {
 			maxWidth: '100vw',
 			height: '100vh',
 		},
-		logInBackground: {
-			objectFit: 'cover',
-			zIndex: -2,
-		},
-		backgroundImageOverlay: {
-			height: '100vh',
-			width: '100vw',
-			position: 'absolute',
-			top: '0',
-			left: '0',
-			background: 'black',
-			opacity: '0.7',
-			zIndex: -1,
-		},
+
 		formContainer: {
-			display: 'grid',
-			width: '80vw',
-			maxWidth: '30rem',
-			justifyContent: 'center',
-			alignContent: 'center',
-
-			margin: '0 auto',
-
-			top: '50%',
-			position: 'relative',
-			transform: 'translateY(-50%)',
-
+			background: theme.palette.background.paper,
+			padding: '2rem ',
+			'& > a': {
+				margin: '10px 0',
+				padding: '10px',
+				flexBasis: '100%',
+			},
 			'& >  form': {
-				padding: '2rem 0 ',
-
+				flexBasis: '100%',
 				'& > a ': {
 					paddingBottom: '1rem',
 				},
 				'& > div': {
 					width: '100%',
 					paddingBottom: '1rem',
+				},
+				'& > button': {
+					width: '100%',
 				},
 			},
 		},
@@ -93,7 +78,7 @@ const UserAuthenticationPage = () => {
 
 	const {
 		logInBackground,
-		boxContainerStyle,
+		containerStyle,
 		backgroundImageOverlay,
 		formContainer,
 	} = useStyles()
@@ -112,21 +97,29 @@ const UserAuthenticationPage = () => {
 				<meta name={pageTitle} content={`users can ${pageTitle} here`} />
 			</Head>
 
-			<ThemeProvider theme={lightTheme}>
-				<Box className={boxContainerStyle}>
-					<Image
-						className={logInBackground}
-						src='/images/log_in_background_image.jpg'
-						alt='hello world'
-						layout='fill'
-					/>
-					<Paper className={formContainer}>
+			<Grid container className={containerStyle}>
+				<Grid item xs={12} md={6}>
+					{APP_NAME}
+				</Grid>
+				<Grid md={6} xs={12} container justify='center' alignItems='center' item>
+					<Grid
+						container
+						justify='center'
+						item
+						xs={8}
+						sm={6}
+						md={8}
+						lg={6}
+						xl={5}
+						className={clsx(formContainer, 'MuiPaper-rounded')}
+						component={Paper}
+						square
+					>
 						{auth === LOGIN && <LogInForm />}
 						{auth === SIGN_UP && <SignUpForm />}
-					</Paper>
-				</Box>
-				<Paper className={backgroundImageOverlay} />
-			</ThemeProvider>
+					</Grid>
+				</Grid>
+			</Grid>
 		</>
 	)
 }

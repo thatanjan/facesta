@@ -104,14 +104,7 @@ const LogInForm = () => {
 					</Form>
 				)}
 			</Formik>
-			<MuiLink
-				MuiComponent={Button}
-				size='small'
-				href='/authentication/sign-up'
-				style={{
-					paddingBottom: '1rem',
-				}}
-			>
+			<MuiLink MuiComponent={Button} size='small' href='/authentication/sign-up'>
 				Don&apos;t have an account?
 			</MuiLink>
 
