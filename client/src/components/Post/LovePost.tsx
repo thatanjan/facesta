@@ -29,10 +29,9 @@ const LovePost = ({ totalLikes, postUserID, postID }: LoveProps) => {
 	const [showUsers, setShowUsers] = useState(false)
 	const [isLoved, setIsLoved] = useState(false)
 	const [totalNumberOfLikes, setTotalNumberOfLikes] = useState(0)
-	const [sendingRequest, setSendingRequst] = useState(false)
 	const { loveStyle } = useStyles()
 
-	const { data: hasLikedData } = useHasLiked({
+	const { data: hasLikedData, mutate } = useHasLiked({
 		postID,
 		user: postUserID,
 	})
@@ -40,7 +39,7 @@ const LovePost = ({ totalLikes, postUserID, postID }: LoveProps) => {
 	const hasLiked = hasLikedData?.hasLiked
 
 	useEffect(() => {
-		if (hasLiked) {
+		if (typeof hasLiked === 'boolean') {
 			setIsLoved(hasLiked)
 		}
 	}, [hasLiked])
@@ -54,17 +53,13 @@ const LovePost = ({ totalLikes, postUserID, postID }: LoveProps) => {
 			setIsLoved(!isLoved)
 		}
 
-		if (!sendingRequest) {
-			setSendingRequst(true)
+		const key = hasLiked ? removeLikePost : likePost
+		const values = { postID, user: postUserID }
 
-			const key = hasLiked ? removeLikePost : likePost
-			const values = { postID, user: postUserID }
+		const response = await createRequest({ key, values })
 
-			const response = await createRequest({ key, values })
-
-			if (response) {
-				setSendingRequst(false)
-			}
+		if (response) {
+			mutate()
 		}
 	}
 
