@@ -142,11 +142,7 @@ const SignUpForm = () => {
 				MuiComponent={Button}
 				color='primary'
 				size='small'
-				component='button'
 				href='/authentication/login'
-				style={{
-					paddingBottom: '1rem',
-				}}
 			>
 				have an account?
 			</MuiLink>
