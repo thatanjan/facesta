@@ -2,20 +2,20 @@ import { GetServerSideProps } from 'next'
 import dynamic from 'next/dynamic'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
-import Image from 'next/image'
 import React, { useState, useEffect } from 'react'
 import CircularProgress from '@material-ui/core/CircularProgress'
 import Grid from '@material-ui/core/Grid'
 import Paper from '@material-ui/core/Paper'
+import Typography from '@material-ui/core/Typography'
 import {
 	makeStyles,
 	createStyles,
-	ThemeProvider,
 	Theme,
+	useTheme,
 } from '@material-ui/core/styles'
+import useMediaQuery from '@material-ui/core/useMediaQuery'
 import clsx from 'clsx'
 
-import { lightTheme } from 'themes/theme'
 import capitalize from 'utils/capitalize'
 import { LOGIN, SIGN_UP, APP_NAME } from 'variables/global'
 import getToken from 'utils/getToken'
@@ -33,6 +33,12 @@ const useStyles = makeStyles((theme: Theme) =>
 		formContainer: {
 			background: theme.palette.background.paper,
 			padding: '2rem ',
+
+			'@media (max-width:400px)': {
+				maxWidth: 'none',
+				flexBasis: '90%',
+			},
+
 			'& > a': {
 				margin: '10px 0',
 				padding: '10px',
@@ -50,6 +56,15 @@ const useStyles = makeStyles((theme: Theme) =>
 				'& > button': {
 					width: '100%',
 				},
+			},
+		},
+		headerStyle: {
+			textAlign: 'center',
+			alignSelf: 'center',
+
+			[theme.breakpoints.up('md')]: {
+				paddingLeft: theme.spacing(6),
+				textAlign: 'start',
 			},
 		},
 	})
@@ -76,12 +91,10 @@ const UserAuthenticationPage = () => {
 
 	const [pageTitle, setPageTitle] = useState('Loading')
 
-	const {
-		logInBackground,
-		containerStyle,
-		backgroundImageOverlay,
-		formContainer,
-	} = useStyles()
+	const theme = useTheme()
+	const largerThanMD = useMediaQuery(theme.breakpoints.up('md'))
+
+	const { containerStyle, formContainer, headerStyle } = useStyles()
 
 	useEffect(() => {
 		if (auth) {
@@ -98,10 +111,21 @@ const UserAuthenticationPage = () => {
 			</Head>
 
 			<Grid container className={containerStyle}>
-				<Grid item xs={12} md={6}>
-					{APP_NAME}
+				<Grid item xs={12} md={6} className={headerStyle}>
+					<Typography variant='h1'> {APP_NAME}</Typography>
+					<Typography variant='h4'>
+						Let your Imposter Syndrome come from your brain
+					</Typography>
 				</Grid>
-				<Grid md={6} xs={12} container justify='center' alignItems='center' item>
+
+				<Grid
+					md={6}
+					xs={12}
+					container
+					justify='center'
+					alignItems={largerThanMD ? 'center' : 'baseline'}
+					item
+				>
 					<Grid
 						container
 						justify='center'
