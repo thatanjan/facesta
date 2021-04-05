@@ -47,6 +47,9 @@ const AllLovedUser = ({ showUsers, setShowUsers, title }: Props) => {
 
 	useEffect(() => {
 		mutate()
+		return () => {
+			mutate(data, false)
+		}
 	}, [])
 
 	return (
