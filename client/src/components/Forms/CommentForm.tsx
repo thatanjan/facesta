@@ -44,14 +44,15 @@ function CommentForm({
 				}
 				return errors
 			}}
-			onSubmit={async ({ comment }) => {
+			onSubmit={async ({ comment }, { resetForm }) => {
 				const values = { text: comment, postID, user: ownUserID }
 				const res = await createRequest({ key: commentPost, values })
+				Cookies.remove('comment')
 
 				if (res) {
 					setNewCommentAdded(true)
+					resetForm()
 					mutate([getTotalComments, postUserID])
-					console.log(res)
 				}
 			}}
 		>
