@@ -8,6 +8,7 @@ import { makeStyles, Theme } from '@material-ui/core/styles'
 
 import { cloudinaryURL } from 'variables/global'
 
+import Alert from 'components/Alerts/Alert'
 import CommentList from 'components/Comment/CommentList'
 import CommentForm from 'components/Forms/CommentForm'
 
@@ -32,6 +33,7 @@ const useStyles = makeStyles((theme: Theme) => ({
 
 const SinglePostPage = () => {
 	const [newCommentAdded, setNewCommentAdded] = useState(false)
+	const [showAlert, setShowAlert] = useState(false)
 
 	const { root } = useStyles()
 
@@ -83,11 +85,16 @@ const SinglePostPage = () => {
 		ownUserID,
 		setNewCommentAdded,
 		postUserID: postUser as string,
+		setShowAlert,
 	}
 
 	return (
 		<>
 			<SinglePost {...(post as Post)} postPage />
+
+			{showAlert && (
+				<Alert checked severity='error' message='Posting comment failed' />
+			)}
 
 			<List className={root}>
 				<ListItem alignItems='flex-start'>

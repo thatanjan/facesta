@@ -22,6 +22,7 @@ interface Props {
 	postUserID: string
 	ownUserID: string
 	setNewCommentAdded: (val: boolean) => void
+	setShowAlert: (val: boolean) => void
 }
 
 function CommentForm({
@@ -29,6 +30,7 @@ function CommentForm({
 	ownUserID,
 	setNewCommentAdded,
 	postUserID,
+	setShowAlert,
 }: Props) {
 	const matches = useMediaQuery((theme: Theme) => theme.breakpoints.up('md'))
 
@@ -45,14 +47,30 @@ function CommentForm({
 				return errors
 			}}
 			onSubmit={async ({ comment }, { resetForm }) => {
-				const values = { text: comment, postID, user: ownUserID }
-				const res = await createRequest({ key: commentPost, values })
-				Cookies.remove('comment')
+				try {
+					const values = { text: comment, postID, user: ownUserID }
+					const res = await createRequest({ key: commentPost, values })
+					Cookies.remove('comment')
 
-				if (res) {
-					setNewCommentAdded(true)
-					resetForm()
-					mutate([getTotalComments, postUserID])
+					if (res.message) {
+						setNewCommentAdded(true)
+						resetForm()
+						mutate([getTotalComments, postUserID])
+					}
+
+					if (res.errorMessage) {
+						setShowAlert(true)
+
+						setTimeout(() => {
+							setShowAlert(false)
+						}, 3000)
+					}
+				} catch (_) {
+					setShowAlert(true)
+
+					setTimeout(() => {
+						setShowAlert(false)
+					}, 3000)
 				}
 			}}
 		>
