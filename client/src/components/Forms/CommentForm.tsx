@@ -11,6 +11,7 @@ import AutoExpandField from 'components/TextFields/AutoExpandField'
 import { getTotalComments } from 'graphql/queries/postQueries'
 
 import createRequest from 'utils/createRequest'
+import showAlert from 'utils/showAlert'
 import { commentPost } from 'graphql/mutations/postMutations'
 
 interface Values {
@@ -59,18 +60,10 @@ function CommentForm({
 					}
 
 					if (res.errorMessage) {
-						setShowAlert(true)
-
-						setTimeout(() => {
-							setShowAlert(false)
-						}, 3000)
+						showAlert(setShowAlert)
 					}
 				} catch (_) {
-					setShowAlert(true)
-
-					setTimeout(() => {
-						setShowAlert(false)
-					}, 3000)
+					showAlert(setShowAlert)
 				}
 			}}
 		>
