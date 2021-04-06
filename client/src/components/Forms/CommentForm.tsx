@@ -21,14 +21,12 @@ interface Values {
 interface Props {
 	postID: string
 	postUserID: string
-	ownUserID: string
 	setNewCommentAdded: (val: boolean) => void
 	setShowAlert: (val: boolean) => void
 }
 
 function CommentForm({
 	postID,
-	ownUserID,
 	setNewCommentAdded,
 	postUserID,
 	setShowAlert,
@@ -49,17 +47,23 @@ function CommentForm({
 			}}
 			onSubmit={async ({ comment }, { resetForm }) => {
 				try {
-					const values = { text: comment, postID, user: ownUserID }
+					const values = { text: comment, postID, user: postUserID }
 					const res = await createRequest({ key: commentPost, values })
 					Cookies.remove('comment')
 
-					if (res.message) {
+					console.log(res)
+
+					const {
+						commentPost: { message, errorMessage },
+					} = res
+
+					if (message) {
 						setNewCommentAdded(true)
 						resetForm()
 						mutate([getTotalComments, postUserID])
 					}
 
-					if (res.errorMessage) {
+					if (errorMessage) {
 						showAlert(setShowAlert)
 					}
 				} catch (_) {
