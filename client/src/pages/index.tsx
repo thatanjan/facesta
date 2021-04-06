@@ -1,4 +1,4 @@
-import {useState} from 'react'
+import { useState } from 'react'
 import Head from 'next/head'
 import { GetServerSideProps } from 'next'
 
@@ -19,12 +19,11 @@ interface Props extends PropsWithUserData {}
 const PageContent = () => {
 	const [shouldMutate, setShouldMutate] = useState(false)
 
-
 	return (
 		<>
-			<CreatePost {...{setShouldMutate}} />
+			<CreatePost {...{ setShouldMutate }} />
 
-			<AllPost {...{shouldMutate, setShouldMutate}}  />
+			<AllPost {...{ shouldMutate, setShouldMutate }} />
 		</>
 	)
 }

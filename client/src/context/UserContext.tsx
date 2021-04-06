@@ -27,6 +27,7 @@ export const UserContext = createContext({})
 
 const UserContextProvider = ({ children, userData }: Props) => {
 	const [user, setUser] = useState<AnyObject>(initialState)
+	const [haveSeenFeedOnce, setHaveSeenFeedOnce] = useState(false)
 
 	const userMemoData = useMemo(() => userData, [userData])
 
@@ -37,7 +38,9 @@ const UserContextProvider = ({ children, userData }: Props) => {
 	}, [userMemoData])
 
 	return (
-		<UserContext.Provider value={[user, setUser]}>
+		<UserContext.Provider
+			value={[user, setUser, haveSeenFeedOnce, setHaveSeenFeedOnce]}
+		>
 			{children}
 		</UserContext.Provider>
 	)

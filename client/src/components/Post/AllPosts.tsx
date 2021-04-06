@@ -6,6 +6,7 @@ import InfiniteScroll from 'react-infinite-scroll-component'
 import Post from 'interfaces/post'
 import SinglePost from 'components/Post/SinglePost'
 import { useGetNewsFeedPost } from 'hooks/useGetPost'
+import { useHaveSeenFeedOnce } from 'hooks/userhooks'
 import Alert from 'components/Alerts/Alert'
 
 interface Props {
@@ -14,12 +15,25 @@ interface Props {
 
 const PostsSection = ({ shouldMutate }: Props) => {
 	const { data, error, setSize, size, mutate } = useGetNewsFeedPost()
+	const [haveSeenFeedOnce, setHaveSeenFeedOnce] = useHaveSeenFeedOnce()
 
 	useEffect(() => {
 		if (shouldMutate) {
 			mutate()
 		}
 	}, [shouldMutate])
+
+	useEffect(() => {
+		if (haveSeenFeedOnce && !shouldMutate) {
+			mutate()
+		}
+	}, [haveSeenFeedOnce])
+
+	useEffect(() => {
+		if (!haveSeenFeedOnce) {
+			setHaveSeenFeedOnce(true)
+		}
+	}, [])
 
 	if (!data)
 		return (

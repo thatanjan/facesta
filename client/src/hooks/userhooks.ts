@@ -15,4 +15,12 @@ export const useSetUser = () => {
 	return setUser
 }
 
+export const useHaveSeenFeedOnce = () => {
+	const [, , haveSeenFeedOnce, setHaveSeenFeedOnce]: any = useContext(
+		UserContext
+	)
+
+	return [haveSeenFeedOnce, setHaveSeenFeedOnce]
+}
+
 export default useGetUser
