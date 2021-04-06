@@ -75,8 +75,6 @@ function CommentForm({
 				<Form>
 					<Field component={AutoExpandField} name='comment' />
 					<br />
-					{isSubmitting && <div>Submitting</div>}
-					<br />
 					<Button
 						size={matches ? 'medium' : 'small'}
 						variant='contained'

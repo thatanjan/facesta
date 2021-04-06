@@ -218,8 +218,6 @@ const CreatePostModal = ({
 									/>
 									<Field component={AutoExpandField} name={POST_TEXT} />
 									<br />
-									{isSubmitting && <div>Submitting</div>}
-									<br />
 
 									<Grid container alignItems='flex-end' justify='space-between'>
 										<Grid item>
