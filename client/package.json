@@ -24,6 +24,7 @@
 		"formik-material-ui-pickers": "^0.0.12",
 		"graphql": "^15.4.0",
 		"graphql-request": "^3.4.0",
+		"immer": "^9.0.1",
 		"immutable": "^4.0.0-rc.12",
 		"js-cookie": "^2.2.1",
 		"jwt-decode": "^3.1.2",
