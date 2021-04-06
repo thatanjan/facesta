@@ -15,8 +15,8 @@ const useStyles = makeStyles((theme: Theme) =>
 )
 
 export interface Props {
-	severity: 'error' | 'success'
-	message: 'string'
+	severity: 'error' | 'success' | 'info'
+	message: string
 	checked: boolean
 }
 
