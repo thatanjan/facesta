@@ -61,6 +61,7 @@ const useStyles = makeStyles(theme => ({
 interface Props {
 	isClicked: boolean
 	setIsClicked: Function
+	setShouldMutate: (bool: boolean) => void
 }
 
 interface Values {
@@ -75,7 +76,11 @@ interface Inputs {
 	markdown: boolean
 }
 
-const CreatePostModal = ({ isClicked, setIsClicked }: Props) => {
+const CreatePostModal = ({
+	isClicked,
+	setIsClicked,
+	setShouldMutate,
+}: Props) => {
 	const matches = useMediaQuery((theme: Theme) => theme.breakpoints.up('md'))
 	const [postPreviewLink, setPostPreviewLink] = useState('')
 	const [uploadingPost, setUploadingPost] = useState(false)
@@ -128,6 +133,7 @@ const CreatePostModal = ({ isClicked, setIsClicked }: Props) => {
 		setUploadingPost,
 		action,
 		closePostModal,
+		setShouldMutate,
 	}
 
 	const postHeader: string = Cookies.get(POST_HEADER) || ''

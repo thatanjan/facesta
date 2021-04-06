@@ -26,6 +26,7 @@ export interface Props {
 	uploadingPost: boolean
 	setUploadingPost: (bool: boolean) => void
 	closePostModal: () => void
+	setShouldMutate: (bool: boolean) => void
 }
 
 const ProfilePictureUpload = ({
@@ -34,6 +35,7 @@ const ProfilePictureUpload = ({
 	uploadingPost,
 	setUploadingPost,
 	closePostModal,
+	setShouldMutate,
 }: Props) => {
 	const [file, setFile] = useState<CustomFile | {}>({})
 	const [base64, setBase64] = useState<Base64>('')
@@ -99,6 +101,8 @@ const ProfilePictureUpload = ({
 							severity: 'success',
 						}))
 						setSuccess(true)
+						setShouldMutate(true)
+						setTimeout(() => setShouldMutate(false))
 					}
 
 					if (errorMessage) {

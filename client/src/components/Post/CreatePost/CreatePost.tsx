@@ -29,7 +29,11 @@ const useStyles = makeStyles({
 	},
 })
 
-export const CreatePost = () => {
+interface Props {
+	setShouldMutate: (bool: boolean) => void
+}
+
+export const CreatePost = ({ setShouldMutate }: Props) => {
 	const { inputStyle, inputGridItem } = useStyles()
 
 	const [isClicked, setIsClicked] = useState(false)
@@ -56,7 +60,7 @@ export const CreatePost = () => {
 							/>
 						</Grid>
 						{isClicked && (
-							<CreatePostModal isClicked={isClicked} setIsClicked={setIsClicked} />
+							<CreatePostModal {...{ isClicked, setIsClicked, setShouldMutate }} />
 						)}
 					</Grid>
 				</CardContent>

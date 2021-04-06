@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { nanoid } from 'nanoid'
 
 import InfiniteScroll from 'react-infinite-scroll-component'
@@ -8,8 +8,18 @@ import SinglePost from 'components/Post/SinglePost'
 import { useGetNewsFeedPost } from 'hooks/useGetPost'
 import Alert from 'components/Alerts/Alert'
 
-const PostsSection = () => {
-	const { data, error, setSize, size } = useGetNewsFeedPost()
+interface Props {
+	shouldMutate: boolean
+}
+
+const PostsSection = ({ shouldMutate }: Props) => {
+	const { data, error, setSize, size, mutate } = useGetNewsFeedPost()
+
+	useEffect(() => {
+		if (shouldMutate) {
+			mutate()
+		}
+	}, [shouldMutate])
 
 	if (!data)
 		return (
