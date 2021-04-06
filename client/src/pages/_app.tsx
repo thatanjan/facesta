@@ -3,12 +3,16 @@ import React from 'react'
 import Head from 'next/head'
 import CssBaseline from '@material-ui/core/CssBaseline'
 import { ThemeProvider } from '@material-ui/core/styles'
-import useSWR, { SWRConfig } from 'swr'
+import { SWRConfig } from 'swr'
+import { enableAllPlugins } from 'immer'
 
 import theme from 'themes/theme'
+import { APP_NAME } from 'variables/global'
 
 export default function MyApp(props: AppProps) {
 	const { Component, pageProps } = props
+
+	enableAllPlugins()
 
 	React.useEffect(() => {
 		// Remove the server-side injected CSS.
@@ -21,7 +25,7 @@ export default function MyApp(props: AppProps) {
 	return (
 		<>
 			<Head>
-				<title>My page</title>
+				<title>{APP_NAME}</title>
 				<meta
 					name='viewport'
 					content='minimum-scale=1, initial-scale=1, width=device-width'
