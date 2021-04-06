@@ -12,7 +12,7 @@ import ImagePreview from 'components/Images/ImagePreview'
 import { useOwnUserId } from 'hooks/userhooks'
 import makeBase64 from 'utils/makeBase64Image'
 import { getUser } from 'graphql/queries/profileQueries'
-import UploadAlert, { Props as AlertProps } from 'components/Alerts/UploadAlert'
+import UploadAlert, { Props as AlertProps } from 'components/Alerts/Alert'
 
 import { CustomFile } from 'interfaces/upload'
 
