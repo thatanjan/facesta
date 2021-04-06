@@ -4,6 +4,7 @@ import { useRouter } from 'next/router'
 import Typography from '@material-ui/core/Typography'
 import Grid from '@material-ui/core/Grid'
 import { makeStyles, Theme } from '@material-ui/core/styles'
+import { cache } from 'swr'
 
 import { LOGIN_URL, APP_NAME } from 'variables/global'
 
@@ -29,6 +30,7 @@ const Logout = () => {
 
 	const { push } = useRouter()
 
+	cache.clear()
 	Cookies.remove('jwt')
 
 	useEffect(() => {
