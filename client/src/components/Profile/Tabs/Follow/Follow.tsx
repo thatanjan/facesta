@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { makeStyles, Theme } from '@material-ui/core/styles'
 import List from '@material-ui/core/List'
 import ListItem from '@material-ui/core/ListItem'
@@ -31,11 +31,28 @@ const useStyles = makeStyles((theme: Theme) => ({
 interface Props {
 	name: string
 	hook: Function
+	hasSeenBefore: boolean
+	setHasSeenBefore: (val: boolean) => void
 }
 
-export const FollowComponent = ({ name, hook }: Props) => {
-	const { data, error, size, setSize } = hook()
+export const FollowComponent = ({
+	name,
+	hook,
+	hasSeenBefore,
+	setHasSeenBefore,
+}: Props) => {
+	const { data, error, size, setSize, mutate } = hook()
 	const { root } = useStyles()
+
+	useEffect(() => {
+		if (!hasSeenBefore) {
+			setHasSeenBefore(true)
+		}
+
+		if (hasSeenBefore) {
+			mutate()
+		}
+	}, [hasSeenBefore])
 
 	if (error) return <div> error </div>
 

@@ -1,5 +1,5 @@
 import dynamic from 'next/dynamic'
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import AppBar from '@material-ui/core/AppBar'
 import Tabs from '@material-ui/core/Tabs'
@@ -18,12 +18,18 @@ const FollowSection = dynamic(
 	() => import('components/Profile/Tabs/Follow/Follow')
 )
 
+type SetStateBool = (val: boolean) => void
+
 class TabBuilder {
 	Component: Function
 
 	name: string
 
 	hook?: Function
+
+	hasSeenBefore?: boolean
+
+	setHasSeenBefore?: SetStateBool
 
 	constructor(name: string, Component: Function) {
 		this.name = name
@@ -33,6 +39,11 @@ class TabBuilder {
 	addHook(hook: Function) {
 		this.hook = hook
 		return this
+	}
+
+	addState(state: boolean, setState: SetStateBool) {
+		this.hasSeenBefore = state
+		this.setHasSeenBefore = setState
 	}
 }
 
@@ -51,6 +62,14 @@ const Posts: TabBuilder = new TabBuilder('Posts', PostsSection)
 const tabs: TabBuilder[] = [Posts, Followers, Followees, About]
 
 const TabPanel = ({ value, ...other }: any) => {
+	const [hasSeenFollowers, setHasSeenFollowers] = useState(false)
+	const [hasSeenFollowees, setHasSeenFollowees] = useState(false)
+	const [hasSeenAllpost, setHasSeenAllPost] = useState(false)
+
+	tabs[0].addState(hasSeenAllpost, setHasSeenAllPost)
+	tabs[1].addState(hasSeenFollowers, setHasSeenFollowers)
+	tabs[2].addState(hasSeenFollowees, setHasSeenFollowees)
+
 	const { Component, ...others } = tabs[value]
 
 	return (
