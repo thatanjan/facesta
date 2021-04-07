@@ -34,7 +34,11 @@ const schema = {
 export const PostSchema = new Schema(schema)
 
 const PostModel = modelName => {
-	const PostConnection = createConnection(process.env.POSTS_DB_URI)
+	const PostConnection = createConnection(process.env.POSTS_DB_URI, {
+		useNewUrlParser: true,
+		useFindAndModify: false,
+		useUnifiedTopology: true,
+	})
 	const Post = PostConnection.model(modelName, PostSchema)
 
 	return Post

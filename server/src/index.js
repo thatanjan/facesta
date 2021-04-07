@@ -35,6 +35,7 @@ app.use(bodyParser.json())
 mongoose
 	.connect(process.env.USERS_DB_URI, {
 		useNewUrlParser: true,
+		useFindAndModify: false,
 		useUnifiedTopology: true,
 	})
 	.then(() => {
