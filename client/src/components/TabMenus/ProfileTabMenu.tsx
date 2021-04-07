@@ -14,8 +14,8 @@ const PostsSection = dynamic(
 	() => import('components/Profile/Tabs/Posts/Posts')
 )
 const AboutTab = dynamic(() => import('components/Profile/Tabs/About/About'))
-const FollowSection = dynamic(
-	() => import('components/Profile/Tabs/Follow/Follow')
+const FollowersSection = dynamic(
+	() => import('components/Profile/Tabs/Follow/Followers')
 )
 const FolloweesSection = dynamic(
 	() => import('components/Profile/Tabs/Follow/Followees')
@@ -52,9 +52,10 @@ class TabBuilder {
 
 const About = new TabBuilder('About', AboutTab)
 
-const Followers: TabBuilder = new TabBuilder(FOLLOWERS, FollowSection).addHook(
-	useGetFollowers
-)
+const Followers: TabBuilder = new TabBuilder(
+	FOLLOWERS,
+	FollowersSection
+).addHook(useGetFollowers)
 
 const Followees: TabBuilder = new TabBuilder(
 	FOLLOWEES,
