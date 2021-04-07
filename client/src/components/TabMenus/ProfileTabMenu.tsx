@@ -17,6 +17,9 @@ const AboutTab = dynamic(() => import('components/Profile/Tabs/About/About'))
 const FollowSection = dynamic(
 	() => import('components/Profile/Tabs/Follow/Follow')
 )
+const FolloweesSection = dynamic(
+	() => import('components/Profile/Tabs/Follow/Followees')
+)
 
 type SetStateBool = (val: boolean) => void
 
@@ -53,9 +56,10 @@ const Followers: TabBuilder = new TabBuilder(FOLLOWERS, FollowSection).addHook(
 	useGetFollowers
 )
 
-const Followees: TabBuilder = new TabBuilder(FOLLOWEES, FollowSection).addHook(
-	useGetFollowees
-)
+const Followees: TabBuilder = new TabBuilder(
+	FOLLOWEES,
+	FolloweesSection
+).addHook(useGetFollowees)
 
 const Posts: TabBuilder = new TabBuilder('Posts', PostsSection)
 
