@@ -46,6 +46,8 @@ export const useGetNewsFeedPost = () => {
 	const userID = useOwnUserId()
 
 	const getKey = (index: number, previousPageData: AnyObject) => {
+		if (!userID) return null
+
 		if (previousPageData && previousPageData.getNewsFeedPost.posts.length === 0)
 			return null
 
