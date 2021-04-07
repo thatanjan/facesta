@@ -45,17 +45,17 @@ export const FollowComponent = ({
 	console.log(error)
 	const { root } = useStyles()
 
-	/* useEffect(() => { */
-	/* 	if (!hasSeenBefore) { */
-	/* 		console.log('first ran') */
-	/* 		setHasSeenBefore(true) */
-	/* 	} */
+	useEffect(() => {
+		if (!hasSeenBefore) {
+			console.log('first ran')
+			setHasSeenBefore(true)
+		}
 
-	/* 	if (hasSeenBefore) { */
-	/* 		console.log('ran') */
-	/* 		mutate() */
-	/* 	} */
-	/* }, []) */
+		if (hasSeenBefore) {
+			console.log('ran')
+			mutate()
+		}
+	}, [])
 
 	useEffect(() => {
 		return () => {
@@ -72,36 +72,15 @@ export const FollowComponent = ({
 	let users: User[] = []
 
 	if (data) {
-		switch (name) {
-			case FOLLOWEES:
-				if (data[size - 1]) {
-					if (data[size - 1].getFollowees?.followees.length === 0) {
-						isLoadingMore = false
-					}
-				}
-
-				data.forEach((element: { getFollowees: { followees: User[] } }) => {
-					users = [...users, ...element.getFollowees.followees]
-				})
-
-				break
-
-			case FOLLOWERS:
-				if (data[size - 1]) {
-					if (data[size - 1].getFollowers?.followers.length === 0) {
-						isLoadingMore = false
-					}
-				}
-
-				data.forEach((element: { getFollowers: { followers: User[] } }) => {
-					users = [...users, ...element.getFollowers.followers]
-				})
-
-				break
-
-			default:
-				users = []
+		if (data[size - 1]) {
+			if (data[size - 1].getFollowers?.followers.length === 0) {
+				isLoadingMore = false
+			}
 		}
+
+		data.forEach((element: { getFollowers: { followers: User[] } }) => {
+			users = [...users, ...element.getFollowers.followers]
+		})
 	}
 
 	return (
