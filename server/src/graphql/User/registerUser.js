@@ -1,14 +1,12 @@
-import {
-	findUser,
-	createProfile,
-	createFollowCollection,
-} from 'utils/authentication'
+import { findUser } from 'utils/authentication'
 import { hash } from 'bcryptjs'
 import generateToken from 'utils/generateToken'
 import sendErrorMessage from 'utils/errorMessage'
 import validateRegisterInput from 'validation/register'
 import User from 'models/User'
-import NewsFeedModel from 'models/NewsFeed'
+import Profile from 'models/Profile'
+import Follow from 'models/Follow'
+import NewsFeed from 'models/NewsFeed'
 import { ERROR_MESSAGE } from 'variables/global'
 
 // eslint-disable-next-line
@@ -16,12 +14,11 @@ const createUser = async ({ name, email, password }) => {
 	try {
 		const hashedPassword = await hash(password, 10)
 
-		const profile = await createProfile()
+		const profile = new Profile({ name })
 
-		const newsFeed = new NewsFeedModel()
+		const newsFeed = new NewsFeed()
 
 		const userModelData = {
-			name,
 			email,
 			password: hashedPassword,
 			profile: profile._id,
@@ -30,16 +27,16 @@ const createUser = async ({ name, email, password }) => {
 
 		const newUser = new User(userModelData)
 
-		const newUserId = newUser._id
+		const newUserID = newUser._id
 
-		newsFeed.user = newUserId
-		profile.user = newUser._id
+		newsFeed.user = newUserID
+		profile.user = newUserID
 
 		profile.save()
 
-		const followCollection = await createFollowCollection(newUser._id)
+		const follow = new Follow({ user: newUserID })
 
-		followCollection.save()
+		follow.save()
 
 		newsFeed.save()
 		return newUser.save()
@@ -83,7 +80,7 @@ const resolver = {
 				}
 
 				if (newUser[ERROR_MESSAGE]) {
-					return newUser
+					return newUser[ERROR_MESSAGE]
 				}
 
 				const { _id } = newUser
