@@ -3,7 +3,6 @@ import dynamic from 'next/dynamic'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
 import React, { useState, useEffect } from 'react'
-import CircularProgress from '@material-ui/core/CircularProgress'
 import Grid from '@material-ui/core/Grid'
 import Paper from '@material-ui/core/Paper'
 import Typography from '@material-ui/core/Typography'
@@ -15,6 +14,8 @@ import {
 } from '@material-ui/core/styles'
 import useMediaQuery from '@material-ui/core/useMediaQuery'
 import clsx from 'clsx'
+
+import CircularLoader from 'components/Loaders/CircularLoader'
 
 import capitalize from 'utils/capitalize'
 import { LOGIN, SIGN_UP, APP_NAME } from 'variables/global'
@@ -72,16 +73,12 @@ const useStyles = makeStyles((theme: Theme) =>
 
 const LogInForm = dynamic(
 	() => import('components/Forms/UserAuthenticationForms/LogInForm'),
-	{
-		loading: () => <CircularProgress />,
-	}
+	,{ loading: () => <CircularLoader  />  }
 )
 
 const SignUpForm = dynamic(
 	() => import('components/Forms/UserAuthenticationForms/SignUpForm'),
-	{
-		loading: () => <CircularProgress />,
-	}
+	,{ loading: () => <CircularLoader  />  }
 )
 
 const UserAuthenticationPage = () => {

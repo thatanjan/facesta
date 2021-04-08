@@ -8,7 +8,9 @@ import IconButton from '@material-ui/core/IconButton'
 import AccountCircleIcon from '@material-ui/icons/AccountCircle'
 import Input from '@material-ui/core/Input'
 
-const CreatePostModal = dynamic(() => import('./CreatePostModal'))
+const CreatePostModal = dynamic(() => import('./CreatePostModal'), {
+	loading: () => <CircularLoader />,
+})
 
 const useStyles = makeStyles({
 	inputGridItem: {

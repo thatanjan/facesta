@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import dynamic from 'next/dynamic'
 import { useRouter } from 'next/router'
 import { makeStyles, fade } from '@material-ui/core/styles'
 import AppBar from '@material-ui/core/AppBar'
@@ -11,11 +12,20 @@ import IconButton from '@material-ui/core/IconButton'
 import InputBase from '@material-ui/core/InputBase'
 import SearchIcon from '@material-ui/icons/Search'
 
-import NavigationDrawer from 'components/Drawers/NavigationDrawer'
+import CircularLoader from 'components/Loaders/CircularLoader'
+
 import { useDrawerDispatch } from 'hooks/drawerHooks'
 import { APP_NAME, screenSizeDrawer } from 'variables/global'
 
-import AppHeaderMenus from 'components/AppBars/AppHeaderMenus'
+const NavigationDrawer = dynamic(
+	() => import('components/Drawers/NavigationDrawer'),
+	{ loading: () => <CircularLoader /> }
+)
+
+const AppHeaderMenus = dynamic(
+	() => import('components/AppBars/AppHeaderMenus'),
+	{ loading: () => <CircularLoader /> }
+)
 
 const useStyles = makeStyles(theme => ({
 	root: {

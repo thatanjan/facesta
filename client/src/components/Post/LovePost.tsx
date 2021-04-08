@@ -7,11 +7,15 @@ import { makeStyles } from '@material-ui/core/styles'
 import Typography from '@material-ui/core/Typography'
 import IconButton from '@material-ui/core/IconButton'
 
+import CircularLoader from 'components/Loaders/CircularLoader'
+
 import { useHasLiked } from 'hooks/likeHooks'
 import createRequest from 'utils/createRequest'
 import { likePost, removeLikePost } from 'graphql/mutations/postMutations'
 
-const AllLovedUser = dynamic(() => import('./AllLovedUser'))
+const AllLovedUser = dynamic(() => import('./AllLovedUser'), {
+	loading: () => <CircularLoader />,
+})
 
 interface LoveProps {
 	postUserID: string

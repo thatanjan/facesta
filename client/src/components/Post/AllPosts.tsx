@@ -1,13 +1,22 @@
 import React, { useEffect } from 'react'
+import dynamic from 'next/dynamic'
 import { nanoid } from 'nanoid'
 
 import InfiniteScroll from 'react-infinite-scroll-component'
 
 import Post from 'interfaces/post'
-import SinglePost from 'components/Post/SinglePost'
+
+import CircularLoader from 'components/Loaders/CircularLoader'
 import { useGetNewsFeedPost } from 'hooks/useGetPost'
 import { useHaveSeenFeedOnce } from 'hooks/userhooks'
-import Alert from 'components/Alerts/Alert'
+
+const SinglePost = dynamic(() => import('components/Post/SinglePost'), {
+	loading: () => <CircularLoader />,
+})
+
+const Alert = dynamic(() => import('components/Alerts/Alert'), {
+	loading: () => <CircularLoader />,
+})
 
 interface Props {
 	shouldMutate: boolean

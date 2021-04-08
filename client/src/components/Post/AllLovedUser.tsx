@@ -3,13 +3,23 @@ import dynamic from 'next/dynamic'
 import InfiniteScroll from 'react-infinite-scroll-component'
 import { useRouter } from 'next/router'
 
-import ListContainer from 'components/List/UserListContainer'
-import UserList from 'components/List/UserList'
-
 import { PostUser as User } from 'interfaces/post'
 import { useGetAllLikes } from 'hooks/likeHooks'
 
-const UserListModal = dynamic(() => import('components/Modals/UserListModal'))
+import CircularLoader from 'components/Loaders/CircularLoader'
+
+const ListContainer = dynamic(
+	() => import('components/List/UserListContainer'),
+	{ loading: () => <CircularLoader /> }
+)
+
+const UserList = dynamic(() => import('components/List/UserList'), {
+	loading: () => <CircularLoader />,
+})
+
+const UserListModal = dynamic(() => import('components/Modals/UserListModal'), {
+	loading: () => <CircularLoader />,
+})
 
 interface Props {
 	showUsers: boolean

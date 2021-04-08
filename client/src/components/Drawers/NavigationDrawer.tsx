@@ -1,10 +1,16 @@
 import React from 'react'
+import dynamic from 'next/dynamic'
 import SwipeableDrawer from '@material-ui/core/SwipeableDrawer'
 import { makeStyles } from '@material-ui/core/styles'
 
-import NavigationDrawerList from 'components/Drawers/NavigationDrawerList'
+import CircularLoader from 'components/Loaders/CircularLoader'
 
 import { useDrawerState, useDrawerDispatch } from 'hooks/drawerHooks'
+
+const NavigationDrawerList = dynamic(
+	() => import('components/Drawers/NavigationDrawerList'),
+	{ loading: () => <CircularLoader /> }
+)
 
 const useStyles = makeStyles({
 	drawerStyle: {

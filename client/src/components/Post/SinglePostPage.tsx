@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import dynamic from 'next/dynamic'
 import { useRouter } from 'next/router'
 import Avatar from '@material-ui/core/Avatar/Avatar'
 import ListItem from '@material-ui/core/ListItem'
@@ -8,9 +9,7 @@ import { makeStyles, Theme } from '@material-ui/core/styles'
 
 import { cloudinaryURL } from 'variables/global'
 
-import Alert from 'components/Alerts/Alert'
-import CommentList from 'components/Comment/CommentList'
-import CommentForm from 'components/Forms/CommentForm'
+import CircularLoader from 'components/Loaders/CircularLoader'
 
 import { useGetSinglePost } from 'hooks/useGetPost'
 import { useProfileInfo } from 'hooks/useGetProfileData'
@@ -18,7 +17,21 @@ import { useOwnUserId } from 'hooks/userhooks'
 
 import Post from 'interfaces/post'
 
-import SinglePost from './SinglePost'
+const Alert = dynamic(() => import('components/Alerts/Alert'), {
+	loading: () => <CircularLoader />,
+})
+
+const CommentList = dynamic(() => import('components/Comment/CommentList'), {
+	loading: () => <CircularLoader />,
+})
+
+const CommentForm = dynamic(() => import('components/Forms/CommentForm'), {
+	loading: () => <CircularLoader />,
+})
+
+const SinglePost = dynamic(() => import('./SinglePost'), {
+	loading: () => <CircularLoader />,
+})
 
 const useStyles = makeStyles((theme: Theme) => ({
 	root: {

@@ -4,18 +4,24 @@ import useMediaQuery from '@material-ui/core/useMediaQuery'
 import Grid from '@material-ui/core/Grid'
 import { makeStyles } from '@material-ui/core/styles'
 
+import CircularLoader from 'components/Loaders/CircularLoader'
 import DrawerContextProvider from 'context/drawerContext'
-import AppHeader from 'components/AppBars/AppHeader'
 import { screenSizeDrawer } from 'variables/global'
 import BackgroundPaper from './BackgroundPaper'
 
 const NavigationDrawerList = dynamic(
-	() => import('components/Drawers/NavigationDrawerList')
+	() => import('components/Drawers/NavigationDrawerList'),
+	{ loading: () => <CircularLoader /> }
 )
 
 const BottomNavigation = dynamic(
-	() => import('components/Navigation/BottomNavigation/BottomNavigation')
+	() => import('components/Navigation/BottomNavigation/BottomNavigation'),
+	{ loading: () => <CircularLoader /> }
 )
+
+const AppHeader = dynamic(() => import('components/Loaders/CircularLoader'), {
+	loading: () => <CircularLoader />,
+})
 
 interface Props {
 	Content: Function

@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import dynamic from 'next/dynamic'
 import { Formik, Form, Field } from 'formik'
 import Button from '@material-ui/core/Button'
 import LinearProgress from '@material-ui/core/LinearProgress'
@@ -14,7 +15,12 @@ import DayUtils from '@date-io/dayjs'
 import { mutate } from 'swr'
 import { createStyles, makeStyles } from '@material-ui/core/styles'
 
-import AutoExpandField from 'components/TextFields/AutoExpandField'
+import CircularLoader from 'components/Loaders/CircularLoader'
+
+const AutoExpandField = dynamic(
+	() => import('components/TextFields/AutoExpandField'),
+	{ loading: () => <CircularLoader /> }
+)
 
 import { getPersonalData as getPersonalDataMutation } from 'graphql/queries/profileQueries'
 import { updatePersonalData } from 'graphql/mutations/profileMutations'

@@ -12,20 +12,27 @@ import CommentIcon from '@material-ui/icons/Comment'
 import Typography from '@material-ui/core/Typography'
 import Avatar from '@material-ui/core/Avatar'
 import Image from 'next/image'
-
 import { responseInterface } from 'swr'
 
 import { useGetTotalComment } from 'hooks/commentHooks'
+
+import CircularLoader from 'components/Loaders/CircularLoader'
 
 import { cloudinaryURL } from 'variables/global'
 import MuiLink from 'components/Links/MuiLink'
 import PostType from 'interfaces/post'
 
-import LovePost from './LovePost'
-import PostContent from './PostContent'
+const LovePost = dynamic(() => import('./LovePost'), {
+	loading: () => <CircularLoader />,
+})
+
+const PostContent = dynamic(() => import('./PostContent'), {
+	loading: () => <CircularLoader />,
+})
 
 const DropDownMenu = dynamic(
-	() => import('components/DropDownMenu/DropDownMenu')
+	() => import('components/DropDownMenu/DropDownMenu'),
+	{ loading: () => <CircularLoader /> }
 )
 
 const useStyles = makeStyles(theme => ({

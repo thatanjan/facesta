@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import dynamic from 'next/dynamic'
 import { Formik, Form, Field } from 'formik'
 import { makeStyles, Theme } from '@material-ui/core/styles'
 import Modal from '@material-ui/core/Modal'
@@ -14,16 +15,21 @@ import { mutate } from 'swr'
 import useMediaQuery from '@material-ui/core/useMediaQuery'
 import Cookies from 'js-cookie'
 
-import UploadImage, {
-	Props as UploadImageProps,
-	Base64,
-} from 'components/Upload/PostImageUpload'
+import CircularLoader from 'components/Loaders/CircularLoader'
 import { createPost } from 'graphql/mutations/postMutations'
 import { getNewsFeedPost } from 'graphql/queries/postQueries'
 import createRequest from 'utils/createRequest'
 import { useOwnUserId } from 'hooks/userhooks'
 
-import AutoExpandField from 'components/TextFields/AutoExpandField'
+import UploadImage, {
+	Props as UploadImageProps,
+	Base64,
+} from 'components/Upload/PostImageUpload'
+
+const AutoExpandField = dynamic(
+	() => import('components/TextFields/AutoExpandField'),
+	{ loading: () => <CircularLoader /> }
+)
 
 const useStyles = makeStyles(theme => ({
 	modal: {

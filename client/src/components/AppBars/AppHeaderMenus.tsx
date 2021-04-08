@@ -1,4 +1,5 @@
 import React from 'react'
+import dynamic from 'next/dynamic'
 import AddIcon from '@material-ui/icons/Add'
 import Typography from '@material-ui/core/Typography'
 import IconButton from '@material-ui/core/IconButton'
@@ -9,12 +10,18 @@ import ArrowDropDownCircleIcon from '@material-ui/icons/ArrowDropDownCircle'
 import { makeStyles, Theme } from '@material-ui/core/styles'
 import { useRouter } from 'next/router'
 
-import DropDownMenu from 'components/DropDownMenu/DropDownMenu'
+import CircularLoader from 'components/Loaders/CircularLoader'
+
 import MuiLink from 'components/Links/MuiLink'
 import useOwnUser from 'hooks/userhooks'
 import { useProfileInfo } from 'hooks/useGetProfileData'
 import splitText from 'utils/splitText'
 import { cloudinaryURL } from 'variables/global'
+
+const DropDownMenu = dynamic(
+	() => import('components/DropDownMenu/DropDownMenu'),
+	{ loading: () => <CircularLoader /> }
+)
 
 const useStyles = makeStyles((theme: Theme) => ({
 	AccountIconTextStyle: {

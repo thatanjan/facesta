@@ -4,7 +4,11 @@ import Button from '@material-ui/core/Button'
 import Grid from '@material-ui/core/Grid'
 import { makeStyles, Theme } from '@material-ui/core/styles'
 
-const NewDetailsForm = dynamic(() => import('./NewDetailsForm'))
+import CircularLoader from 'components/Loaders/CircularLoader'
+
+const NewDetailsForm = dynamic(() => import('./NewDetailsForm'), {
+	loading: () => <CircularLoader />,
+})
 
 const useStyles = makeStyles(({ spacing }: Theme) => ({
 	buttonStyle: {

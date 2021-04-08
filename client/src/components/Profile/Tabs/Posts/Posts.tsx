@@ -1,12 +1,18 @@
 import React from 'react'
 import { nanoid } from 'nanoid'
 import InfiniteScroll from 'react-infinite-scroll-component'
+import dynamic from 'next/dynamic'
+
+import CircularLoader from 'components/Loaders/CircularLoader'
 
 import Post from 'interfaces/post'
-import SinglePost from 'components/Post/SinglePost'
 import useGetAllPosts from 'hooks/useGetPost'
 import { useProfileInfo } from 'hooks/useGetProfileData'
 import { useProfileUserID } from 'hooks/profileContextHooks'
+
+const SinglePost = dynamic(() => import('components/Post/SinglePost'), {
+	loading: () => <CircularLoader />,
+})
 
 const Posts = () => {
 	const profileID = useProfileUserID()

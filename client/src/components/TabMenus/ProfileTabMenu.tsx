@@ -10,15 +10,24 @@ import { useRouter } from 'next/router'
 import { FOLLOWEES, FOLLOWERS } from 'variables/global'
 import { useGetFollowers, useGetFollowees } from 'hooks/followHooks'
 
+import CircularLoader from 'components/Loaders/CircularLoader'
+
 const PostsSection = dynamic(
-	() => import('components/Profile/Tabs/Posts/Posts')
+	() => import('components/Profile/Tabs/Posts/Posts'),
+	{ loading: () => <CircularLoader /> }
 )
-const AboutTab = dynamic(() => import('components/Profile/Tabs/About/About'))
+const AboutTab = dynamic(() => import('components/Profile/Tabs/About/About'), {
+	loading: () => <CircularLoader />,
+})
+
 const FollowersSection = dynamic(
-	() => import('components/Profile/Tabs/Follow/Followers')
+	() => import('components/Profile/Tabs/Follow/Followers'),
+	{ loading: () => <CircularLoader /> }
 )
+
 const FolloweesSection = dynamic(
-	() => import('components/Profile/Tabs/Follow/Followees')
+	() => import('components/Profile/Tabs/Follow/Followees'),
+	{ loading: () => <CircularLoader /> }
 )
 
 type SetStateBool = (val: boolean) => void

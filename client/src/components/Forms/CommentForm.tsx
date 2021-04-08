@@ -1,4 +1,5 @@
 import * as React from 'react'
+import dynamic from 'next/dynamic'
 import { Formik, Form, Field } from 'formik'
 import Button from '@material-ui/core/Button'
 import { Theme } from '@material-ui/core/styles'
@@ -6,13 +7,17 @@ import useMediaQuery from '@material-ui/core/useMediaQuery'
 import Cookies from 'js-cookie'
 import { mutate } from 'swr'
 
-import AutoExpandField from 'components/TextFields/AutoExpandField'
-
 import { getTotalComments } from 'graphql/queries/postQueries'
+import CircularLoader from 'components/Loaders/CircularLoader'
 
 import createRequest from 'utils/createRequest'
 import showAlert from 'utils/showAlert'
 import { commentPost } from 'graphql/mutations/postMutations'
+
+const AutoExpandField = dynamic(
+	() => import('components/TextFields/AutoExpandField'),
+	{ loading: () => <CircularLoader /> }
+)
 
 interface Values {
 	comment: ''
