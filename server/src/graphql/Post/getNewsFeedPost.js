@@ -21,7 +21,7 @@ const resolvers = {
 
 				if (empty) return { posts: [] }
 
-				const NewsFeedPosts = await NewsFeedModel.findOne({
+				const newsFeedPosts = await NewsFeedModel.findOne({
 					user: id,
 				})
 					.slice('posts', [-Math.abs(newSkip), returnNumber])
@@ -29,28 +29,32 @@ const resolvers = {
 						path: 'posts',
 						populate: {
 							path: 'user',
-							select: 'name',
 							populate: {
 								path: 'profile',
-								select: 'profilePicture',
+								select: 'profilePicture name',
 							},
 						},
 					})
 
-				const { posts } = NewsFeedPosts
+				const { posts } = newsFeedPosts
 				posts.reverse()
 
 				const allPosts = posts.map(({ post: postId, user: { _id: userID } }) => {
 					const PostModel = createPostModel(userID.toString())
-					return PostModel.findById(postId, projection)
+					return PostModel.findById(postId, {
+						likes: { $elemMatch: { $eq: id } },
+						...projection,
+					})
 				})
 
 				const postsWithContent = await Promise.all(allPosts)
 
 				const responseObject = { posts: [] }
+
 				posts.forEach((__, index) => {
 					const newObject = {
 						...postsWithContent[index].toObject(),
+						hasLiked: postsWithContent[index].likes.length === 1,
 						user: posts[index].user.toObject(),
 					}
 
