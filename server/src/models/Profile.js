@@ -8,6 +8,10 @@ const data = {
 		default: null,
 		ref: 'users',
 	},
+	name: {
+		type: String,
+		required: true,
+	},
 	personal: {
 		dateOfBirth: {
 			type: Date,

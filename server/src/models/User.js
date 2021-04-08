@@ -1,14 +1,10 @@
 import mongoose from 'mongoose'
 
-const Schema = mongoose.Schema
+const { Schema } = mongoose
 
 const objectId = mongoose.Schema.Types.ObjectId
 
 const schema = {
-	name: {
-		type: String,
-		required: true,
-	},
 	email: {
 		type: String,
 		required: true,
@@ -38,6 +34,6 @@ const schema = {
 
 const UserSchema = new Schema(schema, { versionKey: '1' })
 
-const User = mongoose.model('users', UserSchema)
+const User = mongoose.model('user', UserSchema)
 
 export default User
