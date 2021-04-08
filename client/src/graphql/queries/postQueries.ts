@@ -32,10 +32,10 @@ export const getSinglePost = gql`
 				date
 
 				user {
-					name
 					_id
 
 					profile {
+						name
 						profilePicture
 					}
 				}
@@ -58,10 +58,10 @@ export const getNewsFeedPost = gql`
 				date
 
 				user {
-					name
 					_id
 
 					profile {
+						name
 						profilePicture
 					}
 				}
@@ -96,8 +96,8 @@ export const getAllComments = gql`
 				date
 				text
 				user {
-					name
 					profile {
+						name
 						profilePicture
 					}
 				}
@@ -110,10 +110,10 @@ export const getAllLikes = gql`
 	query getAllLikes($postID: ID!, $user: ID!, $skip: Int!) {
 		getAllLikes(Input: { postID: $postID, user: $user, skip: $skip }) {
 			users {
-				name
 				_id
 
 				profile {
+					name
 					profilePicture
 				}
 			}

@@ -1,13 +1,19 @@
 import { gql } from 'graphql-request'
 
-const expectedOutput = 'dateOfBirth skills name bio website status location'
-
-export const getPersonalData = (output?: string | undefined): string => gql`
-	 query getPersonalData($user: ID!) {
-		 getPersonalData(user: $user) {
-			    ${output || expectedOutput}
-		 }
-} `
+export const getPersonalData = gql`
+	query getPersonalData($user: ID!) {
+		getPersonalData(user: $user) {
+			dateOfBirth
+			skills
+			name
+			bio
+			website
+			status
+			location
+			profilePicture
+		}
+	}
+`
 
 export const getProfilePicture = gql`
 	query getPersonalData($user: ID!) {
@@ -21,9 +27,9 @@ export const getProfilePicture = gql`
 export const getUser = gql`
 	query getUser($userID: ID!) {
 		getUser(userID: $userID) {
-			name
 			_id
 			profile {
+				name
 				profilePicture
 			}
 		}

@@ -4,10 +4,10 @@ export const getFollowers: string = gql`
 	query getFollowers($user: ID!, $skip: Int!) {
 		getFollowers(Input: { user: $user, skip: $skip }) {
 			followers {
-				name
 				_id
 
 				profile {
+					name
 					profilePicture
 				}
 			}
@@ -20,9 +20,9 @@ export const getFollowees: string = gql`
 	query getFollowees($user: ID!, $skip: Int!) {
 		getFollowees(Input: { user: $user, skip: $skip }) {
 			followees {
-				name
 				_id
 				profile {
+					name
 					profilePicture
 				}
 			}
