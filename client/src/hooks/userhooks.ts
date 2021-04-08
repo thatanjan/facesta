@@ -1,18 +1,12 @@
 import { useContext } from 'react'
 import { UserContext } from 'context/UserContext'
 
-const useGetUser = () => {
-	const [user]: any = useContext(UserContext)
-
-	return user
-}
-
-export const useOwnUserId = () => useGetUser().id
+export const useOwnUserId = () => useContext(UserContext).userID
 
 export const useSetUser = () => {
-	const [, setUser]: any = useContext(UserContext)
+	const [, setUserID]: any = useContext(UserContext)
 
-	return setUser
+	return setUserID
 }
 
 export const useHaveSeenFeedOnce = () => {
@@ -22,5 +16,3 @@ export const useHaveSeenFeedOnce = () => {
 
 	return [haveSeenFeedOnce, setHaveSeenFeedOnce]
 }
-
-export default useGetUser

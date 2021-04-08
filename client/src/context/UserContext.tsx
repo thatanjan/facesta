@@ -1,45 +1,34 @@
-import React, {
-	ReactNode,
-	createContext,
-	useState,
-	useEffect,
-	useMemo,
-} from 'react'
-
-import { AnyObject } from 'interfaces/global'
-
-interface UserInterface {
-	name: string
-	id: string
-}
+import React, { ReactNode, createContext, useState, useEffect } from 'react'
 
 interface Props {
 	children: ReactNode
-	userData: AnyObject
+	id: string
 }
 
-const initialState: UserInterface = {
-	name: '',
-	id: '',
+interface ContextInterface {
+	userID: string
+	setUserID: (val: string) => void
+	haveSeenFeedOnce: boolean
+	setHaveSeenFeedOnce: (val: boolean) => void
 }
 
-export const UserContext = createContext({})
+export const UserContext = createContext<ContextInterface>(
+	{} as ContextInterface
+)
 
-const UserContextProvider = ({ children, userData }: Props) => {
-	const [user, setUser] = useState<AnyObject>(initialState)
+const UserContextProvider = ({ children, id }: Props) => {
+	const [userID, setUserID] = useState('')
 	const [haveSeenFeedOnce, setHaveSeenFeedOnce] = useState(false)
 
-	const userMemoData = useMemo(() => userData, [userData])
-
 	useEffect(() => {
-		if (!user.name) {
-			setUser(userMemoData)
+		if (id) {
+			setUserID(id)
 		}
-	}, [userMemoData])
+	}, [id])
 
 	return (
 		<UserContext.Provider
-			value={[user, setUser, haveSeenFeedOnce, setHaveSeenFeedOnce]}
+			value={{ userID, setUserID, haveSeenFeedOnce, setHaveSeenFeedOnce }}
 		>
 			{children}
 		</UserContext.Provider>
