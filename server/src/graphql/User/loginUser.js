@@ -1,6 +1,7 @@
 import { compareSync } from 'bcryptjs'
+import jwt from 'jsonwebtoken'
+
 import { findUser } from 'utils/authentication'
-import generateToken from 'utils/generateToken'
 import sendErrorMessage from 'utils/errorMessage'
 import validateLoginInput from 'validation/login'
 import { validationErrorMessage } from './registerUser'
@@ -27,9 +28,11 @@ const resolver = {
 					return sendErrorMessage("Passwords doesn't match ")
 				}
 
-				const token = await generateToken(user)
+				const { _id } = user
 
-				return { token }
+				const token = jwt.sign({ _id }, process.env.SECRET_KEY)
+
+				return { token: `Bearer ${token}` }
 			} catch (error) {
 				return sendErrorMessage(error)
 			}

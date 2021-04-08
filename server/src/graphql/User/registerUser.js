@@ -1,6 +1,7 @@
-import { findUser } from 'utils/authentication'
+import jwt from 'jsonwebtoken'
 import { hash } from 'bcryptjs'
-import generateToken from 'utils/generateToken'
+
+import { findUser } from 'utils/authentication'
 import sendErrorMessage from 'utils/errorMessage'
 import validateRegisterInput from 'validation/register'
 import User from 'models/User'
@@ -9,7 +10,6 @@ import Follow from 'models/Follow'
 import NewsFeed from 'models/NewsFeed'
 import { ERROR_MESSAGE } from 'variables/global'
 
-// eslint-disable-next-line
 const createUser = async ({ name, email, password }) => {
 	try {
 		const hashedPassword = await hash(password, 10)
@@ -39,9 +39,10 @@ const createUser = async ({ name, email, password }) => {
 		follow.save()
 
 		newsFeed.save()
+
 		return newUser.save()
 	} catch (error) {
-		sendErrorMessage(error)
+		return sendErrorMessage(error)
 	}
 }
 
@@ -85,9 +86,9 @@ const resolver = {
 
 				const { _id } = newUser
 
-				const token = await generateToken({ _id, name, email })
+				const token = jwt.sign({ _id }, process.env.SECRET_KEY)
 
-				return { token }
+				return { token: `Bearer ${token}` }
 			} catch (error) {
 				return sendErrorMessage(error)
 			}
