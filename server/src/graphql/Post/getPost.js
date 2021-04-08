@@ -20,9 +20,9 @@ const mainResolver = field => {
 						return sendErrorMessage('no post found')
 					}
 
-					const userInfo = await User.findById(user, 'name profile').populate({
+					const userInfo = await User.findById(user, 'profile').populate({
 						path: 'profile',
-						select: 'profilePicture',
+						select: 'profilePicture name',
 					})
 
 					const response = {
