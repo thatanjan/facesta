@@ -21,10 +21,10 @@ const resolvers = {
 						path: 'comments',
 						populate: {
 							path: 'user',
-							select: 'name _id ',
+							select: '_id ',
 							populate: {
 								path: 'profile',
-								select: 'profilePicture',
+								select: 'name profilePicture',
 							},
 						},
 					})
@@ -49,10 +49,10 @@ const resolvers = {
 					comments: { $slice: 0 },
 				}).populate({
 					path: 'likes',
-					select: 'name _id',
+					select: '_id',
 					populate: {
 						path: 'profile',
-						select: 'profilePicture',
+						select: 'name profilePicture',
 					},
 				})
 

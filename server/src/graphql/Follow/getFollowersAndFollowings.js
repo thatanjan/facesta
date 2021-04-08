@@ -22,10 +22,10 @@ const getFollowers = async (_, { Input: { user, skip } }) => {
 
 			.populate({
 				path: FOLLOWERS,
-				select: 'name _id',
+				select: '_id',
 				populate: {
 					path: 'profile',
-					select: 'profilePicture',
+					select: 'name profilePicture',
 				},
 			})
 
@@ -56,10 +56,10 @@ const getFollowees = async (_, { Input: { user, skip } }) => {
 
 			.populate({
 				path: FOLLOWEES,
-				select: 'name _id',
+				select: '_id',
 				populate: {
 					path: 'profile',
-					select: 'profilePicture',
+					select: 'name profilePicture',
 				},
 			})
 
