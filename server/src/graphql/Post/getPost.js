@@ -41,16 +41,26 @@ const mainResolver = field => {
 				case ALL_POST:
 					const allPost = {}
 
-					const posts = await Post.find({}, projection)
+					const posts = await Post.find(
+						{},
+						{
+							...projection,
+							likes: { $elemMatch: { $eq: id } },
+						}
+					)
 						.skip(skip - 10)
 						.limit(10)
 						.sort({ _id: '-1' })
 
+					allPost.posts = posts.map(thePost => {
+						const newPost = thePost
+						newPost.hasLiked = newPost.likes.length === 1
+						return newPost
+					})
+
 					if (!posts) {
 						return sendErrorMessage('something went wrong')
 					}
-
-					allPost.posts = posts
 
 					return allPost
 
