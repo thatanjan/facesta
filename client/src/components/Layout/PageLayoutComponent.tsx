@@ -19,7 +19,7 @@ const BottomNavigation = dynamic(
 	{ loading: () => <CircularLoader /> }
 )
 
-const AppHeader = dynamic(() => import('components/Loaders/CircularLoader'), {
+const AppHeader = dynamic(() => import('components/AppBars/AppHeader'), {
 	loading: () => <CircularLoader />,
 })
 

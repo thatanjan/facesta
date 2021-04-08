@@ -73,12 +73,12 @@ const useStyles = makeStyles((theme: Theme) =>
 
 const LogInForm = dynamic(
 	() => import('components/Forms/UserAuthenticationForms/LogInForm'),
-	,{ loading: () => <CircularLoader  />  }
+	{ loading: () => <CircularLoader /> }
 )
 
 const SignUpForm = dynamic(
 	() => import('components/Forms/UserAuthenticationForms/SignUpForm'),
-	,{ loading: () => <CircularLoader  />  }
+	{ loading: () => <CircularLoader /> }
 )
 
 const UserAuthenticationPage = () => {
