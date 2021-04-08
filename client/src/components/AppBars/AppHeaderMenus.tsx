@@ -14,7 +14,7 @@ import CircularLoader from 'components/Loaders/CircularLoader'
 
 import MuiLink from 'components/Links/MuiLink'
 import useOwnUser from 'hooks/userhooks'
-import { useProfileInfo } from 'hooks/useGetProfileData'
+import { useGetPersonalData } from 'hooks/useGetProfileData'
 import splitText from 'utils/splitText'
 import { cloudinaryURL } from 'variables/global'
 
@@ -36,22 +36,19 @@ const AppHeaderMenus = () => {
 
 	const { push } = useRouter()
 
-	const { name, id } = useOwnUser()
+	const { id } = useOwnUser()
 
-	const { data, error } = useProfileInfo(id)
+	const { data, error } = useGetPersonalData(id)
 
 	if (error) return <div>failed to load</div>
 	if (!data) return <div>loading...</div>
 
 	const {
-		getUser: {
-			name: profileName,
-			profile: { profilePicture },
-		},
+		getPersonalData: { profilePicture, name },
 	} = data
 
 	const firstName = splitText({
-		text: profileName || name,
+		text: name,
 		position: 0,
 		divider: ' ',
 	})
@@ -59,7 +56,7 @@ const AppHeaderMenus = () => {
 	return (
 		<>
 			<IconButton style={{ borderRadius: '10px' }}>
-				<Avatar alt={profileName || name} src={cloudinaryURL(profilePicture)} />
+				<Avatar alt={name} src={cloudinaryURL(profilePicture)} />
 				<MuiLink
 					MuiComponent={Typography}
 					href={`/profile/${id}`}
