@@ -1,4 +1,5 @@
-import { findUser, matchPasswords } from 'utils/authentication'
+import { compareSync } from 'bcryptjs'
+import { findUser } from 'utils/authentication'
 import generateToken from 'utils/generateToken'
 import sendErrorMessage from 'utils/errorMessage'
 import validateLoginInput from 'validation/login'
@@ -20,10 +21,7 @@ const resolver = {
 					return sendErrorMessage("user doesn't exist")
 				}
 
-				const doesPasswordsMatch = await matchPasswords({
-					plainPassword: password,
-					hashedPassword: user.password,
-				})
+				const doesPasswordsMatch = compareSync(password, user.password)
 
 				if (!doesPasswordsMatch) {
 					return sendErrorMessage("Passwords doesn't match ")
