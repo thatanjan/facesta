@@ -39,6 +39,7 @@ const ProfileTypedefs = gql`
 		skills: [String!]
 		bio: String
 		name: String
+		profilePicture: String
 		errorMessage: String
 	}
 `

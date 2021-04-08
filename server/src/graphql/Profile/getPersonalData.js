@@ -4,7 +4,10 @@ import sendErrorMessage from 'utils/errorMessage'
 const resolverFunction = () => {
 	return async (_, { user }, { user: { id } }) => {
 		try {
-			const query = await Profile.findOne({ user: user || id }, 'personal name')
+			const query = await Profile.findOne(
+				{ user: user || id },
+				'personal name profilePicture'
+			)
 
 			if (!query) return sendErrorMessage('no profile found')
 
