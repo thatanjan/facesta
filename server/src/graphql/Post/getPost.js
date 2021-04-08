@@ -8,13 +8,16 @@ const SINGLE_POST = 'singlePost'
 const ALL_POST = 'allPost'
 
 const mainResolver = field => {
-	return async (_, { Input: { postID, user, skip } }) => {
+	return async (_, { Input: { postID, user, skip } }, { user: { id } }) => {
 		try {
 			const Post = createPostModel(user)
 
 			switch (field) {
 				case SINGLE_POST:
-					const post = await Post.findById(postID, projection)
+					const post = await Post.findById(postID, {
+						...projection,
+						likes: { $elemMatch: { $eq: id } },
+					})
 
 					if (ifNullOrFalse(post)) {
 						return sendErrorMessage('no post found')
@@ -29,6 +32,7 @@ const mainResolver = field => {
 						post: {
 							...post.toObject(),
 							user: userInfo,
+							hasLiked: post.likes.length === 1,
 						},
 					}
 
