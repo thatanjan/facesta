@@ -35,6 +35,7 @@ const PostTypedefs = gql`
 		UserNameIDPic type is from graphql/Follow/FollowType file
 		"""
 		user: UserNameIDPic
+		hasLiked: Boolean!
 	}
 
 	type SinglePost {
