@@ -15,10 +15,10 @@ const FollowType = gql`
 
 	type Profile {
 		profilePicture: String!
+		name: String!
 	}
 
 	type UserNameIDPic {
-		name: String!
 		_id: ID!
 		profile: Profile!
 		errorMessage: String
