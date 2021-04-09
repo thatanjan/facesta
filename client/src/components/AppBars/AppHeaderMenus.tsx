@@ -13,7 +13,7 @@ import { useRouter } from 'next/router'
 import CircularLoader from 'components/Loaders/CircularLoader'
 
 import MuiLink from 'components/Links/MuiLink'
-import useOwnUser from 'hooks/userhooks'
+import { useOwnUserId } from 'hooks/userhooks'
 import { useGetPersonalData } from 'hooks/useGetProfileData'
 import splitText from 'utils/splitText'
 import { cloudinaryURL } from 'variables/global'
@@ -36,7 +36,7 @@ const AppHeaderMenus = () => {
 
 	const { push } = useRouter()
 
-	const { id } = useOwnUser()
+	const  id  = useOwnUserId()
 
 	const { data, error } = useGetPersonalData(id)
 
