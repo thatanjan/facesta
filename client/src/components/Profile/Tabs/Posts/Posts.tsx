@@ -7,7 +7,7 @@ import CircularLoader from 'components/Loaders/CircularLoader'
 
 import Post from 'interfaces/post'
 import useGetAllPosts from 'hooks/useGetPost'
-import { useProfileInfo } from 'hooks/useGetProfileData'
+import { useGetPersonalData } from 'hooks/useGetProfileData'
 import { useProfileUserID } from 'hooks/profileContextHooks'
 
 const SinglePost = dynamic(() => import('components/Post/SinglePost'), {
@@ -17,12 +17,16 @@ const SinglePost = dynamic(() => import('components/Post/SinglePost'), {
 const Posts = () => {
 	const profileID = useProfileUserID()
 	const { data, error, size, setSize } = useGetAllPosts()
-	const { data: profileData, error: profileError } = useProfileInfo(profileID)
+	const { data: profileData, error: profileError } = useGetPersonalData(
+		profileID
+	)
 
 	if (profileError || error) return <div>failed to load</div>
 	if (!data || !profileData) return <div>loading...</div>
 
-	const { getUser: user } = profileData
+	const { name, profilePicture } = profileData.getPersonalData
+
+	const user = { _id: profileID, profile: { name, profilePicture } }
 
 	let isLoadingMore = true
 	let allPost: Post[] = []
