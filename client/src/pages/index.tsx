@@ -1,11 +1,11 @@
 import { useState } from 'react'
 import Head from 'next/head'
+import jwtDecode from 'jwt-decode'
 import { GetServerSideProps } from 'next'
 
 import PageWrapper from 'components/Layout/PageWrapper'
 import PageLayoutComponent from 'components/Layout/PageLayoutComponent'
-import decodeToken from 'utils/decodeToken'
-import { PropsWithUserData } from 'interfaces/user'
+import UserPayload from 'interfaces/user'
 import Requset from 'interfaces/requsetResponse'
 import shouldRedirectToAuth from 'utils/shouldRedirectToAuth'
 import getToken from 'utils/getToken'
@@ -14,7 +14,9 @@ import { LOGIN_URL, APP_NAME } from 'variables/global'
 import CreatePost from 'components/Post/CreatePost/CreatePost'
 import AllPost from 'components/Post/AllPosts'
 
-interface Props extends PropsWithUserData {}
+interface Props {
+	id: string
+}
 
 const PageContent = () => {
 	const [shouldMutate, setShouldMutate] = useState(false)
@@ -28,7 +30,7 @@ const PageContent = () => {
 	)
 }
 
-const Home = ({ userData }: Props) => {
+const Home = ({ id }: Props) => {
 	return (
 		<>
 			<Head>
@@ -37,7 +39,7 @@ const Home = ({ userData }: Props) => {
 			</Head>
 
 			<div>
-				<PageWrapper userData={userData}>
+				<PageWrapper id={id}>
 					<PageLayoutComponent Content={PageContent} />
 				</PageWrapper>
 			</div>
@@ -54,7 +56,7 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
 
 	if (shouldRedirect) return createRedirectObject(LOGIN_URL)
 
-	const userData = decodeToken(token)
+	const { id } = jwtDecode<UserPayload>(token)
 
-	return { props: { userData } }
+	return { props: { id } }
 }

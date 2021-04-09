@@ -1,16 +1,14 @@
 import React, { ReactNode } from 'react'
 
 import UserContextProvider from 'context/UserContext'
-import { PropsWithUserData } from 'interfaces/user'
 
-interface Props extends PropsWithUserData {
+interface Props {
 	children: ReactNode
+	id: string
 }
 
-const PageWrapper = ({ children, userData }: Props) => {
-	return (
-		<UserContextProvider userData={userData}>{children}</UserContextProvider>
-	)
+const PageWrapper = ({ children, id }: Props) => {
+	return <UserContextProvider id={id}>{children}</UserContextProvider>
 }
 
 export default PageWrapper
