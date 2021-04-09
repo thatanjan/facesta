@@ -3,8 +3,10 @@ import { makeStyles } from '@material-ui/core/styles'
 import TextField from '@material-ui/core/TextField'
 import { AnyObject } from 'interfaces/global'
 import Cookies from 'js-cookie'
-import { useCallback, FormEvent, TableHTMLAttributes } from 'react'
+import { FormEvent } from 'react'
 import clsx from 'clsx'
+
+import { POST_HEADER } from 'components/Post/CreatePost/CreatePostModal'
 
 interface Props extends TextFieldProps {
 	cookieName?: string
@@ -21,10 +23,27 @@ const useStyles = makeStyles(theme => ({
 	},
 }))
 
+interface InformationForField {
+	label: string
+	rows: string
+}
+
+const informationForField = (name: string): InformationForField => {
+	switch (name) {
+		case 'comment':
+			return { label: name, rows: '1' }
+
+		case POST_HEADER:
+			return { label: 'Header', rows: '1' }
+
+		default:
+			return { label: 'Write your feelings', rows: '3' }
+	}
+}
+
 const TextFieldComponent = (props: Props) => {
 	const {
 		cookieName,
-
 		extraStyle,
 		field: { name },
 		form: { setFieldValue },
@@ -70,11 +89,14 @@ const TextFieldComponent = (props: Props) => {
 		)
 		targetElement.rows = minRows + rows
 	}
+
+	const { label, rows } = informationForField(name)
+
 	return (
 		<TextField
 			className={clsx(textFieldStyle, true && extraStyle)}
 			id='filled-multiline-static'
-			label='Write Your Feelings'
+			label={label}
 			fullWidth
 			multiline
 			variant='filled'
@@ -82,8 +104,8 @@ const TextFieldComponent = (props: Props) => {
 			inputProps={{
 				onChange: inputChangeHandler,
 				className: 'autoExpand',
-				rows: name === 'comment' ? '1' : '3',
-				dataminrows: '3',
+				rows,
+				dataminrows: rows,
 			}}
 			{...fieldToTextField(props)}
 		/>

@@ -84,6 +84,9 @@ interface Inputs {
 	markdown: boolean
 }
 
+export const POST_TEXT = 'postText'
+export const POST_HEADER = 'postHeader'
+
 const CreatePostModal = ({
 	isClicked,
 	setIsClicked,
@@ -94,11 +97,7 @@ const CreatePostModal = ({
 	const [uploadingPost, setUploadingPost] = useState(false)
 	const [inputs, setInputs] = useState<Inputs | {}>({})
 	const [goingToSubmit, setGoingToSubmit] = useState(false)
-	const [showNoImageAlert, setNoImageAlert] = useState(false)
 	const [file, setFile] = useState<CustomFile | {}>({})
-
-	const POST_TEXT = 'postText'
-	const POST_HEADER = 'postHeader'
 
 	const {
 		modal,
