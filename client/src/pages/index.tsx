@@ -12,10 +12,7 @@ import createRedirectObject from 'utils/createRedirectObject'
 import { LOGIN_URL, APP_NAME } from 'variables/global'
 import CreatePost from 'components/Post/CreatePost/CreatePost'
 import AllPost from 'components/Post/AllPosts'
-
-interface Props {
-	id: string
-}
+import { PageProps } from 'interfaces/global'
 
 const PageContent = () => {
 	const [shouldMutate, setShouldMutate] = useState(false)
@@ -29,7 +26,7 @@ const PageContent = () => {
 	)
 }
 
-const Home = ({ id }: Props) => {
+const Home = ({ id }: PageProps) => {
 	return (
 		<>
 			<Head>

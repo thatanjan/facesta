@@ -8,3 +8,7 @@ export interface AnyArray {
 	forEach: Function
 	find: Function
 }
+
+export interface PageProps {
+	id: string
+}

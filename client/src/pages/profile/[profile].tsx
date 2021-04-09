@@ -22,11 +22,11 @@ import shouldRedirectToAuth from 'utils/shouldRedirectToAuth'
 import createRedirectObject from 'utils/createRedirectObject'
 
 import Requset from 'interfaces/requsetResponse'
-import { PropsWithUserData } from 'interfaces/user'
+import { PageProps } from 'interfaces/global'
 
 const FollowButton = dynamic(() => import('components/Buttons/FollowButton'))
 
-interface Props extends PropsWithUserData, ProfileContextInterface {}
+interface Props extends ProfileContextInterface, PageProps {}
 
 const useStyles = makeStyles(({ spacing }) => ({
 	buttonGridContainer: {
@@ -55,9 +55,9 @@ const Content = () => {
 	)
 }
 
-const Profile = ({ userData, ...profileContextProps }: Props) => {
+const Profile = ({ id, ...profileContextProps }: Props) => {
 	return (
-		<PageWrapper userData={userData}>
+		<PageWrapper id={id}>
 			<ProfileContextProvider {...profileContextProps}>
 				<PageLayoutComponent Content={Content} />
 			</ProfileContextProvider>
@@ -75,9 +75,7 @@ export const getServerSideProps: GetServerSideProps = async ({
 
 	if (shouldRedirect) return createRedirectObject(LOGIN_URL)
 
-	const userData = decodeToken(req as Requset)
-
-	const { id: ownUserID } = userData
+	const { id: ownUserID } = decodeToken(req as Requset)
 
 	let isSelf: boolean = false
 
@@ -85,7 +83,7 @@ export const getServerSideProps: GetServerSideProps = async ({
 		isSelf = true
 	}
 
-	return { props: { profileUserID, isSelf, userData } }
+	return { props: { profileUserID, isSelf, id: ownUserID } }
 }
 
 export default Profile
