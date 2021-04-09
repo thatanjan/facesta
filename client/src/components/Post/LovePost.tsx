@@ -21,6 +21,7 @@ interface LoveProps {
 	postUserID: string
 	postID: string
 	totalLikes: number
+	hasLiked: boolean
 }
 
 const useStyles = makeStyles({
@@ -29,32 +30,19 @@ const useStyles = makeStyles({
 	},
 })
 
-const LovePost = ({ totalLikes, postUserID, postID }: LoveProps) => {
+const LovePost = ({ totalLikes, postUserID, postID, hasLiked }: LoveProps) => {
 	const [showUsers, setShowUsers] = useState(false)
-	const [isLoved, setIsLoved] = useState(false)
+	const [isLiked, setIsLiked] = useState(hasLiked)
 	const [totalNumberOfLikes, setTotalNumberOfLikes] = useState(0)
 	const { loveStyle } = useStyles()
 
-	const { data: hasLikedData, mutate } = useHasLiked({
-		postID,
-		user: postUserID,
-	})
-
-	const hasLiked = hasLikedData?.hasLiked
-
-	useEffect(() => {
-		if (typeof hasLiked === 'boolean') {
-			setIsLoved(hasLiked)
-		}
-	}, [hasLiked])
-
 	const clickHandeler = async () => {
-		if (isLoved) {
+		if (isLiked) {
 			setTotalNumberOfLikes(prev => prev - 1)
-			setIsLoved(!isLoved)
+			setIsLiked(!isLiked)
 		} else {
 			setTotalNumberOfLikes(prev => prev + 1)
-			setIsLoved(!isLoved)
+			setIsLiked(!isLiked)
 		}
 
 		const key = hasLiked ? removeLikePost : likePost
@@ -62,17 +50,15 @@ const LovePost = ({ totalLikes, postUserID, postID }: LoveProps) => {
 
 		const response = await createRequest({ key, values })
 
-		if (response) {
-			mutate()
-		}
+		console.log(response)
 	}
 
 	useEffect(() => {
 		setTotalNumberOfLikes(totalLikes)
-		setIsLoved(hasLiked)
+		setIsLiked(hasLiked)
 	}, [totalLikes])
 
-	const style = clsx(isLoved && loveStyle)
+	const style = clsx(isLiked && loveStyle)
 
 	return (
 		<Box>

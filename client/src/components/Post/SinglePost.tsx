@@ -70,13 +70,13 @@ const SinglePost = ({
 	_id: postID,
 	user: {
 		_id: postUserID,
-		name,
-		profile: { profilePicture },
+		profile: { name, profilePicture },
 	},
 	totalLikes,
 	totalComments,
 	postPage,
 	date,
+	hasLiked,
 }: Props) => {
 	const { push } = useRouter()
 
@@ -92,7 +92,7 @@ const SinglePost = ({
 
 	const showMoreLink = `/post/${postUserID}/${postID}`
 
-	const loveProps = { postID, postUserID, totalLikes }
+	const loveProps = { postID, postUserID, totalLikes, hasLiked }
 
 	const postContentProps = { text, postPage, showMoreLink }
 
