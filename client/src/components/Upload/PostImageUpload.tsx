@@ -27,6 +27,8 @@ export interface Props {
 	setUploadingPost: (bool: boolean) => void
 	closePostModal: () => void
 	setShouldMutate: (bool: boolean) => void
+	file: CustomFile | {}
+	setFile: (val: CustomFile | {}) => void
 }
 
 const ProfilePictureUpload = ({
@@ -36,8 +38,9 @@ const ProfilePictureUpload = ({
 	setUploadingPost,
 	closePostModal,
 	setShouldMutate,
+	file,
+	setFile,
 }: Props) => {
-	const [file, setFile] = useState<CustomFile | {}>({})
 	const [base64, setBase64] = useState<Base64>('')
 	const [approved, setApproved] = useState<NullOrBooleanType>(null)
 	const [loading, setLoading] = useState(false)
@@ -140,9 +143,14 @@ const ProfilePictureUpload = ({
 
 	useEffect(() => {
 		if (uploadingPost) {
-			makeBase64(file as CustomFile, setBase64)
-			setLoading(true)
-			setUploadModalOpen(false)
+			if (Object.keys(file as CustomFile).length === 0) {
+				console.log('empty')
+				setUploadingPost(false)
+			} else {
+				makeBase64(file as CustomFile, setBase64)
+				setLoading(true)
+				setUploadModalOpen(false)
+			}
 		}
 	}, [uploadingPost])
 

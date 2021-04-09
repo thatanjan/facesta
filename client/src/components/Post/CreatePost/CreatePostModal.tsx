@@ -26,6 +26,8 @@ import UploadImage, {
 	Base64,
 } from 'components/Upload/PostImageUpload'
 
+import { CustomFile } from 'interfaces/upload'
+
 const AutoExpandField = dynamic(
 	() => import('components/TextFields/AutoExpandField'),
 	{ loading: () => <CircularLoader /> }
@@ -92,6 +94,8 @@ const CreatePostModal = ({
 	const [uploadingPost, setUploadingPost] = useState(false)
 	const [inputs, setInputs] = useState<Inputs | {}>({})
 	const [goingToSubmit, setGoingToSubmit] = useState(false)
+	const [showNoImageAlert, setNoImageAlert] = useState(false)
+	const [file, setFile] = useState<CustomFile | {}>({})
 
 	const POST_TEXT = 'postText'
 	const POST_HEADER = 'postHeader'
@@ -140,6 +144,8 @@ const CreatePostModal = ({
 		action,
 		closePostModal,
 		setShouldMutate,
+		file,
+		setFile,
 	}
 
 	const postHeader: string = Cookies.get(POST_HEADER) || ''
@@ -230,7 +236,7 @@ const CreatePostModal = ({
 											size={matches ? 'medium' : 'small'}
 											variant='contained'
 											color='primary'
-											disabled={isSubmitting}
+											disabled={isSubmitting || Object.keys(file).length === 0}
 											onClick={submitForm}
 										>
 											Submit
