@@ -45,7 +45,7 @@ export const ProfileCover = () => {
 	const [uploadingPost, setUploadingPost] = useState(false)
 
 	const isSelf = useIsSelf()
-	const { data, error } = useGetPersonalData(profileUserID)
+	const { data, error, mutate } = useGetPersonalData(profileUserID)
 
 	const action = async (image: Base64) => {
 		setUploadingPost(true)
@@ -61,6 +61,7 @@ export const ProfileCover = () => {
 		action,
 		uploadingPost,
 		type: 'uploadProfilePicture',
+		mutate,
 	}
 
 	if (error) return <div>failed to load</div>

@@ -2,16 +2,13 @@ import React, { useState, useEffect } from 'react'
 import IconButton from '@material-ui/core/IconButton'
 import EditIcon from '@material-ui/icons/Edit'
 import { makeStyles } from '@material-ui/core/styles'
-import { mutate } from 'swr'
 
 import ImageUploadModal, {
 	NullOrBooleanType,
 } from 'components/Modals/ImageUploadModal'
 import ImagePreview from 'components/Images/ImagePreview'
 
-import { useOwnUserId } from 'hooks/userhooks'
 import makeBase64 from 'utils/makeBase64Image'
-import { getUser } from 'graphql/queries/profileQueries'
 import UploadAlert, { Props as AlertProps } from 'components/Alerts/Alert'
 
 import { CustomFile } from 'interfaces/upload'
@@ -26,9 +23,10 @@ type Action = 'uploadProfilePicture' | 'createPost'
 
 export interface Props {
 	action: (base64: Base64) => any
+	mutate: () => Promise<any>
 }
 
-const ProfilePictureUpload = ({ action }: Props) => {
+const ProfilePictureUpload = ({ action, mutate }: Props) => {
 	const [file, setFile] = useState<CustomFile | {}>({})
 	const [base64, setBase64] = useState<Base64>('')
 	const [approved, setApproved] = useState<NullOrBooleanType>(null)
@@ -54,8 +52,6 @@ const ProfilePictureUpload = ({ action }: Props) => {
 		setUploadModalOpen,
 		setApproved,
 	}
-
-	const ownUserID = useOwnUserId()
 
 	useEffect(() => {
 		const { valid, previewLink: link } = file as CustomFile
@@ -96,7 +92,7 @@ const ProfilePictureUpload = ({ action }: Props) => {
 							severity: 'success',
 						}))
 						setSuccess(true)
-						mutate([getUser, ownUserID])
+						mutate()
 					}
 
 					if (errorMessage) {
