@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import dynamic from 'next/dynamic'
 import { Formik, Form, Field } from 'formik'
 import Button from '@material-ui/core/Button'
@@ -29,10 +29,8 @@ const AutoExpandField = dynamic(
 	{ loading: () => <CircularLoader /> }
 )
 
-const ifDateOfBirth = (compare: string) => compare === DATE_OF_BIRTH
-
-const doIfDateOfBirthComponent = (value: string) => {
-	if (ifDateOfBirth(value)) {
+const fieldComponent = (value: string) => {
+	if (value === DATE_OF_BIRTH) {
 		return DatePicker
 	}
 
@@ -41,6 +39,23 @@ const doIfDateOfBirthComponent = (value: string) => {
 	}
 
 	return TextField
+}
+
+const fieldComponentProps = (value: string) => {
+	if (value === DATE_OF_BIRTH) {
+		return {
+			autoOk: true,
+			orientatio: 'landscape',
+			variant: 'static',
+			openTo: 'date',
+		}
+	}
+
+	if (value === 'bio') {
+		return {}
+	}
+
+	return {}
 }
 
 interface Props {
@@ -78,6 +93,10 @@ const NewDetailsForm = ({ setIsAdding, isAdding }: Props) => {
 		if (value === null) {
 			initialData[item] = ''
 		}
+	})
+
+	useEffect(() => {
+		return () => console.log('hello')
 	})
 
 	return (
@@ -128,10 +147,11 @@ const NewDetailsForm = ({ setIsAdding, isAdding }: Props) => {
 										<Field
 											className={inputStyle}
 											type='text'
-											component={doIfDateOfBirthComponent(item)}
+											component={fieldComponent(item)}
 											name={item}
 											label={doIfDateOfBirthField(item)}
 											placeholder={item}
+											{...fieldComponentProps(item)}
 										/>
 									</Box>
 								))}
@@ -139,7 +159,6 @@ const NewDetailsForm = ({ setIsAdding, isAdding }: Props) => {
 								<br />
 								{isSubmitting && <LinearProgress />}
 								<br />
-
 								<DialogActions>
 									<Button disabled={isSubmitting} onClick={handleClose} color='primary'>
 										Cancel
