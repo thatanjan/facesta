@@ -9,19 +9,15 @@ const resolver = {
 			try {
 				const inputKeys = Object.keys(Input)
 
-				const personalData = await Profile.findOne({ user: id }, 'personal')
+				const personalData = await Profile.findOne({ user: id }, 'personal name')
 
 				const { personal } = personalData
 
-				// eslint-disable-next-line
-				inputKeys.forEach(async item => {
+				inputKeys.forEach(item => {
 					switch (item) {
 						case 'name':
-							const newName = Input.name
+							personalData.name = Input.name
 
-							const updateName = await User.findByIdAndUpdate(id, { name: newName })
-
-							if (!updateName) return sendErrorMessage('error happened')
 							break
 
 						default:
