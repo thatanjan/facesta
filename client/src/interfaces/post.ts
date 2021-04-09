@@ -8,6 +8,7 @@ export default interface Post {
 	totalComments: number
 	user: PostUser
 	date: Date
+	hasLiked: boolean
 }
 
 export interface Comment {
@@ -17,9 +18,9 @@ export interface Comment {
 }
 
 export interface PostUser {
-	name: string
 	_id: string
 	profile: {
+		name: string
 		profilePicture: string
 	}
 }
