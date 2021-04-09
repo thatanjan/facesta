@@ -21,7 +21,6 @@ const ProfileTypedefs = gql`
 		website: String
 		status: String
 		location: String
-		skills: [String!]
 		bio: String
 		name: String
 	}
@@ -36,7 +35,6 @@ const ProfileTypedefs = gql`
 		website: String
 		status: String
 		location: String
-		skills: [String!]
 		bio: String
 		name: String
 		profilePicture: String
