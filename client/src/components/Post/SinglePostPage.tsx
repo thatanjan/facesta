@@ -12,7 +12,7 @@ import { cloudinaryURL } from 'variables/global'
 import CircularLoader from 'components/Loaders/CircularLoader'
 
 import { useGetSinglePost } from 'hooks/useGetPost'
-import { useProfileInfo } from 'hooks/useGetProfileData'
+import { useGetPersonalData } from 'hooks/useGetProfileData'
 import { useOwnUserId } from 'hooks/userhooks'
 
 import Post from 'interfaces/post'
@@ -60,10 +60,7 @@ const SinglePostPage = () => {
 		postID: postID as string,
 	})
 
-	const {
-		data: profilePictureData,
-		error: profilePictureError,
-	} = useProfileInfo(ownUserID)
+	const { data: myData, error: myError } = useGetPersonalData(ownUserID)
 
 	useEffect(() => {
 		if (newCommentAdded) {
@@ -73,8 +70,8 @@ const SinglePostPage = () => {
 		}
 	}, [newCommentAdded])
 
-	if (error || profilePictureError) return <div>failed to load</div>
-	if (!data || !profilePictureData) return <div>loading...</div>
+	if (error || myError) return <div>failed to load</div>
+	if (!data || !myData) return <div>loading...</div>
 
 	const commentListProps = {
 		postID: postID as string,
@@ -87,11 +84,8 @@ const SinglePostPage = () => {
 	} = data
 
 	const {
-		getUser: {
-			name,
-			profile: { profilePicture },
-		},
-	} = profilePictureData
+		getPersonalData: { name, profilePicture },
+	} = myData
 
 	const commentFormProps = {
 		postID: postID as string,
