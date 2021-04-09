@@ -143,14 +143,9 @@ const ProfilePictureUpload = ({
 
 	useEffect(() => {
 		if (uploadingPost) {
-			if (Object.keys(file as CustomFile).length === 0) {
-				console.log('empty')
-				setUploadingPost(false)
-			} else {
-				makeBase64(file as CustomFile, setBase64)
-				setLoading(true)
-				setUploadModalOpen(false)
-			}
+			makeBase64(file as CustomFile, setBase64)
+			setLoading(true)
+			setUploadModalOpen(false)
 		}
 	}, [uploadingPost])
 
