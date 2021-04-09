@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import dynamic from 'next/dynamic'
 import { Formik, Form, Field } from 'formik'
 import Button from '@material-ui/core/Button'
@@ -12,24 +12,22 @@ import DialogContent from '@material-ui/core/DialogContent'
 import DialogTitle from '@material-ui/core/DialogTitle'
 import { MuiPickersUtilsProvider } from '@material-ui/pickers'
 import DayUtils from '@date-io/dayjs'
-import { mutate } from 'swr'
 import { createStyles, makeStyles } from '@material-ui/core/styles'
 
 import CircularLoader from 'components/Loaders/CircularLoader'
+
+import { updatePersonalData } from 'graphql/mutations/profileMutations'
+import { useGetPersonalData } from 'hooks/useGetProfileData'
+import { useOwnUserId } from 'hooks/userhooks'
+import { DATE_OF_BIRTH } from 'variables/global'
+import createRequest from 'utils/createRequest'
+
+import { personalDetailsField, doIfDateOfBirthField } from './PersonalDetails'
 
 const AutoExpandField = dynamic(
 	() => import('components/TextFields/AutoExpandField'),
 	{ loading: () => <CircularLoader /> }
 )
-
-import { getPersonalData as getPersonalDataMutation } from 'graphql/queries/profileQueries'
-import { updatePersonalData } from 'graphql/mutations/profileMutations'
-import useGetPersonal from 'hooks/useGetProfileData'
-import { useOwnUserId } from 'hooks/userhooks'
-import { DATE_OF_BIRTH, SKILLS } from 'variables/global'
-import createRequest from 'utils/createRequest'
-
-import { personalDetailsField, doIfDateOfBirthField } from './PersonalDetails'
 
 const ifDateOfBirth = (compare: string) => compare === DATE_OF_BIRTH
 
@@ -60,7 +58,9 @@ const useStyles = makeStyles(() =>
 
 const NewDetailsForm = ({ setIsAdding, isAdding }: Props) => {
 	const { inputStyle } = useStyles()
-	const { data, error } = useGetPersonal()
+	const userID = useOwnUserId()
+
+	const { data, error, mutate } = useGetPersonalData(userID)
 
 	const handleClose = () => {
 		setIsAdding(false)
@@ -68,8 +68,6 @@ const NewDetailsForm = ({ setIsAdding, isAdding }: Props) => {
 
 	if (error) return <div>...error</div>
 	if (!data) return <div>...loading</div>
-
-	const userID = useOwnUserId()
 
 	const { getPersonalData } = data
 
@@ -81,8 +79,6 @@ const NewDetailsForm = ({ setIsAdding, isAdding }: Props) => {
 			initialData[item] = ''
 		}
 	})
-
-	const [skills] = useState(initialData.skills)
 
 	return (
 		<Dialog
@@ -97,20 +93,25 @@ const NewDetailsForm = ({ setIsAdding, isAdding }: Props) => {
 				<Formik
 					initialValues={initialData}
 					onSubmit={async (values, { setSubmitting }) => {
-						const mutation1 = getPersonalDataMutation('name bio')
-						const mutation2 = getPersonalDataMutation()
 						// eslint-disable-next-line no-param-reassign
-						values.skills = skills
 
-						if (typeof values.dateOfBirth === 'object') {
-							values.dateOfBirth = values.dateOfBirth.$d.toISOString()
+						const FormValues = values
+
+						if (FormValues.dateOfBirth === '') {
+							delete FormValues.dateOfBirth
 						}
 
-						const res = await createRequest({ key: updatePersonalData, values })
+						if (typeof FormValues.dateOfBirth === 'object') {
+							FormValues.dateOfBirth = FormValues.dateOfBirth.$d.toISOString()
+						}
+
+						const res = await createRequest({
+							key: updatePersonalData,
+							values: FormValues,
+						})
 
 						if (res) {
-							mutate([mutation1, userID])
-							mutate([mutation2, userID])
+							mutate()
 
 							setTimeout(() => {
 								setIsAdding(false)
@@ -124,18 +125,14 @@ const NewDetailsForm = ({ setIsAdding, isAdding }: Props) => {
 							<DialogContent>
 								{personalDetailsField.map((item: string) => (
 									<Box key={item}>
-										{item === SKILLS ? (
-											''
-										) : (
-											<Field
-												className={inputStyle}
-												type='text'
-												component={doIfDateOfBirthComponent(item)}
-												name={item}
-												label={doIfDateOfBirthField(item)}
-												placeholder={item}
-											/>
-										)}
+										<Field
+											className={inputStyle}
+											type='text'
+											component={doIfDateOfBirthComponent(item)}
+											name={item}
+											label={doIfDateOfBirthField(item)}
+											placeholder={item}
+										/>
 									</Box>
 								))}
 
