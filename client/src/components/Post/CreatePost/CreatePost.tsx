@@ -8,6 +8,8 @@ import IconButton from '@material-ui/core/IconButton'
 import AccountCircleIcon from '@material-ui/icons/AccountCircle'
 import Input from '@material-ui/core/Input'
 
+import CircularLoader from 'components/Loaders/CircularLoader'
+
 const CreatePostModal = dynamic(() => import('./CreatePostModal'), {
 	loading: () => <CircularLoader />,
 })
