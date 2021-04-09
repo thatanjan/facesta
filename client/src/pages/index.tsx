@@ -1,13 +1,12 @@
 import { useState } from 'react'
 import Head from 'next/head'
-import jwtDecode from 'jwt-decode'
 import { GetServerSideProps } from 'next'
 
 import PageWrapper from 'components/Layout/PageWrapper'
 import PageLayoutComponent from 'components/Layout/PageLayoutComponent'
-import UserPayload from 'interfaces/user'
 import Requset from 'interfaces/requsetResponse'
 import shouldRedirectToAuth from 'utils/shouldRedirectToAuth'
+import decodeToken from 'utils/decodeToken'
 import getToken from 'utils/getToken'
 import createRedirectObject from 'utils/createRedirectObject'
 import { LOGIN_URL, APP_NAME } from 'variables/global'
@@ -56,7 +55,7 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
 
 	if (shouldRedirect) return createRedirectObject(LOGIN_URL)
 
-	const { id } = jwtDecode<UserPayload>(token)
+	const { id } = decodeToken(token)
 
 	return { props: { id } }
 }
