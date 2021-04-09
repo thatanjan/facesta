@@ -25,7 +25,7 @@ const useStyles = makeStyles(() => ({
 
 interface Props {
 	property: string
-	value: string | string[]
+	value: string | null
 }
 
 const EachField = ({ property, value }: Props) => {
@@ -33,15 +33,6 @@ const EachField = ({ property, value }: Props) => {
 
 	if (!value) {
 		return null
-	}
-
-	const ifSkills = (value: string | string[]) => {
-		if (typeof value === 'string' && !Array.isArray(value)) {
-			return <Typography>{value}</Typography>
-		}
-
-		return ''
-		/* return <ArrayChips skills={value} /> */
 	}
 
 	return (
@@ -53,19 +44,11 @@ const EachField = ({ property, value }: Props) => {
 				<Typography>:</Typography>
 			</Grid>
 
-			<Grid item> {ifSkills(value)} </Grid>
+			<Grid item>
+				<Typography>{value}</Typography>
+			</Grid>
 		</Grid>
 	)
 }
-
-export const personalDetailsField = [
-	'name',
-	'bio',
-	DATE_OF_BIRTH,
-	'status',
-	'website',
-	'skills',
-	'location',
-]
 
 export default EachField
