@@ -8,9 +8,9 @@ import Fade from '@material-ui/core/Fade'
 import Paper from '@material-ui/core/Paper'
 import Divider from '@material-ui/core/Divider'
 import Typography from '@material-ui/core/Typography'
-import Grid from '@material-ui/core/Grid'
 import Button from '@material-ui/core/Button'
 import CardMedia from '@material-ui/core/CardMedia'
+import DialogActions from '@material-ui/core/DialogActions'
 import { mutate } from 'swr'
 import useMediaQuery from '@material-ui/core/useMediaQuery'
 import Cookies from 'js-cookie'
@@ -189,11 +189,11 @@ const CreatePostModal = ({
 
 								return errors
 							}}
-							onSubmit={({ postText, postHeader }) => {
+							onSubmit={values => {
 								setInputs(prev => ({
 									...prev,
-									text: postText,
-									headline: postHeader,
+									text: values.postText,
+									headline: values.postHeader,
 								}))
 
 								setGoingToSubmit(true)
@@ -225,28 +225,26 @@ const CreatePostModal = ({
 									<Field component={AutoExpandField} name={POST_TEXT} />
 									<br />
 
-									<Grid container alignItems='flex-end' justify='space-between'>
-										<Grid item>
-											<Button
-												size={matches ? 'medium' : 'small'}
-												variant='contained'
-												color='primary'
-												disabled={isSubmitting}
-												onClick={submitForm}
-											>
-												Submit
-											</Button>
-											<Button
-												onClick={closePostModal}
-												size={matches ? 'medium' : 'small'}
-												variant='contained'
-												color='primary'
-												disabled={isSubmitting}
-											>
-												Cancel
-											</Button>
-										</Grid>
-									</Grid>
+									<DialogActions>
+										<Button
+											size={matches ? 'medium' : 'small'}
+											variant='contained'
+											color='primary'
+											disabled={isSubmitting}
+											onClick={submitForm}
+										>
+											Submit
+										</Button>
+										<Button
+											onClick={closePostModal}
+											size={matches ? 'medium' : 'small'}
+											variant='contained'
+											color='primary'
+											disabled={isSubmitting}
+										>
+											Cancel
+										</Button>
+									</DialogActions>
 								</Form>
 							)}
 						</Formik>
