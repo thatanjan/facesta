@@ -26,9 +26,6 @@ const data = {
 			type: String,
 		},
 
-		skills: {
-			type: [String],
-		},
 		bio: {
 			type: String,
 		},
@@ -37,13 +34,9 @@ const data = {
 		type: String,
 		default: '',
 	},
-	date: {
-		type: Date,
-		default: Date.now,
-	},
 }
 
-const ProfileSchema = new Schema(data, { versionKey: '2' })
+const ProfileSchema = new Schema(data)
 
 const ProfileModel = model('profile', ProfileSchema)
 
