@@ -94,7 +94,7 @@ export const FollowComponent = ({
 				loader={<h4>Loading...</h4>}
 			>
 				{Array.isArray(users) &&
-					users.map(({ name: userName, _id, profile: { profilePicture } }: User) => (
+					users.map(({ _id, profile: { name: userName, profilePicture } }: User) => (
 						<MuiLink
 							MuiComponent={ListItem}
 							button
