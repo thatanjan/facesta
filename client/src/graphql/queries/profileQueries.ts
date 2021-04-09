@@ -4,7 +4,6 @@ export const getPersonalData = gql`
 	query getPersonalData($user: ID!) {
 		getPersonalData(user: $user) {
 			dateOfBirth
-			skills
 			name
 			bio
 			website

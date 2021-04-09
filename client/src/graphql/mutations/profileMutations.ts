@@ -9,13 +9,11 @@ export const updatePersonalData = gql`
 		$status: String
 		$location: String
 		$name: String
-		$skills: [String!]
 	) {
 		updatePersonalData(
 			Input: {
 				name: $name
 				bio: $bio
-				skills: $skills
 				website: $website
 				status: $status
 				location: $location
