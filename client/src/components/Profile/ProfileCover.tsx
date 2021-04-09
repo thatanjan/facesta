@@ -13,7 +13,7 @@ import ProfilePictureUpload, {
 } from 'components/Upload/ProfilePictureUpload'
 
 import { useIsSelf, useProfileUserID } from 'hooks/profileContextHooks'
-import useGetPersonalData, { useProfileInfo } from 'hooks/useGetProfileData'
+import useGetPersonalData from 'hooks/useGetProfileData'
 import createRequest from 'utils/createRequest'
 import { uploadProfilePicture } from 'graphql/mutations/profileMutations'
 
@@ -45,12 +45,7 @@ export const ProfileCover = () => {
 	const [uploadingPost, setUploadingPost] = useState(false)
 
 	const isSelf = useIsSelf()
-	const { data, error } = useGetPersonalData('name bio')
-
-	const {
-		data: profilePictureData,
-		error: profilePictureError,
-	} = useProfileInfo(profileUserID)
+	const { data, error } = useGetPersonalData(profileUserID)
 
 	const action = async (image: Base64) => {
 		setUploadingPost(true)
@@ -68,19 +63,11 @@ export const ProfileCover = () => {
 		type: 'uploadProfilePicture',
 	}
 
-	if (profilePictureError || error) return <div>failed to load</div>
-	if (!data || !profilePictureData) return <div>loading...</div>
+	if (error) return <div>failed to load</div>
+	if (!data) return <div>loading...</div>
 
 	const {
-		getUser: {
-			profile: { profilePicture },
-		},
-	} = profilePictureData
-
-	console.log(profilePictureData)
-
-	const {
-		getPersonalData: { name, bio },
+		getPersonalData: { name, bio, profilePicture },
 	} = data
 
 	const avatar = 'confession/profile/woman_avatar_vyfco8.png'
