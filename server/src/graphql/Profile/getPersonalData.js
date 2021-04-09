@@ -11,7 +11,11 @@ const resolverFunction = () => {
 
 			if (!query) return sendErrorMessage('no profile found')
 
-			return query
+			const { name, profilePicture, personal } = query
+
+			const response = { name, profilePicture, ...personal }
+
+			return response
 		} catch (error) {
 			return sendErrorMessage(error)
 		}
