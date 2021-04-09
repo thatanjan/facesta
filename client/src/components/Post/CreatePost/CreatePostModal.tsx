@@ -35,7 +35,7 @@ const AutoExpandField = dynamic(
 
 const useStyles = makeStyles(theme => ({
 	modal: {
-		display: 'flex',
+		display: 'grid',
 		alignItems: 'center',
 		justifyContent: 'center',
 		overflowY: 'scroll',
