@@ -10,8 +10,8 @@ import Avatar from '@material-ui/core/Avatar'
 
 import MuiLink from 'components/Links/MuiLink'
 import { useDrawerState, useDrawerDispatch } from 'hooks/drawerHooks'
-import useGetUser, { useOwnUserId } from 'hooks/userhooks'
-import { useProfileInfo } from 'hooks/useGetProfileData'
+import { useOwnUserId } from 'hooks/userhooks'
+import { useGetPersonalData } from 'hooks/useGetProfileData'
 import {
 	screenSizeDrawer,
 	FOLLOWERS,
@@ -44,23 +44,18 @@ const NavigationDrawerList = () => {
 	const matches = useMediaQuery(screenSizeDrawer)
 	const ownUserID = useOwnUserId()
 
-	const { data, error } = useProfileInfo(ownUserID)
+	const { data, error } = useGetPersonalData(ownUserID)
 
 	const { iconStyle, logOutIconStyle, listItemTextStyle } = useStyles()
 
 	const isDrawerOpen = useDrawerState()
 	const drawerDispatch = useDrawerDispatch()
 
-	const { name } = useGetUser()
-
 	if (error) return <div>failed to load</div>
 	if (!data) return <div>loading...</div>
 
 	const {
-		getUser: {
-			name: profileName,
-			profile: { profilePicture },
-		},
+		getPersonalData: { name, profilePicture },
 	} = data
 
 	const itemClickHandler = (event: any, index: number) => {
@@ -107,7 +102,7 @@ const NavigationDrawerList = () => {
 					>
 						<ListItemIcon>
 							{index === 1 ? (
-								<Avatar alt={profileName} src={cloudinaryURL(profilePicture)} />
+								<Avatar alt={name} src={cloudinaryURL(profilePicture)} />
 							) : (
 								<Component
 									className={title === 'log out' ? logOutIconStyle : iconStyle}
