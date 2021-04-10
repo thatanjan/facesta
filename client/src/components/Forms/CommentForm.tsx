@@ -56,8 +56,6 @@ function CommentForm({
 					const res = await createRequest({ key: commentPost, values })
 					Cookies.remove('comment')
 
-					console.log(res)
-
 					const {
 						commentPost: { message, errorMessage },
 					} = res
@@ -86,6 +84,9 @@ function CommentForm({
 						color='primary'
 						disabled={isSubmitting}
 						onClick={submitForm}
+						style={{
+							marginTop: '1rem',
+						}}
 					>
 						Submit
 					</Button>
