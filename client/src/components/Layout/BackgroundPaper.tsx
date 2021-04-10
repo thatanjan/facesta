@@ -3,12 +3,17 @@ import React from 'react'
 import Paper from '@material-ui/core/Paper'
 import { makeStyles } from '@material-ui/core/styles'
 
+import { screenSizeDrawer } from 'variables/global'
+
 const useStyles = makeStyles((theme: any) => ({
 	paperStyle: {
 		maxWidth: '100vw',
 		position: 'relative',
 		top: theme.mixins.toolbar.minHeight,
 		minHeight: '100vh',
+		[theme.breakpoints.down('lg')]: {
+			paddingBottom: '56px',
+		},
 		[theme.breakpoints.up('xs')]: {
 			top:
 				theme.mixins.toolbar['@media (min-width:0px) and (orientation: landscape)']
