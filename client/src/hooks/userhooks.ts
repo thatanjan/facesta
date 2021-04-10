@@ -12,5 +12,5 @@ export const useSetUser = () => {
 export const useHaveSeenFeedOnce = () => {
 	const { haveSeenFeedOnce, setHaveSeenFeedOnce } = useContext(UserContext)
 
-	return [haveSeenFeedOnce, setHaveSeenFeedOnce]
+	return { haveSeenFeedOnce, setHaveSeenFeedOnce }
 }
