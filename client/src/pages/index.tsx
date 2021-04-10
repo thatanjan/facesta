@@ -16,12 +16,11 @@ import { PageProps } from 'interfaces/global'
 
 const PageContent = () => {
 	const [shouldMutate, setShouldMutate] = useState(false)
-
 	return (
 		<>
 			<CreatePost {...{ setShouldMutate }} />
 
-			<NewsFeed {...{ shouldMutate, setShouldMutate }} />
+			<NewsFeed {...{ shouldMutate }} />
 		</>
 	)
 }
