@@ -9,7 +9,6 @@ import IconButton from '@material-ui/core/IconButton'
 
 import CircularLoader from 'components/Loaders/CircularLoader'
 
-import { useHasLiked } from 'hooks/likeHooks'
 import createRequest from 'utils/createRequest'
 import { likePost, removeLikePost } from 'graphql/mutations/postMutations'
 
@@ -28,13 +27,19 @@ const useStyles = makeStyles({
 	loveStyle: {
 		fill: '#ea0000',
 	},
+	numberOfLikes: {
+		textDecoration: 'underline',
+		'&:hover': {
+			cursor: 'pointer',
+		},
+	},
 })
 
 const LovePost = ({ totalLikes, postUserID, postID, hasLiked }: LoveProps) => {
 	const [showUsers, setShowUsers] = useState(false)
 	const [isLiked, setIsLiked] = useState(hasLiked)
 	const [totalNumberOfLikes, setTotalNumberOfLikes] = useState(0)
-	const { loveStyle } = useStyles()
+	const { loveStyle, numberOfLikes } = useStyles()
 
 	const clickHandeler = async () => {
 		if (isLiked) {
@@ -45,12 +50,10 @@ const LovePost = ({ totalLikes, postUserID, postID, hasLiked }: LoveProps) => {
 			setIsLiked(!isLiked)
 		}
 
-		const key = hasLiked ? removeLikePost : likePost
+		const key = isLiked ? removeLikePost : likePost
 		const values = { postID, user: postUserID }
 
-		const response = await createRequest({ key, values })
-
-		console.log(response)
+		await createRequest({ key, values })
 	}
 
 	useEffect(() => {
@@ -62,7 +65,11 @@ const LovePost = ({ totalLikes, postUserID, postID, hasLiked }: LoveProps) => {
 
 	return (
 		<Box>
-			<Typography variant='caption' onClick={() => setShowUsers(true)}>
+			<Typography
+				variant='caption'
+				className={numberOfLikes}
+				onClick={() => setShowUsers(true)}
+			>
 				{totalNumberOfLikes}
 			</Typography>
 			<IconButton aria-label='love' onClick={clickHandeler}>
