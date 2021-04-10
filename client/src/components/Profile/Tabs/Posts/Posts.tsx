@@ -14,6 +14,8 @@ const SinglePost = dynamic(() => import('components/Post/SinglePost'), {
 	loading: () => <CircularLoader />,
 })
 
+const SwrErrorAlert = dynamic(() => import('components/Alerts/SwrErrorAlert'))
+
 const Posts = () => {
 	const profileID = useProfileUserID()
 	const { data, error, size, setSize } = useGetAllPosts()
@@ -21,8 +23,8 @@ const Posts = () => {
 		profileID
 	)
 
-	if (profileError || error) return <div>failed to load</div>
-	if (!data || !profileData) return <div>loading...</div>
+	if (profileError || error) return <SwrErrorAlert />
+	if (!data || !profileData) return <CircularLoader />
 
 	const { name, profilePicture } = profileData.getPersonalData
 

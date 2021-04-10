@@ -21,6 +21,8 @@ const UserListModal = dynamic(() => import('components/Modals/UserListModal'), {
 	loading: () => <CircularLoader />,
 })
 
+const SwrErrorAlert = dynamic(() => import('components/Alerts/SwrErrorAlert'))
+
 interface Props {
 	showUsers: boolean
 	setShowUsers: (value: boolean) => void
@@ -37,7 +39,8 @@ const AllLovedUser = ({ showUsers, setShowUsers, title }: Props) => {
 		user: postUser as string,
 	})
 
-	if (error) return <div> Error Happened </div>
+	if (error) return <SwrErrorAlert />
+	if (data) return <CircularLoader />
 
 	let isLoadingMore = true
 

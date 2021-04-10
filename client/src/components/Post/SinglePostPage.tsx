@@ -33,6 +33,8 @@ const SinglePost = dynamic(() => import('./SinglePost'), {
 	loading: () => <CircularLoader />,
 })
 
+const SwrErrorAlert = dynamic(() => import('components/Alerts/SwrErrorAlert'))
+
 const useStyles = makeStyles((theme: Theme) => ({
 	root: {
 		width: '100%',
@@ -70,8 +72,8 @@ const SinglePostPage = () => {
 		}
 	}, [newCommentAdded])
 
-	if (error || myError) return <div>failed to load</div>
-	if (!data || !myData) return <div>loading...</div>
+	if (error || myError) return <SwrErrorAlert />
+	if (!data || !myData) return <CircularLoader />
 
 	const commentListProps = {
 		postID: postID as string,

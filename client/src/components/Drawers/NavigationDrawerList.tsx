@@ -1,4 +1,4 @@
-import React, { MouseEvent } from 'react'
+import dynamic from 'next/dynamic'
 import { nanoid } from 'nanoid'
 import { makeStyles } from '@material-ui/core/styles'
 import List from '@material-ui/core/List'
@@ -8,6 +8,7 @@ import ListItemText from '@material-ui/core/ListItemText'
 import useMediaQuery from '@material-ui/core/useMediaQuery'
 import Avatar from '@material-ui/core/Avatar'
 
+import CircularLoader from 'components/Loaders/CircularLoader'
 import MuiLink from 'components/Links/MuiLink'
 import { useDrawerState, useDrawerDispatch } from 'hooks/drawerHooks'
 import { useOwnUserId } from 'hooks/userhooks'
@@ -20,6 +21,9 @@ import {
 } from 'variables/global'
 import listComponents, { Components } from './NavigationDrawerListData'
 
+const SwrErrorAlert = dynamic(() => import('components/Alerts/SwrErrorAlert'))
+
+import React, { MouseEvent } from 'react'
 export const convertSpaceToDash = (text: string): string | boolean => {
 	if (typeof text === 'string') {
 		return text.replace(/\s/g, '-')
@@ -51,8 +55,8 @@ const NavigationDrawerList = () => {
 	const isDrawerOpen = useDrawerState()
 	const drawerDispatch = useDrawerDispatch()
 
-	if (error) return <div>failed to load</div>
-	if (!data) return <div>loading...</div>
+	if (error) return <SwrErrorAlert />
+	if (!data) return <CircularLoader />
 
 	const {
 		getPersonalData: { name, profilePicture },

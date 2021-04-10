@@ -2,7 +2,9 @@ import React from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import Button from '@material-ui/core/Button'
 import { mutate } from 'swr'
+import dynamic from 'next/dynamic'
 
+import CircularLoader from 'components/Loaders/CircularLoader'
 import createRequest from 'utils/createRequest'
 import { useIsFollower, useIsFollowee } from 'hooks/followHooks'
 import { useProfileUserID } from 'hooks/profileContextHooks'
@@ -13,6 +15,8 @@ import {
 	getFollowees,
 	getFollowers,
 } from 'graphql/queries/followQueries'
+
+const SwrErrorAlert = dynamic(() => import('components/Alerts/SwrErrorAlert'))
 
 export const useStyles = makeStyles(({ spacing }) => ({
 	buttonStyle: {
@@ -27,11 +31,12 @@ const FollowButton = () => {
 
 	const profileUserId = useProfileUserID()
 
-	const { data: follower } = useIsFollower()
-	const { data: followee } = useIsFollowee()
+	const { data: follower, error: followerError } = useIsFollower()
+	const { data: followee, error: followeeError } = useIsFollowee()
 
-	if (!follower) return <div> ...loading </div>
-	if (!followee) return <div> ...loading </div>
+	if (followerError || followeeError) return <SwrErrorAlert />
+
+	if (!follower || !followee) return <CircularLoader />
 
 	let clickHandeler: () => void
 

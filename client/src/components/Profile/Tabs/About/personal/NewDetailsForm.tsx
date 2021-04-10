@@ -29,6 +29,8 @@ const AutoExpandField = dynamic(
 	{ loading: () => <CircularLoader /> }
 )
 
+const SwrErrorAlert = dynamic(() => import('components/Alerts/SwrErrorAlert'))
+
 const fieldComponent = (value: string) => {
 	if (value === DATE_OF_BIRTH) {
 		return DatePicker
@@ -81,8 +83,8 @@ const NewDetailsForm = ({ setIsAdding, isAdding }: Props) => {
 		setIsAdding(false)
 	}
 
-	if (error) return <div>...error</div>
-	if (!data) return <div>...loading</div>
+	if (error) return <SwrErrorAlert />
+	if (!data) return <CircularLoader />
 
 	const { getPersonalData } = data
 

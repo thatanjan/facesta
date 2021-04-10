@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import dynamic from 'next/dynamic'
 import Image from 'next/image'
 import Paper from '@material-ui/core/Paper'
 import Grid from '@material-ui/core/Grid'
@@ -12,10 +13,14 @@ import ProfilePictureUpload, {
 	Base64,
 } from 'components/Upload/ProfilePictureUpload'
 
+import CircularLoader from 'components/Loaders/CircularLoader'
+
 import { useIsSelf, useProfileUserID } from 'hooks/profileContextHooks'
 import useGetPersonalData from 'hooks/useGetProfileData'
 import createRequest from 'utils/createRequest'
 import { uploadProfilePicture } from 'graphql/mutations/profileMutations'
+
+const SwrErrorAlert = dynamic(() => import('components/Alerts/SwrErrorAlert'))
 
 const useStyles = makeStyles((theme: Theme) => ({
 	container: {
@@ -47,6 +52,9 @@ export const ProfileCover = () => {
 	const isSelf = useIsSelf()
 	const { data, error, mutate } = useGetPersonalData(profileUserID)
 
+	if (!data) return <CircularLoader />
+	if (error) return <SwrErrorAlert />
+
 	const action = async (image: Base64) => {
 		setUploadingPost(true)
 		const res = await createRequest({
@@ -63,9 +71,6 @@ export const ProfileCover = () => {
 		type: 'uploadProfilePicture',
 		mutate,
 	}
-
-	if (error) return <div>failed to load</div>
-	if (!data) return <div>loading...</div>
 
 	const {
 		getPersonalData: { name, bio, profilePicture },

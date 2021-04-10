@@ -8,9 +8,13 @@ import { useGetPersonalData } from 'hooks/useGetProfileData'
 import { useIsSelf, useProfileUserID } from 'hooks/profileContextHooks'
 import { DATE_OF_BIRTH } from 'variables/global'
 import parseCamelCase from 'utils/parseCamelCase'
+
+import CircularLoader from 'components/Loaders/CircularLoader'
 import EachField from 'components/Profile/Tabs/About/DetailsPreview'
 
 const NewDetails = dynamic(() => import('./NewDetails'))
+
+const SwrErrorAlert = dynamic(() => import('components/Alerts/SwrErrorAlert'))
 
 export const personalDetailsField = [
 	'name',
@@ -45,7 +49,8 @@ const PersonalDetails = () => {
 
 	const { data, error } = useGetPersonalData(profileUserID)
 
-	if (!data) return '...loading'
+	if (!data) return <CircularLoader />
+	if (error) return <SwrErrorAlert />
 
 	const { getPersonalData } = data
 

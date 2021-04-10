@@ -10,6 +10,7 @@ import PageWrapper from 'components/Layout/PageWrapper'
 import PageLayoutComponent from 'components/Layout/PageLayoutComponent'
 import ProfileCover from 'components/Profile/ProfileCover'
 import ProfileTabMenu from 'components/TabMenus/ProfileTabMenu'
+import CircularLoader from 'components/Loaders/CircularLoader'
 
 import ProfileContextProvider, {
 	State as ProfileContextInterface,
@@ -24,7 +25,9 @@ import createRedirectObject from 'utils/createRedirectObject'
 import Requset from 'interfaces/requsetResponse'
 import { PageProps } from 'interfaces/global'
 
-const FollowButton = dynamic(() => import('components/Buttons/FollowButton'))
+const FollowButton = dynamic(() => import('components/Buttons/FollowButton'), {
+	loading: () => <CircularLoader />,
+})
 
 interface Props extends ProfileContextInterface, PageProps {}
 

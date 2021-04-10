@@ -29,6 +29,8 @@ const useStyles = makeStyles((theme: Theme) => ({
 	},
 }))
 
+const SwrErrorAlert = dynamic(() => import('components/Alerts/SwrErrorAlert'))
+
 const AppHeaderMenus = () => {
 	const options = ['settings & privacy', 'help and support', 'logout']
 
@@ -36,12 +38,12 @@ const AppHeaderMenus = () => {
 
 	const { push } = useRouter()
 
-	const  id  = useOwnUserId()
+	const id = useOwnUserId()
 
 	const { data, error } = useGetPersonalData(id)
 
-	if (error) return <div>failed to load</div>
-	if (!data) return <div>loading...</div>
+	if (error) return <SwrErrorAlert />
+	if (!data) return <CircularLoader />
 
 	const {
 		getPersonalData: { profilePicture, name },

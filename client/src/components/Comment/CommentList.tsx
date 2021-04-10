@@ -9,19 +9,21 @@ import Avatar from '@material-ui/core/Avatar'
 import Typography from '@material-ui/core/Typography'
 import ReactInfiniteScroll from 'react-infinite-scroll-component'
 import { nanoid } from 'nanoid'
+import Box from '@material-ui/core/Box'
+import dynamic from 'next/dynamic'
 
 import { useGetAllComments, Input as HookInput } from 'hooks/commentHooks'
 import { Comment } from 'interfaces/post'
-import Box from '@material-ui/core/Box'
+
+import CircularLoader from 'components/Loaders/CircularLoader'
+
+const SwrErrorAlert = dynamic(() => import('components/Alerts/SwrErrorAlert'))
 
 const useStyles = makeStyles((theme: Theme) =>
 	createStyles({
 		root: {
 			width: '100%',
 			backgroundColor: theme.palette.background.paper,
-		},
-		inline: {
-			/* display: 'inline', */
 		},
 	})
 )
@@ -38,7 +40,14 @@ const CommentList = ({ postID, postUserID, newCommentAdded }: Props) => {
 		postUserID,
 	})
 
-	console.log(data)
+	useEffect(() => {
+		if (newCommentAdded) {
+			mutate()
+		}
+	}, [newCommentAdded])
+
+	if (!data) return <CircularLoader />
+	if (error) return <SwrErrorAlert />
 
 	let isLoadingMore = true
 	let allComments: Comment[] = []
@@ -54,12 +63,6 @@ const CommentList = ({ postID, postUserID, newCommentAdded }: Props) => {
 			allComments = [...allComments, ...element.getAllComments.comments]
 		})
 	}
-
-	useEffect(() => {
-		if (newCommentAdded) {
-			mutate()
-		}
-	}, [newCommentAdded])
 
 	return (
 		<>
@@ -77,9 +80,8 @@ const CommentList = ({ postID, postUserID, newCommentAdded }: Props) => {
 							text,
 							date,
 							user: {
-								name,
 								_id,
-								profile: { profilePicture },
+								profile: { name, profilePicture },
 							},
 						}: Comment) => (
 							<Box key={nanoid()}>

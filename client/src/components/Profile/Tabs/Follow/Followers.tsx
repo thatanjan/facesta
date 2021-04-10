@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react'
+import dynamic from 'next/dynamic'
 import { makeStyles, Theme } from '@material-ui/core/styles'
 import List from '@material-ui/core/List'
 import ListItem from '@material-ui/core/ListItem'
@@ -11,6 +12,12 @@ import { nanoid } from 'nanoid'
 import { PostUser as User } from 'interfaces/post'
 import MuiLink from 'components/Links/MuiLink'
 import { cloudinaryURL, FOLLOWEES, FOLLOWERS } from 'variables/global'
+
+import CircularLoader from 'components/Loaders/CircularLoader'
+
+const SwrErrorAlert = dynamic(() => import('components/Alerts/SwrErrorAlert'), {
+	loading: () => <CircularLoader />,
+})
 
 const useStyles = makeStyles((theme: Theme) => ({
 	root: {
@@ -63,9 +70,9 @@ export const FollowComponent = ({
 		}
 	}, [])
 
-	if (error) return <div> error </div>
+	if (error) return <SwrErrorAlert />
 
-	if (!data) return <div> loading </div>
+	if (!data) return <CircularLoader />
 
 	let isLoadingMore = true
 

@@ -35,6 +35,8 @@ const DropDownMenu = dynamic(
 	{ loading: () => <CircularLoader /> }
 )
 
+const SwrErrorAlert = dynamic(() => import('components/Alerts/SwrErrorAlert'))
+
 const useStyles = makeStyles(theme => ({
 	root: {
 		maxWidth: '100%',
@@ -110,6 +112,10 @@ const SinglePost = ({
 		postUserID,
 		postID,
 	})
+
+	if (totalCommentsResult?.error) {
+		return <SwrErrorAlert />
+	}
 
 	if (totalCommentsResult?.data) {
 		const data = totalCommentsResult?.data
