@@ -12,6 +12,7 @@ export const getAllPost = gql`
 				totalLikes
 				totalComments
 				date
+				hasLiked
 			}
 			errorMessage
 		}
@@ -30,6 +31,7 @@ export const getSinglePost = gql`
 				totalLikes
 				totalComments
 				date
+				hasLiked
 
 				user {
 					_id
@@ -56,6 +58,7 @@ export const getNewsFeedPost = gql`
 				totalLikes
 				totalComments
 				date
+				hasLiked
 
 				user {
 					_id
