@@ -1,3 +1,5 @@
+import { Theme } from '@material-ui/core/styles'
+
 const AUTHENTICATION = 'authentication'
 const createAuthUrl = (restUrl: string): string =>
 	`/${AUTHENTICATION}${restUrl}`
@@ -29,7 +31,7 @@ const FOLLOWING = 'following'
 
 const APP_NAME = 'Confession'
 
-const screenSizeDrawer: string = '(min-width:1280px)'
+const screenSizeDrawer: Function = (theme: Theme) => theme.breakpoints.up('lg')
 
 const ERROR_MESSAGE = 'errorMessage'
 const MESSAGE = 'message'
