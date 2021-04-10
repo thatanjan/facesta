@@ -51,6 +51,9 @@ export const useGetNewsFeedPost = () => {
 		if (previousPageData && previousPageData.getNewsFeedPost.posts.length === 0)
 			return null
 
+		if (previousPageData && previousPageData.getNewsFeedPost.errorMessage)
+			return null
+
 		const skipnum: number = (index + 1) * 10
 
 		return [getNewsFeedPost, skipnum, userID]
