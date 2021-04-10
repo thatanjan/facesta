@@ -39,8 +39,15 @@ const AllLovedUser = ({ showUsers, setShowUsers, title }: Props) => {
 		user: postUser as string,
 	})
 
+	useEffect(() => {
+		mutate()
+		return () => {
+			mutate(data, false)
+		}
+	}, [])
+
 	if (error) return <SwrErrorAlert />
-	if (data) return <CircularLoader />
+	if (!data) return <CircularLoader />
 
 	let isLoadingMore = true
 
@@ -57,13 +64,6 @@ const AllLovedUser = ({ showUsers, setShowUsers, title }: Props) => {
 			allLikers = [...allLikers, ...element.getAllLikes.users]
 		})
 	}
-
-	useEffect(() => {
-		mutate()
-		return () => {
-			mutate(data, false)
-		}
-	}, [])
 
 	return (
 		<UserListModal {...{ showUsers, setShowUsers, title, mutate }}>
