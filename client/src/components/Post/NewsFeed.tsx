@@ -31,6 +31,8 @@ const NewsFeed = ({ shouldMutate }: Props) => {
 
 	let isLoadingMore = true
 
+	let errorFromServer = false
+
 	let allPost: Post[] = []
 
 	try {
@@ -40,6 +42,7 @@ const NewsFeed = ({ shouldMutate }: Props) => {
 			const { errorMessage } = lastResponse[QUERY_NAME]
 
 			if (errorMessage) {
+				errorFromServer = true
 				console.log(errorMessage)
 			}
 
@@ -48,12 +51,11 @@ const NewsFeed = ({ shouldMutate }: Props) => {
 			if (Array.isArray(posts) && (posts.length === 0 || posts.length < 10)) {
 				isLoadingMore = false
 			}
-
-			if (Array.isArray(posts)) {
-				console.log(allPost)
-				allPost = allPost.concat(posts)
-			}
 		}
+
+		data.forEach(element => {
+			allPost = [...allPost, ...element.getNewsFeedPost.posts]
+		})
 	} catch (_) {
 		return <Alert checked severity='error' message='Please try again' />
 	}
@@ -72,7 +74,13 @@ const NewsFeed = ({ shouldMutate }: Props) => {
 					))}
 			</InfiniteScroll>
 
-			{error && <Alert checked severity='error' message='Please try again' />}
+			{(error || errorFromServer) && (
+				<Alert checked severity='error' message='Please try again' />
+			)}
+
+			{!isLoadingMore && (
+				<Alert checked severity='info' message='No more post to show' />
+			)}
 		</div>
 	)
 }

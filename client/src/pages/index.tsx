@@ -11,7 +11,7 @@ import getToken from 'utils/getToken'
 import createRedirectObject from 'utils/createRedirectObject'
 import { LOGIN_URL, APP_NAME } from 'variables/global'
 import CreatePost from 'components/Post/CreatePost/CreatePost'
-import AllPost from 'components/Post/AllPosts'
+import NewsFeed from 'components/Post/NewsFeed'
 import { PageProps } from 'interfaces/global'
 
 const PageContent = () => {
@@ -21,7 +21,7 @@ const PageContent = () => {
 		<>
 			<CreatePost {...{ setShouldMutate }} />
 
-			<AllPost {...{ shouldMutate, setShouldMutate }} />
+			<NewsFeed {...{ shouldMutate, setShouldMutate }} />
 		</>
 	)
 }
