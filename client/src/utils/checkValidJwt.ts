@@ -1,7 +1,6 @@
 import axios from 'axios'
-import { ifProduction, END_POINT } from 'variables/global'
+import { ifProduction } from 'variables/global'
 
-// eslint-disable-next-line
 const checkValidJwt = async (jwt: string) => {
 	const END_POINT = ifProduction
 		? process.env.NEXT_PUBLIC_SERVER_VALIDATE
@@ -11,6 +10,8 @@ const checkValidJwt = async (jwt: string) => {
 		const isValid = await axios.post(END_POINT as string, { data: { jwt } })
 
 		if (isValid) return true
+
+		return false
 	} catch (error) {
 		return false
 	}
