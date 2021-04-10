@@ -16,7 +16,7 @@ interface Props {
 const UserList = ({ users }: Props) => {
 	return (
 		<>
-			{users.map(({ name, _id, profile: { profilePicture } }) => (
+			{users.map(({ _id, profile: { name, profilePicture } }) => (
 				<MuiLink
 					MuiComponent={ListItem}
 					button
