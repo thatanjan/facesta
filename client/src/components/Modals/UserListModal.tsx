@@ -37,12 +37,11 @@ const UserListModal = ({ setShowUsers, showUsers, title, children }: Props) => {
 		<div>
 			<Dialog
 				fullScreen={fullScreen}
+				fullWidth
 				open={showUsers}
 				onClose={handleClose}
 				scroll={scroll}
-				maxWidth='md'
-				aria-labelledby='scroll-dialog-title'
-				aria-describedby='scroll-dialog-description'
+				maxWidth='sm'
 			>
 				<DialogTitle id='scroll-dialog-title'>{title}</DialogTitle>
 				<DialogContent dividers>{children}</DialogContent>

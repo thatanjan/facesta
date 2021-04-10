@@ -12,6 +12,10 @@ const useStyles = makeStyles((theme: Theme) => ({
 		'& > a': {
 			flexBasis: '100%',
 		},
+
+		'& > .infinite-scroll-component__outerdiv': {
+			width: '100%',
+		},
 	},
 }))
 
