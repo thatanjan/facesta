@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { nanoid } from 'nanoid'
 import InfiniteScroll from 'react-infinite-scroll-component'
 
@@ -19,6 +19,26 @@ const QUERY_NAME = 'getNewsFeedPost'
 
 const NewsFeed = ({ shouldMutate }: Props) => {
 	const { data, error, setSize, size, mutate } = useGetNewsFeedPost()
+
+	const { haveSeenFeedOnce, setHaveSeenFeedOnce } = useHaveSeenFeedOnce()
+
+	useEffect(() => {
+		if (shouldMutate) {
+			mutate()
+		}
+	}, [shouldMutate])
+
+	useEffect(() => {
+		if (haveSeenFeedOnce && !shouldMutate) {
+			mutate()
+		}
+	}, [haveSeenFeedOnce])
+
+	useEffect(() => {
+		if (!haveSeenFeedOnce) {
+			setHaveSeenFeedOnce(true)
+		}
+	}, [])
 
 	if (!data)
 		return (
