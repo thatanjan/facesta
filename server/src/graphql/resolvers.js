@@ -6,6 +6,7 @@ import { ProfileResolvers } from './Profile/Profile'
 import { FollowResolvers } from './Follow/Follow'
 import unionTypeResolvers from './unionTypeResolvers'
 import { DateResolvers } from './customScalars'
+import { SearchResolvers } from './Search/Search'
 
 const resolvers = merge(
 	DateResolvers,
@@ -13,7 +14,8 @@ const resolvers = merge(
 	PostResolvers,
 	ProfileResolvers,
 	FollowResolvers,
-	unionTypeResolvers
+	unionTypeResolvers,
+	SearchResolvers
 )
 
 export default resolvers
