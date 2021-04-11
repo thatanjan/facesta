@@ -2,6 +2,7 @@ import React from 'react'
 import dynamic from 'next/dynamic'
 import useMediaQuery from '@material-ui/core/useMediaQuery'
 import Grid from '@material-ui/core/Grid'
+import Box from '@material-ui/core/Box'
 import { makeStyles } from '@material-ui/core/styles'
 
 import CircularLoader from 'components/Loaders/CircularLoader'
@@ -35,22 +36,26 @@ interface Props {
 }
 
 const useStyles = makeStyles(theme => ({
-	containerStyle: {
-		marginTop: '0px',
-		marginBottom: '0px',
-	},
-	contentContainerStyle: {
+	contentSection: {
+		maxHeight: '100vh',
+		overflowY: 'scroll',
 		padding: '0 2rem',
 		[theme.breakpoints.down('lg')]: {
 			padding: '0 .5rem',
 		},
+		'&:last-child': {
+			paddingBottom: '30rem',
+		},
+	},
+	contentContainerStyle: {
+		paddingBottom: '10rem',
 	},
 }))
 
 const PageLayoutComponent = ({ Content }: Props) => {
 	const matches = useMediaQuery(screenSizeDrawer)
 
-	const { containerStyle, contentContainerStyle } = useStyles()
+	const { contentSection, contentContainerStyle } = useStyles()
 
 	return (
 		<>
@@ -59,24 +64,24 @@ const PageLayoutComponent = ({ Content }: Props) => {
 			</DrawerContextProvider>
 
 			<BackgroundPaper>
-				<Grid container justify='space-evenly' className={containerStyle}>
-					{matches && (
-						<Grid item lg={3}>
-							<NavigationDrawerList />
-						</Grid>
-					)}
-					{Content && typeof Content === 'function' && (
-						<Grid item xs={12} lg={6} className={contentContainerStyle}>
+				{matches && (
+					<Grid item lg={3}>
+						<NavigationDrawerList />
+					</Grid>
+				)}
+				{Content && typeof Content === 'function' && (
+					<Grid item xs={12} lg={6} className={contentSection}>
+						<Box className={contentContainerStyle}>
 							<Content />
-						</Grid>
-					)}
+						</Box>
+					</Grid>
+				)}
 
-					{matches && (
-						<Grid item xs={12} lg={3} className={contentContainerStyle}>
-							<RightNavigation />
-						</Grid>
-					)}
-				</Grid>
+				{matches && (
+					<Grid item xs={12} lg={3}>
+						<RightNavigation />
+					</Grid>
+				)}
 			</BackgroundPaper>
 
 			{!matches && <BottomNavigation />}
