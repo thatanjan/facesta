@@ -3,13 +3,15 @@ import {
 	getFollowers,
 	getIsFollower,
 	getIsFollowee,
+	getRecommendedToFollow,
 } from 'graphql/queries/followQueries'
 import { useSWRInfinite } from 'swr'
 
 import createRequest from 'utils/createRequest'
 import { AnyObject } from 'interfaces/global'
-import uswSWRgql from './useSWRgql'
+import useSWRgql from './useSWRgql'
 import { useProfileUserID } from './profileContextHooks'
+import { useOwnUserId } from './userhooks'
 
 export const useGetFollowers = () => {
 	const user = useProfileUserID()
@@ -49,7 +51,7 @@ export const useGetFollowees = () => {
 
 export const useIsFollowee = () => {
 	const user = useProfileUserID()
-	return uswSWRgql({
+	return useSWRgql({
 		key: getIsFollowee,
 		swrDependencies: user,
 		values: { user },
@@ -58,9 +60,18 @@ export const useIsFollowee = () => {
 
 export const useIsFollower = () => {
 	const user = useProfileUserID()
-	return uswSWRgql({
+	return useSWRgql({
 		key: getIsFollower,
 		swrDependencies: user,
 		values: { user },
+	})
+}
+
+export const useGetRecommendedToFollow = () => {
+	const userID = useOwnUserId()
+	return useSWRgql({
+		key: getRecommendedToFollow,
+		swrDependencies: userID,
+		values: {},
 	})
 }
