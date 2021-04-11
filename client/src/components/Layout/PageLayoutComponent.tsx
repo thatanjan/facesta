@@ -23,6 +23,13 @@ const AppHeader = dynamic(() => import('components/AppBars/AppHeader'), {
 	loading: () => <CircularLoader />,
 })
 
+const RightNavigation = dynamic(
+	() => import('components/Navigation/RightNavigation/RightNavigation'),
+	{
+		loading: () => <CircularLoader />,
+	}
+)
+
 interface Props {
 	Content: Function
 }
@@ -59,8 +66,14 @@ const PageLayoutComponent = ({ Content }: Props) => {
 						</Grid>
 					)}
 					{Content && typeof Content === 'function' && (
-						<Grid item xs={12} lg={9} className={contentContainerStyle}>
+						<Grid item xs={12} lg={6} className={contentContainerStyle}>
 							<Content />
+						</Grid>
+					)}
+
+					{matches && (
+						<Grid item xs={12} lg={3} className={contentContainerStyle}>
+							<RightNavigation />
 						</Grid>
 					)}
 				</Grid>
