@@ -1,14 +1,12 @@
+import { and, rule, shield } from 'graphql-shield'
+
+import { USER_DOES_NOT_EXIST } from 'variables/errors'
 import User from 'models/User'
-import { rule, shield } from 'graphql-shield'
 
 const isAuthenticated = rule()(async (_, __, { user, error }) => {
 	if (!user) {
 		return false
 	}
-
-	const doesUserExist = await User.findById(user.id, 'name')
-
-	if (!doesUserExist) return false
 
 	if (error) {
 		return new Error(error)
@@ -17,27 +15,35 @@ const isAuthenticated = rule()(async (_, __, { user, error }) => {
 	return true
 })
 
+const doesUserExist = rule()(async (_, __, { user }) => {
+	const userExist = await User.findById(user.id, 'name')
+
+	if (!userExist) return new Error(USER_DOES_NOT_EXIST)
+
+	return true
+})
+
 export default shield(
 	{
 		Mutation: {
-			createPost: isAuthenticated,
-			deletePost: isAuthenticated,
-			updatePersonalData: isAuthenticated,
-			followUser: isAuthenticated,
-			unfollowUser: isAuthenticated,
-			likePost: isAuthenticated,
-			removeLikePost: isAuthenticated,
-			commentPost: isAuthenticated,
-			removeCommentPost: isAuthenticated,
+			createPost: and(isAuthenticated, doesUserExist),
+			deletePost: and(isAuthenticated, doesUserExist),
+			updatePersonalData: and(isAuthenticated, doesUserExist),
+			followUser: and(isAuthenticated, doesUserExist),
+			unfollowUser: and(isAuthenticated, doesUserExist),
+			likePost: and(isAuthenticated, doesUserExist),
+			removeLikePost: and(isAuthenticated, doesUserExist),
+			commentPost: and(isAuthenticated, doesUserExist),
+			removeCommentPost: and(isAuthenticated, doesUserExist),
 		},
 		Query: {
-			getSinglePost: isAuthenticated,
-			getAllPost: isAuthenticated,
-			getPersonalData: isAuthenticated,
-			getFollowers: isAuthenticated,
-			getFollowees: isAuthenticated,
-			getIsFollowee: isAuthenticated,
-			getIsFollower: isAuthenticated,
+			getSinglePost: and(isAuthenticated, doesUserExist),
+			getAllPost: and(isAuthenticated, doesUserExist),
+			getPersonalData: and(isAuthenticated, doesUserExist),
+			getFollowers: and(isAuthenticated, doesUserExist),
+			getFollowees: and(isAuthenticated, doesUserExist),
+			getIsFollowee: and(isAuthenticated, doesUserExist),
+			getIsFollower: and(isAuthenticated, doesUserExist),
 		},
 	},
 	{
