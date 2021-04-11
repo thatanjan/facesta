@@ -46,6 +46,12 @@ const useStyles = makeStyles(theme => ({
 		'&:last-child': {
 			paddingBottom: '30rem',
 		},
+		'-ms-overflow-style': 'none',
+		scrollbarWidth: 'none',
+
+		'& ::-webkit-scrollbar': {
+			display: 'none',
+		},
 	},
 	contentContainerStyle: {
 		paddingBottom: '10rem',
