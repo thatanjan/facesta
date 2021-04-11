@@ -1,3 +1,4 @@
+import { NextSeo } from 'next-seo'
 import React, { useEffect } from 'react'
 import Cookies from 'js-cookie'
 import { useRouter } from 'next/router'
@@ -41,6 +42,8 @@ const Logout = () => {
 
 	return (
 		<>
+			<NextSeo title='Logout' />
+
 			<Grid container className={container} alignContent='center'>
 				<Grid item xs={12}>
 					<Typography className={title} align='center' variant='h1'>

@@ -1,5 +1,6 @@
+import { NextSeo } from 'next-seo'
 import React from 'react'
-import { useRouter } from 'next/router'
+import Head from 'next/head'
 import Typography from '@material-ui/core/Typography'
 import Grid from '@material-ui/core/Grid'
 import { makeStyles, Theme } from '@material-ui/core/styles'
@@ -26,6 +27,7 @@ const Logout = () => {
 
 	return (
 		<>
+			<NextSeo title='404 | page not found' />
 			<Grid container className={container} alignContent='center'>
 				<Grid item xs={12}>
 					<Typography className={title} align='center' variant='h1'>

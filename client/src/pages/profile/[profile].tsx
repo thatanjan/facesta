@@ -1,3 +1,4 @@
+import { NextSeo } from 'next-seo'
 import React from 'react'
 import dynamic from 'next/dynamic'
 import { GetServerSideProps } from 'next'
@@ -15,7 +16,9 @@ import CircularLoader from 'components/Loaders/CircularLoader'
 import ProfileContextProvider, {
 	State as ProfileContextInterface,
 } from 'context/profileContext'
+
 import { useIsSelf } from 'hooks/profileContextHooks'
+import { useGetPersonalData } from 'hooks/useGetProfileData'
 
 import getToken from 'utils/getToken'
 import decodeToken from 'utils/decodeToken'
@@ -36,6 +39,8 @@ const useStyles = makeStyles(({ spacing }) => ({
 		margin: spacing(2, '0'),
 	},
 }))
+
+const SwrErrorAlert = dynamic(() => import('components/Alerts/SwrErrorAlert'))
 
 const Content = () => {
 	const { buttonGridContainer } = useStyles()
@@ -59,12 +64,26 @@ const Content = () => {
 }
 
 const Profile = ({ id, ...profileContextProps }: Props) => {
+	const { data, error } = useGetPersonalData(profileContextProps.profileUserID)
+
+	if (!data) return <CircularLoader />
+
+	if (error) return <SwrErrorAlert />
+
+	const {
+		getPersonalData: { name },
+	} = data
+
 	return (
-		<PageWrapper id={id}>
-			<ProfileContextProvider {...profileContextProps}>
-				<PageLayoutComponent Content={Content} />
-			</ProfileContextProvider>
-		</PageWrapper>
+		<>
+			<NextSeo title={name} />
+
+			<PageWrapper id={id}>
+				<ProfileContextProvider {...profileContextProps}>
+					<PageLayoutComponent Content={Content} />
+				</ProfileContextProvider>
+			</PageWrapper>
+		</>
 	)
 }
 

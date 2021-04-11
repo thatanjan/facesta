@@ -1,8 +1,7 @@
 import { GetServerSideProps } from 'next'
+import { NextSeo } from 'next-seo'
 import dynamic from 'next/dynamic'
-import Head from 'next/head'
-import { useRouter } from 'next/router'
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import Grid from '@material-ui/core/Grid'
 import Paper from '@material-ui/core/Paper'
 import Typography from '@material-ui/core/Typography'
@@ -17,7 +16,6 @@ import clsx from 'clsx'
 
 import CircularLoader from 'components/Loaders/CircularLoader'
 
-import capitalize from 'utils/capitalize'
 import { LOGIN, SIGN_UP, APP_NAME } from 'variables/global'
 import getToken from 'utils/getToken'
 import createRedirectObject from 'utils/createRedirectObject'
@@ -81,31 +79,24 @@ const SignUpForm = dynamic(
 	{ loading: () => <CircularLoader /> }
 )
 
-const UserAuthenticationPage = () => {
-	const {
-		query: { authentication: auth },
-	}: any = useRouter()
+interface Props {
+	authentication: string
+}
 
-	const [pageTitle, setPageTitle] = useState('Loading')
-
+const UserAuthenticationPage = ({ authentication }: Props) => {
 	const theme = useTheme()
 	const largerThanMD = useMediaQuery(theme.breakpoints.up('md'))
 
 	const { containerStyle, formContainer, headerStyle } = useStyles()
 
-	useEffect(() => {
-		if (auth) {
-			const capitalizeTitle = capitalize(auth)
-			setPageTitle(capitalizeTitle)
-		}
-	}, [auth])
+	let title: string =
+		authentication.charAt(0).toUpperCase() + authentication.slice(1)
+
+	title = title.replace('-', ' ')
 
 	return (
 		<>
-			<Head>
-				<title>{pageTitle}</title>
-				<meta name={pageTitle} content={`users can ${pageTitle} here`} />
-			</Head>
+			<NextSeo title={title} />
 
 			<Grid container className={containerStyle}>
 				<Grid item xs={12} md={6} className={headerStyle}>
@@ -136,8 +127,8 @@ const UserAuthenticationPage = () => {
 						component={Paper}
 						square
 					>
-						{auth === LOGIN && <LogInForm />}
-						{auth === SIGN_UP && <SignUpForm />}
+						{authentication === LOGIN && <LogInForm />}
+						{authentication === SIGN_UP && <SignUpForm />}
 					</Grid>
 				</Grid>
 			</Grid>
@@ -147,12 +138,15 @@ const UserAuthenticationPage = () => {
 
 export default UserAuthenticationPage
 
-export const getServerSideProps: GetServerSideProps = async ({ req }) => {
+export const getServerSideProps: GetServerSideProps = async ({
+	req,
+	query: { authentication },
+}) => {
 	const token = getToken(req as Requset)
 
 	if (token && (await checkValidJwt(token))) {
 		return createRedirectObject('/')
 	}
 
-	return { props: {} }
+	return { props: { authentication } }
 }
