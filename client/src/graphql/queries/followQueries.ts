@@ -48,3 +48,17 @@ export const getIsFollower: string = gql`
 		}
 	}
 `
+
+export const getRecommendedToFollow = gql`
+	query getRecommendedToFollow {
+		getRecommendedToFollow {
+			users {
+				_id
+				profile {
+					name
+					profilePicture
+				}
+			}
+		}
+	}
+`
