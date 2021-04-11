@@ -60,7 +60,6 @@ const PostPage = ({ id, post, postUser }: Props) => {
 					<PageLayoutComponent Content={SinglePostPage} />
 				</PageWrapper>
 			</div>
-			this is a post
 		</div>
 	)
 }
