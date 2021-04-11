@@ -11,6 +11,7 @@ const data = {
 	name: {
 		type: String,
 		required: true,
+		text: true,
 	},
 	personal: {
 		dateOfBirth: {
