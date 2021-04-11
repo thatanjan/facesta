@@ -6,6 +6,7 @@ const FollowType = gql`
 		getFollowees(Input: GetAllInput!): Followees!
 		getIsFollowee(user: ID!): IsFollowee!
 		getIsFollower(user: ID!): IsFollower!
+		getRecommendedToFollow: RecommendedUsers!
 	}
 
 	extend type Mutation {
@@ -31,6 +32,11 @@ const FollowType = gql`
 
 	type Followees {
 		followees: [UserNameIDPic]
+		errorMessage: String
+	}
+
+	type RecommendedUsers {
+		users: [UserNameIDPic]
 		errorMessage: String
 	}
 
