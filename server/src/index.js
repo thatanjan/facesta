@@ -98,9 +98,13 @@ const server = new ApolloServer({
 		makeExecutableSchema({ typeDefs, resolvers }),
 		permissions
 	),
-	context: ({ req: { user, UnauthorizedError } }) => {
+	context: ctx => {
+		const {
+			req: { user, UnauthorizedError },
+		} = ctx
+
 		if (user) {
-			return { user }
+			return { ...ctx, user }
 		}
 
 		if (UnauthorizedError) {
