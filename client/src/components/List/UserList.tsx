@@ -7,7 +7,7 @@ import { nanoid } from 'nanoid'
 
 import { cloudinaryURL } from 'variables/global'
 import MuiLink from 'components/Links/MuiLink'
-import { PostUser as User } from 'interfaces/post'
+import {  User } from 'interfaces/user'
 
 interface Props {
 	users: Array<User>

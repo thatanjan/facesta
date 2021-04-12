@@ -1,3 +1,5 @@
+import { User as PostUser } from './user'
+
 export default interface Post {
 	_id: string
 	text: string
@@ -15,12 +17,4 @@ export interface Comment {
 	text: string
 	date: Date
 	user: PostUser
-}
-
-export interface PostUser {
-	_id: string
-	profile: {
-		name: string
-		profilePicture: string
-	}
 }

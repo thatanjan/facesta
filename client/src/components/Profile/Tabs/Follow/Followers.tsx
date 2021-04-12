@@ -9,7 +9,7 @@ import Avatar from '@material-ui/core/Avatar'
 import ReactInfiniteScroll from 'react-infinite-scroll-component'
 import { nanoid } from 'nanoid'
 
-import { PostUser as User } from 'interfaces/post'
+import {  User } from 'interfaces/user'
 import MuiLink from 'components/Links/MuiLink'
 import { cloudinaryURL, FOLLOWEES, FOLLOWERS } from 'variables/global'
 

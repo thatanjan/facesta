@@ -6,7 +6,8 @@ import { responseInterface } from 'swr'
 import CircularLoader from 'components/Loaders/CircularLoader'
 import { useGetRecommendedToFollow } from 'hooks/followHooks'
 import { useOwnUserId } from 'hooks/userhooks'
-import { PostUser as User } from 'interfaces/post'
+import {  User } from 'interfaces/user'
+
 
 const ListContainer = dynamic(
 	() => import('components/List/UserListContainer'),

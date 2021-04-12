@@ -3,7 +3,7 @@ import dynamic from 'next/dynamic'
 import InfiniteScroll from 'react-infinite-scroll-component'
 import { useRouter } from 'next/router'
 
-import { PostUser as User } from 'interfaces/post'
+import {  User } from 'interfaces/user'
 import { useGetAllLikes } from 'hooks/likeHooks'
 
 import CircularLoader from 'components/Loaders/CircularLoader'

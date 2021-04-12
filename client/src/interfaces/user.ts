@@ -7,3 +7,11 @@ export default interface UserPayload {
 export interface PropsWithUserData {
 	userData: UserPayload
 }
+
+export interface User {
+	_id: string
+	profile: {
+		name: string
+		profilePicture: string
+	}
+}
