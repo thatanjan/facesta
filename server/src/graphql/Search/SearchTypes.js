@@ -9,7 +9,6 @@ const typeDefs = gql`
 		user: ID!
 		profilePicture: String!
 		name: String!
-		score: Float!
 	}
 
 	type SearchUserResult {
