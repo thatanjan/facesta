@@ -7,12 +7,17 @@ import { TextField } from 'formik-material-ui'
 interface Values {
 	text: string
 }
+
 const SearchForm = () => {
-	const { push } = useRouter()
+	const {
+		push,
+		query: { query },
+	} = useRouter()
+
 	return (
 		<Formik
 			initialValues={{
-				text: '',
+				text: query || '',
 			}}
 			validate={values => {
 				const errors: Partial<Values> = {}
@@ -21,10 +26,14 @@ const SearchForm = () => {
 				}
 				return errors
 			}}
-			onSubmit={({ text }) => {
-				const queryText = text.replace(/\s+/g, ' ').trim().replace(/\s+/g, '-')
+			onSubmit={({ text }, { setSubmitting }) => {
+				const queryText = text.replace(/\s+/g, ' ').trim().replace(/\s+/g, '+')
 
-				push(`/search/${queryText}`)
+				push(`/search?query=${queryText}`)
+
+				setTimeout(() => {
+					setSubmitting(false)
+				}, 500)
 			}}
 		>
 			{({ submitForm, isSubmitting }) => (
