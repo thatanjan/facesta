@@ -15,3 +15,9 @@ export interface User {
 		profilePicture: string
 	}
 }
+
+export interface SearchedUser {
+	user: string
+	name: string
+	proiflePicture: string
+}
