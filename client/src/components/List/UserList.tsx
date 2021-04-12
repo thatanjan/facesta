@@ -7,29 +7,47 @@ import { nanoid } from 'nanoid'
 
 import { cloudinaryURL } from 'variables/global'
 import MuiLink from 'components/Links/MuiLink'
-import {  User } from 'interfaces/user'
+import { User, SearchedUser } from 'interfaces/user'
 
 interface Props {
-	users: Array<User>
+	users: Array<User | SearchedUser>
+	searching?: boolean
 }
 
-const UserList = ({ users }: Props) => {
+const UserList = ({ users, searching }: Props) => {
 	return (
 		<>
-			{users.map(({ _id, profile: { name, profilePicture } }) => (
-				<MuiLink
-					MuiComponent={ListItem}
-					button
-					key={nanoid()}
-					href={`/profile/${_id}`}
-				>
-					<ListItemAvatar>
-						<Avatar src={cloudinaryURL(profilePicture)} />
-					</ListItemAvatar>
+			{!searching &&
+				users.map(({ _id, profile: { name, profilePicture } }: User) => (
+					<MuiLink
+						MuiComponent={ListItem}
+						button
+						key={nanoid()}
+						href={`/profile/${_id}`}
+					>
+						<ListItemAvatar>
+							<Avatar src={cloudinaryURL(profilePicture)} />
+						</ListItemAvatar>
 
-					<ListItemText primary={name} />
-				</MuiLink>
-			))}
+						<ListItemText primary={name} />
+					</MuiLink>
+				))}
+
+			{searching &&
+				users.map(({ user, name, profilePicture }: SearchedUser) => (
+					<MuiLink
+						MuiComponent={ListItem}
+						button
+						key={nanoid()}
+						href={`/profile/${user}`}
+					>
+						<ListItemAvatar>
+							<Avatar src={cloudinaryURL(profilePicture)} />
+						</ListItemAvatar>
+
+						<ListItemText primary={name} />
+					</MuiLink>
+				))}
 		</>
 	)
 }
