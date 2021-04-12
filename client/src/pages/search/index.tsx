@@ -1,11 +1,10 @@
-import { useRouter } from 'next/router'
 import { GetServerSideProps } from 'next'
-import { Formik, Form, Field } from 'formik'
-import Button from '@material-ui/core/Button'
-import { TextField } from 'formik-material-ui'
+import dynamic from 'next/dynamic'
 
 import PageWrapper from 'components/Layout/PageWrapper'
 import PageLayoutComponent from 'components/Layout/PageLayoutComponent'
+import CircularLoader from 'components/Loaders/CircularLoader'
+
 import Requset from 'interfaces/requsetResponse'
 import shouldRedirectToAuth from 'utils/shouldRedirectToAuth'
 import decodeToken from 'utils/decodeToken'
@@ -14,46 +13,15 @@ import createRedirectObject from 'utils/createRedirectObject'
 import { LOGIN_URL } from 'variables/global'
 import { PageProps } from 'interfaces/global'
 
-interface Values {
-	text: string
-}
+const SearchForm = dynamic(() => import('components/Forms/SearchForm'), {
+	loading: () => <CircularLoader />,
+})
 
 const PageContent = () => {
-	const { push } = useRouter()
-
 	return (
-		<Formik
-			initialValues={{
-				text: '',
-			}}
-			validate={values => {
-				const errors: Partial<Values> = {}
-				if (!values.text) {
-					errors.text = 'Required'
-				}
-				return errors
-			}}
-			onSubmit={({ text }) => {
-				const queryText = text.replace(/\s+/g, ' ').trim().replace(/\s+/g, '-')
-
-				push(`/search/${queryText}`)
-			}}
-		>
-			{({ submitForm, isSubmitting }) => (
-				<Form>
-					<Field component={TextField} name='text' type='text' label='Search user' />
-					<br />
-					<Button
-						variant='contained'
-						color='primary'
-						disabled={isSubmitting}
-						onClick={submitForm}
-					>
-						Search
-					</Button>
-				</Form>
-			)}
-		</Formik>
+		<>
+			<SearchForm />
+		</>
 	)
 }
 
