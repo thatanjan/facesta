@@ -67,6 +67,7 @@ export default shield(
 			getIsFollowee: and(isAuthenticated, doesUserExist),
 			getIsFollower: and(isAuthenticated, doesUserExist),
 			getRecommendedToFollow: and(isAuthenticated, doesUserExist),
+			searchUser: and(isAuthenticated, doesUserExist),
 		},
 	},
 	{
