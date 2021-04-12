@@ -87,6 +87,7 @@ const NewsFeed = ({ shouldMutate }: Props) => {
 				next={() => setSize(size + 1)}
 				hasMore={isLoadingMore as boolean}
 				loader={<CircularLoader />}
+				scrollableTarget='scrollableDiv'
 			>
 				{Array.isArray(allPost) &&
 					allPost.map((post: Post) => (

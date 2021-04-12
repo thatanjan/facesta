@@ -43,9 +43,6 @@ const useStyles = makeStyles(theme => ({
 		[theme.breakpoints.down('lg')]: {
 			padding: '0 .5rem',
 		},
-		'&:last-child': {
-			paddingBottom: '30rem',
-		},
 		'-ms-overflow-style': 'none',
 		scrollbarWidth: 'none',
 
@@ -76,7 +73,7 @@ const PageLayoutComponent = ({ Content }: Props) => {
 					</Grid>
 				)}
 				{Content && typeof Content === 'function' && (
-					<Grid item xs={12} lg={6} className={contentSection}>
+					<Grid id='scrollableDiv' item xs={12} lg={6} className={contentSection}>
 						<Box className={contentContainerStyle}>
 							<Content />
 						</Box>
