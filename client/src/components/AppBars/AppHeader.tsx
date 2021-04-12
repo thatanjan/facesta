@@ -10,7 +10,6 @@ import useMediaQuery from '@material-ui/core/useMediaQuery'
 import Typography from '@material-ui/core/Typography'
 import IconButton from '@material-ui/core/IconButton'
 import InputBase from '@material-ui/core/InputBase'
-import SearchIcon from '@material-ui/icons/Search'
 
 import CircularLoader from 'components/Loaders/CircularLoader'
 
@@ -78,7 +77,6 @@ const useStyles = makeStyles(theme => ({
 
 const AppHeader = () => {
 	const matches = useMediaQuery(screenSizeDrawer)
-	const shouldShowSearchBox = useMediaQuery('( min-width:600px )')
 
 	const [isMenuClicked, setIsMenuClicked] = useState(false)
 
@@ -137,23 +135,6 @@ const AppHeader = () => {
 					>
 						{APP_NAME}
 					</Typography>
-
-					{shouldShowSearchBox && (
-						<div className={search}>
-							<div className={searchIcon}>
-								<SearchIcon />
-							</div>
-
-							<InputBase
-								placeholder='Search…'
-								classes={{
-									root: inputRoot,
-									input: inputInput,
-								}}
-								inputProps={{ 'aria-label': 'search' }}
-							/>
-						</div>
-					)}
 
 					{!matches && (
 						<IconButton edge='end' onClick={() => push('/message')}>
