@@ -2,7 +2,7 @@ import { gql } from 'apollo-server-express'
 
 const typeDefs = gql`
 	extend type Query {
-		searchUser(text: String): SearchUserResult
+		searchUser(query: String): SearchUserResult
 	}
 
 	type User {
