@@ -1,5 +1,7 @@
 import { GetServerSideProps } from 'next'
 import dynamic from 'next/dynamic'
+import Typography from '@material-ui/core/Typography'
+import { Theme, makeStyles } from '@material-ui/core/styles'
 
 import PageWrapper from 'components/Layout/PageWrapper'
 import PageLayoutComponent from 'components/Layout/PageLayoutComponent'
@@ -17,9 +19,28 @@ const SearchForm = dynamic(() => import('components/Forms/SearchForm'), {
 	loading: () => <CircularLoader />,
 })
 
+const useStyles = makeStyles((theme: Theme) => ({
+	headerStyle: {
+		marginTop: theme.spacing(2),
+		[theme.breakpoints.up('lg')]: {
+			fontSize: '4rem',
+		},
+	},
+}))
+
 const PageContent = () => {
+	const { headerStyle } = useStyles()
+
 	return (
 		<>
+			<Typography
+				className={headerStyle}
+				color='primary'
+				variant='h1'
+				align='center'
+			>
+				Search Users
+			</Typography>
 			<SearchForm />
 		</>
 	)
