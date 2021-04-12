@@ -86,7 +86,9 @@ const resolver = {
 
 				const { _id } = newUser
 
-				const token = jwt.sign({ id: _id }, process.env.SECRET_KEY)
+				const token = jwt.sign({ id: _id }, process.env.SECRET_KEY, {
+					expiresIn: '7d',
+				})
 
 				return { token: `Bearer ${token}` }
 			} catch (error) {

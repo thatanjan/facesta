@@ -17,9 +17,17 @@ const isAuthenticated = rule()(async (_, __, { user, error }) => {
 })
 
 const doesUserExist = rule()(async (_, __, { user }) => {
-	const userExist = await User.findById(user.id, 'name')
+	const userExist = await User.findById(user.id, 'email')
 
 	if (!userExist) return new Error(USER_DOES_NOT_EXIST)
+
+	return true
+})
+
+const doesOtherUserExist = rule()(async (_, { user }) => {
+	const userExist = await User.findById(user, 'email')
+
+	if (!userExist) return new Error(`other ${USER_DOES_NOT_EXIST}`)
 
 	return true
 })
@@ -47,8 +55,8 @@ export default shield(
 			updatePersonalData: and(isAuthenticated, doesUserExist),
 			uploadProfilePicture: and(isAuthenticated, doesUserExist),
 			removeProfilePicture: and(isAuthenticated, doesUserExist),
-			followUser: and(isAuthenticated, doesUserExist),
-			unfollowUser: and(isAuthenticated, doesUserExist),
+			followUser: and(isAuthenticated, doesUserExist, doesOtherUserExist),
+			unfollowUser: and(isAuthenticated, doesUserExist, doesOtherUserExist),
 		},
 		Query: {
 			getSinglePost: and(isAuthenticated, doesUserExist, doesPostExist),
@@ -67,6 +75,7 @@ export default shield(
 			getIsFollowee: and(isAuthenticated, doesUserExist),
 			getIsFollower: and(isAuthenticated, doesUserExist),
 			getRecommendedToFollow: and(isAuthenticated, doesUserExist),
+			searchUser: and(isAuthenticated, doesUserExist),
 		},
 	},
 	{
