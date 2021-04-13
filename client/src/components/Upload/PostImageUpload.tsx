@@ -2,13 +2,13 @@ import React, { useState, useEffect } from 'react'
 import IconButton from '@material-ui/core/IconButton'
 import EditIcon from '@material-ui/icons/Edit'
 import { makeStyles } from '@material-ui/core/styles'
+import Cookies from 'js-cookie'
 
 import ImageUploadModal, {
 	NullOrBooleanType,
 } from 'components/Modals/ImageUploadModal'
 import ImagePreview from 'components/Images/ImagePreview'
 
-import { useOwnUserId } from 'hooks/userhooks'
 import makeBase64 from 'utils/makeBase64Image'
 import UploadAlert, { Props as AlertProps } from 'components/Alerts/Alert'
 
@@ -106,6 +106,8 @@ const ProfilePictureUpload = ({
 						setSuccess(true)
 						setShouldMutate(true)
 						setTimeout(() => setShouldMutate(false))
+						Cookies.remove('postHeader')
+						Cookies.remove('postText')
 					}
 
 					if (errorMessage) {
