@@ -139,7 +139,7 @@ const AppHeader = () => {
 					</MuiLink>
 
 					{!matches && (
-						<IconButton edge='end' onClick={() => push('/message')}>
+						<IconButton edge='end' onClick={() => push('/development')}>
 							<TelegramIcon color='secondary' />
 						</IconButton>
 					)}
