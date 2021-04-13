@@ -20,12 +20,10 @@ const useStyles = makeStyles({
 })
 
 export default function LabelBottomNavigation() {
-	const { push } = useRouter()
-
-	console.log(useRouter())
+	const { push, asPath } = useRouter()
 
 	const { root } = useStyles()
-	const [value, setValue] = React.useState(HOME)
+	const [value, setValue] = React.useState(asPath.substring(1) || HOME)
 
 	const handleChange = (_: React.ChangeEvent<{}>, newValue: string) => {
 		setValue(newValue)
