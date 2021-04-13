@@ -3,10 +3,11 @@ import dynamic from 'next/dynamic'
 import InfiniteScroll from 'react-infinite-scroll-component'
 import { useRouter } from 'next/router'
 
-import {  User } from 'interfaces/user'
+import { User } from 'interfaces/user'
 import { useGetAllLikes } from 'hooks/likeHooks'
 
 import CircularLoader from 'components/Loaders/CircularLoader'
+import Alert from 'components/Alerts/Alert'
 
 const ListContainer = dynamic(
 	() => import('components/List/UserListContainer'),
@@ -28,6 +29,8 @@ interface Props {
 	setShowUsers: (value: boolean) => void
 	title: string
 }
+
+const QUERY_NAME = 'getAllLikes'
 
 const AllLovedUser = ({ showUsers, setShowUsers, title }: Props) => {
 	const {
@@ -51,32 +54,67 @@ const AllLovedUser = ({ showUsers, setShowUsers, title }: Props) => {
 
 	let isLoadingMore = true
 
-	let allLikers: User[] = []
+	if (!data)
+		return (
+			<Alert
+				checked
+				severity='info'
+				message='Please wait we are loading your news feed'
+			/>
+		)
 
-	if (data) {
-		if (data[size - 1]) {
-			if (data[size - 1].getAllLikes?.users.length === 0) {
+	let errorFromServer = false
+
+	let allUsers: User[] = []
+
+	try {
+		const lastResponse = data[size - 1]
+
+		if (lastResponse && lastResponse[QUERY_NAME]) {
+			const { errorMessage } = lastResponse[QUERY_NAME]
+
+			if (errorMessage) {
+				errorFromServer = true
+			}
+
+			const { users } = lastResponse[QUERY_NAME]
+
+			if (Array.isArray(users) && (users.length === 0 || users.length < 10)) {
 				isLoadingMore = false
 			}
 		}
 
 		data.forEach(element => {
-			allLikers = [...allLikers, ...element.getAllLikes.users]
+			allUsers = [...allUsers, ...element.getAllLikes.users]
 		})
+	} catch (_) {
+		return <Alert checked severity='error' message='Please try again' />
 	}
 
 	return (
 		<UserListModal {...{ showUsers, setShowUsers, title, mutate }}>
-			<ListContainer>
-				<InfiniteScroll
-					dataLength={allLikers.length}
-					next={() => setSize(size + 1)}
-					hasMore={isLoadingMore}
-					loader={<h4>Loading...</h4>}
-				>
-					<UserList users={allLikers} />
-				</InfiniteScroll>
-			</ListContainer>
+			{allUsers.length === 0 ? (
+				<Alert checked severity='info' message='No one has liked this post yet' />
+			) : (
+				<ListContainer>
+					<InfiniteScroll
+						dataLength={allUsers.length}
+						next={() => setSize(size + 1)}
+						hasMore={isLoadingMore}
+						loader={<CircularLoader />}
+					>
+						<UserList users={allUsers} />
+					</InfiniteScroll>
+				</ListContainer>
+			)}
+
+			{(error || errorFromServer) && (
+				<Alert checked severity='error' message='Please try again' />
+			)}
+
+			{!isLoadingMore && (
+				<Alert checked severity='info' message='No more users to show' />
+			)}
 		</UserListModal>
 	)
 }
