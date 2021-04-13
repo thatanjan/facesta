@@ -11,6 +11,7 @@ const useStyles = makeStyles((theme: Theme) => ({
 	linkStyle: {
 		color: 'inherit',
 		textDecoration: 'none',
+		cursor: 'pointer',
 
 		'&:hover': {
 			textDecoration: 'initial',
