@@ -49,6 +49,7 @@
 		"serve": "node dist/index.js",
 		"client-dev": "yarn --cwd ../client dev",
 		"client-install": "yarn --cwd ../client install",
-		"both-dev": "concurrently \"yarn run client-dev\" \"yarn run dev \""
+		"both-dev": "concurrently \"yarn run client-dev\" \"yarn run dev \"",
+		"lint": "eslint . --ext ts --ext tsx --ext js"
 	}
 }

@@ -7,7 +7,7 @@ import { applyMiddleware } from 'graphql-middleware'
 import jwt from 'express-jwt'
 import dotenv from 'dotenv'
 import cors from 'cors'
-import jwtoken from 'jsonwebtoken'
+import jwtToken from 'jsonwebtoken'
 
 import permissions from 'config/permissions'
 
@@ -35,10 +35,9 @@ mongoose
 		useUnifiedTopology: true,
 		useCreateIndex: true,
 	})
-	.then(() => {
-		console.log('mongoose connected')
-	})
+	.then(() => {})
 	.catch(error => {
+		// eslint-disable-next-line
 		console.log(error)
 	})
 
@@ -52,7 +51,7 @@ app.use(
 	})
 )
 
-app.use(function (err, req, _, next) {
+app.use((err, req, _, next) => {
 	if (err.name === 'UnauthorizedError') {
 		req.UnauthorizedError = err.message
 	}
@@ -72,16 +71,18 @@ const removeBearer = token => {
 			return newToken
 		}
 	}
+
+	return token
 }
 
 app.post('/validate', ({ body }, res) => {
 	const {
-		data: { jwt },
+		data: { jwt: token },
 	} = body
 
-	const newToken = removeBearer(jwt)
+	const newToken = removeBearer(token)
 
-	jwtoken.verify(newToken, process.env.SECRET_KEY, err => {
+	jwtToken.verify(newToken, process.env.SECRET_KEY, err => {
 		if (err) {
 			res.status(401).send(err)
 		} else {
@@ -107,6 +108,8 @@ const server = new ApolloServer({
 		if (UnauthorizedError) {
 			return { error: UnauthorizedError }
 		}
+
+		return ctx
 	},
 })
 
@@ -114,6 +117,4 @@ server.applyMiddleware({ app })
 
 const port = process.env.PORT || 9000
 
-app.listen({ port }, () => {
-	console.log(`server is running at ${port}`)
-})
+app.listen({ port })

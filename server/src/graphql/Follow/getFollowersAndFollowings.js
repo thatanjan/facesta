@@ -33,7 +33,7 @@ const getFollowers = async (_, { Input: { user, skip } }) => {
 
 		return response
 	} catch (error) {
-		sendErrorMessage(error)
+		return sendErrorMessage(error)
 	}
 }
 
@@ -67,7 +67,7 @@ const getFollowees = async (_, { Input: { user, skip } }) => {
 
 		return response
 	} catch (error) {
-		sendErrorMessage(error)
+		return sendErrorMessage(error)
 	}
 }
 

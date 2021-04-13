@@ -1,34 +1,35 @@
 import Validator from 'validator'
-import is_empty from 'validation/is_empty'
+import isEmpty from 'validation/is_empty'
 
-const validate_login_input = (data) => {
-    let errors = {}
+const validateLoginInput = data => {
+	const theData = data
+	const errors = {}
 
-    const validator_properties = ['email', 'password']
+	const validatorProperties = ['email', 'password']
 
-    for (const property of validator_properties) {
-        data[property] = !is_empty(data[property]) ? data[property] : ''
-    }
+	validatorProperties.forEach(property => {
+		theData[property] = !isEmpty(theData[property]) ? theData[property] : ''
+	})
 
-    if (!Validator.isEmail(data.email)) {
-        errors.email = 'invalid email address'
-        errors.email[0].toUpperCase()
-    }
+	if (!Validator.isEmail(theData.email)) {
+		errors.email = 'invalid email address'
+		errors.email[0].toUpperCase()
+	}
 
-    if (Validator.isEmpty(data.email)) {
-        errors.email = 'email field is required'
-        errors.email[0].toUpperCase()
-    }
+	if (Validator.isEmpty(theData.email)) {
+		errors.email = 'email field is required'
+		errors.email[0].toUpperCase()
+	}
 
-    if (Validator.isEmpty(data.password)) {
-        errors.password = 'password is required'
-        errors.password[0].toUpperCase()
-    }
+	if (Validator.isEmpty(theData.password)) {
+		errors.password = 'password is required'
+		errors.password[0].toUpperCase()
+	}
 
-    return {
-        errors,
-        isValid: is_empty(errors),
-    }
+	return {
+		errors,
+		isValid: isEmpty(errors),
+	}
 }
 
-export default validate_login_input
+export default validateLoginInput

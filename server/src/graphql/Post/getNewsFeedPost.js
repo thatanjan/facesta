@@ -17,8 +17,6 @@ const resolvers = {
 
 				const { newSkip, returnNumber, empty } = skippingList(skip, totalPosts)
 
-				console.table([newSkip, returnNumber])
-
 				if (empty) return { posts: [] }
 
 				const newsFeedPosts = await NewsFeedModel.findOne({
