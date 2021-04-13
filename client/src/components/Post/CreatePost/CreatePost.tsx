@@ -18,6 +18,7 @@ const useStyles = makeStyles({
 	container: {
 		flexGrow: 1,
 		display: 'grid',
+		alignItems: 'center',
 	},
 	cardStyle: {
 		cursor: 'pointer',
@@ -33,7 +34,7 @@ export const CreatePost = ({ setShouldMutate }: Props) => {
 
 	const [isClicked, setIsClicked] = useState(false)
 
-	const clickHandler = () => {
+	const clickHandler = (e: any) => {
 		setIsClicked(!isClicked)
 	}
 
@@ -47,15 +48,15 @@ export const CreatePost = ({ setShouldMutate }: Props) => {
 								<AccountCircleIcon />
 							</IconButton>
 						</Grid>
-						<Grid item className={container} alignItems='center'>
+						<Grid item className={container}>
 							<Typography>Write your feelings</Typography>
 						</Grid>
-						{isClicked && (
-							<CreatePostModal {...{ isClicked, setIsClicked, setShouldMutate }} />
-						)}
 					</Grid>
 				</CardContent>
 			</Card>
+			{isClicked && (
+				<CreatePostModal {...{ isClicked, setIsClicked, setShouldMutate }} />
+			)}
 		</>
 	)
 }
