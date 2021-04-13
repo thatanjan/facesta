@@ -83,7 +83,7 @@ const followUser = async (_, { user }, { user: { id } }) => {
 
 		const followeesUpdate = await Follow.updateOne(
 			{ user: id },
-			{ $push: { followees: user },  $inc: { totalFollowees: 1 } }
+			{ $push: { followees: user }, $inc: { totalFollowees: 1 } }
 		)
 
 		const followersUpdate = await Follow.updateOne(

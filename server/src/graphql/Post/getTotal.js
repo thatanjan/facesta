@@ -5,7 +5,6 @@ const TOTAL_LIKES = 'totalLikes'
 const TOTAL_COMMENTS = 'totalComments'
 
 const mainResolver = field => async (_, { Input: { postID, user } }) => {
-	console.log('ran')
 	try {
 		const PostModel = createPostModel(user)
 

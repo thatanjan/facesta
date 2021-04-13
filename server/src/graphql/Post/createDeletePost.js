@@ -65,7 +65,7 @@ const resolver = {
 
 				return sendMessage('post is published')
 			} catch (error) {
-				sendErrorMessage(error)
+				return sendErrorMessage(error)
 			}
 		},
 		deletePost: async (_, { postID }, { user: { id } }) => {

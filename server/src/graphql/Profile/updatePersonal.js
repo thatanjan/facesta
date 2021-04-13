@@ -1,4 +1,3 @@
-import User from 'models/User'
 import Profile from 'models/Profile'
 import sendErrorMessage from 'utils/errorMessage'
 import sendMessage from 'utils/message'
