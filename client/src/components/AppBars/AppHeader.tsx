@@ -140,7 +140,7 @@ const AppHeader = () => {
 
 					{!matches && (
 						<IconButton edge='end' onClick={() => push('/development')}>
-							<TelegramIcon color='secondary' />
+							<TelegramIcon />
 						</IconButton>
 					)}
 
