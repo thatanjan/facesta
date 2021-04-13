@@ -26,8 +26,9 @@ const SearchForm = () => {
 				}
 				return errors
 			}}
-			onSubmit={({ text }, { setSubmitting }) => {
-				const queryText = text.replace(/\s+/g, ' ').trim().replace(/\s+/g, '+')
+			onSubmit={({ text  }, { setSubmitting }) => {
+				const theText = text as string
+				const queryText = theText.replace(/\s+/g, ' ').trim().replace(/\s+/g, '+') as string
 
 				push(`/search?query=${queryText}`)
 

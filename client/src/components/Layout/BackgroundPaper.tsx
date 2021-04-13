@@ -34,8 +34,8 @@ const useStyles = makeStyles((theme: any) => ({
 const BackgroundPaper = (props: { [key: string]: any }) => {
 	const { paperStyle } = useStyles()
 	return (
-		<Paper
-			component={Grid}
+		<Grid
+			component={Paper}
 			container
 			justify='space-evenly'
 			square
