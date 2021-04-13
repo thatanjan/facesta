@@ -12,6 +12,7 @@ import IconButton from '@material-ui/core/IconButton'
 import InputBase from '@material-ui/core/InputBase'
 
 import CircularLoader from 'components/Loaders/CircularLoader'
+import MuiLink from 'components/Links/MuiLink'
 
 import { useDrawerDispatch } from 'hooks/drawerHooks'
 import { APP_NAME, screenSizeDrawer } from 'variables/global'
@@ -127,14 +128,15 @@ const AppHeader = () => {
 						</>
 					)}
 
-					<Typography
+					<MuiLink
+						MuiComponent={Typography}
 						variant='h6'
 						className={title}
 						component='h6'
-						onClick={!matches ? () => push('/') : undefined}
+						href='/'
 					>
 						{APP_NAME}
-					</Typography>
+					</MuiLink>
 
 					{!matches && (
 						<IconButton edge='end' onClick={() => push('/message')}>

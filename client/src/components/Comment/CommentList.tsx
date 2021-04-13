@@ -15,6 +15,7 @@ import dynamic from 'next/dynamic'
 import { useGetAllComments, Input as HookInput } from 'hooks/commentHooks'
 import { Comment } from 'interfaces/post'
 
+import MuiLink from 'components/Links/MuiLink'
 import Alert from 'components/Alerts/Alert'
 import CircularLoader from 'components/Loaders/CircularLoader'
 
@@ -120,9 +121,11 @@ const CommentList = ({ postID, postUserID, newCommentAdded }: Props) => {
 							<Box key={nanoid()}>
 								<ListItem alignItems='flex-start'>
 									<ListItemAvatar>
-										<Avatar
+										<MuiLink
+											MuiComponent={Avatar}
 											alt={name}
 											src={`https://res.cloudinary.com/thatanjan/${profilePicture}`}
+											href={`/profile/${postUserID}`}
 										/>
 									</ListItemAvatar>
 
@@ -133,7 +136,15 @@ const CommentList = ({ postID, postUserID, newCommentAdded }: Props) => {
 										secondaryTypographyProps={{
 											component: Box,
 										}}
-										primary={name}
+										primary={
+											<MuiLink
+												href={`/profile/${postUserID}`}
+												MuiComponent={Typography}
+												color='textPrimary'
+											>
+												{name}
+											</MuiLink>
+										}
 										secondary={
 											<>
 												<Typography variant='body2' color='textPrimary'>

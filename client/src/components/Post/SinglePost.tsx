@@ -17,9 +17,9 @@ import { responseInterface } from 'swr'
 import { useGetTotalComment } from 'hooks/commentHooks'
 
 import CircularLoader from 'components/Loaders/CircularLoader'
+import MuiLink from 'components/Links/MuiLink'
 
 import { cloudinaryURL } from 'variables/global'
-import MuiLink from 'components/Links/MuiLink'
 import PostType from 'interfaces/post'
 
 const LovePost = dynamic(() => import('./LovePost'), {
@@ -131,7 +131,14 @@ const SinglePost = ({
 		>
 			<CardHeader
 				className={cardHeaderStyle}
-				avatar={<Avatar alt={name} src={cloudinaryURL(profilePicture)} />}
+				avatar={
+					<MuiLink
+						MuiComponent={Avatar}
+						alt={name}
+						href={`/profile/${postUserID}`}
+						src={cloudinaryURL(profilePicture)}
+					/>
+				}
 				action={
 					<>
 						<DropDownMenu
