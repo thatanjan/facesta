@@ -1,7 +1,9 @@
 import produce from 'immer'
 import React from 'react'
 import dynamic from 'next/dynamic'
+import { useRouter } from 'next/router'
 import { responseInterface } from 'swr'
+import Button from '@material-ui/core/Button'
 
 import CircularLoader from 'components/Loaders/CircularLoader'
 import { useGetRecommendedToFollow } from 'hooks/followHooks'
@@ -20,6 +22,8 @@ const UserList = dynamic(() => import('components/List/UserList'), {
 const SwrErrorAlert = dynamic(() => import('components/Alerts/SwrErrorAlert'))
 
 const RightNavigation = () => {
+	const { push } = useRouter()
+
 	const {
 		data,
 		error,
@@ -45,6 +49,22 @@ const RightNavigation = () => {
 	return (
 		<ListContainer listSubheader='People who you would like to follow'>
 			<UserList users={newUsers} />
+
+			{users.length >= 10 && (
+				<Button
+					variant='text'
+					color='secondary'
+					size='small'
+					fullWidth
+					style={{
+						width: '80%',
+						margin: '0 auto',
+					}}
+					onClick={() => push('/development')}
+				>
+					See more
+				</Button>
+			)}
 		</ListContainer>
 	)
 }
