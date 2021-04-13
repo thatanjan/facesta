@@ -6,8 +6,7 @@ import { responseInterface } from 'swr'
 import CircularLoader from 'components/Loaders/CircularLoader'
 import { useGetRecommendedToFollow } from 'hooks/followHooks'
 import { useOwnUserId } from 'hooks/userhooks'
-import {  User } from 'interfaces/user'
-
+import { User } from 'interfaces/user'
 
 const ListContainer = dynamic(
 	() => import('components/List/UserListContainer'),
@@ -44,7 +43,7 @@ const RightNavigation = () => {
 	})
 
 	return (
-		<ListContainer>
+		<ListContainer listSubheader='People who you would like to follow'>
 			<UserList users={newUsers} />
 		</ListContainer>
 	)
