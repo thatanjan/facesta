@@ -1,7 +1,7 @@
 import Cookies from 'js-cookie'
 import { GraphQLClient } from 'graphql-request'
 
-import { TOKEN_NAME, END_POINT, ifProduction } from 'variables/global'
+import { TOKEN_NAME, END_POINT } from 'variables/global'
 
 const token = (): string => {
 	let jwtToken: string | undefined = ''

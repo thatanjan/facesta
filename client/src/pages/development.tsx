@@ -16,11 +16,10 @@ const useStyles = makeStyles((theme: Theme) => ({
 			fontSize: '3rem',
 		},
 	},
-	button: {},
 }))
 
 const Logout = () => {
-	const { container, title, button } = useStyles()
+	const { container, title } = useStyles()
 
 	const { back } = useRouter()
 

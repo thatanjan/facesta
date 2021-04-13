@@ -144,7 +144,10 @@ const FollowComponent = ({ hook, hasSeenBefore, setHasSeenBefore }: Props) => {
 					))}
 			</List>
 
-			{error && <Alert checked severity='error' message='Please try again' />}
+			{error ||
+				(errorFromServer && (
+					<Alert checked severity='error' message='Please try again' />
+				))}
 
 			{!isLoadingMore && (
 				<Alert checked severity='info' message='No more followers to show' />

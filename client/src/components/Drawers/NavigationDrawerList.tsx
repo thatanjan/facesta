@@ -1,4 +1,5 @@
 import dynamic from 'next/dynamic'
+import React, { MouseEvent } from 'react'
 import { nanoid } from 'nanoid'
 import { makeStyles } from '@material-ui/core/styles'
 import List from '@material-ui/core/List'
@@ -23,7 +24,6 @@ import listComponents, { Components } from './NavigationDrawerListData'
 
 const SwrErrorAlert = dynamic(() => import('components/Alerts/SwrErrorAlert'))
 
-import React, { MouseEvent } from 'react'
 export const convertSpaceToDash = (text: string): string | boolean => {
 	if (typeof text === 'string') {
 		return text.replace(/\s/g, '-')

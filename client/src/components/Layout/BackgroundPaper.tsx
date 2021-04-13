@@ -4,8 +4,6 @@ import Grid from '@material-ui/core/Grid'
 import Paper from '@material-ui/core/Paper'
 import { makeStyles } from '@material-ui/core/styles'
 
-import { screenSizeDrawer } from 'variables/global'
-
 const useStyles = makeStyles((theme: any) => ({
 	paperStyle: {
 		maxWidth: '100vw',

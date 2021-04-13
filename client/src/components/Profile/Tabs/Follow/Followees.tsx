@@ -37,7 +37,6 @@ const useStyles = makeStyles((theme: Theme) => ({
 }))
 
 interface Props {
-	name: string
 	hook: Function
 	hasSeenBefore: boolean
 	setHasSeenBefore: (val: boolean) => void
@@ -148,7 +147,10 @@ export const FollowComponent = ({
 					))}
 			</List>
 
-			{error && <Alert checked severity='error' message='Please try again' />}
+			{error ||
+				(errorFromServer && (
+					<Alert checked severity='error' message='Please try again' />
+				))}
 
 			{!isLoadingMore && (
 				<Alert checked severity='info' message='No more followers to show' />

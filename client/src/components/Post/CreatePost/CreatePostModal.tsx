@@ -125,8 +125,6 @@ const CreatePostModal = ({
 			markdown: false,
 		}
 
-		console.log(values)
-
 		const res = await createRequest({
 			key: createPost,
 			values,

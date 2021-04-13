@@ -19,7 +19,7 @@ export const useGetAllComments = ({ postUserID, postID }: Input) => {
 
 	return useSWRInfinite(
 		getKey,
-		async (key, num, user, postID) =>
+		async (key, num, user) =>
 			createRequest({ key, values: { skip: num, postID, user } }),
 		{ revalidateOnFocus: false }
 	) as SWRInfiniteResponseInterface<

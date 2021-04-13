@@ -9,7 +9,6 @@ import TelegramIcon from '@material-ui/icons/Telegram'
 import useMediaQuery from '@material-ui/core/useMediaQuery'
 import Typography from '@material-ui/core/Typography'
 import IconButton from '@material-ui/core/IconButton'
-import InputBase from '@material-ui/core/InputBase'
 
 import CircularLoader from 'components/Loaders/CircularLoader'
 import MuiLink from 'components/Links/MuiLink'
@@ -85,14 +84,7 @@ const AppHeader = () => {
 
 	const { push } = useRouter()
 
-	const {
-		menuButton,
-		title,
-		search,
-		searchIcon,
-		inputInput,
-		inputRoot,
-	} = useStyles()
+	const { menuButton, title } = useStyles()
 
 	const handleMenuClick = () => {
 		setIsMenuClicked(false)

@@ -14,7 +14,6 @@ interface Props {
 	shouldMutate: boolean
 }
 
-const ERROR_MESSAGE = 'errorMessage'
 const QUERY_NAME = 'getNewsFeedPost'
 
 const NewsFeed = ({ shouldMutate }: Props) => {
@@ -63,7 +62,6 @@ const NewsFeed = ({ shouldMutate }: Props) => {
 
 			if (errorMessage) {
 				errorFromServer = true
-				console.log(errorMessage)
 			}
 
 			const { posts } = lastResponse[QUERY_NAME]

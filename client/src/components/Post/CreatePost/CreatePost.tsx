@@ -34,7 +34,7 @@ export const CreatePost = ({ setShouldMutate }: Props) => {
 
 	const [isClicked, setIsClicked] = useState(false)
 
-	const clickHandler = (e: any) => {
+	const clickHandler = () => {
 		setIsClicked(!isClicked)
 	}
 

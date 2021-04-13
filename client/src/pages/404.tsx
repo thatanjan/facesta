@@ -1,6 +1,5 @@
 import { NextSeo } from 'next-seo'
 import React from 'react'
-import Head from 'next/head'
 import Typography from '@material-ui/core/Typography'
 import Grid from '@material-ui/core/Grid'
 import { makeStyles, Theme } from '@material-ui/core/styles'
