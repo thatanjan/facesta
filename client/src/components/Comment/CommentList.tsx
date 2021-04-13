@@ -15,6 +15,7 @@ import dynamic from 'next/dynamic'
 import { useGetAllComments, Input as HookInput } from 'hooks/commentHooks'
 import { Comment } from 'interfaces/post'
 
+import Alert from 'components/Alerts/Alert'
 import CircularLoader from 'components/Loaders/CircularLoader'
 
 const SwrErrorAlert = dynamic(() => import('components/Alerts/SwrErrorAlert'))
@@ -31,6 +32,8 @@ const useStyles = makeStyles((theme: Theme) =>
 interface Props extends HookInput {
 	newCommentAdded: boolean
 }
+
+const QUERY_NAME = 'getAllComments'
 
 const CommentList = ({ postID, postUserID, newCommentAdded }: Props) => {
 	const { root } = useStyles()
@@ -50,11 +53,36 @@ const CommentList = ({ postID, postUserID, newCommentAdded }: Props) => {
 	if (error) return <SwrErrorAlert />
 
 	let isLoadingMore = true
+
+	if (!data)
+		return (
+			<Alert
+				checked
+				severity='info'
+				message='Please wait we are loading your news feed'
+			/>
+		)
+
+	let errorFromServer = false
+
 	let allComments: Comment[] = []
 
-	if (data) {
-		if (data[size - 1]) {
-			if (data[size - 1].getAllComments?.comments.length === 0) {
+	try {
+		const lastResponse = data[size - 1]
+
+		if (lastResponse && lastResponse[QUERY_NAME]) {
+			const { errorMessage } = lastResponse[QUERY_NAME]
+
+			if (errorMessage) {
+				errorFromServer = true
+			}
+
+			const { comments } = lastResponse[QUERY_NAME]
+
+			if (
+				Array.isArray(comments) &&
+				(comments.length === 0 || comments.length < 10)
+			) {
 				isLoadingMore = false
 			}
 		}
@@ -62,7 +90,12 @@ const CommentList = ({ postID, postUserID, newCommentAdded }: Props) => {
 		data.forEach(element => {
 			allComments = [...allComments, ...element.getAllComments.comments]
 		})
+	} catch (_) {
+		return <Alert checked severity='error' message='Please try again' />
 	}
+
+	if (allComments.length === 0)
+		return <Alert checked severity='info' message='This post has no comments' />
 
 	return (
 		<>
@@ -118,6 +151,14 @@ const CommentList = ({ postID, postUserID, newCommentAdded }: Props) => {
 						)
 					)}
 			</List>
+
+			{(error || errorFromServer) && (
+				<Alert checked severity='error' message='Please try again' />
+			)}
+
+			{!isLoadingMore && (
+				<Alert checked severity='info' message='No more comments to show' />
+			)}
 		</>
 	)
 }
