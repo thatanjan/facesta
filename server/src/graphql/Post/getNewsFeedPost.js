@@ -47,6 +47,7 @@ const resolvers = {
 
 				const allPosts = posts.map(({ post: postId, user: { _id: userID } }) => {
 					const PostModel = createPostModel(userID.toString())
+					console.log(PostModel)
 					return PostModel.findById(postId, {
 						likes: { $elemMatch: { $eq: id } },
 						...projection,
