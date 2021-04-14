@@ -37,10 +37,23 @@ const resolvers = {
 				const { posts } = newsFeedPosts
 				posts.reverse()
 
-				const thePostModel = createPostModel(id)
-				const thePost = await thePostModel.findById('6076bec056b6310015436599')
+				const func = async () => {
+					const posts = [1, 2, 3, 4, 5].map(() => {
+						const thePostModel = createPostModel(id)
+						const thePost = thePostModel.findById('6076bec056b6310015436599')
 
-				console.log('one post:', thePost)
+						return thePost
+					})
+
+					const res = await Promise.all(posts)
+
+					return res
+				}
+
+				const thePosts = await func()
+
+				console.log('one post:', thePosts)
+
 				// const gettingPostsWithContent = async () => {
 				// 	const thePostModel = createPostModel(posts[0].user._id)
 				// 	const thePost = await thePostModel.findById(posts[0].post)
