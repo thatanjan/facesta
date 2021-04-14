@@ -9,10 +9,9 @@ import TelegramIcon from '@material-ui/icons/Telegram'
 import useMediaQuery from '@material-ui/core/useMediaQuery'
 import Typography from '@material-ui/core/Typography'
 import IconButton from '@material-ui/core/IconButton'
-import InputBase from '@material-ui/core/InputBase'
-import SearchIcon from '@material-ui/icons/Search'
 
 import CircularLoader from 'components/Loaders/CircularLoader'
+import MuiLink from 'components/Links/MuiLink'
 
 import { useDrawerDispatch } from 'hooks/drawerHooks'
 import { APP_NAME, screenSizeDrawer } from 'variables/global'
@@ -78,7 +77,6 @@ const useStyles = makeStyles(theme => ({
 
 const AppHeader = () => {
 	const matches = useMediaQuery(screenSizeDrawer)
-	const shouldShowSearchBox = useMediaQuery('( min-width:600px )')
 
 	const [isMenuClicked, setIsMenuClicked] = useState(false)
 
@@ -86,14 +84,7 @@ const AppHeader = () => {
 
 	const { push } = useRouter()
 
-	const {
-		menuButton,
-		title,
-		search,
-		searchIcon,
-		inputInput,
-		inputRoot,
-	} = useStyles()
+	const { menuButton, title } = useStyles()
 
 	const handleMenuClick = () => {
 		setIsMenuClicked(false)
@@ -129,35 +120,19 @@ const AppHeader = () => {
 						</>
 					)}
 
-					<Typography
+					<MuiLink
+						MuiComponent={Typography}
 						variant='h6'
 						className={title}
 						component='h6'
-						onClick={!matches ? () => push('/') : undefined}
+						href='/'
 					>
 						{APP_NAME}
-					</Typography>
-
-					{shouldShowSearchBox && (
-						<div className={search}>
-							<div className={searchIcon}>
-								<SearchIcon />
-							</div>
-
-							<InputBase
-								placeholder='Search…'
-								classes={{
-									root: inputRoot,
-									input: inputInput,
-								}}
-								inputProps={{ 'aria-label': 'search' }}
-							/>
-						</div>
-					)}
+					</MuiLink>
 
 					{!matches && (
-						<IconButton edge='end' onClick={() => push('/message')}>
-							<TelegramIcon color='secondary' />
+						<IconButton edge='end' onClick={() => push('/development')}>
+							<TelegramIcon />
 						</IconButton>
 					)}
 

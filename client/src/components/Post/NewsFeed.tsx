@@ -14,7 +14,6 @@ interface Props {
 	shouldMutate: boolean
 }
 
-const ERROR_MESSAGE = 'errorMessage'
 const QUERY_NAME = 'getNewsFeedPost'
 
 const NewsFeed = ({ shouldMutate }: Props) => {
@@ -62,8 +61,8 @@ const NewsFeed = ({ shouldMutate }: Props) => {
 			const { errorMessage } = lastResponse[QUERY_NAME]
 
 			if (errorMessage) {
+				console.log('from erroMessage:', errorMessage)
 				errorFromServer = true
-				console.log(errorMessage)
 			}
 
 			const { posts } = lastResponse[QUERY_NAME]
@@ -77,6 +76,7 @@ const NewsFeed = ({ shouldMutate }: Props) => {
 			allPost = [...allPost, ...element.getNewsFeedPost.posts]
 		})
 	} catch (_) {
+		console.log('from catch:', _)
 		return <Alert checked severity='error' message='Please try again' />
 	}
 
@@ -87,6 +87,7 @@ const NewsFeed = ({ shouldMutate }: Props) => {
 				next={() => setSize(size + 1)}
 				hasMore={isLoadingMore as boolean}
 				loader={<CircularLoader />}
+				scrollableTarget='scrollableDiv'
 			>
 				{Array.isArray(allPost) &&
 					allPost.map((post: Post) => (

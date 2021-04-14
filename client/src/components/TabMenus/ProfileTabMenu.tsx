@@ -119,6 +119,9 @@ const useStyles = makeStyles((theme: any) => ({
 			},
 		},
 	},
+	tabStyle: {
+		fontSize: '0.8rem',
+	},
 }))
 
 const HorizontalMenu = () => {
@@ -126,7 +129,7 @@ const HorizontalMenu = () => {
 		query: { show },
 	} = useRouter()
 
-	const { root, tabsContainer } = useStyles()
+	const { root, tabsContainer, tabStyle } = useStyles()
 	const [value, setValue] = React.useState(0)
 
 	useEffect(() => {
@@ -160,6 +163,7 @@ const HorizontalMenu = () => {
 				>
 					{tabs.map((item, index) => (
 						<Tab
+							className={tabStyle}
 							key={nanoid()}
 							label={item.name}
 							{...a11yProps(index)}

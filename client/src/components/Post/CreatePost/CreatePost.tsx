@@ -6,7 +6,7 @@ import Grid from '@material-ui/core/Grid'
 import CardContent from '@material-ui/core/CardContent'
 import IconButton from '@material-ui/core/IconButton'
 import AccountCircleIcon from '@material-ui/icons/AccountCircle'
-import Input from '@material-ui/core/Input'
+import Typography from '@material-ui/core/Typography'
 
 import CircularLoader from 'components/Loaders/CircularLoader'
 
@@ -15,21 +15,13 @@ const CreatePostModal = dynamic(() => import('./CreatePostModal'), {
 })
 
 const useStyles = makeStyles({
-	inputGridItem: {
+	container: {
 		flexGrow: 1,
 		display: 'grid',
+		alignItems: 'center',
 	},
-	inputStyle: {
-		width: '100%',
-		'&&&:before': {
-			borderBottom: 'none',
-		},
-		'&&:after': {
-			borderBottom: 'none',
-		},
-		'& > input': {
-			cursor: 'pointer',
-		},
+	cardStyle: {
+		cursor: 'pointer',
 	},
 })
 
@@ -38,17 +30,17 @@ interface Props {
 }
 
 export const CreatePost = ({ setShouldMutate }: Props) => {
-	const { inputStyle, inputGridItem } = useStyles()
+	const { cardStyle, container } = useStyles()
 
 	const [isClicked, setIsClicked] = useState(false)
 
-	const inputClickHandler = () => {
+	const clickHandler = () => {
 		setIsClicked(!isClicked)
 	}
 
 	return (
 		<>
-			<Card>
+			<Card className={cardStyle} onClick={clickHandler}>
 				<CardContent>
 					<Grid container>
 						<Grid item>
@@ -56,19 +48,15 @@ export const CreatePost = ({ setShouldMutate }: Props) => {
 								<AccountCircleIcon />
 							</IconButton>
 						</Grid>
-						<Grid item className={inputGridItem}>
-							<Input
-								placeholder='write your feelings'
-								className={inputStyle}
-								onClick={inputClickHandler}
-							/>
+						<Grid item className={container}>
+							<Typography>Write your feelings</Typography>
 						</Grid>
-						{isClicked && (
-							<CreatePostModal {...{ isClicked, setIsClicked, setShouldMutate }} />
-						)}
 					</Grid>
 				</CardContent>
 			</Card>
+			{isClicked && (
+				<CreatePostModal {...{ isClicked, setIsClicked, setShouldMutate }} />
+			)}
 		</>
 	)
 }

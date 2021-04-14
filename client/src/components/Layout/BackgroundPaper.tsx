@@ -4,8 +4,6 @@ import Grid from '@material-ui/core/Grid'
 import Paper from '@material-ui/core/Paper'
 import { makeStyles } from '@material-ui/core/styles'
 
-import { screenSizeDrawer } from 'variables/global'
-
 const useStyles = makeStyles((theme: any) => ({
 	paperStyle: {
 		maxWidth: '100vw',
@@ -34,8 +32,8 @@ const useStyles = makeStyles((theme: any) => ({
 const BackgroundPaper = (props: { [key: string]: any }) => {
 	const { paperStyle } = useStyles()
 	return (
-		<Paper
-			component={Grid}
+		<Grid
+			component={Paper}
 			container
 			justify='space-evenly'
 			square

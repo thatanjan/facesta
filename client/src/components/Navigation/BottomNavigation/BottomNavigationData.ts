@@ -18,11 +18,14 @@ export class NavigationItem {
 }
 
 export const HOME = 'home'
+export const SEARCH = 'search'
+export const NOTIFICATION = 'notification'
+export const ADD = 'add'
 
-const notification = new NavigationItem('notification', NotificationsIcon)
-const add = new NavigationItem('add', AddIcon)
+const notification = new NavigationItem(NOTIFICATION, NotificationsIcon)
+const add = new NavigationItem(ADD, AddIcon)
 const home = new NavigationItem(HOME, HomeIcon)
-const search = new NavigationItem('search', SearchIcon)
+const search = new NavigationItem(SEARCH, SearchIcon)
 
 const navigationItems: NavigationItem[] = [home, search, add, notification]
 

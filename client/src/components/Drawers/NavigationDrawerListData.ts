@@ -33,7 +33,7 @@ const listComponents: List = [
 	{
 		title: 'Videos',
 		Component: VideoLibraryIcon,
-		link: '/videos',
+		link: '/development',
 	},
 	{
 		title: FOLLOWERS,
@@ -48,7 +48,7 @@ const listComponents: List = [
 	{
 		title: 'Settings',
 		Component: SettingsIcon,
-		link: '/settings',
+		link: '/development',
 	},
 	{
 		title: 'Log Out',

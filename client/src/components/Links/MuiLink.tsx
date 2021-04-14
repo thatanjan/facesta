@@ -3,16 +3,22 @@ import React from 'react'
 import clsx from 'clsx'
 import { useRouter } from 'next/router'
 import NextLink from 'next/link'
-import { makeStyles } from '@material-ui/core/styles'
+import { makeStyles, Theme } from '@material-ui/core/styles'
 
 import { AnyObject } from 'interfaces/global'
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme: Theme) => ({
 	linkStyle: {
 		color: 'inherit',
 		textDecoration: 'none',
+		cursor: 'pointer',
+
+		'&:hover': {
+			textDecoration: 'initial',
+			color: theme.palette.secondary.main,
+		},
 	},
-})
+}))
 
 const NextComposed = React.forwardRef(function NextComposed(
 	props: any,

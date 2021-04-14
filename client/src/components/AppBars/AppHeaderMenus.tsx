@@ -1,12 +1,13 @@
 import React from 'react'
 import dynamic from 'next/dynamic'
-import AddIcon from '@material-ui/icons/Add'
 import Typography from '@material-ui/core/Typography'
 import IconButton from '@material-ui/core/IconButton'
 import NotificationsIcon from '@material-ui/icons/Notifications'
 import Avatar from '@material-ui/core/Avatar'
 import TelegramIcon from '@material-ui/icons/Telegram'
+import useMediaQuery from '@material-ui/core/useMediaQuery'
 import ArrowDropDownCircleIcon from '@material-ui/icons/ArrowDropDownCircle'
+import SearchIcon from '@material-ui/icons/Search'
 import { makeStyles, Theme } from '@material-ui/core/styles'
 import { useRouter } from 'next/router'
 
@@ -40,6 +41,8 @@ const AppHeaderMenus = () => {
 
 	const id = useOwnUserId()
 
+	const shouldShowSearchBox = useMediaQuery('( min-width:600px )')
+
 	const { data, error } = useGetPersonalData(id)
 
 	if (error) return <SwrErrorAlert />
@@ -68,14 +71,15 @@ const AppHeaderMenus = () => {
 				</MuiLink>
 			</IconButton>
 
-			<IconButton>
-				<AddIcon />{' '}
-			</IconButton>
-
 			<IconButton edge='end' onClick={() => push('/message')}>
-				<TelegramIcon color='secondary' />
+				<TelegramIcon />
 			</IconButton>
 
+			{shouldShowSearchBox && (
+				<IconButton edge='end' onClick={() => push('/search')}>
+					<SearchIcon />
+				</IconButton>
+			)}
 			<IconButton>
 				<NotificationsIcon />
 			</IconButton>

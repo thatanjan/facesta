@@ -5,7 +5,11 @@ import BottomNavigation from '@material-ui/core/BottomNavigation'
 import BottomNavigationAction from '@material-ui/core/BottomNavigationAction'
 import { nanoid } from 'nanoid'
 
-import navigationItems, { NavigationItem, HOME } from './BottomNavigationData'
+import navigationItems, {
+	NavigationItem,
+	HOME,
+	SEARCH,
+} from './BottomNavigationData'
 
 const useStyles = makeStyles({
 	root: {
@@ -16,10 +20,10 @@ const useStyles = makeStyles({
 })
 
 export default function LabelBottomNavigation() {
-	const { push } = useRouter()
+	const { push, asPath } = useRouter()
 
 	const { root } = useStyles()
-	const [value, setValue] = React.useState('recents')
+	const [value, setValue] = React.useState(asPath.substring(1) || HOME)
 
 	const handleChange = (_: React.ChangeEvent<{}>, newValue: string) => {
 		setValue(newValue)
@@ -27,9 +31,16 @@ export default function LabelBottomNavigation() {
 
 	// eslint-disable-next-line
 	const handleClick = (routeName: string) => {
-		if (routeName === HOME) return push('/')
+		switch (routeName) {
+			case HOME:
+				return push('/')
 
-		push(`/${routeName}`)
+			case SEARCH:
+				return push(`/${SEARCH}`)
+
+			default:
+				return push('/development')
+		}
 	}
 
 	return (

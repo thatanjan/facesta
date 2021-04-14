@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import dynamic from 'next/dynamic'
 import { Formik, Form, Field } from 'formik'
 import Button from '@material-ui/core/Button'
@@ -95,10 +95,6 @@ const NewDetailsForm = ({ setIsAdding, isAdding }: Props) => {
 		if (value === null) {
 			initialData[item] = ''
 		}
-	})
-
-	useEffect(() => {
-		return () => console.log('hello')
 	})
 
 	return (

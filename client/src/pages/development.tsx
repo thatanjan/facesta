@@ -1,6 +1,8 @@
 import { NextSeo } from 'next-seo'
 import React from 'react'
+import { useRouter } from 'next/router'
 import Typography from '@material-ui/core/Typography'
+import Button from '@material-ui/core/Button'
 import Grid from '@material-ui/core/Grid'
 import { makeStyles, Theme } from '@material-ui/core/styles'
 
@@ -14,15 +16,12 @@ const useStyles = makeStyles((theme: Theme) => ({
 			fontSize: '3rem',
 		},
 	},
-	subTitle: {
-		[theme.breakpoints.down('sm')]: {
-			fontSize: '1.5rem',
-		},
-	},
 }))
 
 const Logout = () => {
-	const { container, title, subTitle } = useStyles()
+	const { container, title } = useStyles()
+
+	const { back } = useRouter()
 
 	return (
 		<>
@@ -30,14 +29,12 @@ const Logout = () => {
 			<Grid container className={container} alignContent='center'>
 				<Grid item xs={12}>
 					<Typography className={title} align='center' variant='h1'>
-						404
+						This Page does not exist
 					</Typography>
 				</Grid>
 
-				<Grid item xs={12}>
-					<Typography className={subTitle} variant='h3' align='center'>
-						Sorry No Page Found
-					</Typography>
+				<Grid container item justify='center' xs={12}>
+					<Button onClick={() => back()}>Take me back</Button>
 				</Grid>
 			</Grid>
 		</>

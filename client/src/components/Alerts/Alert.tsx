@@ -1,7 +1,11 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles'
-import { Alert, AlertTitle } from '@material-ui/lab'
+import Alert from '@material-ui/lab/Alert'
+import AlertTitle from '@material-ui/lab/AlertTitle'
 import Slide from '@material-ui/core/Slide'
+import Collapse from '@material-ui/core/Collapse'
+import CloseIcon from '@material-ui/icons/Close'
+import IconButton from '@material-ui/core/IconButton'
 
 const useStyles = makeStyles((theme: Theme) =>
 	createStyles({
@@ -27,6 +31,8 @@ export default function DescriptionAlerts({
 }: Props) {
 	const classes = useStyles()
 
+	const [open, setOpen] = useState(true)
+
 	return (
 		<Slide
 			direction='up'
@@ -36,10 +42,28 @@ export default function DescriptionAlerts({
 			timeout={{ exit: 3 }}
 		>
 			<div className={classes.root}>
-				<Alert severity={severity}>
-					<AlertTitle style={{ textTransform: 'capitalize' }}>{severity}</AlertTitle>
-					{message}
-				</Alert>
+				<Collapse in={open}>
+					<Alert
+						severity={severity}
+						action={
+							<IconButton
+								aria-label='close'
+								color='inherit'
+								size='small'
+								onClick={() => {
+									setOpen(false)
+								}}
+							>
+								<CloseIcon fontSize='inherit' />
+							</IconButton>
+						}
+					>
+						<AlertTitle style={{ textTransform: 'capitalize' }}>
+							{severity}
+						</AlertTitle>
+						{message}
+					</Alert>
+				</Collapse>
 			</div>
 		</Slide>
 	)

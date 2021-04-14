@@ -1,10 +1,7 @@
 import React from 'react'
-import { makeStyles, Theme } from '@material-ui/core/styles'
+import { makeStyles } from '@material-ui/core/styles'
 import Typography from '@material-ui/core/Typography'
 import Grid from '@material-ui/core/Grid'
-
-// import ArrayChips from 'components/arrayChips/arrayChips'
-import { DATE_OF_BIRTH } from 'variables/global'
 
 const useStyles = makeStyles(() => ({
 	box: {
