@@ -45,16 +45,20 @@ const resolvers = {
 				const { posts } = newsFeedPosts
 				posts.reverse()
 
-				const allPosts = posts.map(({ post: postId, user: { _id: userID } }) => {
-					const PostModel = createPostModel(userID.toString())
-					console.log(PostModel)
-					return PostModel.findById(postId, {
-						likes: { $elemMatch: { $eq: id } },
-						...projection,
+				const postsWithContent = async () => {
+					const allPosts = posts.map(({ post: postId, user: { _id: userID } }) => {
+						const PostModel = createPostModel(userID.toString())
+						console.log(PostModel)
+						return PostModel.findById(postId, {
+							likes: { $elemMatch: { $eq: id } },
+							...projection,
+						})
 					})
-				})
 
-				const postsWithContent = await Promise.all(allPosts)
+					const resolvedPosts = await Promise.all(allPosts)
+
+					return resolvedPosts
+				}
 
 				console.log(
 					'postsWithContent:  ',
