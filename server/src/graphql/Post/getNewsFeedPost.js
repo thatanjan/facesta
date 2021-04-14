@@ -7,8 +7,6 @@ import skippingList from 'utils/skippingList'
 const resolvers = {
 	Query: {
 		getNewsFeedPost: async (_, { skip }, { user: { id } }) => {
-			console.log('id:', id)
-			console.log('skip:', skip)
 			try {
 				const { totalPosts } = await NewsFeedModel.findOne(
 					{
@@ -17,13 +15,9 @@ const resolvers = {
 					'totalPosts'
 				)
 
-				console.log('totalPosts', totalPosts)
-
 				const { newSkip, returnNumber, empty } = skippingList(skip, totalPosts)
 
 				if (empty) return { posts: [] }
-
-				console.log('returnNumber:', returnNumber)
 
 				const newsFeedPosts = await NewsFeedModel.findOne({
 					user: id,
@@ -40,15 +34,17 @@ const resolvers = {
 						},
 					})
 
-				console.log('newsFeedPosts', newsFeedPosts)
-
 				const { posts } = newsFeedPosts
 				posts.reverse()
 
 				const postsWithContent = async () => {
+					const thePostModel = createPostModel(posts[0].user._id)
+					const thePost = await thePostModel.findById(posts[0].post)
+
+					console.log(('one post:', thePost))
+
 					const allPosts = posts.map(({ post: postId, user: { _id: userID } }) => {
 						const PostModel = createPostModel(userID.toString())
-						console.log(PostModel)
 						return PostModel.findById(postId, {
 							likes: { $elemMatch: { $eq: id } },
 							...projection,
