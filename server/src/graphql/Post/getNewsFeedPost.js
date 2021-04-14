@@ -46,7 +46,10 @@ const resolvers = {
 						({ post: postID, user: { _id: userID } }) => {
 							const PostModel = createPostModel(userID.toString())
 
-							const post = PostModel.findById(postID.toString())
+							const post = PostModel.findById(postID.toString(), {
+								likes: { $elemMatch: { $eq: id } },
+								...projection,
+							})
 
 							return post
 						}
@@ -59,10 +62,19 @@ const resolvers = {
 
 				const resolvedPosts = await resolvePost()
 
-				console.log('resolvedPosts  \n', resolvedPosts)
-				console.log('postUsers: \n', postsUsers)
+				const response = { posts: [] }
 
-				return { posts: [] }
+				response.posts = postsUsers.map((user, index) => {
+					const newObject = {
+						...resolvedPosts[index].toObject(),
+						user: user.toObject(),
+						hasLiked: resolvedPosts[index].length === 0,
+					}
+
+					return newObject
+				})
+
+				return response
 			} catch (err) {
 				console.log('err', err)
 				return sendErrorMessage(err)
