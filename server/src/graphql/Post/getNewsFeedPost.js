@@ -37,49 +37,55 @@ const resolvers = {
 				const { posts } = newsFeedPosts
 				posts.reverse()
 
-				const gettingPostsWithContent = async () => {
-					const thePostModel = createPostModel(posts[0].user._id)
-					const thePost = await thePostModel.findById(posts[0].post)
+				const thePostModel = createPostModel(id)
+				const thePost = await thePostModel.findById('6076bec056b6310015436599')
 
-					console.log(('one post:', thePost))
+				console.log('one post:', thePost)
+				// const gettingPostsWithContent = async () => {
+				// 	const thePostModel = createPostModel(posts[0].user._id)
+				// 	const thePost = await thePostModel.findById(posts[0].post)
 
-					const allPosts = posts.map(({ post: postId, user: { _id: userID } }) => {
-						const PostModel = createPostModel(userID.toString())
-						return PostModel.findById(postId, {
-							likes: { $elemMatch: { $eq: id } },
-							...projection,
-						})
-					})
+				// 	console.log(('one post:', thePost))
 
-					const resolvedPosts = await Promise.all(allPosts)
+				// 	const allPosts = posts.map(({ post: postId, user: { _id: userID } }) => {
+				// 		const PostModel = createPostModel(userID.toString())
+				// 		return PostModel.findById(postId, {
+				// 			likes: { $elemMatch: { $eq: id } },
+				// 			...projection,
+				// 		})
+				// 	})
 
-					return resolvedPosts
-				}
+				// 	const resolvedPosts = await Promise.all(allPosts)
 
-				const postsWithContent = await gettingPostsWithContent()
+				// 	return resolvedPosts
+				// }
 
-				console.log(
-					'postsWithContent:  ',
-					JSON.stringify(postsWithContent, null, 2)
-				)
+				// const postsWithContent = await gettingPostsWithContent()
 
-				const responseObject = { posts: [] }
+				// console.log(
+				// 	'postsWithContent:  ',
+				// 	JSON.stringify(postsWithContent, null, 2)
+				// )
 
-				posts.forEach((__, index) => {
-					if (postsWithContent[index]) {
-						const newObject = {
-							...postsWithContent[index].toObject(),
-							hasLiked: postsWithContent[index].likes.length === 1,
-							user: posts[index].user.toObject(),
-						}
+				// const responseObject = { posts: [] }
 
-						responseObject.posts.push(newObject)
-					}
-				})
+				// posts.forEach((__, index) => {
+				// 	if (postsWithContent[index]) {
+				// 		const newObject = {
+				// 			...postsWithContent[index].toObject(),
+				// 			hasLiked: postsWithContent[index].likes.length === 1,
+				// 			user: posts[index].user.toObject(),
+				// 		}
 
-				console.log('responseObject', responseObject)
+				// 		responseObject.posts.push(newObject)
+				// 	}
+				// })
 
-				return responseObject
+				// console.log('responseObject', responseObject)
+
+				// return responseObject
+
+				return { posts: [] }
 			} catch (err) {
 				console.log('err', err)
 				return sendErrorMessage(err)
