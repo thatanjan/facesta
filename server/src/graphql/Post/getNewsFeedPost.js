@@ -7,8 +7,6 @@ import skippingList from 'utils/skippingList'
 const resolvers = {
 	Query: {
 		getNewsFeedPost: async (_, { skip }, { user: { id } }) => {
-			console.log('id:', id)
-			console.log('skip:', skip)
 			try {
 				const { totalPosts } = await NewsFeedModel.findOne(
 					{
@@ -17,13 +15,9 @@ const resolvers = {
 					'totalPosts'
 				)
 
-				console.log('totalPosts', totalPosts)
-
 				const { newSkip, returnNumber, empty } = skippingList(skip, totalPosts)
 
 				if (empty) return { posts: [] }
-
-				console.log('returnNumber:', returnNumber)
 
 				const newsFeedPosts = await NewsFeedModel.findOne({
 					user: id,
@@ -33,6 +27,7 @@ const resolvers = {
 						path: 'posts',
 						populate: {
 							path: 'user',
+							select: 'profile',
 							populate: {
 								path: 'profile',
 								select: 'profilePicture name',
@@ -40,43 +35,47 @@ const resolvers = {
 						},
 					})
 
-				console.log('newsFeedPosts', newsFeedPosts)
-
 				const { posts } = newsFeedPosts
+
 				posts.reverse()
 
-				const allPosts = posts.map(({ post: postId, user: { _id: userID } }) => {
-					const PostModel = createPostModel(userID.toString())
-					return PostModel.findById(postId, {
-						likes: { $elemMatch: { $eq: id } },
-						...projection,
-					})
-				})
+				const postsUsers = posts.map(({ user }) => user)
 
-				const postsWithContent = await Promise.all(allPosts)
+				const resolvePost = async () => {
+					const postPromises = posts.map(
+						({ post: postID, user: { _id: userID } }) => {
+							const PostModel = createPostModel(userID.toString())
 
-				console.log(
-					'postsWithContent:  ',
-					JSON.stringify(postsWithContent, null, 2)
-				)
+							const post = PostModel.findById(postID.toString(), {
+								likes: { $elemMatch: { $eq: id } },
+								...projection,
+							})
 
-				const responseObject = { posts: [] }
+							return post
+						}
+					)
 
-				posts.forEach((__, index) => {
+					const resolved = await Promise.all(postPromises)
+
+					return resolved
+				}
+
+				const resolvedPosts = await resolvePost()
+
+				const response = { posts: [] }
+
+				response.posts = postsUsers.map((user, index) => {
 					const newObject = {
-						...postsWithContent[index].toObject(),
-						hasLiked: postsWithContent[index].likes.length === 1,
-						user: posts[index].user.toObject(),
+						...resolvedPosts[index].toObject(),
+						user: user.toObject(),
+						hasLiked: resolvedPosts[index].length === 0,
 					}
 
-					responseObject.posts.push(newObject)
+					return newObject
 				})
 
-				console.log('responseObject', responseObject)
-
-				return responseObject
+				return response
 			} catch (err) {
-				console.log('err', err)
 				return sendErrorMessage(err)
 			}
 		},
