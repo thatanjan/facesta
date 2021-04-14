@@ -35,7 +35,9 @@ mongoose
 		useUnifiedTopology: true,
 		useCreateIndex: true,
 	})
-	.then(() => {})
+	.then(() => {
+		console.log('mongodb connected')
+	})
 	.catch(error => {
 		// eslint-disable-next-line
 		console.log(error)
@@ -117,4 +119,4 @@ server.applyMiddleware({ app })
 
 const port = process.env.PORT || 9000
 
-app.listen({ port })
+app.listen({ port }, () => console.log(`server is running at ${port}`))

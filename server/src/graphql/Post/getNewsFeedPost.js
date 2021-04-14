@@ -64,13 +64,15 @@ const resolvers = {
 				const responseObject = { posts: [] }
 
 				posts.forEach((__, index) => {
-					const newObject = {
-						...postsWithContent[index].toObject(),
-						hasLiked: postsWithContent[index].likes.length === 1,
-						user: posts[index].user.toObject(),
-					}
+					if (postsWithContent[index]) {
+						const newObject = {
+							...postsWithContent[index].toObject(),
+							hasLiked: postsWithContent[index].likes.length === 1,
+							user: posts[index].user.toObject(),
+						}
 
-					responseObject.posts.push(newObject)
+						responseObject.posts.push(newObject)
+					}
 				})
 
 				console.log('responseObject', responseObject)
