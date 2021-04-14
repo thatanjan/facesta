@@ -27,6 +27,7 @@ const resolvers = {
 						path: 'posts',
 						populate: {
 							path: 'user',
+							select: 'profile',
 							populate: {
 								path: 'profile',
 								select: 'profilePicture name',
@@ -35,68 +36,31 @@ const resolvers = {
 					})
 
 				const { posts } = newsFeedPosts
+
 				posts.reverse()
 
-				const func = async () => {
-					const postsss = posts.map(() => {
-						const thePostModel = createPostModel(id)
-						const thePost = thePostModel.findById('6076bec056b6310015436599')
+				const postsUsers = posts.map(({ user }) => user)
 
-						return thePost
-					})
+				const resolvePost = async () => {
+					const postPromises = posts.map(
+						({ post: postID, user: { _id: userID } }) => {
+							const PostModel = createPostModel(userID.toString())
 
-					const res = await Promise.all(postsss)
+							const post = PostModel.findById(postID.toString())
 
-					return res
+							return post
+						}
+					)
+
+					const resolved = await Promise.all(postPromises)
+
+					return resolved
 				}
 
-				const thePosts = await func()
+				const resolvedPosts = await resolvePost()
 
-				console.log('one post:', thePosts)
-
-				// const gettingPostsWithContent = async () => {
-				// 	const thePostModel = createPostModel(posts[0].user._id)
-				// 	const thePost = await thePostModel.findById(posts[0].post)
-
-				// 	console.log(('one post:', thePost))
-
-				// 	const allPosts = posts.map(({ post: postId, user: { _id: userID } }) => {
-				// 		const PostModel = createPostModel(userID.toString())
-				// 		return PostModel.findById(postId, {
-				// 			likes: { $elemMatch: { $eq: id } },
-				// 			...projection,
-				// 		})
-				// 	})
-
-				// 	const resolvedPosts = await Promise.all(allPosts)
-
-				// 	return resolvedPosts
-				// }
-
-				// const postsWithContent = await gettingPostsWithContent()
-
-				// console.log(
-				// 	'postsWithContent:  ',
-				// 	JSON.stringify(postsWithContent, null, 2)
-				// )
-
-				// const responseObject = { posts: [] }
-
-				// posts.forEach((__, index) => {
-				// 	if (postsWithContent[index]) {
-				// 		const newObject = {
-				// 			...postsWithContent[index].toObject(),
-				// 			hasLiked: postsWithContent[index].likes.length === 1,
-				// 			user: posts[index].user.toObject(),
-				// 		}
-
-				// 		responseObject.posts.push(newObject)
-				// 	}
-				// })
-
-				// console.log('responseObject', responseObject)
-
-				// return responseObject
+				console.log('resolvedPosts  \n', resolvedPosts)
+				console.log('postUsers: \n', postsUsers)
 
 				return { posts: [] }
 			} catch (err) {
