@@ -38,14 +38,14 @@ const resolvers = {
 				posts.reverse()
 
 				const func = async () => {
-					const posts = [1, 2, 3, 4, 5].map(() => {
+					const postsss = posts.map(() => {
 						const thePostModel = createPostModel(id)
 						const thePost = thePostModel.findById('6076bec056b6310015436599')
 
 						return thePost
 					})
 
-					const res = await Promise.all(posts)
+					const res = await Promise.all(postsss)
 
 					return res
 				}
