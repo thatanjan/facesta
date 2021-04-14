@@ -37,7 +37,7 @@ const resolvers = {
 				const { posts } = newsFeedPosts
 				posts.reverse()
 
-				const postsWithContent = async () => {
+				const gettingPostsWithContent = async () => {
 					const thePostModel = createPostModel(posts[0].user._id)
 					const thePost = await thePostModel.findById(posts[0].post)
 
@@ -56,18 +56,20 @@ const resolvers = {
 					return resolvedPosts
 				}
 
+				const postsWithContent = await gettingPostsWithContent()
+
 				console.log(
 					'postsWithContent:  ',
-					JSON.stringify(postsWithContent(), null, 2)
+					JSON.stringify(postsWithContent, null, 2)
 				)
 
 				const responseObject = { posts: [] }
 
 				posts.forEach((__, index) => {
-					if (postsWithContent()[index]) {
+					if (postsWithContent[index]) {
 						const newObject = {
-							...postsWithContent()[index].toObject(),
-							hasLiked: postsWithContent()[index].likes.length === 1,
+							...postsWithContent[index].toObject(),
+							hasLiked: postsWithContent[index].likes.length === 1,
 							user: posts[index].user.toObject(),
 						}
 
