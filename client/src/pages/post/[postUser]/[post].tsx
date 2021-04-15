@@ -40,7 +40,7 @@ const PostPage = ({ id }: Props) => {
 			}
 		},
 		any
-	> = useGetSinglePost({ user: postUser, postID: post })
+	> = useGetSinglePost({ user: postUser as string, postID: post as string })
 
 	if (!data) return <CircularLoader />
 	if (error) return <SwrErrorAlert />
