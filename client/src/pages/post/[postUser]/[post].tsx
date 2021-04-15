@@ -1,6 +1,7 @@
 import React from 'react'
 import { NextSeo } from 'next-seo'
 import { GetServerSideProps } from 'next'
+import { useRouter } from 'next/router'
 import { responseInterface } from 'swr'
 
 import SinglePostPage from 'components/Post/SinglePostPage'
@@ -20,12 +21,13 @@ import SwrErrorAlert from 'components/Alerts/SwrErrorAlert'
 
 import { useGetSinglePost } from 'hooks/useGetPost'
 
-interface Props extends PageProps {
-	post: string
-	postUser: string
-}
+interface Props extends PageProps {}
 
-const PostPage = ({ id, post, postUser }: Props) => {
+const PostPage = ({ id }: Props) => {
+	const {
+		query: { postUser, post },
+	} = useRouter()
+
 	const {
 		data,
 		error,
@@ -36,7 +38,7 @@ const PostPage = ({ id, post, postUser }: Props) => {
 			}
 		},
 		any
-	> = useGetSinglePost({ user: postUser, postID: post })
+	> = useGetSinglePost({ user: postUser as string, postID: post as string })
 
 	if (!data) return <CircularLoader />
 	if (error) return <SwrErrorAlert />
@@ -64,10 +66,7 @@ const PostPage = ({ id, post, postUser }: Props) => {
 	)
 }
 
-export const getServerSideProps: GetServerSideProps = async ({
-	req,
-	query: { postUser, post },
-}) => {
+export const getServerSideProps: GetServerSideProps = async ({ req }) => {
 	const token = getToken(req as Requset)
 
 	const shouldRedirect = await shouldRedirectToAuth(token)
@@ -76,7 +75,7 @@ export const getServerSideProps: GetServerSideProps = async ({
 
 	const { id } = decodeToken(token)
 
-	return { props: { id, postUser, post } }
+	return { props: { id } }
 }
 
 export default PostPage
