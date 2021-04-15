@@ -120,13 +120,7 @@ const AppHeader = () => {
 						</>
 					)}
 
-					<MuiLink
-						MuiComponent={Typography}
-						variant='h6'
-						className={title}
-						component='h6'
-						href='/'
-					>
+					<MuiLink href='/' MuiComponent={Typography} variant='h6' className={title}>
 						{APP_NAME}
 					</MuiLink>
 
