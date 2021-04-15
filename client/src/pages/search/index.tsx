@@ -9,6 +9,7 @@ import PageWrapper from 'components/Layout/PageWrapper'
 import PageLayoutComponent from 'components/Layout/PageLayoutComponent'
 import CircularLoader from 'components/Loaders/CircularLoader'
 import SwrErrorAlert from 'components/Alerts/SwrErrorAlert'
+import Alert from 'components/Alerts/Alert'
 
 import Requset from 'interfaces/requsetResponse'
 import shouldRedirectToAuth from 'utils/shouldRedirectToAuth'
@@ -63,6 +64,9 @@ const SearchResult = ({ query }: Props) => {
 	const {
 		searchUser: { users },
 	} = data
+
+	if (Array.isArray(users) && users.length === 0)
+		return <Alert checked severity='info' message='No users found' />
 
 	return (
 		<ListContainer>
