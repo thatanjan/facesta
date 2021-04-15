@@ -68,7 +68,7 @@ const resolvers = {
 					const newObject = {
 						...resolvedPosts[index].toObject(),
 						user: user.toObject(),
-						hasLiked: resolvedPosts[index].likes.length === 0,
+						hasLiked: resolvedPosts[index].likes.length !== 0,
 					}
 
 					return newObject
