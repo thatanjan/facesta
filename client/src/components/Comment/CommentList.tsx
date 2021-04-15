@@ -125,7 +125,7 @@ const CommentList = ({ postID, postUserID, newCommentAdded }: Props) => {
 											MuiComponent={Avatar}
 											alt={name}
 											src={`https://res.cloudinary.com/thatanjan/${profilePicture}`}
-											href={`/profile/${postUserID}`}
+											href={`/profile/${_id}`}
 										/>
 									</ListItemAvatar>
 
