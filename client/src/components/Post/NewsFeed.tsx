@@ -61,7 +61,6 @@ const NewsFeed = ({ shouldMutate }: Props) => {
 			const { errorMessage } = lastResponse[QUERY_NAME]
 
 			if (errorMessage) {
-				console.log('from erroMessage:', errorMessage)
 				errorFromServer = true
 			}
 
@@ -76,7 +75,6 @@ const NewsFeed = ({ shouldMutate }: Props) => {
 			allPost = [...allPost, ...element.getNewsFeedPost.posts]
 		})
 	} catch (_) {
-		console.log('from catch:', _)
 		return <Alert checked severity='error' message='Please try again' />
 	}
 

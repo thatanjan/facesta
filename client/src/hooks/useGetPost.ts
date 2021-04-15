@@ -45,8 +45,6 @@ export const useGetSinglePost = ({ user, postID }: SinglePost) => {
 export const useGetNewsFeedPost = () => {
 	const userID = useOwnUserId()
 
-	console.log('userId:', userID)
-
 	const getKey = (index: number, previousPageData: AnyObject) => {
 		if (!userID) return null
 
