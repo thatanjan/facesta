@@ -4,6 +4,9 @@ import { USER_DOES_NOT_EXIST, POST_DOES_NOT_EXIST } from 'variables/errors'
 import User from 'models/User'
 import createPostModel from 'models/Post'
 
+const LIKE_POST = 'like'
+const REMOVE_LIKE = 'removeLike'
+
 const isAuthenticated = rule()(async (_, __, { user, error }) => {
 	if (error) {
 		return new Error(error)
@@ -42,13 +45,39 @@ const doesPostExist = rule()(async (_, { Input: { postID, user } }) => {
 	return true
 })
 
+const doesPostAndLikeExist = operation => {
+	return rule()(async (_, { Input: { postID, user } }, { user: { id } }) => {
+		const PostModel = createPostModel(user.toString())
+		const post = await PostModel.findOne(
+			{ _id: postID },
+			{ likes: { $elemMatch: { $eq: id } } }
+		)
+
+		if (!post) return new Error(POST_DOES_NOT_EXIST)
+
+		if (operation === LIKE_POST && post.likes.length === 0) return true
+
+		if (operation === REMOVE_LIKE && post.likes.length === 0) return true
+
+		return false
+	})
+}
+
 export default shield(
 	{
 		Mutation: {
 			createPost: and(isAuthenticated, doesUserExist),
 			deletePost: and(isAuthenticated, doesUserExist),
-			likePost: and(isAuthenticated, doesUserExist, doesPostExist),
-			removeLikePost: and(isAuthenticated, doesUserExist, doesPostExist),
+			likePost: and(
+				isAuthenticated,
+				doesUserExist,
+				doesPostAndLikeExist(LIKE_POST)
+			),
+			removeLikePost: and(
+				isAuthenticated,
+				doesUserExist,
+				doesPostAndLikeExist(REMOVE_LIKE)
+			),
 			commentPost: and(isAuthenticated, doesUserExist, doesPostExist),
 			removeCommentPost: and(isAuthenticated, doesUserExist, doesPostExist),
 			editPost: and(isAuthenticated, doesUserExist, doesPostExist),
