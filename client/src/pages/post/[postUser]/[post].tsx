@@ -17,6 +17,7 @@ import { PageProps } from 'interfaces/global'
 import Post from 'interfaces/post'
 
 import CircularLoader from 'components/Loaders/CircularLoader'
+import PreLoader from 'components/Loaders/PreLoader'
 import SwrErrorAlert from 'components/Alerts/SwrErrorAlert'
 
 import { useGetSinglePost } from 'hooks/useGetPost'
@@ -40,7 +41,7 @@ const PostPage = ({ id }: Props) => {
 		any
 	> = useGetSinglePost({ user: postUser as string, postID: post as string })
 
-	if (!data) return <CircularLoader />
+	if (!data) return <PreLoader />
 	if (error) return <SwrErrorAlert />
 
 	const {

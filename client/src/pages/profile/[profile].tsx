@@ -12,6 +12,7 @@ import PageLayoutComponent from 'components/Layout/PageLayoutComponent'
 import ProfileCover from 'components/Profile/ProfileCover'
 import ProfileTabMenu from 'components/TabMenus/ProfileTabMenu'
 import CircularLoader from 'components/Loaders/CircularLoader'
+import PreLoader from 'components/Loaders/PreLoader'
 
 import ProfileContextProvider, {
 	State as ProfileContextInterface,
@@ -66,7 +67,7 @@ const Content = () => {
 const Profile = ({ id, ...profileContextProps }: Props) => {
 	const { data, error } = useGetPersonalData(profileContextProps.profileUserID)
 
-	if (!data) return <CircularLoader />
+	if (!data) return <PreLoader />
 
 	if (error) return <SwrErrorAlert />
 
