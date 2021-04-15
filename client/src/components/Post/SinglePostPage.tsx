@@ -57,6 +57,8 @@ const SinglePostPage = () => {
 		query: { post: postID, postUser },
 	} = useRouter()
 
+	console.table(['from SinglePostPage', postID, postUser])
+
 	const { data, error } = useGetSinglePost({
 		user: postUser as string,
 		postID: postID as string,

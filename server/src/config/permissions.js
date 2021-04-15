@@ -33,7 +33,7 @@ const doesOtherUserExist = rule()(async (_, { user }) => {
 })
 
 const doesPostExist = rule()(async (_, { Input: { postID, user } }) => {
-	console.table([postID, user])
+	console.table(['from permission', postID, user])
 	const postModel = createPostModel(user)
 
 	const post = await postModel.findById(postID)
