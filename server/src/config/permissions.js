@@ -55,11 +55,23 @@ const doesPostAndLikeExist = operation => {
 
 		if (!post) return new Error(POST_DOES_NOT_EXIST)
 
-		if (operation === LIKE_POST && post.likes.length === 0) return true
+		switch (operation) {
+			case LIKE_POST:
+				if (post.likes.length !== 0)
+					return new Error('You have already liked this post')
 
-		if (operation === REMOVE_LIKE && post.likes.length === 0) return true
+				break
 
-		return false
+			case REMOVE_LIKE:
+				if (post.likes.length === 0)
+					return new Error('You have not liked this post')
+
+				break
+			default:
+				return false
+		}
+
+		return true
 	})
 }
 
