@@ -35,6 +35,7 @@ interface SinglePost {
 
 export const useGetSinglePost = ({ user, postID }: SinglePost) => {
 	const values = { user, postID }
+	console.table([user, postID])
 	return useSWRgql({
 		key: getSinglePost,
 		values,

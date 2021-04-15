@@ -33,9 +33,12 @@ const doesOtherUserExist = rule()(async (_, { user }) => {
 })
 
 const doesPostExist = rule()(async (_, { Input: { postID, user } }) => {
+	console.table([postID, user])
 	const postModel = createPostModel(user)
 
 	const post = await postModel.findById(postID)
+
+	console.log('post  :', post)
 
 	if (!post) return new Error(POST_DOES_NOT_EXIST)
 

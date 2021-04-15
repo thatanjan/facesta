@@ -21,11 +21,11 @@ import SwrErrorAlert from 'components/Alerts/SwrErrorAlert'
 import { useGetSinglePost } from 'hooks/useGetPost'
 
 interface Props extends PageProps {
-	post: string
+	postID: string
 	postUser: string
 }
 
-const PostPage = ({ id, post, postUser }: Props) => {
+const PostPage = ({ id, postID, postUser }: Props) => {
 	const {
 		data,
 		error,
@@ -36,7 +36,7 @@ const PostPage = ({ id, post, postUser }: Props) => {
 			}
 		},
 		any
-	> = useGetSinglePost({ user: postUser, postID: post })
+	> = useGetSinglePost({ user: postUser, postID })
 
 	if (!data) return <CircularLoader />
 	if (error) return <SwrErrorAlert />
@@ -66,7 +66,7 @@ const PostPage = ({ id, post, postUser }: Props) => {
 
 export const getServerSideProps: GetServerSideProps = async ({
 	req,
-	query: { postUser, post },
+	query: { postUser, postID },
 }) => {
 	const token = getToken(req as Requset)
 
@@ -76,7 +76,7 @@ export const getServerSideProps: GetServerSideProps = async ({
 
 	const { id } = decodeToken(token)
 
-	return { props: { id, postUser, post } }
+	return { props: { id, postUser, postID } }
 }
 
 export default PostPage
