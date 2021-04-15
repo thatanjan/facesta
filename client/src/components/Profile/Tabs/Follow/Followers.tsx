@@ -109,7 +109,7 @@ const FollowComponent = ({ hook, hasSeenBefore, setHasSeenBefore }: Props) => {
 		})
 
 		if (users.length === 0)
-			return <Alert checked severity='info' message='You have no followers' />
+			return <Alert checked severity='info' message='No followers to show' />
 	} catch (_) {
 		return <Alert checked severity='error' message='Please try again' />
 	}
