@@ -49,6 +49,7 @@ const EachField = ({ property, value }: Props) => {
 						MuiComponent={Typography}
 						href={value}
 						style={{ textTransform: 'lowercase' }}
+						target='_blank'
 					>
 						{value}
 					</MuiLink>
