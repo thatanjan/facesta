@@ -57,8 +57,8 @@ const LogInForm = () => {
 		<>
 			<Formik
 				initialValues={{
-					email: '',
-					password: '',
+					email: 'dummy@gmail.com',
+					password: '123456',
 				}}
 				validate={values => {
 					const errors: Error = {}
