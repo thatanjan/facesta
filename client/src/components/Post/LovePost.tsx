@@ -7,6 +7,7 @@ import { makeStyles } from '@material-ui/core/styles'
 import Typography from '@material-ui/core/Typography'
 import IconButton from '@material-ui/core/IconButton'
 
+import AutoHideSnackBar from 'components/Alerts/AutoHideSnackBar'
 import CircularLoader from 'components/Loaders/CircularLoader'
 
 import createRequest from 'utils/createRequest'
@@ -40,6 +41,8 @@ const LovePost = ({ totalLikes, postUserID, postID, hasLiked }: LoveProps) => {
 	const [isLiked, setIsLiked] = useState(hasLiked)
 	const [totalNumberOfLikes, setTotalNumberOfLikes] = useState(0)
 	const { loveStyle, numberOfLikes } = useStyles()
+	const [error, setError] = useState(false)
+	const [message, setMessage] = useState('')
 
 	const clickHandeler = async () => {
 		if (isLiked) {
@@ -53,7 +56,26 @@ const LovePost = ({ totalLikes, postUserID, postID, hasLiked }: LoveProps) => {
 		const key = isLiked ? removeLikePost : likePost
 		const values = { postID, user: postUserID }
 
-		await createRequest({ key, values })
+		try {
+			const response = await createRequest({ key, values })
+
+			const likeErrorMessage = response.likePost?.errorMessage
+			const removeLikeErrorMessage = response.removeLikePost?.errorMessage
+
+			if (likeErrorMessage || removeLikeErrorMessage) {
+				setError(true)
+				setMessage(likeErrorMessage || removeLikeErrorMessage)
+				setTimeout(() => {
+					setError(false)
+				}, 3000)
+			}
+		} catch (e) {
+			setError(true)
+			setMessage(e.message)
+			setTimeout(() => {
+				setError(false)
+			}, 3000)
+		}
 	}
 
 	useEffect(() => {
@@ -75,6 +97,8 @@ const LovePost = ({ totalLikes, postUserID, postID, hasLiked }: LoveProps) => {
 			<IconButton aria-label='love' onClick={clickHandeler}>
 				<FavoriteIcon className={style} />
 			</IconButton>
+
+			{error && <AutoHideSnackBar {...{ message, severity: 'error' }} />}
 
 			{showUsers && (
 				<AllLovedUser
