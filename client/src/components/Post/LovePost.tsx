@@ -43,8 +43,10 @@ const LovePost = ({ totalLikes, postUserID, postID, hasLiked }: LoveProps) => {
 	const { loveStyle, numberOfLikes } = useStyles()
 	const [error, setError] = useState(false)
 	const [message, setMessage] = useState('')
+	const [disableButton, setDisableButton] = useState(false)
 
 	const clickHandeler = async () => {
+		setDisableButton(true)
 		if (isLiked) {
 			setTotalNumberOfLikes(prev => prev - 1)
 			setIsLiked(!isLiked)
@@ -58,6 +60,10 @@ const LovePost = ({ totalLikes, postUserID, postID, hasLiked }: LoveProps) => {
 
 		try {
 			const response = await createRequest({ key, values })
+
+			if (response) {
+				setDisableButton(false)
+			}
 
 			const likeErrorMessage = response.likePost?.errorMessage
 			const removeLikeErrorMessage = response.removeLikePost?.errorMessage
@@ -94,7 +100,11 @@ const LovePost = ({ totalLikes, postUserID, postID, hasLiked }: LoveProps) => {
 			>
 				{totalNumberOfLikes}
 			</Typography>
-			<IconButton aria-label='love' onClick={clickHandeler}>
+			<IconButton
+				aria-label='love'
+				onClick={clickHandeler}
+				disabled={disableButton}
+			>
 				<FavoriteIcon className={style} />
 			</IconButton>
 
