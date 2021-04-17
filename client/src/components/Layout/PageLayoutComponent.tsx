@@ -1,4 +1,7 @@
 import React from 'react'
+import SimpleBar from 'simplebar-react'
+import 'simplebar/dist/simplebar.min.css'
+
 import dynamic from 'next/dynamic'
 import useMediaQuery from '@material-ui/core/useMediaQuery'
 import Grid from '@material-ui/core/Grid'
@@ -73,7 +76,14 @@ const PageLayoutComponent = ({ Content }: Props) => {
 					</Grid>
 				)}
 				{Content && typeof Content === 'function' && (
-					<Grid id='scrollableDiv' item xs={12} lg={6} className={contentSection}>
+					<Grid
+						component={SimpleBar}
+						id='scrollableDiv'
+						item
+						xs={12}
+						lg={6}
+						className={contentSection}
+					>
 						<Box className={contentContainerStyle}>
 							<Content />
 						</Box>
