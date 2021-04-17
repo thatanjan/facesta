@@ -87,6 +87,10 @@ const SignUpForm = () => {
 						errors.password = 'password must be 6 characters long'
 					}
 
+					if (password.length > 30) {
+						errors.password = 'password must be under 30 characters long'
+					}
+
 					if (!confirmPassword) {
 						errors.confirmPassword = 'Required'
 					}

@@ -61,6 +61,8 @@ const LogInForm = () => {
 					password: '123456',
 				}}
 				validate={values => {
+					const { password } = values
+
 					const errors: Error = {}
 					if (!values.email) {
 						errors.email = 'Required'
@@ -69,6 +71,13 @@ const LogInForm = () => {
 					) {
 						errors.email = 'Invalid email address'
 					}
+
+					if (!password) {
+						errors.password = 'Required'
+					} else if (password.length < 6 || password.length > 30) {
+						errors.password = 'Password should be under 6 to 30 characters long'
+					}
+
 					return errors
 				}}
 				onSubmit={async (values, { setSubmitting }) => {
