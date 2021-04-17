@@ -44,13 +44,19 @@ const useStyles = makeStyles(theme => ({
 		overflowY: 'scroll',
 		padding: '0 2rem',
 		[theme.breakpoints.down('lg')]: {
-			padding: '0 .5rem',
+			padding: '0 1rem',
 		},
 		'-ms-overflow-style': 'none',
 		scrollbarWidth: 'none',
 
 		'& ::-webkit-scrollbar': {
 			display: 'none',
+		},
+
+		'& .simplebar-vertical': {
+			'& .simplebar-scrollbar::before': {
+				background: '#d0d0d0',
+			},
 		},
 	},
 	contentContainerStyle: {
