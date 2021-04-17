@@ -3,6 +3,8 @@ import { makeStyles } from '@material-ui/core/styles'
 import Typography from '@material-ui/core/Typography'
 import Grid from '@material-ui/core/Grid'
 
+import MuiLink from 'components/Links/MuiLink'
+
 const useStyles = makeStyles(() => ({
 	box: {
 		flexBasis: '100%',
@@ -42,7 +44,17 @@ const EachField = ({ property, value }: Props) => {
 			</Grid>
 
 			<Grid item>
-				<Typography>{value}</Typography>
+				{property === 'website' ? (
+					<MuiLink
+						MuiComponent={Typography}
+						href={value}
+						style={{ textTransform: 'lowercase' }}
+					>
+						{value}
+					</MuiLink>
+				) : (
+					<Typography>{value}</Typography>
+				)}
 			</Grid>
 		</Grid>
 	)

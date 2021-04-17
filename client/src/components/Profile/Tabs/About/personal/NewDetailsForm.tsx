@@ -22,7 +22,7 @@ import { useOwnUserId } from 'hooks/userhooks'
 import { DATE_OF_BIRTH } from 'variables/global'
 import createRequest from 'utils/createRequest'
 
-import { personalDetailsField, doIfDateOfBirthField } from './PersonalDetails'
+import { personalDetailsField, generateField } from './PersonalDetails'
 
 const AutoExpandField = dynamic(
 	() => import('components/TextFields/AutoExpandField'),
@@ -147,7 +147,7 @@ const NewDetailsForm = ({ setIsAdding, isAdding }: Props) => {
 											type='text'
 											component={fieldComponent(item)}
 											name={item}
-											label={doIfDateOfBirthField(item)}
+											label={generateField(item)}
 											placeholder={item}
 											{...fieldComponentProps(item)}
 										/>
