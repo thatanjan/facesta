@@ -106,6 +106,8 @@ const LovePost = ({ totalLikes, postUserID, postID, hasLiked }: LoveProps) => {
 						showUsers,
 						setShowUsers,
 						title: 'People who liked this post',
+						idOfPost: postID,
+						idOfPostUser: postUserID,
 					}}
 				/>
 			)}

@@ -28,18 +28,26 @@ interface Props {
 	showUsers: boolean
 	setShowUsers: (value: boolean) => void
 	title: string
+	idOfPost?: string
+	idOfPostUser?: string
 }
 
 const QUERY_NAME = 'getAllLikes'
 
-const AllLovedUser = ({ showUsers, setShowUsers, title }: Props) => {
+const AllLovedUser = ({
+	idOfPostUser,
+	idOfPost,
+	showUsers,
+	setShowUsers,
+	title,
+}: Props) => {
 	const {
 		query: { post: postID, postUser },
 	} = useRouter()
 
 	const { data, error, size, setSize, mutate } = useGetAllLikes({
-		postID: postID as string,
-		user: postUser as string,
+		postID: idOfPost || (postID as string),
+		user: idOfPostUser || (postUser as string),
 	})
 
 	useEffect(() => {
