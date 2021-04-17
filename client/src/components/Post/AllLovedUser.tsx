@@ -104,24 +104,25 @@ const AllLovedUser = ({
 			{allUsers.length === 0 ? (
 				<Alert checked severity='info' message='No one has liked this post yet' />
 			) : (
-				<ListContainer>
-					<InfiniteScroll
-						dataLength={allUsers.length}
-						next={() => setSize(size + 1)}
-						hasMore={isLoadingMore}
-						loader={<CircularLoader />}
-					>
-						<UserList users={allUsers} />
-					</InfiniteScroll>
-				</ListContainer>
+				<>
+					<ListContainer>
+						<InfiniteScroll
+							dataLength={allUsers.length}
+							next={() => setSize(size + 1)}
+							hasMore={isLoadingMore}
+							loader={<CircularLoader />}
+						>
+							<UserList users={allUsers} />
+						</InfiniteScroll>
+					</ListContainer>
+					{!isLoadingMore && (
+						<Alert checked severity='info' message='No more users to show' />
+					)}
+				</>
 			)}
 
 			{(error || errorFromServer) && (
 				<Alert checked severity='error' message='Please try again' />
-			)}
-
-			{!isLoadingMore && (
-				<Alert checked severity='info' message='No more users to show' />
 			)}
 		</UserListModal>
 	)
