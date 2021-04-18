@@ -49,7 +49,7 @@ const useStyles = makeStyles(theme => ({
 		'-ms-overflow-style': 'none',
 		scrollbarWidth: 'none',
 
-		'& ::-webkit-scrollbar': {
+		'&::-webkit-scrollbar': {
 			display: 'none',
 		},
 
