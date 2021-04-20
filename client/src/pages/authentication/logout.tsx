@@ -8,6 +8,8 @@ import { makeStyles, Theme } from '@material-ui/core/styles'
 import { cache } from 'swr'
 
 import { LOGIN_URL, APP_NAME } from 'variables/global'
+import { useAppDispatch } from 'redux/hooks/hooks'
+import { logout } from 'redux/slices/userSlice'
 
 const useStyles = makeStyles((theme: Theme) => ({
 	container: {
@@ -27,6 +29,9 @@ const useStyles = makeStyles((theme: Theme) => ({
 }))
 
 const Logout = () => {
+	const dispatch = useAppDispatch()
+
+	dispatch(logout())
 	const { container, title, subTitle } = useStyles()
 
 	const { push } = useRouter()
