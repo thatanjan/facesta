@@ -14,8 +14,7 @@ import CreatePost from 'components/Post/CreatePost/CreatePost'
 import NewsFeed from 'components/Post/NewsFeed'
 import { PageProps } from 'interfaces/global'
 
-import { useAppDispatch } from 'redux/hooks/hooks'
-import { login } from 'redux/slices/userSlice'
+import useStoreID from 'redux/hooks/useStoreID'
 
 const PageContent = () => {
 	const [shouldMutate, setShouldMutate] = useState(false)
@@ -29,9 +28,8 @@ const PageContent = () => {
 }
 
 const Home = ({ id }: PageProps) => {
-	const dispatch = useAppDispatch()
+	useStoreID(id)
 
-	dispatch(login(id))
 	return (
 		<>
 			<Head>
