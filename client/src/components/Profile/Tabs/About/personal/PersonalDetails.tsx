@@ -25,14 +25,14 @@ export const personalDetailsField = [
 	'location',
 ]
 
-export const doIfDateOfBirthField = (field: string): string => {
+export const generateField = (field: string): string => {
 	if (field === DATE_OF_BIRTH) {
 		return parseCamelCase(field)
 	}
 	return field
 }
 
-const doIfDateOfBirthValue = (field: string, value: string): string | null => {
+const generateValue = (field: string, value: string): string | null => {
 	if (!value) return null
 
 	if (field === DATE_OF_BIRTH) {
@@ -40,6 +40,7 @@ const doIfDateOfBirthValue = (field: string, value: string): string | null => {
 
 		return date.toDateString()
 	}
+
 	return value
 }
 
@@ -65,8 +66,8 @@ const PersonalDetails = () => {
 						return (
 							<EachField
 								key={nanoid()}
-								property={doIfDateOfBirthField(field)}
-								value={doIfDateOfBirthValue(field, getPersonalData[field])}
+								property={generateField(field)}
+								value={generateValue(field, getPersonalData[field])}
 							/>
 						)
 					})}

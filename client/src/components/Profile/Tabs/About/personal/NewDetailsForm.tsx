@@ -22,7 +22,7 @@ import { useOwnUserId } from 'hooks/userhooks'
 import { DATE_OF_BIRTH } from 'variables/global'
 import createRequest from 'utils/createRequest'
 
-import { personalDetailsField, doIfDateOfBirthField } from './PersonalDetails'
+import { personalDetailsField, generateField } from './PersonalDetails'
 
 const AutoExpandField = dynamic(
 	() => import('components/TextFields/AutoExpandField'),
@@ -109,6 +109,23 @@ const NewDetailsForm = ({ setIsAdding, isAdding }: Props) => {
 			<MuiPickersUtilsProvider utils={DayUtils}>
 				<Formik
 					initialValues={initialData}
+					validate={values => {
+						const errors: Partial<any> = {}
+
+						const { name, website } = values
+
+						if (name.length < 6 || name.length > 30) {
+							errors.name = 'Name should be under 6 to 30 characters long'
+						}
+
+						const validUrl = /^(ftp|http|https):\/\/[^ "]+$/.test(website)
+
+						if (!validUrl) {
+							errors.website = 'Website url is not valid'
+						}
+
+						return errors
+					}}
 					onSubmit={async (values, { setSubmitting }) => {
 						// eslint-disable-next-line no-param-reassign
 
@@ -147,7 +164,7 @@ const NewDetailsForm = ({ setIsAdding, isAdding }: Props) => {
 											type='text'
 											component={fieldComponent(item)}
 											name={item}
-											label={doIfDateOfBirthField(item)}
+											label={generateField(item)}
 											placeholder={item}
 											{...fieldComponentProps(item)}
 										/>

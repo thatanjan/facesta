@@ -19,6 +19,8 @@ import MuiLink from 'components/Links/MuiLink'
 import Alert from 'components/Alerts/Alert'
 import CircularLoader from 'components/Loaders/CircularLoader'
 
+import { cloudinaryURL } from 'variables/global'
+
 const SwrErrorAlert = dynamic(() => import('components/Alerts/SwrErrorAlert'))
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -124,7 +126,7 @@ const CommentList = ({ postID, postUserID, newCommentAdded }: Props) => {
 										<MuiLink
 											MuiComponent={Avatar}
 											alt={name}
-											src={`https://res.cloudinary.com/thatanjan/${profilePicture}`}
+											src={cloudinaryURL(profilePicture)}
 											href={`/profile/${_id}`}
 										/>
 									</ListItemAvatar>

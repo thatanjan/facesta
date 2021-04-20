@@ -194,7 +194,11 @@ const SinglePost = ({
 					<Typography variant='caption'>
 						{totalNumberOfComments || totalComments}
 					</Typography>
-					<IconButton aria-label='comment'>
+
+					<IconButton
+						aria-label='comment'
+						onClick={() => push(`/post/${postUserID}/${postID}`)}
+					>
 						<CommentIcon />
 					</IconButton>
 				</Box>
