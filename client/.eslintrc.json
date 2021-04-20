@@ -66,7 +66,11 @@
 		],
 		"no-return-assign": "off",
 		"no-underscore-dangle": "off",
-		"react/require-default-props": [2, { "ignoreFunctionalComponents": true }]
+		"react/require-default-props": [2, { "ignoreFunctionalComponents": true }],
+		"no-param-reassign": [
+			"error",
+			{ "props": true, "ignorePropertyModificationsFor": ["state"] }
+		]
 	},
 	"settings": {
 		"import/resolver": {
