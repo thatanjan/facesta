@@ -16,15 +16,16 @@ import { LOGIN_URL } from 'variables/global'
 import { PageProps } from 'interfaces/global'
 import Post from 'interfaces/post'
 
-import CircularLoader from 'components/Loaders/CircularLoader'
 import PreLoader from 'components/Loaders/PreLoader'
 import SwrErrorAlert from 'components/Alerts/SwrErrorAlert'
 
 import { useGetSinglePost } from 'hooks/useGetPost'
+import useStoreID from 'redux/hooks/useStoreID'
 
 interface Props extends PageProps {}
 
 const PostPage = ({ id }: Props) => {
+	useStoreID(id)
 	const {
 		query: { postUser, post },
 	} = useRouter()

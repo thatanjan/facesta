@@ -21,6 +21,7 @@ import { PageProps } from 'interfaces/global'
 import { SearchedUser } from 'interfaces/user'
 
 import useSearchUser from 'hooks/useSearchUser'
+import useStoreID from 'redux/hooks/useStoreID'
 
 const SearchForm = dynamic(() => import('components/Forms/SearchForm'), {
 	loading: () => <CircularLoader />,
@@ -98,6 +99,7 @@ const PageContent = () => {
 }
 
 const SearchPage = ({ id }: PageProps) => {
+	useStoreID(id)
 	return (
 		<PageWrapper id={id}>
 			<PageLayoutComponent Content={PageContent} />

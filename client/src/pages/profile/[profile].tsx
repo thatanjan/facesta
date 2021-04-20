@@ -20,6 +20,7 @@ import ProfileContextProvider, {
 
 import { useIsSelf } from 'hooks/profileContextHooks'
 import { useGetPersonalData } from 'hooks/useGetProfileData'
+import useStoreID from 'redux/hooks/useStoreID'
 
 import getToken from 'utils/getToken'
 import decodeToken from 'utils/decodeToken'
@@ -65,6 +66,7 @@ const Content = () => {
 }
 
 const Profile = ({ id, ...profileContextProps }: Props) => {
+	useStoreID(id)
 	const { data, error } = useGetPersonalData(profileContextProps.profileUserID)
 
 	if (!data) return <PreLoader />
