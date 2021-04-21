@@ -1,43 +1,19 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { nanoid } from 'nanoid'
 import InfiniteScroll from 'react-infinite-scroll-component'
+import Button from '@material-ui/core/Button'
 
 import Post from 'interfaces/post'
 import SinglePost from 'components/Post/SinglePost'
 import { useGetNewsFeedPost } from 'hooks/useGetPost'
-import { useHaveSeenFeedOnce } from 'hooks/userhooks'
 
 import CircularLoader from 'components/Loaders/CircularLoader'
 import Alert from 'components/Alerts/Alert'
 
-interface Props {
-	shouldMutate: boolean
-}
-
 const QUERY_NAME = 'getNewsFeedPost'
 
-const NewsFeed = ({ shouldMutate }: Props) => {
+const NewsFeed = () => {
 	const { data, error, setSize, size, mutate } = useGetNewsFeedPost()
-
-	const { haveSeenFeedOnce, setHaveSeenFeedOnce } = useHaveSeenFeedOnce()
-
-	useEffect(() => {
-		if (shouldMutate) {
-			mutate()
-		}
-	}, [shouldMutate])
-
-	useEffect(() => {
-		if (haveSeenFeedOnce && !shouldMutate) {
-			mutate()
-		}
-	}, [haveSeenFeedOnce])
-
-	useEffect(() => {
-		if (!haveSeenFeedOnce) {
-			setHaveSeenFeedOnce(true)
-		}
-	}, [])
 
 	if (!data)
 		return (
@@ -80,6 +56,10 @@ const NewsFeed = ({ shouldMutate }: Props) => {
 
 	return (
 		<div>
+			<Button color='secondary' onClick={() => mutate()}>
+				Refresh Newsfeed
+			</Button>
+
 			<InfiniteScroll
 				dataLength={allPost.length}
 				next={() => setSize(size + 1)}
