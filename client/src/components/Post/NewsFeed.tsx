@@ -31,8 +31,6 @@ const NewsFeed = () => {
 	const { asPath } = useRouter()
 	const { fab } = useStyles()
 
-	const scroll = (node: Element) => node.scrollBy(0, 1219)
-
 	useEffect(() => {
 		const node = document.getElementsByClassName('simplebar-content-wrapper')[0]
 
@@ -40,24 +38,21 @@ const NewsFeed = () => {
 			const sessionKeyName = 'newsfeedPosition'
 			const prevPosition = sessionStorage.getItem(sessionKeyName)
 
-			console.log(prevPosition, scroll(node))
-
-			/* node.scrollBy(0, prevPosition ? parseInt(prevPosition, 10) : 0) */
+			node.scrollBy(0, prevPosition ? parseInt(prevPosition, 10) : 0)
 
 			const handleScroll = (postion: number) => {
 				sessionStorage.setItem(sessionKeyName, postion.toString())
 			}
 
 			if (node) {
-				/* node.addEventListener('scroll', e => */
-				/* 	handleScroll((e.target as HTMLElement).scrollTop) */
-				/* ) */
+				node.addEventListener('scroll', e =>
+					handleScroll((e.target as HTMLElement).scrollTop)
+				)
 			}
 		}
 
 		return () => {
 			if (node) {
-				console.log('unmounted')
 				node.removeEventListener('scroll', () => {})
 			}
 		}
@@ -104,7 +99,7 @@ const NewsFeed = () => {
 
 	return (
 		<div>
-			<Fab color='secondary' className={fab}>
+			<Fab color='secondary' className={fab} onClick={() => mutate()}>
 				<RefreshIcon />
 			</Fab>
 
