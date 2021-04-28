@@ -1,7 +1,9 @@
 import React from 'react'
 import { nanoid } from 'nanoid'
 import InfiniteScroll from 'react-infinite-scroll-component'
-import Button from '@material-ui/core/Button'
+import { createStyles, makeStyles, Theme } from '@material-ui/core/styles'
+import RefreshIcon from '@material-ui/icons/Refresh'
+import Fab from '@material-ui/core/Fab'
 
 import Post from 'interfaces/post'
 import SinglePost from 'components/Post/SinglePost'
@@ -12,8 +14,20 @@ import Alert from 'components/Alerts/Alert'
 
 const QUERY_NAME = 'getNewsFeedPost'
 
+const useStyles = makeStyles((theme: Theme) =>
+	createStyles({
+		fab: {
+			position: 'fixed',
+			bottom: theme.spacing(3),
+			right: theme.spacing(3),
+		},
+	})
+)
+
 const NewsFeed = () => {
 	const { data, error, setSize, size, mutate } = useGetNewsFeedPost()
+
+	const { fab } = useStyles()
 
 	if (!data)
 		return (
@@ -56,9 +70,9 @@ const NewsFeed = () => {
 
 	return (
 		<div>
-			<Button color='secondary' onClick={() => mutate()}>
-				Refresh Newsfeed
-			</Button>
+			<Fab color='secondary' className={fab}>
+				<RefreshIcon />
+			</Fab>
 
 			<InfiniteScroll
 				dataLength={allPost.length}
