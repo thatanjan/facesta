@@ -5,6 +5,8 @@ import BottomNavigation from '@material-ui/core/BottomNavigation'
 import BottomNavigationAction from '@material-ui/core/BottomNavigationAction'
 import { nanoid } from 'nanoid'
 
+import { useGetNewsFeedPost } from 'hooks/useGetPost'
+
 import navigationItems, {
 	NavigationItem,
 	HOME,
@@ -20,6 +22,7 @@ const useStyles = makeStyles({
 })
 
 export default function LabelBottomNavigation() {
+	const { mutate } = useGetNewsFeedPost()
 	const { push, asPath } = useRouter()
 
 	const { root } = useStyles()
@@ -33,6 +36,7 @@ export default function LabelBottomNavigation() {
 	const handleClick = (routeName: string) => {
 		switch (routeName) {
 			case HOME:
+				mutate()
 				return push('/')
 
 			case SEARCH:
