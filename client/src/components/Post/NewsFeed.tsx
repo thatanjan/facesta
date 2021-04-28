@@ -1,9 +1,10 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { nanoid } from 'nanoid'
 import InfiniteScroll from 'react-infinite-scroll-component'
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles'
 import RefreshIcon from '@material-ui/icons/Refresh'
 import Fab from '@material-ui/core/Fab'
+import { useRouter } from 'next/router'
 
 import Post from 'interfaces/post'
 import SinglePost from 'components/Post/SinglePost'
@@ -27,7 +28,40 @@ const useStyles = makeStyles((theme: Theme) =>
 const NewsFeed = () => {
 	const { data, error, setSize, size, mutate } = useGetNewsFeedPost()
 
+	const { asPath } = useRouter()
 	const { fab } = useStyles()
+
+	const scroll = (node: Element) => node.scrollBy(0, 1219)
+
+	useEffect(() => {
+		const node = document.getElementsByClassName('simplebar-content-wrapper')[0]
+
+		if (asPath === '/') {
+			const sessionKeyName = 'newsfeedPosition'
+			const prevPosition = sessionStorage.getItem(sessionKeyName)
+
+			console.log(prevPosition, scroll(node))
+
+			/* node.scrollBy(0, prevPosition ? parseInt(prevPosition, 10) : 0) */
+
+			const handleScroll = (postion: number) => {
+				sessionStorage.setItem(sessionKeyName, postion.toString())
+			}
+
+			if (node) {
+				/* node.addEventListener('scroll', e => */
+				/* 	handleScroll((e.target as HTMLElement).scrollTop) */
+				/* ) */
+			}
+		}
+
+		return () => {
+			if (node) {
+				console.log('unmounted')
+				node.removeEventListener('scroll', () => {})
+			}
+		}
+	}, [asPath])
 
 	if (!data)
 		return (
