@@ -7,14 +7,17 @@ import Dialog from '@material-ui/core/Dialog'
 import Button from '@material-ui/core/Button'
 import { makeStyles } from '@material-ui/core/styles'
 
-export type NullOrBooleanType = boolean | null
+import makeBase64 from 'utils/makeBase64Image'
 
-interface Props {
-	setFile: Function
-	uploadModalOpen: boolean
-	setUploadModalOpen: (bool: boolean) => void
-	setApproved: (param: NullOrBooleanType) => void
-}
+import { useAppSelector, useAppDispatch } from 'redux/hooks/hooks'
+import {
+	closeUploadModal,
+	openPreviewModal,
+	makeBase64Image,
+	Base64,
+} from 'redux/slices/profilePictureUpload'
+
+export type NullOrBooleanType = boolean | null
 
 const useStyles = makeStyles({
 	dialogContentStyle: {
@@ -25,16 +28,14 @@ const useStyles = makeStyles({
 	uploadIconStyle: {},
 })
 
-const UploadModal = ({
-	uploadModalOpen,
-	setUploadModalOpen,
-	setFile,
-	setApproved,
-}: Props) => {
+const UploadModal = () => {
 	const { dialogContentStyle, uploadIconStyle } = useStyles()
 
+	const { uploadModal } = useAppSelector(state => state.profilePictureUpload)
+	const dispatch = useAppDispatch()
+
 	const handleClose = () => {
-		setUploadModalOpen(false)
+		dispatch(closeUploadModal())
 	}
 
 	const { getRootProps, getInputProps } = useDropzone({
@@ -43,13 +44,17 @@ const UploadModal = ({
 		onDrop: acceptedFiles => {
 			const realFile = acceptedFiles[0]
 
-			Object.assign(realFile, {
+			const fileWithPreviewLink = Object.assign(realFile, {
 				previewLink: URL.createObjectURL(realFile),
 				valid: true,
 			})
 
-			setFile(realFile)
-			setApproved(null)
+			dispatch(openPreviewModal(fileWithPreviewLink.previewLink))
+
+			makeBase64(fileWithPreviewLink, (base64: Base64) =>
+				dispatch(makeBase64Image(base64))
+			)
+
 			handleClose()
 		},
 	})
@@ -59,7 +64,7 @@ const UploadModal = ({
 			<Dialog
 				onClose={handleClose}
 				aria-labelledby='simple-dialog-title'
-				open={uploadModalOpen}
+				open={uploadModal}
 				maxWidth='sm'
 				fullWidth
 			>
