@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { nanoid } from 'nanoid'
 import InfiniteScroll from 'react-infinite-scroll-component'
 import dynamic from 'next/dynamic'
@@ -21,10 +21,17 @@ const QUERY_NAME = 'getAllPost'
 
 const Posts = () => {
 	const profileID = useProfileUserID()
-	const { data, error, size, setSize } = useGetAllPosts()
+	const { data, error, size, setSize, mutate } = useGetAllPosts()
 	const { data: profileData, error: profileError } = useGetPersonalData(
 		profileID
 	)
+
+	useEffect(() => {
+		mutate()
+		return () => {
+			mutate(data, false)
+		}
+	}, [])
 
 	if (!data || !profileData)
 		return (
