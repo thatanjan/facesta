@@ -1,10 +1,19 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import createRequest from 'utils/createRequest'
+import { uploadProfilePicture } from 'graphql/mutations/profileMutations'
+import { RootState } from 'redux/store'
+
+import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
+
+export type base64 = ArrayBuffer | string | null
 
 export interface InitialState {
 	uploadModal: boolean
 	previewLink: string
 	previewModal: boolean
-	file: ArrayBuffer | string | null
+	file: base64
+	uploading: boolean
+	successful: boolean
+	failed: boolean
 }
 
 const initialState: InitialState = {
@@ -12,7 +21,26 @@ const initialState: InitialState = {
 	previewLink: '',
 	previewModal: false,
 	file: null,
+	uploading: false,
+	successful: false,
+	failed: false,
 }
+
+export const uploadFile = createAsyncThunk(
+	'profilePictureUpload/uploadFileStatus',
+	async (_, { getState }) => {
+		const state = getState() as RootState
+
+		const image = state.profilePictureUpload.file
+
+		console.log(image)
+
+		return createRequest({
+			key: uploadProfilePicture,
+			values: { image },
+		})
+	}
+)
 
 const profilePictureUploadSlice = createSlice({
 	name: 'profilePictureUpload',
@@ -35,6 +63,29 @@ const profilePictureUploadSlice = createSlice({
 			state.previewLink = ''
 			state.previewModal = false
 		},
+	},
+	extraReducers: builder => {
+		builder
+			.addCase(uploadFile.pending, (state, action) => {
+				console.log(action)
+				state.uploading = true
+			})
+			.addCase(uploadFile.fulfilled, state => {
+				state.uploading = false
+				state.successful = true
+
+				setTimeout(() => {
+					state.successful = false
+				}, 3000)
+			})
+			.addCase(uploadFile.rejected, state => {
+				state.uploading = false
+				state.failed = true
+
+				setTimeout(() => {
+					state.failed = false
+				}, 3000)
+			})
 	},
 })
 
