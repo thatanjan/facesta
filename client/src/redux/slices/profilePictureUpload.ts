@@ -4,13 +4,13 @@ import { RootState } from 'redux/store'
 
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
 
-export type base64 = ArrayBuffer | string | null
+export type Base64 = ArrayBuffer | string | null
 
 export interface InitialState {
 	uploadModal: boolean
 	previewLink: string
 	previewModal: boolean
-	file: base64
+	file: Base64
 	uploading: boolean
 	successful: boolean
 	failed: boolean
@@ -49,8 +49,8 @@ const profilePictureUploadSlice = createSlice({
 		openUploadModal: state => {
 			state.uploadModal = true
 		},
-		closeUploadModal: state => {
-			state.uploadModal = false
+		closeUploadModal: () => {
+			return initialState
 		},
 		openPreviewModal: (
 			state,
@@ -62,6 +62,9 @@ const profilePictureUploadSlice = createSlice({
 		closePreviewModal: state => {
 			state.previewLink = ''
 			state.previewModal = false
+		},
+		makeBase64Image: (state, { payload: file }: PayloadAction<Base64>) => {
+			state.file = file
 		},
 	},
 	extraReducers: builder => {
@@ -94,6 +97,7 @@ export const {
 	closeUploadModal,
 	openPreviewModal,
 	closePreviewModal,
+	makeBase64Image,
 } = profilePictureUploadSlice.actions
 
 export default profilePictureUploadSlice.reducer
