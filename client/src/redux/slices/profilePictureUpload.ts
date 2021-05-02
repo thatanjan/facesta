@@ -56,8 +56,8 @@ const profilePictureUploadSlice = createSlice({
 		openUploadModal: state => {
 			state.uploadModal = true
 		},
-		closeUploadModal: () => {
-			return initialState
+		closeUploadModal: state => {
+			state.uploadModal = false
 		},
 		openPreviewModal: (
 			state,
@@ -73,6 +73,10 @@ const profilePictureUploadSlice = createSlice({
 		},
 		makeBase64Image: (state, { payload: file }: PayloadAction<Base64>) => {
 			state.file = file
+		},
+		closeStatus: state => {
+			state.failed = false
+			state.successful = false
 		},
 	},
 	extraReducers: builder => {
@@ -109,10 +113,6 @@ const profilePictureUploadSlice = createSlice({
 						checked: true,
 					}
 				}
-
-				setTimeout(() => {
-					state.successful = false
-				}, 3000)
 			})
 			.addCase(uploadFile.rejected, state => {
 				state.uploading = false
@@ -123,10 +123,6 @@ const profilePictureUploadSlice = createSlice({
 					message: 'Something went wrong. Please try again',
 					checked: true,
 				}
-
-				setTimeout(() => {
-					state.failed = false
-				}, 3000)
 			})
 	},
 })
@@ -137,6 +133,7 @@ export const {
 	openPreviewModal,
 	closePreviewModal,
 	makeBase64Image,
+	closeStatus,
 } = profilePictureUploadSlice.actions
 
 export default profilePictureUploadSlice.reducer
