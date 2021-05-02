@@ -9,13 +9,7 @@ import { makeStyles } from '@material-ui/core/styles'
 
 import makeBase64 from 'utils/makeBase64Image'
 
-import { useAppSelector, useAppDispatch } from 'redux/hooks/hooks'
-import {
-	closeUploadModal,
-	openPreviewModal,
-	makeBase64Image,
-	Base64,
-} from 'redux/slices/profilePictureUpload'
+import { Base64 } from 'redux/slices/profilePictureUpload'
 
 export type NullOrBooleanType = boolean | null
 
@@ -28,15 +22,20 @@ const useStyles = makeStyles({
 	uploadIconStyle: {},
 })
 
-const UploadModal = () => {
+interface Props {
+	closeModal: () => void
+	uploadModal: boolean
+	makeImage: (base64: Base64) => {}
+	openPreviewModal: (link: string) => void
+}
+
+const UploadModal = ({
+	closeModal,
+	uploadModal,
+	makeImage,
+	openPreviewModal,
+}: Props) => {
 	const { dialogContentStyle, uploadIconStyle } = useStyles()
-
-	const { uploadModal } = useAppSelector(state => state.profilePictureUpload)
-	const dispatch = useAppDispatch()
-
-	const handleClose = () => {
-		dispatch(closeUploadModal())
-	}
 
 	const { getRootProps, getInputProps } = useDropzone({
 		accept: 'image/*, video/*',
@@ -49,20 +48,18 @@ const UploadModal = () => {
 				valid: true,
 			})
 
-			dispatch(openPreviewModal(fileWithPreviewLink.previewLink))
+			openPreviewModal(fileWithPreviewLink.previewLink)
 
-			makeBase64(fileWithPreviewLink, (base64: Base64) =>
-				dispatch(makeBase64Image(base64))
-			)
+			makeBase64(fileWithPreviewLink, makeImage)
 
-			handleClose()
+			closeModal()
 		},
 	})
 
 	return (
 		<>
 			<Dialog
-				onClose={handleClose}
+				onClose={closeModal}
 				aria-labelledby='simple-dialog-title'
 				open={uploadModal}
 				maxWidth='sm'
@@ -76,7 +73,7 @@ const UploadModal = () => {
 					<PublishIcon className={uploadIconStyle} fontSize='large' />
 				</MuiDialogContent>
 				<DialogActions>
-					<Button autoFocus onClick={handleClose} color='primary'>
+					<Button autoFocus onClick={closeModal} color='primary'>
 						Close
 					</Button>
 				</DialogActions>
