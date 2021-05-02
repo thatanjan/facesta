@@ -65,13 +65,6 @@ export const ProfileCover = () => {
 		return res
 	}
 
-	const profilePictureUploadProps = {
-		action,
-		uploadingPost,
-		type: 'uploadProfilePicture',
-		mutate,
-	}
-
 	const {
 		getPersonalData: { name, bio, profilePicture },
 	} = data
@@ -91,7 +84,7 @@ export const ProfileCover = () => {
 						src={profilePicture || avatar}
 					/>
 
-					{isSelf && <ProfilePictureUpload {...profilePictureUploadProps} />}
+					{isSelf && <ProfilePictureUpload />}
 
 					<Typography variant='h1' align='center' className={profileNameStyle}>
 						{name}
