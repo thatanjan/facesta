@@ -78,6 +78,7 @@ const profilePictureUploadSlice = createSlice({
 			state.failed = false
 			state.successful = false
 		},
+		resetState: () => initialState,
 	},
 	extraReducers: builder => {
 		builder
@@ -134,6 +135,7 @@ export const {
 	closePreviewModal,
 	makeBase64Image,
 	closeStatus,
+	resetState,
 } = profilePictureUploadSlice.actions
 
 export default profilePictureUploadSlice.reducer
