@@ -2,11 +2,13 @@ import React, { useEffect } from 'react'
 import IconButton from '@material-ui/core/IconButton'
 import EditIcon from '@material-ui/icons/Edit'
 import { makeStyles } from '@material-ui/core/styles'
+import { mutate } from 'swr'
+
+import { getPersonalData } from 'graphql/queries/profileQueries'
 
 import ImageUploadModal from 'components/Modals/ImageUploadModal'
-import ImagePreview from 'components/Images/ImagePreview'
-
 import UploadAlert, { Props as AlertProps } from 'components/Alerts/Alert'
+import ImagePreview from 'components/Images/ImagePreview'
 
 import { useAppSelector, useAppDispatch } from 'redux/hooks/hooks'
 import {
@@ -38,7 +40,13 @@ const ProfilePictureUpload = () => {
 		failed,
 	} = useAppSelector(state => state.profilePictureUpload)
 
+	const { id: userID } = useAppSelector(state => state.user)
+
 	useEffect(() => {
+		if (successful) {
+			mutate([getPersonalData, userID])
+		}
+
 		if (successful || failed) {
 			setTimeout(() => {
 				dispatch(resetState())
