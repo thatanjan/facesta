@@ -62,6 +62,7 @@ const ProfilePictureUpload = () => {
 
 	const handleAccept = () => {
 		dispatch(uploadFile())
+		dispatch(closePreviewModal())
 	}
 
 	const imagePreviewProps = {
@@ -84,9 +85,9 @@ const ProfilePictureUpload = () => {
 
 			{previewModal && <ImagePreview {...imagePreviewProps} />}
 
-			{uploading ||
-				successful ||
-				(failed && <UploadAlert {...(alertProps as AlertProps)} />)}
+			{(uploading || successful || failed) && (
+				<UploadAlert {...(alertProps as AlertProps)} />
+			)}
 		</>
 	)
 }
