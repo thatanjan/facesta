@@ -100,7 +100,7 @@ const profilePictureUploadSlice = createSlice({
 
 				if (data.message) {
 					state.alertProps = {
-						severity: 'info',
+						severity: 'success',
 						message: data.message,
 						checked: true,
 					}
