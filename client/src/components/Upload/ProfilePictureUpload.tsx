@@ -16,7 +16,6 @@ import {
 	closeUploadModal,
 	makeBase64Image,
 	openPreviewModal,
-	closeStatus,
 	resetState,
 } from 'redux/slices/profilePictureUpload'
 
@@ -42,7 +41,7 @@ const ProfilePictureUpload = () => {
 	useEffect(() => {
 		if (successful || failed) {
 			setTimeout(() => {
-				dispatch(closeStatus())
+				dispatch(resetState())
 			}, 3000)
 		}
 	}, [successful, failed])

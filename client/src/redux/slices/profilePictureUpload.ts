@@ -74,10 +74,6 @@ const profilePictureUploadSlice = createSlice({
 		makeBase64Image: (state, { payload: file }: PayloadAction<Base64>) => {
 			state.file = file
 		},
-		closeStatus: state => {
-			state.failed = false
-			state.successful = false
-		},
 		resetState: () => initialState,
 	},
 	extraReducers: builder => {
@@ -134,7 +130,6 @@ export const {
 	openPreviewModal,
 	closePreviewModal,
 	makeBase64Image,
-	closeStatus,
 	resetState,
 } = profilePictureUploadSlice.actions
 
