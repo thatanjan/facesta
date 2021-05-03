@@ -17,6 +17,7 @@ import {
 	makeBase64Image,
 	openPreviewModal,
 	closeStatus,
+	resetState,
 } from 'redux/slices/profilePictureUpload'
 
 const useStyles = makeStyles(() => ({
@@ -48,11 +49,16 @@ const ProfilePictureUpload = () => {
 
 	const { editIconStyle } = useStyles()
 
+	const closeReset = () => {
+		dispatch(resetState())
+	}
+
 	const uploadModalProps = {
 		closeModal: () => dispatch(closeUploadModal()),
 		uploadModal,
 		makeImage: (base64: Base64) => dispatch(makeBase64Image(base64)),
 		openPreviewModal: (link: string) => dispatch(openPreviewModal(link)),
+		closeReset,
 	}
 
 	const handleDiscard = () => {

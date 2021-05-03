@@ -27,6 +27,7 @@ interface Props {
 	uploadModal: boolean
 	makeImage: (base64: Base64) => {}
 	openPreviewModal: (link: string) => void
+	closeReset: () => void
 }
 
 const UploadModal = ({
@@ -34,6 +35,7 @@ const UploadModal = ({
 	uploadModal,
 	makeImage,
 	openPreviewModal,
+	closeReset,
 }: Props) => {
 	const { dialogContentStyle, uploadIconStyle } = useStyles()
 
@@ -73,7 +75,7 @@ const UploadModal = ({
 					<PublishIcon className={uploadIconStyle} fontSize='large' />
 				</MuiDialogContent>
 				<DialogActions>
-					<Button autoFocus onClick={closeModal} color='primary'>
+					<Button autoFocus onClick={closeReset} color='primary'>
 						Close
 					</Button>
 				</DialogActions>
