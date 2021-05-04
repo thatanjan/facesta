@@ -16,7 +16,7 @@ import useMediaQuery from '@material-ui/core/useMediaQuery'
 import Cookies from 'js-cookie'
 
 import { useAppSelector, useAppDispatch } from 'redux/hooks/hooks'
-import { updatePostText, updatePostHeader } from 'redux/slices/createPost'
+import { uploadPost, openPostModal, resetState } from 'redux/slices/createPost'
 
 import CircularLoader from 'components/Loaders/CircularLoader'
 import { createPost } from 'graphql/mutations/postMutations'
@@ -104,7 +104,7 @@ const CreatePostModal = ({
 	const [goingToSubmit, setGoingToSubmit] = useState(false)
 	const [file, setFile] = useState<CustomFile | {}>({})
 
-	const { postHeader, postText } = useAppSelector(state => state.createPost)
+	const { uploadModal, postModal } = useAppSelector(state => state.createPost)
 	const dispatch = useAppDispatch()
 
 	const {
@@ -153,11 +153,8 @@ const CreatePostModal = ({
 		setFile,
 	}
 
-	useEffect(() => {
-		dispatch(updatePostHeader(Cookies.get(POST_HEADER) || ''))
-
-		dispatch(updatePostText(Cookies.get(POST_TEXT) || ''))
-	}, [])
+	const postHeader: string = Cookies.get(POST_HEADER) || ''
+	const postText: string = Cookies.get(POST_TEXT) || ''
 
 	useEffect(() => {
 		if (goingToSubmit) {
@@ -172,8 +169,8 @@ const CreatePostModal = ({
 				aria-labelledby='transition-modal-title'
 				aria-describedby='transition-modal-description'
 				className={modal}
-				open={isClicked}
-				onClose={closePostModal}
+				open={postModal}
+				onClose={resetState}
 				closeAfterTransition
 				BackdropComponent={Backdrop}
 				BackdropProps={{
@@ -250,7 +247,7 @@ const CreatePostModal = ({
 											Submit
 										</Button>
 										<Button
-											onClick={closePostModal}
+											onClick={resetState}
 											size={matches ? 'medium' : 'small'}
 											variant='contained'
 											color='primary'

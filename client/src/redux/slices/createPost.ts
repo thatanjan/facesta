@@ -76,9 +76,6 @@ const createPostSlice = createSlice({
 		openPostModal: state => {
 			state.postModal = true
 		},
-		closePostModal: state => {
-			state.postModal = false
-		},
 	},
 	extraReducers: builder => {
 		builder
@@ -134,6 +131,7 @@ export const {
 	closePreviewModal,
 	makeBase64Image,
 	resetState,
+	openPostModal,
 } = createPostSlice.actions
 
 export default createPostSlice.reducer
