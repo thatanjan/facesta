@@ -5,6 +5,8 @@ import { RootState } from 'redux/store'
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { Props as AlertProps } from 'components/Alerts/Alert'
 
+import { Values as InputValues } from 'components/Post/CreatePost/CreatePostModal'
+
 export type Base64 = ArrayBuffer | string | null
 
 export interface InitialState {
@@ -37,14 +39,14 @@ const initialState: InitialState = {
 
 export const uploadPost = createAsyncThunk(
 	'profilePictureUpload/uploadFileStatus',
-	async (_, { getState }) => {
+	async ({ postHeader, postText }: InputValues, { getState }) => {
 		const state = getState() as RootState
 
 		const { file: image } = state.createPost
 
 		return createRequest({
 			key: createPost,
-			values: { image, markdown: false },
+			values: { image, markdown: false, headline: postHeader, text: postText },
 		})
 	}
 )
