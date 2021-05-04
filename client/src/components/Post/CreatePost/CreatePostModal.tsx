@@ -15,6 +15,9 @@ import { mutate } from 'swr'
 import useMediaQuery from '@material-ui/core/useMediaQuery'
 import Cookies from 'js-cookie'
 
+import { useAppSelector, useAppDispatch } from 'redux/hooks/hooks'
+import { updatePostText, updatePostHeader } from 'redux/slices/createPost'
+
 import CircularLoader from 'components/Loaders/CircularLoader'
 import { createPost } from 'graphql/mutations/postMutations'
 import { getNewsFeedPost } from 'graphql/queries/postQueries'
@@ -101,6 +104,9 @@ const CreatePostModal = ({
 	const [goingToSubmit, setGoingToSubmit] = useState(false)
 	const [file, setFile] = useState<CustomFile | {}>({})
 
+	const { postHeader, postText } = useAppSelector(state => state.createPost)
+	const dispatch = useAppDispatch()
+
 	const {
 		modal,
 		paper,
@@ -147,8 +153,11 @@ const CreatePostModal = ({
 		setFile,
 	}
 
-	const postHeader: string = Cookies.get(POST_HEADER) || ''
-	const postText: string = Cookies.get(POST_TEXT) || ''
+	useEffect(() => {
+		dispatch(updatePostHeader(Cookies.get(POST_HEADER) || ''))
+
+		dispatch(updatePostText(Cookies.get(POST_TEXT) || ''))
+	}, [])
 
 	useEffect(() => {
 		if (goingToSubmit) {
