@@ -18,6 +18,7 @@ export interface InitialState {
 	alertProps: AlertProps | {}
 	headline: string
 	text: string
+	postModal: boolean
 }
 
 const initialState: InitialState = {
@@ -35,6 +36,7 @@ const initialState: InitialState = {
 	},
 	headline: '',
 	text: '',
+	postModal: false,
 }
 
 export const uploadPost = createAsyncThunk(
@@ -80,6 +82,15 @@ const createPostSlice = createSlice({
 		},
 		updateText: (state, { payload }) => {
 			state.text = payload
+		},
+		openPostModal: state => {
+			state.postModal = true
+		},
+		closePostModal: state => {
+			state.postModal = false
+		},
+		closeUploadModalTemporarily: state => {
+			return { ...initialState, headline: state.headline, text: state.text }
 		},
 	},
 	extraReducers: builder => {
