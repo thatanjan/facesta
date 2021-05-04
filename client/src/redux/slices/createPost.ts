@@ -16,8 +16,8 @@ export interface InitialState {
 	successful: boolean
 	failed: boolean
 	alertProps: AlertProps | {}
-	headline: string
-	text: string
+	postHeader: string
+	postText: string
 	postModal: boolean
 }
 
@@ -34,8 +34,8 @@ const initialState: InitialState = {
 		message: '',
 		checked: false,
 	},
-	headline: '',
-	text: '',
+	postHeader: '',
+	postText: '',
 	postModal: false,
 }
 
@@ -44,11 +44,11 @@ export const uploadPost = createAsyncThunk(
 	async (_, { getState }) => {
 		const state = getState() as RootState
 
-		const { headline, text, file: image } = state.createPost
+		const { postHeader, postText, file: image } = state.createPost
 
 		return createRequest({
 			key: createPost,
-			values: { image, headline, text, markdown: false },
+			values: { image, headline: postHeader, text: postText, markdown: false },
 		})
 	}
 )
@@ -77,11 +77,11 @@ const createPostSlice = createSlice({
 			state.file = file
 		},
 		resetState: () => initialState,
-		updateHeadline: (state, { payload }) => {
-			state.headline = payload
+		updatePostHeader: (state, { payload }) => {
+			state.postHeader = payload
 		},
-		updateText: (state, { payload }) => {
-			state.text = payload
+		updatePostText: (state, { payload }) => {
+			state.postText = payload
 		},
 		openPostModal: state => {
 			state.postModal = true
@@ -90,7 +90,9 @@ const createPostSlice = createSlice({
 			state.postModal = false
 		},
 		closeUploadModalTemporarily: state => {
-			return { ...initialState, headline: state.headline, text: state.text }
+			const { postHeader, postText } = state
+
+			return { ...initialState, postHeader, postText }
 		},
 	},
 	extraReducers: builder => {
@@ -147,8 +149,8 @@ export const {
 	closePreviewModal,
 	makeBase64Image,
 	resetState,
-	updateHeadline,
-	updateText,
+	updatePostText,
+	updatePostHeader,
 } = createPostSlice.actions
 
 export default createPostSlice.reducer
