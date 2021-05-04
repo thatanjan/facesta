@@ -6,12 +6,13 @@ import { makeStyles } from '@material-ui/core/styles'
 import ImageUploadModal from 'components/Modals/ImageUploadModal'
 import ImagePreview from 'components/Images/ImagePreview'
 
+import { useGetNewsFeedPost } from 'hooks/useGetPost'
+
 import UploadAlert, { Props as AlertProps } from 'components/Alerts/Alert'
 
 import {
 	openUploadModal,
 	closePreviewModal,
-	uploadFile,
 	closeUploadModal,
 	makeBase64Image,
 	openPreviewModal,
@@ -28,6 +29,8 @@ export type Base64 = ArrayBuffer | string | null
 const ProfilePictureUpload = () => {
 	const dispatch = useAppDispatch()
 
+	const { mutate } = useGetNewsFeedPost()
+
 	const { editIconStyle } = useStyles()
 
 	const {
@@ -42,6 +45,7 @@ const ProfilePictureUpload = () => {
 
 	useEffect(() => {
 		if (successful) {
+			mutate()
 		}
 
 		if (successful || failed) {
@@ -69,7 +73,6 @@ const ProfilePictureUpload = () => {
 	}
 
 	const handleAccept = () => {
-		dispatch(uploadFile())
 		dispatch(closePreviewModal())
 	}
 
