@@ -38,7 +38,7 @@ const initialState: InitialState = {
 }
 
 export const uploadPost = createAsyncThunk(
-	'profilePictureUpload/uploadFileStatus',
+	'createPost/uploadPostStatus',
 	async ({ postHeader, postText }: InputValues, { getState }) => {
 		const state = getState() as RootState
 
@@ -95,7 +95,7 @@ const createPostSlice = createSlice({
 				state.uploading = false
 				state.successful = true
 
-				const data = payload.uploadProfilePicture
+				const data = payload.createPost
 
 				if (data.message) {
 					state.alertProps = {
