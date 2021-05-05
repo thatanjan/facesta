@@ -21,4 +21,16 @@ const darkTheme = responsiveFontSizes(
 	})
 )
 
+darkTheme.typography.h6 = {
+	[darkTheme.breakpoints.down('xs')]: {
+		fontSize: '0.9rem',
+	},
+}
+
+darkTheme.typography.h4 = {
+	[darkTheme.breakpoints.down('xs')]: {
+		fontSize: '1.3rem',
+	},
+}
+
 export default darkTheme
