@@ -21,10 +21,4 @@ const darkTheme = responsiveFontSizes(
 	})
 )
 
-export const lightTheme = createMuiTheme({
-	palette: {
-		type: 'light',
-	},
-})
-
 export default darkTheme
