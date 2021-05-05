@@ -151,31 +151,25 @@ const SinglePost = ({
 				}
 				title={headline}
 				titleTypographyProps={{
-					variant: 'h1',
-					style: {
-						fontSize: '1.5rem',
-					},
+					variant: 'h4',
+					component: 'h1',
 				}}
 				subheader={
-					<Box>
-						<Typography component='span'>
+					<>
+						<Typography component='span' variant='h6'>
 							{new Date(date).toDateString()},{' by '}
 						</Typography>
 						<MuiLink
 							href={`/profile/${postUserID}`}
 							MuiComponent={Typography}
 							color='textPrimary'
+							component='span'
+							variant='h6'
 						>
 							{name}
 						</MuiLink>
-					</Box>
+					</>
 				}
-				subheaderTypographyProps={{
-					variant: 'h2',
-					style: {
-						fontSize: '0.8rem',
-					},
-				}}
 			/>
 			<Image
 				src={image}
