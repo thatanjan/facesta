@@ -5,6 +5,7 @@ import { createStyles, makeStyles, Theme } from '@material-ui/core/styles'
 import RefreshIcon from '@material-ui/icons/Refresh'
 import Fab from '@material-ui/core/Fab'
 import { useRouter } from 'next/router'
+import useMediaQuery from '@material-ui/core/useMediaQuery'
 
 import Post from 'interfaces/post'
 import SinglePost from 'components/Post/SinglePost'
@@ -12,6 +13,8 @@ import { useGetNewsFeedPost } from 'hooks/useGetPost'
 
 import CircularLoader from 'components/Loaders/CircularLoader'
 import Alert from 'components/Alerts/Alert'
+
+import { screenSizeDrawer } from 'variables/global'
 
 const QUERY_NAME = 'getNewsFeedPost'
 
@@ -27,6 +30,7 @@ const useStyles = makeStyles((theme: Theme) =>
 
 const NewsFeed = () => {
 	const { data, error, setSize, size, mutate } = useGetNewsFeedPost()
+	const matches = useMediaQuery(screenSizeDrawer)
 
 	const { asPath } = useRouter()
 	const { fab } = useStyles()
@@ -99,9 +103,11 @@ const NewsFeed = () => {
 
 	return (
 		<div>
-			<Fab color='secondary' className={fab} onClick={() => mutate()}>
-				<RefreshIcon />
-			</Fab>
+			{matches && (
+				<Fab color='secondary' className={fab} onClick={() => mutate()}>
+					<RefreshIcon />
+				</Fab>
+			)}
 
 			<InfiniteScroll
 				dataLength={allPost.length}
