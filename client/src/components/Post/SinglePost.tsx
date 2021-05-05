@@ -52,6 +52,9 @@ const useStyles = makeStyles(theme => ({
 				fontSize: '1.3rem',
 			},
 		},
+		[theme.breakpoints.down('xs')]: {
+			paddingLeft: '5px',
+		},
 	},
 	noShadow: {
 		boxShadow: 'none',
