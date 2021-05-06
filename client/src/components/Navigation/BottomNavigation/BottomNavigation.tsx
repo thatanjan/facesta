@@ -7,10 +7,14 @@ import { nanoid } from 'nanoid'
 
 import { useGetNewsFeedPost } from 'hooks/useGetPost'
 
+import { useAppDispatch } from 'redux/hooks/hooks'
+import { openPostModal } from 'redux/slices/createPost'
+
 import navigationItems, {
 	NavigationItem,
 	HOME,
 	SEARCH,
+	ADD,
 } from './BottomNavigationData'
 
 const useStyles = makeStyles({
@@ -24,6 +28,8 @@ const useStyles = makeStyles({
 export default function LabelBottomNavigation() {
 	const { mutate } = useGetNewsFeedPost()
 	const { push, asPath } = useRouter()
+
+	const dispatch = useAppDispatch()
 
 	const { root } = useStyles()
 	const [value, setValue] = React.useState(asPath.substring(1) || HOME)
@@ -41,6 +47,11 @@ export default function LabelBottomNavigation() {
 
 			case SEARCH:
 				return push(`/${SEARCH}`)
+
+			case ADD:
+				dispatch(openPostModal())
+
+				break
 
 			default:
 				return push('/development')
