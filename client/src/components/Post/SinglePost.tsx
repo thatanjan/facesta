@@ -157,12 +157,12 @@ const SinglePost = ({
 				}
 				title={headline}
 				titleTypographyProps={{
-					variant: 'h4',
+					variant: 'h6',
 					component: 'h1',
 				}}
 				subheader={
 					<>
-						<Typography component='span' variant='h6'>
+						<Typography component='span' variant='body2'>
 							{new Date(date).toDateString()},{' by '}
 						</Typography>
 						<MuiLink
@@ -170,7 +170,7 @@ const SinglePost = ({
 							MuiComponent={Typography}
 							color='textPrimary'
 							component='span'
-							variant='h6'
+							variant='body2'
 						>
 							{name}
 						</MuiLink>
