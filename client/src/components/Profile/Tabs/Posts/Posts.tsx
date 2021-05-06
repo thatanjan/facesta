@@ -9,7 +9,8 @@ import Alert from 'components/Alerts/Alert'
 import Post from 'interfaces/post'
 import useGetAllPosts from 'hooks/useGetPost'
 import { useGetPersonalData } from 'hooks/useGetProfileData'
-import { useProfileUserID } from 'hooks/profileContextHooks'
+
+import { useProfileUserID } from 'redux/hooks/stateHooks'
 
 const SinglePost = dynamic(() => import('components/Post/SinglePost'), {
 	loading: () => <CircularLoader />,

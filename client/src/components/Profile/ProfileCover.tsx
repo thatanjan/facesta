@@ -15,7 +15,8 @@ import ProfilePictureUpload, {
 
 import CircularLoader from 'components/Loaders/CircularLoader'
 
-import { useIsSelf, useProfileUserID } from 'hooks/profileContextHooks'
+import { useIsSelf, useProfileUserID } from 'redux/hooks/stateHooks'
+
 import useGetPersonalData from 'hooks/useGetProfileData'
 import createRequest from 'utils/createRequest'
 import { uploadProfilePicture } from 'graphql/mutations/profileMutations'
