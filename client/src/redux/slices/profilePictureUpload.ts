@@ -40,8 +40,6 @@ export const uploadFile = createAsyncThunk(
 
 		const image = state.profilePictureUpload.file
 
-		console.log(image)
-
 		return createRequest({
 			key: uploadProfilePicture,
 			values: { image },
@@ -78,8 +76,7 @@ const profilePictureUploadSlice = createSlice({
 	},
 	extraReducers: builder => {
 		builder
-			.addCase(uploadFile.pending, (state, action) => {
-				console.log(action)
+			.addCase(uploadFile.pending, state => {
 				state.uploading = true
 
 				state.alertProps = {
