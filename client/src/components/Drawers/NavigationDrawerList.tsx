@@ -11,7 +11,6 @@ import Avatar from '@material-ui/core/Avatar'
 
 import CircularLoader from 'components/Loaders/CircularLoader'
 import MuiLink from 'components/Links/MuiLink'
-import { useDrawerState, useDrawerDispatch } from 'hooks/drawerHooks'
 import { useUserID } from 'redux/hooks/stateHooks'
 import { useGetPersonalData } from 'hooks/useGetProfileData'
 import {
@@ -51,9 +50,6 @@ const NavigationDrawerList = () => {
 	const { data, error } = useGetPersonalData(ownUserID)
 
 	const { iconStyle, logOutIconStyle, listItemTextStyle } = useStyles()
-
-	const isDrawerOpen = useDrawerState()
-	const drawerDispatch = useDrawerDispatch()
 
 	if (error) return <SwrErrorAlert />
 	if (!data) return <CircularLoader />
