@@ -13,8 +13,10 @@ import IconButton from '@material-ui/core/IconButton'
 import CircularLoader from 'components/Loaders/CircularLoader'
 import MuiLink from 'components/Links/MuiLink'
 
-import { useDrawerDispatch } from 'hooks/drawerHooks'
 import { APP_NAME, screenSizeDrawer } from 'variables/global'
+
+import { useAppDispatch } from 'redux/hooks/hooks'
+import { toggleDrawer } from 'redux/slices/drawerSlice'
 
 const NavigationDrawer = dynamic(
 	() => import('components/Drawers/NavigationDrawer'),
@@ -78,23 +80,14 @@ const useStyles = makeStyles(theme => ({
 const AppHeader = () => {
 	const matches = useMediaQuery(screenSizeDrawer)
 
-	const [isMenuClicked, setIsMenuClicked] = useState(false)
-
-	const [openDrawer, closeDrawer] = useDrawerDispatch()
-
 	const { push } = useRouter()
 
 	const { menuButton, title } = useStyles()
 
+	const dispatch = useAppDispatch()
+
 	const handleMenuClick = () => {
-		setIsMenuClicked(false)
-
-		if (isMenuClicked) {
-			closeDrawer()
-			return true
-		}
-
-		openDrawer()
+		dispatch(toggleDrawer())
 
 		return true
 	}
