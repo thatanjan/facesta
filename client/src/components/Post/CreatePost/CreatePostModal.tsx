@@ -75,6 +75,10 @@ const CreatePostModal = () => {
 	const { postModal, previewLink } = useAppSelector(state => state.createPost)
 	const dispatch = useAppDispatch()
 
+	const closePostModal = () => {
+		dispatch(resetState())
+	}
+
 	const {
 		modal,
 		paper,
@@ -94,7 +98,7 @@ const CreatePostModal = () => {
 				aria-describedby='transition-modal-description'
 				className={modal}
 				open={postModal}
-				onClose={resetState}
+				onClose={closePostModal}
 				closeAfterTransition
 				BackdropComponent={Backdrop}
 				BackdropProps={{
@@ -164,7 +168,7 @@ const CreatePostModal = () => {
 											Submit
 										</Button>
 										<Button
-											onClick={resetState}
+											onClick={closePostModal}
 											size={matches ? 'medium' : 'small'}
 											variant='contained'
 											color='primary'
