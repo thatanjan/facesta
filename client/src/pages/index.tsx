@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import Head from 'next/head'
 import { GetServerSideProps } from 'next'
 
@@ -16,12 +15,11 @@ import { PageProps } from 'interfaces/global'
 import useStoreID from 'redux/hooks/useStoreID'
 
 const PageContent = () => {
-	const [shouldMutate, setShouldMutate] = useState(false)
 	return (
 		<>
-			<CreatePost {...{ setShouldMutate }} />
+			<CreatePost />
 
-			<NewsFeed {...{ shouldMutate }} />
+			<NewsFeed />
 		</>
 	)
 }
