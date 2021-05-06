@@ -6,8 +6,9 @@ import {
 import createRequest from 'utils/createRequest'
 import useSWRgql from 'hooks/useSWRgql'
 import { useSWRInfinite } from 'swr'
-import { useOwnUserId } from 'hooks/userhooks'
-import { useProfileUserID } from 'hooks/profileContextHooks'
+
+import { useUserID, useProfileUserID } from 'redux/hooks/stateHooks'
+
 import { AnyObject } from 'interfaces/global'
 
 const useGetAllPost = () => {
@@ -43,7 +44,7 @@ export const useGetSinglePost = ({ user, postID }: SinglePost) => {
 }
 
 export const useGetNewsFeedPost = () => {
-	const userID = useOwnUserId()
+	const userID = useUserID()
 
 	const getKey = (index: number, previousPageData: AnyObject) => {
 		if (!userID) return null

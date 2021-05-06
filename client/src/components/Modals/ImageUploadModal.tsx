@@ -7,14 +7,11 @@ import Dialog from '@material-ui/core/Dialog'
 import Button from '@material-ui/core/Button'
 import { makeStyles } from '@material-ui/core/styles'
 
-export type NullOrBooleanType = boolean | null
+import makeBase64 from 'utils/makeBase64Image'
 
-interface Props {
-	setFile: Function
-	uploadModalOpen: boolean
-	setUploadModalOpen: (bool: boolean) => void
-	setApproved: (param: NullOrBooleanType) => void
-}
+import { Base64 } from 'redux/slices/profilePictureUpload'
+
+export type NullOrBooleanType = boolean | null
 
 const useStyles = makeStyles({
 	dialogContentStyle: {
@@ -25,17 +22,22 @@ const useStyles = makeStyles({
 	uploadIconStyle: {},
 })
 
+interface Props {
+	closeModal: () => void
+	uploadModal: boolean
+	makeImage: (base64: Base64) => {}
+	openPreviewModal: (link: string) => void
+	closeReset: () => void
+}
+
 const UploadModal = ({
-	uploadModalOpen,
-	setUploadModalOpen,
-	setFile,
-	setApproved,
+	closeModal,
+	uploadModal,
+	makeImage,
+	openPreviewModal,
+	closeReset,
 }: Props) => {
 	const { dialogContentStyle, uploadIconStyle } = useStyles()
-
-	const handleClose = () => {
-		setUploadModalOpen(false)
-	}
 
 	const { getRootProps, getInputProps } = useDropzone({
 		accept: 'image/*, video/*',
@@ -43,23 +45,25 @@ const UploadModal = ({
 		onDrop: acceptedFiles => {
 			const realFile = acceptedFiles[0]
 
-			Object.assign(realFile, {
+			const fileWithPreviewLink = Object.assign(realFile, {
 				previewLink: URL.createObjectURL(realFile),
 				valid: true,
 			})
 
-			setFile(realFile)
-			setApproved(null)
-			handleClose()
+			openPreviewModal(fileWithPreviewLink.previewLink)
+
+			makeBase64(fileWithPreviewLink, makeImage)
+
+			closeModal()
 		},
 	})
 
 	return (
 		<>
 			<Dialog
-				onClose={handleClose}
+				onClose={closeModal}
 				aria-labelledby='simple-dialog-title'
-				open={uploadModalOpen}
+				open={uploadModal}
 				maxWidth='sm'
 				fullWidth
 			>
@@ -71,7 +75,7 @@ const UploadModal = ({
 					<PublishIcon className={uploadIconStyle} fontSize='large' />
 				</MuiDialogContent>
 				<DialogActions>
-					<Button autoFocus onClick={handleClose} color='primary'>
+					<Button autoFocus onClick={closeReset} color='primary'>
 						Close
 					</Button>
 				</DialogActions>

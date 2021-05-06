@@ -1,43 +1,66 @@
 import React, { useEffect } from 'react'
 import { nanoid } from 'nanoid'
 import InfiniteScroll from 'react-infinite-scroll-component'
+import { createStyles, makeStyles, Theme } from '@material-ui/core/styles'
+import RefreshIcon from '@material-ui/icons/Refresh'
+import Fab from '@material-ui/core/Fab'
+import { useRouter } from 'next/router'
+import useMediaQuery from '@material-ui/core/useMediaQuery'
 
 import Post from 'interfaces/post'
 import SinglePost from 'components/Post/SinglePost'
 import { useGetNewsFeedPost } from 'hooks/useGetPost'
-import { useHaveSeenFeedOnce } from 'hooks/userhooks'
 
 import CircularLoader from 'components/Loaders/CircularLoader'
 import Alert from 'components/Alerts/Alert'
 
-interface Props {
-	shouldMutate: boolean
-}
+import { screenSizeDrawer } from 'variables/global'
 
 const QUERY_NAME = 'getNewsFeedPost'
 
-const NewsFeed = ({ shouldMutate }: Props) => {
+const useStyles = makeStyles((theme: Theme) =>
+	createStyles({
+		fab: {
+			position: 'fixed',
+			bottom: theme.spacing(3),
+			right: theme.spacing(3),
+		},
+	})
+)
+
+const NewsFeed = () => {
 	const { data, error, setSize, size, mutate } = useGetNewsFeedPost()
+	const matches = useMediaQuery(screenSizeDrawer)
 
-	const { haveSeenFeedOnce, setHaveSeenFeedOnce } = useHaveSeenFeedOnce()
-
-	useEffect(() => {
-		if (shouldMutate) {
-			mutate()
-		}
-	}, [shouldMutate])
+	const { asPath } = useRouter()
+	const { fab } = useStyles()
 
 	useEffect(() => {
-		if (haveSeenFeedOnce && !shouldMutate) {
-			mutate()
-		}
-	}, [haveSeenFeedOnce])
+		const node = document.getElementsByClassName('simplebar-content-wrapper')[0]
 
-	useEffect(() => {
-		if (!haveSeenFeedOnce) {
-			setHaveSeenFeedOnce(true)
+		if (asPath === '/') {
+			const sessionKeyName = 'newsfeedPosition'
+			const prevPosition = sessionStorage.getItem(sessionKeyName)
+
+			node.scrollBy(0, prevPosition ? parseInt(prevPosition, 10) : 0)
+
+			const handleScroll = (postion: number) => {
+				sessionStorage.setItem(sessionKeyName, postion.toString())
+			}
+
+			if (node) {
+				node.addEventListener('scroll', e =>
+					handleScroll((e.target as HTMLElement).scrollTop)
+				)
+			}
 		}
-	}, [])
+
+		return () => {
+			if (node) {
+				node.removeEventListener('scroll', () => {})
+			}
+		}
+	}, [asPath])
 
 	if (!data)
 		return (
@@ -80,6 +103,12 @@ const NewsFeed = ({ shouldMutate }: Props) => {
 
 	return (
 		<div>
+			{matches && (
+				<Fab color='secondary' className={fab} onClick={() => mutate()}>
+					<RefreshIcon />
+				</Fab>
+			)}
+
 			<InfiniteScroll
 				dataLength={allPost.length}
 				next={() => setSize(size + 1)}

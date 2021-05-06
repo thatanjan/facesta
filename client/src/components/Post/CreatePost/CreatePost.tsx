@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import dynamic from 'next/dynamic'
 import { makeStyles } from '@material-ui/core/styles'
 import Card from '@material-ui/core/Card'
@@ -9,6 +9,9 @@ import AccountCircleIcon from '@material-ui/icons/AccountCircle'
 import Typography from '@material-ui/core/Typography'
 
 import CircularLoader from 'components/Loaders/CircularLoader'
+
+import { useAppSelector, useAppDispatch } from 'redux/hooks/hooks'
+import { openPostModal } from 'redux/slices/createPost'
 
 const CreatePostModal = dynamic(() => import('./CreatePostModal'), {
 	loading: () => <CircularLoader />,
@@ -25,17 +28,14 @@ const useStyles = makeStyles({
 	},
 })
 
-interface Props {
-	setShouldMutate: (bool: boolean) => void
-}
-
-export const CreatePost = ({ setShouldMutate }: Props) => {
+export const CreatePost = () => {
 	const { cardStyle, container } = useStyles()
 
-	const [isClicked, setIsClicked] = useState(false)
+	const { postModal } = useAppSelector(state => state.createPost)
+	const dispatch = useAppDispatch()
 
 	const clickHandler = () => {
-		setIsClicked(!isClicked)
+		dispatch(openPostModal())
 	}
 
 	return (
@@ -54,9 +54,7 @@ export const CreatePost = ({ setShouldMutate }: Props) => {
 					</Grid>
 				</CardContent>
 			</Card>
-			{isClicked && (
-				<CreatePostModal {...{ isClicked, setIsClicked, setShouldMutate }} />
-			)}
+			{postModal && <CreatePostModal />}
 		</>
 	)
 }

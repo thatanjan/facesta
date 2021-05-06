@@ -1,11 +1,12 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import dynamic from 'next/dynamic'
 import SwipeableDrawer from '@material-ui/core/SwipeableDrawer'
 import { makeStyles } from '@material-ui/core/styles'
 
 import CircularLoader from 'components/Loaders/CircularLoader'
 
-import { useDrawerState, useDrawerDispatch } from 'hooks/drawerHooks'
+import { useAppDispatch, useAppSelector } from 'redux/hooks/hooks'
+import { toggleDrawer } from 'redux/slices/drawerSlice'
 
 const NavigationDrawerList = dynamic(
 	() => import('components/Drawers/NavigationDrawerList'),
@@ -21,17 +22,30 @@ const useStyles = makeStyles({
 export const NavigationDrawer = () => {
 	const { drawerStyle } = useStyles()
 
-	const isDrawerOpen = useDrawerState()
+	const dispatch = useAppDispatch()
+	const { isOpen } = useAppSelector(state => state.drawer)
 
-	const [openDrawer, closeDrawer] = useDrawerDispatch()
+	const handleToggle = () => {
+		dispatch(toggleDrawer())
+
+		return true
+	}
+
+	useEffect(() => {
+		return () => {
+			if (isOpen) {
+				dispatch(toggleDrawer())
+			}
+		}
+	}, [])
 
 	return (
 		<>
 			<SwipeableDrawer
 				anchor='left'
-				open={isDrawerOpen}
-				onClose={closeDrawer}
-				onOpen={openDrawer}
+				open={isOpen}
+				onClose={handleToggle}
+				onOpen={handleToggle}
 			>
 				<div className={drawerStyle}>
 					<NavigationDrawerList />{' '}

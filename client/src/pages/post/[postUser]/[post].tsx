@@ -5,7 +5,6 @@ import { useRouter } from 'next/router'
 import { responseInterface } from 'swr'
 
 import SinglePostPage from 'components/Post/SinglePostPage'
-import PageWrapper from 'components/Layout/PageWrapper'
 import PageLayoutComponent from 'components/Layout/PageLayoutComponent'
 import decodeToken from 'utils/decodeToken'
 import Requset from 'interfaces/requsetResponse'
@@ -16,15 +15,16 @@ import { LOGIN_URL } from 'variables/global'
 import { PageProps } from 'interfaces/global'
 import Post from 'interfaces/post'
 
-import CircularLoader from 'components/Loaders/CircularLoader'
 import PreLoader from 'components/Loaders/PreLoader'
 import SwrErrorAlert from 'components/Alerts/SwrErrorAlert'
 
 import { useGetSinglePost } from 'hooks/useGetPost'
+import useStoreID from 'redux/hooks/useStoreID'
 
 interface Props extends PageProps {}
 
 const PostPage = ({ id }: Props) => {
+	useStoreID(id)
 	const {
 		query: { postUser, post },
 	} = useRouter()
@@ -58,11 +58,8 @@ const PostPage = ({ id }: Props) => {
 	return (
 		<div>
 			<NextSeo title={`${headline} by ${name}`} />
-			<div>
-				<PageWrapper id={id}>
-					<PageLayoutComponent Content={SinglePostPage} />
-				</PageWrapper>
-			</div>
+
+			<PageLayoutComponent Content={SinglePostPage} />
 		</div>
 	)
 }

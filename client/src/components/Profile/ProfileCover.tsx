@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import dynamic from 'next/dynamic'
 import Image from 'next/image'
 import Paper from '@material-ui/core/Paper'
@@ -9,16 +9,13 @@ import Card from '@material-ui/core/Card'
 import Button from '@material-ui/core/Button'
 import { makeStyles, Theme } from '@material-ui/core/styles'
 
-import ProfilePictureUpload, {
-	Base64,
-} from 'components/Upload/ProfilePictureUpload'
+import ProfilePictureUpload from 'components/Upload/ProfilePictureUpload'
 
 import CircularLoader from 'components/Loaders/CircularLoader'
 
-import { useIsSelf, useProfileUserID } from 'hooks/profileContextHooks'
+import { useIsSelf, useProfileUserID } from 'redux/hooks/stateHooks'
+
 import useGetPersonalData from 'hooks/useGetProfileData'
-import createRequest from 'utils/createRequest'
-import { uploadProfilePicture } from 'graphql/mutations/profileMutations'
 
 const SwrErrorAlert = dynamic(() => import('components/Alerts/SwrErrorAlert'))
 
@@ -47,30 +44,11 @@ export const ProfileCover = () => {
 	const profileUserID = useProfileUserID()
 	const { container, media, profileNameStyle } = useStyles()
 
-	const [uploadingPost, setUploadingPost] = useState(false)
-
 	const isSelf = useIsSelf()
-	const { data, error, mutate } = useGetPersonalData(profileUserID)
+	const { data, error } = useGetPersonalData(profileUserID)
 
 	if (!data) return <CircularLoader />
 	if (error) return <SwrErrorAlert />
-
-	const action = async (image: Base64) => {
-		setUploadingPost(true)
-		const res = await createRequest({
-			key: uploadProfilePicture,
-			values: { image },
-		})
-
-		return res
-	}
-
-	const profilePictureUploadProps = {
-		action,
-		uploadingPost,
-		type: 'uploadProfilePicture',
-		mutate,
-	}
 
 	const {
 		getPersonalData: { name, bio, profilePicture },
@@ -91,7 +69,7 @@ export const ProfileCover = () => {
 						src={profilePicture || avatar}
 					/>
 
-					{isSelf && <ProfilePictureUpload {...profilePictureUploadProps} />}
+					{isSelf && <ProfilePictureUpload />}
 
 					<Typography variant='h1' align='center' className={profileNameStyle}>
 						{name}

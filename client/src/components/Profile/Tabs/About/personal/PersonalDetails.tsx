@@ -5,7 +5,9 @@ import Box from '@material-ui/core/Box'
 import { nanoid } from 'nanoid'
 
 import { useGetPersonalData } from 'hooks/useGetProfileData'
-import { useIsSelf, useProfileUserID } from 'hooks/profileContextHooks'
+
+import { useIsSelf, useProfileUserID } from 'redux/hooks/stateHooks'
+
 import { DATE_OF_BIRTH } from 'variables/global'
 import parseCamelCase from 'utils/parseCamelCase'
 

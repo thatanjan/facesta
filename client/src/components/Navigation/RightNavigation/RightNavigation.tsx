@@ -7,8 +7,9 @@ import Button from '@material-ui/core/Button'
 
 import CircularLoader from 'components/Loaders/CircularLoader'
 import { useGetRecommendedToFollow } from 'hooks/followHooks'
-import { useOwnUserId } from 'hooks/userhooks'
 import { User } from 'interfaces/user'
+
+import { useUserID } from 'redux/hooks/stateHooks'
 
 const ListContainer = dynamic(
 	() => import('components/List/UserListContainer'),
@@ -32,7 +33,7 @@ const RightNavigation = () => {
 		any
 	> = useGetRecommendedToFollow()
 
-	const ownUserID = useOwnUserId()
+	const ownUserID = useUserID()
 
 	if (!data) return <CircularLoader />
 	if (error) return <SwrErrorAlert />

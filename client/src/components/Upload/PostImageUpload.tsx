@@ -1,18 +1,24 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect } from 'react'
 import IconButton from '@material-ui/core/IconButton'
 import EditIcon from '@material-ui/icons/Edit'
 import { makeStyles } from '@material-ui/core/styles'
-import Cookies from 'js-cookie'
 
-import ImageUploadModal, {
-	NullOrBooleanType,
-} from 'components/Modals/ImageUploadModal'
+import ImageUploadModal from 'components/Modals/ImageUploadModal'
 import ImagePreview from 'components/Images/ImagePreview'
 
-import makeBase64 from 'utils/makeBase64Image'
+import { useGetNewsFeedPost } from 'hooks/useGetPost'
+
 import UploadAlert, { Props as AlertProps } from 'components/Alerts/Alert'
 
-import { CustomFile } from 'interfaces/upload'
+import {
+	openUploadModal,
+	closePreviewModal,
+	closeUploadModal,
+	makeBase64Image,
+	openPreviewModal,
+	resetState,
+} from 'redux/slices/createPost'
+import { useAppSelector, useAppDispatch } from 'redux/hooks/hooks'
 
 const useStyles = makeStyles(() => ({
 	editIconStyle: { marginLeft: '100%', transform: 'translate(-100%, -100%)' },
@@ -20,162 +26,79 @@ const useStyles = makeStyles(() => ({
 
 export type Base64 = ArrayBuffer | string | null
 
-export interface Props {
-	action: (base64: Base64) => any
-	setPostPreviewLink: (link: string) => void
-	uploadingPost: boolean
-	setUploadingPost: (bool: boolean) => void
-	closePostModal: () => void
-	setShouldMutate: (bool: boolean) => void
-	file: CustomFile | {}
-	setFile: (val: CustomFile | {}) => void
-}
+const ProfilePictureUpload = () => {
+	const dispatch = useAppDispatch()
 
-const ProfilePictureUpload = ({
-	action,
-	setPostPreviewLink,
-	uploadingPost,
-	setUploadingPost,
-	closePostModal,
-	setShouldMutate,
-	file,
-	setFile,
-}: Props) => {
-	const [base64, setBase64] = useState<Base64>('')
-	const [approved, setApproved] = useState<NullOrBooleanType>(null)
-	const [loading, setLoading] = useState(false)
-	const [success, setSuccess] = useState<NullOrBooleanType>(null)
-	const [uploadModalOpen, setUploadModalOpen] = useState(false)
-	const [showPreview, setShowPreview] = useState(false)
-	const [previewLink, setPreviewLink] = useState('')
-	const [showAlert, setShowAlert] = useState<NullOrBooleanType>(false)
-	const [uploadAlertProps, setUploadAlertProps] = useState<AlertProps | {}>({
-		checked: true,
-	})
-
-	const CREATE_POST = 'createPost'
+	const { mutate } = useGetNewsFeedPost()
 
 	const { editIconStyle } = useStyles()
 
-	const openUploadModal = () => setUploadModalOpen(true)
-
-	const uploadModalProps = {
-		setFile,
-		uploadModalOpen,
-		setUploadModalOpen,
-		setApproved,
-	}
-
-	useEffect(() => {
-		const { valid, previewLink: link } = file as CustomFile
-
-		if (valid) {
-			setPreviewLink(link)
-			setShowPreview(true)
-		}
-	}, [file])
+	const {
+		uploading,
+		alertProps,
+		uploadModal,
+		previewModal,
+		previewLink,
+		successful,
+		failed,
+	} = useAppSelector(state => state.createPost)
 
 	useEffect(() => {
-		if (approved) {
-			setPostPreviewLink(previewLink)
-			setShowPreview(false)
+		if (successful) {
+			mutate()
 		}
 
-		if (approved === false) {
-			setShowPreview(false)
-			setUploadModalOpen(true)
-		}
-	}, [approved])
-
-	useEffect(() => {
-		if (base64) {
-			;(async () => {
-				const res = await action(base64)
-				if (res) {
-					const message = res[CREATE_POST]?.message
-					const errorMessage = res[CREATE_POST]?.errorMessage
-
-					setLoading(false)
-
-					if (message) {
-						setUploadAlertProps(prev => ({
-							...prev,
-							message,
-							severity: 'success',
-						}))
-						setSuccess(true)
-						setShouldMutate(true)
-						setTimeout(() => setShouldMutate(false))
-						Cookies.remove('postHeader')
-						Cookies.remove('postText')
-					}
-
-					if (errorMessage) {
-						setUploadAlertProps(prev => ({
-							...prev,
-							message: errorMessage,
-							severity: 'error',
-						}))
-
-						setSuccess(false)
-					}
-				}
-			})()
-		}
-	}, [base64])
-
-	useEffect(() => {
-		if (success || success === false) {
-			setShowAlert(true)
-
-			setUploadingPost(false)
-		}
-	}, [success])
-
-	useEffect(() => {
-		if (showAlert) {
-			setSuccess(null)
+		if (successful || failed) {
 			setTimeout(() => {
-				setShowAlert(false)
-				if (closePostModal) closePostModal()
-				setShowAlert(null)
+				dispatch(resetState())
 			}, 3000)
 		}
-	}, [showAlert])
+	}, [successful, failed])
 
-	useEffect(() => {
-		if (uploadingPost) {
-			makeBase64(file as CustomFile, setBase64)
-			setLoading(true)
-			setUploadModalOpen(false)
-		}
-	}, [uploadingPost])
+	const closeReset = () => {
+		dispatch(resetState())
+	}
 
-	useEffect(() => {
-		if (loading) {
-			setUploadAlertProps(prev => ({
-				...prev,
-				severity: 'info',
-				message: 'Post is uploading',
-			}))
-		}
-	}, [loading])
+	const uploadModalProps = {
+		closeModal: () => dispatch(closeUploadModal()),
+		uploadModal,
+		makeImage: (base64: Base64) => dispatch(makeBase64Image(base64)),
+		openPreviewModal: (link: string) => dispatch(openPreviewModal(link)),
+		closeReset,
+	}
 
-	const imagePreviewProps = { previewLink, showPreview, setApproved }
+	const handleDiscard = () => {
+		dispatch(closePreviewModal())
+		dispatch(openUploadModal())
+	}
+
+	const handleAccept = () => {
+		dispatch(closePreviewModal())
+	}
+
+	const imagePreviewProps = {
+		previewLink,
+		previewModal,
+		handleDiscard,
+		handleAccept,
+	}
 
 	return (
 		<>
-			<IconButton onClick={openUploadModal} className={editIconStyle}>
+			<IconButton
+				onClick={() => dispatch(openUploadModal())}
+				className={editIconStyle}
+			>
 				<EditIcon />
 			</IconButton>
 
-			{uploadModalOpen && <ImageUploadModal {...uploadModalProps} />}
+			{uploadModal && <ImageUploadModal {...uploadModalProps} />}
 
-			{showPreview && <ImagePreview {...imagePreviewProps} />}
+			{previewModal && <ImagePreview {...imagePreviewProps} />}
 
-			{loading && <UploadAlert {...(uploadAlertProps as AlertProps)} />}
-
-			{showAlert && <UploadAlert {...(uploadAlertProps as AlertProps)} />}
+			{(uploading || successful || failed) && (
+				<UploadAlert {...(alertProps as AlertProps)} />
+			)}
 		</>
 	)
 }

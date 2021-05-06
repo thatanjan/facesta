@@ -9,7 +9,6 @@ import Box from '@material-ui/core/Box'
 import { makeStyles } from '@material-ui/core/styles'
 
 import CircularLoader from 'components/Loaders/CircularLoader'
-import DrawerContextProvider from 'context/drawerContext'
 import { screenSizeDrawer } from 'variables/global'
 import BackgroundPaper from './BackgroundPaper'
 
@@ -43,9 +42,7 @@ const useStyles = makeStyles(theme => ({
 		maxHeight: '100vh',
 		overflowY: 'scroll',
 		padding: '0 2rem',
-		[theme.breakpoints.down('lg')]: {
-			padding: '0 1rem',
-		},
+		[theme.breakpoints.down('xs')]: { padding: '0 .5rem' },
 		'-ms-overflow-style': 'none',
 		scrollbarWidth: 'none',
 
@@ -71,9 +68,7 @@ const PageLayoutComponent = ({ Content }: Props) => {
 
 	return (
 		<>
-			<DrawerContextProvider>
-				<AppHeader />
-			</DrawerContextProvider>
+			<AppHeader />
 
 			<BackgroundPaper>
 				{matches && (

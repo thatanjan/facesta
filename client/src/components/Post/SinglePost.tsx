@@ -15,6 +15,7 @@ import Image from 'next/image'
 import { responseInterface } from 'swr'
 
 import { useGetTotalComment } from 'hooks/commentHooks'
+import useSmallerThanXS from 'hooks/mediaQueries/useSmallerThanXS'
 
 import CircularLoader from 'components/Loaders/CircularLoader'
 import MuiLink from 'components/Links/MuiLink'
@@ -52,6 +53,9 @@ const useStyles = makeStyles(theme => ({
 				fontSize: '1.3rem',
 			},
 		},
+		[theme.breakpoints.down('xs')]: {
+			paddingLeft: '5px',
+		},
 	},
 	noShadow: {
 		boxShadow: 'none',
@@ -80,6 +84,8 @@ const SinglePost = ({
 	date,
 	hasLiked,
 }: Props) => {
+	const matches = useSmallerThanXS()
+
 	const { push } = useRouter()
 
 	const {
@@ -151,31 +157,25 @@ const SinglePost = ({
 				}
 				title={headline}
 				titleTypographyProps={{
-					variant: 'h1',
-					style: {
-						fontSize: '1.5rem',
-					},
+					variant: 'h6',
+					component: 'h1',
 				}}
 				subheader={
-					<Box>
-						<Typography component='span'>
+					<>
+						<Typography component='span' variant='body2'>
 							{new Date(date).toDateString()},{' by '}
 						</Typography>
 						<MuiLink
 							href={`/profile/${postUserID}`}
 							MuiComponent={Typography}
 							color='textPrimary'
+							component='span'
+							variant='body2'
 						>
 							{name}
 						</MuiLink>
-					</Box>
+					</>
 				}
-				subheaderTypographyProps={{
-					variant: 'h2',
-					style: {
-						fontSize: '0.8rem',
-					},
-				}}
 			/>
 			<Image
 				src={image}
@@ -198,6 +198,7 @@ const SinglePost = ({
 					<IconButton
 						aria-label='comment'
 						onClick={() => push(`/post/${postUserID}/${postID}`)}
+						size={matches ? 'small' : undefined}
 					>
 						<CommentIcon />
 					</IconButton>

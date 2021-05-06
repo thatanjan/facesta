@@ -6,29 +6,23 @@ import Button from '@material-ui/core/Button'
 
 interface Props {
 	previewLink: string
-	showPreview: boolean
-	setApproved: (bool: boolean) => void
+	handleDiscard: () => void
+	handleAccept: () => void
+	previewModal: boolean
 }
 
 const ImagePreviewModal = ({
 	previewLink,
-	showPreview,
-	setApproved,
+	handleDiscard,
+	handleAccept,
+	previewModal,
 }: Props) => {
-	const handleClose = () => {
-		setApproved(true)
-	}
-
-	const handleReject = () => {
-		setApproved(false)
-	}
-
 	return (
 		<Dialog
 			fullWidth
 			aria-labelledby='simple-dialog-title'
 			maxWidth='lg'
-			open={showPreview}
+			open={previewModal}
 		>
 			<DialogContent style={{ padding: 0 }}>
 				<CardMedia
@@ -38,8 +32,8 @@ const ImagePreviewModal = ({
 			</DialogContent>
 
 			<DialogActions>
-				<Button onClick={handleReject}>discard</Button>
-				<Button onClick={handleClose}>OK</Button>
+				<Button onClick={handleDiscard}>discard</Button>
+				<Button onClick={handleAccept}>OK</Button>
 			</DialogActions>
 		</Dialog>
 	)

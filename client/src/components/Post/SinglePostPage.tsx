@@ -10,10 +10,11 @@ import { makeStyles, Theme } from '@material-ui/core/styles'
 import { cloudinaryURL } from 'variables/global'
 
 import CircularLoader from 'components/Loaders/CircularLoader'
+import { useStyles as useFormStyle } from 'components/Comment/CommentList'
 
 import { useGetSinglePost } from 'hooks/useGetPost'
 import { useGetPersonalData } from 'hooks/useGetProfileData'
-import { useOwnUserId } from 'hooks/userhooks'
+import { useUserID } from 'redux/hooks/stateHooks'
 
 import Post from 'interfaces/post'
 
@@ -51,8 +52,9 @@ const SinglePostPage = () => {
 	const [showAlert, setShowAlert] = useState(false)
 
 	const { root } = useStyles()
+	const { listItemStyle } = useFormStyle()
 
-	const ownUserID = useOwnUserId()
+	const ownUserID = useUserID()
 	const {
 		query: { post: postID, postUser },
 	} = useRouter()
@@ -106,7 +108,7 @@ const SinglePostPage = () => {
 			)}
 
 			<List className={root}>
-				<ListItem alignItems='flex-start'>
+				<ListItem alignItems='flex-start' className={listItemStyle}>
 					<ListItemAvatar>
 						<Avatar alt={name} src={cloudinaryURL(profilePicture)} />
 					</ListItemAvatar>

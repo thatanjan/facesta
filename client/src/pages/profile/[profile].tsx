@@ -1,5 +1,5 @@
 import { NextSeo } from 'next-seo'
-import React from 'react'
+import React, { useEffect } from 'react'
 import dynamic from 'next/dynamic'
 import { GetServerSideProps } from 'next'
 import Grid from '@material-ui/core/Grid'
@@ -7,19 +7,17 @@ import { makeStyles } from '@material-ui/core/styles'
 
 import { LOGIN_URL } from 'variables/global'
 
-import PageWrapper from 'components/Layout/PageWrapper'
 import PageLayoutComponent from 'components/Layout/PageLayoutComponent'
 import ProfileCover from 'components/Profile/ProfileCover'
 import ProfileTabMenu from 'components/TabMenus/ProfileTabMenu'
 import CircularLoader from 'components/Loaders/CircularLoader'
 import PreLoader from 'components/Loaders/PreLoader'
 
-import ProfileContextProvider, {
-	State as ProfileContextInterface,
-} from 'context/profileContext'
-
-import { useIsSelf } from 'hooks/profileContextHooks'
 import { useGetPersonalData } from 'hooks/useGetProfileData'
+
+import useStoreID from 'redux/hooks/useStoreID'
+import { useAppDispatch, useAppSelector } from 'redux/hooks/hooks'
+import { addProfileUser, removeProfileUser } from 'redux/slices/profileSlice'
 
 import getToken from 'utils/getToken'
 import decodeToken from 'utils/decodeToken'
@@ -27,13 +25,10 @@ import shouldRedirectToAuth from 'utils/shouldRedirectToAuth'
 import createRedirectObject from 'utils/createRedirectObject'
 
 import Requset from 'interfaces/requsetResponse'
-import { PageProps } from 'interfaces/global'
 
 const FollowButton = dynamic(() => import('components/Buttons/FollowButton'), {
 	loading: () => <CircularLoader />,
 })
-
-interface Props extends ProfileContextInterface, PageProps {}
 
 const useStyles = makeStyles(({ spacing }) => ({
 	buttonGridContainer: {
@@ -45,7 +40,7 @@ const SwrErrorAlert = dynamic(() => import('components/Alerts/SwrErrorAlert'))
 
 const Content = () => {
 	const { buttonGridContainer } = useStyles()
-	const isSelf = useIsSelf()
+	const { isSelf } = useAppSelector(state => state.profile)
 	return (
 		<>
 			<ProfileCover />
@@ -64,8 +59,24 @@ const Content = () => {
 	)
 }
 
-const Profile = ({ id, ...profileContextProps }: Props) => {
-	const { data, error } = useGetPersonalData(profileContextProps.profileUserID)
+interface Props {
+	id: string
+	profileUserID: string
+	isSelf: boolean
+}
+
+const Profile = ({ id, profileUserID, isSelf }: Props) => {
+	useStoreID(id)
+	const { data, error } = useGetPersonalData(profileUserID)
+	const dispatch = useAppDispatch()
+
+	dispatch(addProfileUser({ profileUserID, isSelf }))
+
+	useEffect(() => {
+		return () => {
+			dispatch(removeProfileUser())
+		}
+	}, [])
 
 	if (!data) return <PreLoader />
 
@@ -79,11 +90,7 @@ const Profile = ({ id, ...profileContextProps }: Props) => {
 		<>
 			<NextSeo title={name} />
 
-			<PageWrapper id={id}>
-				<ProfileContextProvider {...profileContextProps}>
-					<PageLayoutComponent Content={Content} />
-				</ProfileContextProvider>
-			</PageWrapper>
+			<PageLayoutComponent Content={Content} />
 		</>
 	)
 }

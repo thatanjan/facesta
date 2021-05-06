@@ -5,6 +5,8 @@ import CssBaseline from '@material-ui/core/CssBaseline'
 import { ThemeProvider } from '@material-ui/core/styles'
 import { SWRConfig } from 'swr'
 import { enableAllPlugins } from 'immer'
+import store from 'redux/store'
+import { Provider } from 'react-redux'
 
 import theme from 'themes/theme'
 import { APP_NAME } from 'variables/global'
@@ -32,16 +34,18 @@ export default function MyApp(props: AppProps) {
 				/>
 			</Head>
 
-			<ThemeProvider theme={theme}>
-				<CssBaseline />
-				<SWRConfig
-					value={{
-						revalidateOnFocus: false,
-					}}
-				>
-					<Component {...pageProps} />
-				</SWRConfig>
-			</ThemeProvider>
+			<Provider store={store}>
+				<ThemeProvider theme={theme}>
+					<CssBaseline />
+					<SWRConfig
+						value={{
+							revalidateOnFocus: false,
+						}}
+					>
+						<Component {...pageProps} />
+					</SWRConfig>
+				</ThemeProvider>
+			</Provider>
 		</>
 	)
 }

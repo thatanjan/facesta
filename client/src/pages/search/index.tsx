@@ -5,7 +5,6 @@ import Typography from '@material-ui/core/Typography'
 import { Theme, makeStyles } from '@material-ui/core/styles'
 import { responseInterface } from 'swr'
 
-import PageWrapper from 'components/Layout/PageWrapper'
 import PageLayoutComponent from 'components/Layout/PageLayoutComponent'
 import CircularLoader from 'components/Loaders/CircularLoader'
 import SwrErrorAlert from 'components/Alerts/SwrErrorAlert'
@@ -21,6 +20,7 @@ import { PageProps } from 'interfaces/global'
 import { SearchedUser } from 'interfaces/user'
 
 import useSearchUser from 'hooks/useSearchUser'
+import useStoreID from 'redux/hooks/useStoreID'
 
 const SearchForm = dynamic(() => import('components/Forms/SearchForm'), {
 	loading: () => <CircularLoader />,
@@ -98,11 +98,8 @@ const PageContent = () => {
 }
 
 const SearchPage = ({ id }: PageProps) => {
-	return (
-		<PageWrapper id={id}>
-			<PageLayoutComponent Content={PageContent} />
-		</PageWrapper>
-	)
+	useStoreID(id)
+	return <PageLayoutComponent Content={PageContent} />
 }
 
 export default SearchPage

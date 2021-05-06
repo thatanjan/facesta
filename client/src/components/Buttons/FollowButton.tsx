@@ -5,9 +5,13 @@ import { mutate } from 'swr'
 import dynamic from 'next/dynamic'
 
 import CircularLoader from 'components/Loaders/CircularLoader'
+
 import createRequest from 'utils/createRequest'
+
 import { useIsFollower, useIsFollowee } from 'hooks/followHooks'
-import { useProfileUserID } from 'hooks/profileContextHooks'
+
+import { useAppSelector } from 'redux/hooks/hooks'
+
 import { follow, unfollow } from 'graphql/mutations/followMutations'
 import {
 	getIsFollower,
@@ -29,7 +33,7 @@ let buttonText: string
 const FollowButton = () => {
 	const { buttonStyle } = useStyles()
 
-	const profileUserId = useProfileUserID()
+	const profileUserId = useAppSelector(state => state.profile.profileUserID)
 
 	const { data: follower, error: followerError } = useIsFollower()
 	const { data: followee, error: followeeError } = useIsFollowee()

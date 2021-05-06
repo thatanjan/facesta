@@ -21,10 +21,18 @@ const darkTheme = responsiveFontSizes(
 	})
 )
 
-export const lightTheme = createMuiTheme({
-	palette: {
-		type: 'light',
+darkTheme.typography.h6 = {
+	...darkTheme.typography.h6,
+	[darkTheme.breakpoints.down('xs')]: {
+		fontSize: '0.9rem',
 	},
-})
+}
+
+darkTheme.typography.h4 = {
+	...darkTheme.typography.h4,
+	[darkTheme.breakpoints.down('xs')]: {
+		fontSize: '1.3rem',
+	},
+}
 
 export default darkTheme

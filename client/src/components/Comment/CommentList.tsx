@@ -23,11 +23,22 @@ import { cloudinaryURL } from 'variables/global'
 
 const SwrErrorAlert = dynamic(() => import('components/Alerts/SwrErrorAlert'))
 
-const useStyles = makeStyles((theme: Theme) =>
+export const useStyles = makeStyles((theme: Theme) =>
 	createStyles({
 		root: {
 			width: '100%',
 			backgroundColor: theme.palette.background.paper,
+		},
+		listItemStyle: {
+			[theme.breakpoints.down('xs')]: {
+				paddingLeft: '5px',
+				paddingRight: '5px',
+			},
+		},
+		dividerStyle: {
+			[theme.breakpoints.down('xs')]: {
+				marginLeft: '61px',
+			},
 		},
 	})
 )
@@ -39,7 +50,7 @@ interface Props extends HookInput {
 const QUERY_NAME = 'getAllComments'
 
 const CommentList = ({ postID, postUserID, newCommentAdded }: Props) => {
-	const { root } = useStyles()
+	const { root, listItemStyle, dividerStyle } = useStyles()
 
 	const { data, error, setSize, size, mutate } = useGetAllComments({
 		postID,
@@ -121,7 +132,7 @@ const CommentList = ({ postID, postUserID, newCommentAdded }: Props) => {
 							},
 						}: Comment) => (
 							<Box key={nanoid()}>
-								<ListItem alignItems='flex-start'>
+								<ListItem alignItems='flex-start' className={listItemStyle}>
 									<ListItemAvatar>
 										<MuiLink
 											MuiComponent={Avatar}
@@ -159,7 +170,7 @@ const CommentList = ({ postID, postUserID, newCommentAdded }: Props) => {
 										}
 									/>
 								</ListItem>
-								<Divider variant='inset' component='li' />
+								<Divider variant='inset' component='li' className={dividerStyle} />
 							</Box>
 						)
 					)}

@@ -7,14 +7,14 @@ import {
 } from 'graphql/queries/followQueries'
 import { useSWRInfinite } from 'swr'
 
+import { useAppSelector } from 'redux/hooks/hooks'
+
 import createRequest from 'utils/createRequest'
 import { AnyObject } from 'interfaces/global'
 import useSWRgql from './useSWRgql'
-import { useProfileUserID } from './profileContextHooks'
-import { useOwnUserId } from './userhooks'
 
 export const useGetFollowers = () => {
-	const user = useProfileUserID()
+	const user = useAppSelector(state => state.profile.profileUserID)
 
 	const getKey = (index: number, previousPageData: AnyObject) => {
 		if (previousPageData && previousPageData.getFollowers.followers.length === 0)
@@ -32,7 +32,7 @@ export const useGetFollowers = () => {
 }
 
 export const useGetFollowees = () => {
-	const user = useProfileUserID()
+	const user = useAppSelector(state => state.profile.profileUserID)
 
 	const getKey = (index: number, previousPageData: AnyObject) => {
 		if (previousPageData && previousPageData.getFollowees?.followees.length === 0)
@@ -50,7 +50,7 @@ export const useGetFollowees = () => {
 }
 
 export const useIsFollowee = () => {
-	const user = useProfileUserID()
+	const user = useAppSelector(state => state.profile.profileUserID)
 	return useSWRgql({
 		key: getIsFollowee,
 		swrDependencies: user,
@@ -59,7 +59,7 @@ export const useIsFollowee = () => {
 }
 
 export const useIsFollower = () => {
-	const user = useProfileUserID()
+	const user = useAppSelector(state => state.profile.profileUserID)
 	return useSWRgql({
 		key: getIsFollower,
 		swrDependencies: user,
@@ -68,7 +68,7 @@ export const useIsFollower = () => {
 }
 
 export const useGetRecommendedToFollow = () => {
-	const userID = useOwnUserId()
+	const userID = useAppSelector(state => state.user.id)
 	return useSWRgql({
 		key: getRecommendedToFollow,
 		swrDependencies: userID,

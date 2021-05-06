@@ -18,7 +18,9 @@ import CircularLoader from 'components/Loaders/CircularLoader'
 
 import { updatePersonalData } from 'graphql/mutations/profileMutations'
 import { useGetPersonalData } from 'hooks/useGetProfileData'
-import { useOwnUserId } from 'hooks/userhooks'
+
+import { useUserID } from 'redux/hooks/stateHooks'
+
 import { DATE_OF_BIRTH } from 'variables/global'
 import createRequest from 'utils/createRequest'
 
@@ -75,7 +77,7 @@ const useStyles = makeStyles(() =>
 
 const NewDetailsForm = ({ setIsAdding, isAdding }: Props) => {
 	const { inputStyle } = useStyles()
-	const userID = useOwnUserId()
+	const userID = useUserID()
 
 	const { data, error, mutate } = useGetPersonalData(userID)
 

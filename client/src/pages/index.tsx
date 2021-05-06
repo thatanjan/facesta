@@ -1,8 +1,6 @@
-import { useState } from 'react'
 import Head from 'next/head'
 import { GetServerSideProps } from 'next'
 
-import PageWrapper from 'components/Layout/PageWrapper'
 import PageLayoutComponent from 'components/Layout/PageLayoutComponent'
 import Requset from 'interfaces/requsetResponse'
 import shouldRedirectToAuth from 'utils/shouldRedirectToAuth'
@@ -14,18 +12,21 @@ import CreatePost from 'components/Post/CreatePost/CreatePost'
 import NewsFeed from 'components/Post/NewsFeed'
 import { PageProps } from 'interfaces/global'
 
+import useStoreID from 'redux/hooks/useStoreID'
+
 const PageContent = () => {
-	const [shouldMutate, setShouldMutate] = useState(false)
 	return (
 		<>
-			<CreatePost {...{ setShouldMutate }} />
+			<CreatePost />
 
-			<NewsFeed {...{ shouldMutate }} />
+			<NewsFeed />
 		</>
 	)
 }
 
 const Home = ({ id }: PageProps) => {
+	useStoreID(id)
+
 	return (
 		<>
 			<Head>
@@ -33,11 +34,7 @@ const Home = ({ id }: PageProps) => {
 				<link rel='icon' href='/favicon.ico' />
 			</Head>
 
-			<div>
-				<PageWrapper id={id}>
-					<PageLayoutComponent Content={PageContent} />
-				</PageWrapper>
-			</div>
+			<PageLayoutComponent Content={PageContent} />
 		</>
 	)
 }
