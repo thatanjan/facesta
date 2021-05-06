@@ -11,7 +11,11 @@ import Avatar from '@material-ui/core/Avatar'
 
 import CircularLoader from 'components/Loaders/CircularLoader'
 import MuiLink from 'components/Links/MuiLink'
+
+import { toggleDrawer } from 'redux/slices/drawerSlice'
 import { useUserID } from 'redux/hooks/stateHooks'
+import { useAppSelector, useAppDispatch } from 'redux/hooks/hooks'
+
 import { useGetPersonalData } from 'hooks/useGetProfileData'
 import {
 	screenSizeDrawer,
@@ -47,6 +51,10 @@ const NavigationDrawerList = () => {
 	const matches = useMediaQuery(screenSizeDrawer)
 	const ownUserID = useUserID()
 
+	const dispatch = useAppDispatch()
+
+	const { isOpen } = useAppSelector(state => state.drawer)
+
 	const { data, error } = useGetPersonalData(ownUserID)
 
 	const { iconStyle, logOutIconStyle, listItemTextStyle } = useStyles()
@@ -65,10 +73,8 @@ const NavigationDrawerList = () => {
 
 		if (matches) return true
 
-		if (!matches && isDrawerOpen) {
-			const [openDrawer, closeDrawer] = drawerDispatch
-
-			isDrawerOpen ? closeDrawer() : openDrawer()
+		if (!matches && isOpen) {
+			dispatch(toggleDrawer())
 			return true
 		}
 
