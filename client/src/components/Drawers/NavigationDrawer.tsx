@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import dynamic from 'next/dynamic'
 import SwipeableDrawer from '@material-ui/core/SwipeableDrawer'
 import { makeStyles } from '@material-ui/core/styles'
@@ -30,6 +30,12 @@ export const NavigationDrawer = () => {
 
 		return true
 	}
+
+	useEffect(() => {
+		return () => {
+			dispatch(toggleDrawer())
+		}
+	}, [])
 
 	return (
 		<>
