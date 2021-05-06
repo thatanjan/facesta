@@ -2,15 +2,14 @@ import React from 'react'
 import dynamic from 'next/dynamic'
 import { Formik, Form, Field } from 'formik'
 import { makeStyles, Theme } from '@material-ui/core/styles'
-import Modal from '@material-ui/core/Modal'
 import Backdrop from '@material-ui/core/Backdrop'
-import Fade from '@material-ui/core/Fade'
-import Paper from '@material-ui/core/Paper'
-import Divider from '@material-ui/core/Divider'
+import Dialog from '@material-ui/core/Dialog'
+import DialogActions from '@material-ui/core/DialogActions'
+import DialogContent from '@material-ui/core/DialogContent'
+import DialogTitle from '@material-ui/core/DialogTitle'
 import Typography from '@material-ui/core/Typography'
 import Button from '@material-ui/core/Button'
 import CardMedia from '@material-ui/core/CardMedia'
-import DialogActions from '@material-ui/core/DialogActions'
 import useMediaQuery from '@material-ui/core/useMediaQuery'
 import Cookies from 'js-cookie'
 
@@ -29,11 +28,8 @@ const AutoExpandField = dynamic(
 )
 
 const useStyles = makeStyles(theme => ({
-	modal: {
-		display: 'grid',
-		alignItems: 'center',
-		justifyContent: 'center',
-		overflowY: 'scroll',
+	dialogContentStyle: {
+		overflowX: 'hidden',
 	},
 	paper: {
 		boxShadow: theme.shadows[5],
@@ -80,23 +76,23 @@ const CreatePostModal = () => {
 	}
 
 	const {
-		modal,
-		paper,
-		dividerStyle,
 		headerStyle,
 		titleStyle,
 		postImageStyle,
+		dialogContentStyle,
 	} = useStyles()
 
 	const postHeader: string = Cookies.get(POST_HEADER) || ''
 	const postText: string = Cookies.get(POST_TEXT) || ''
 
+	const fullScreen = useMediaQuery((theme: Theme) =>
+		theme.breakpoints.down('xs')
+	)
 	return (
 		<>
-			<Modal
+			<Dialog
 				aria-labelledby='transition-modal-title'
 				aria-describedby='transition-modal-description'
-				className={modal}
 				open={postModal}
 				onClose={closePostModal}
 				closeAfterTransition
@@ -104,85 +100,85 @@ const CreatePostModal = () => {
 				BackdropProps={{
 					timeout: 500,
 				}}
+				scroll='body'
+				maxWidth='sm'
+				fullScreen={fullScreen}
+				fullWidth
 			>
-				<Fade in={postModal}>
-					<Paper className={paper}>
-						<Formik
-							initialValues={{
-								postHeader,
-								postText,
-							}}
-							validate={(values: Values) => {
-								const errors: Partial<Values> = {}
+				<Formik
+					initialValues={{
+						postHeader,
+						postText,
+					}}
+					validate={(values: Values) => {
+						const errors: Partial<Values> = {}
 
-								const header = values[POST_HEADER]
-								const text = values[POST_TEXT]
+						const header = values[POST_HEADER]
+						const text = values[POST_TEXT]
 
-								if (!header) {
-									errors.postHeader = 'Required' as ''
-								}
+						if (!header) {
+							errors.postHeader = 'Required' as ''
+						}
 
-								if (!text) {
-									errors.postText = 'Required' as ''
-								}
+						if (!text) {
+							errors.postText = 'Required' as ''
+						}
 
-								return errors
-							}}
-							onSubmit={values => {
-								dispatch(uploadPost(values))
-							}}
-						>
-							{({ submitForm, isSubmitting }) => (
-								<Form>
-									<Typography className={headerStyle} align='center' variant='h4'>
-										Create Post{' '}
-									</Typography>
-									<Divider variant='middle' className={dividerStyle} />
+						return errors
+					}}
+					onSubmit={values => {
+						dispatch(uploadPost(values))
+					}}
+				>
+					{({ submitForm, isSubmitting }) => (
+						<Form>
+							<DialogTitle disableTypography>
+								<Typography className={headerStyle} align='center' variant='h4'>
+									Create Post{' '}
+								</Typography>
+							</DialogTitle>
 
-									<CardMedia
-										image={
-											previewLink || cloudinaryURL('confession/post/Please_add_a_picture')
-										}
-										className={postImageStyle}
-									/>
-									<UploadImage />
+							<DialogContent className={dialogContentStyle} dividers>
+								<CardMedia
+									image={
+										previewLink || cloudinaryURL('confession/post/Please_add_a_picture')
+									}
+									className={postImageStyle}
+								/>
+								<UploadImage />
 
-									<Divider variant='middle' className={dividerStyle} />
+								<Field
+									component={AutoExpandField}
+									name={POST_HEADER}
+									className={titleStyle}
+								/>
+								<Field component={AutoExpandField} name={POST_TEXT} />
+							</DialogContent>
 
-									<Field
-										component={AutoExpandField}
-										name={POST_HEADER}
-										className={titleStyle}
-									/>
-									<Field component={AutoExpandField} name={POST_TEXT} />
-									<br />
-
-									<DialogActions>
-										<Button
-											size={matches ? 'medium' : 'small'}
-											variant='contained'
-											color='primary'
-											disabled={isSubmitting || !previewLink}
-											onClick={submitForm}
-										>
-											Submit
-										</Button>
-										<Button
-											onClick={closePostModal}
-											size={matches ? 'medium' : 'small'}
-											variant='contained'
-											color='primary'
-											disabled={isSubmitting}
-										>
-											Cancel
-										</Button>
-									</DialogActions>
-								</Form>
-							)}
-						</Formik>
-					</Paper>
-				</Fade>
-			</Modal>
+							<DialogActions>
+								<Button
+									size={matches ? 'medium' : 'small'}
+									variant='contained'
+									color='primary'
+									disabled={isSubmitting || !previewLink}
+									onClick={submitForm}
+								>
+									Submit
+								</Button>
+								<Button
+									onClick={closePostModal}
+									size={matches ? 'medium' : 'small'}
+									variant='contained'
+									color='primary'
+									disabled={isSubmitting}
+								>
+									Cancel
+								</Button>
+							</DialogActions>
+						</Form>
+					)}
+				</Formik>
+			</Dialog>
 		</>
 	)
 }
