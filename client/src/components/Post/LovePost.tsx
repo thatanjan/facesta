@@ -10,6 +10,8 @@ import IconButton from '@material-ui/core/IconButton'
 import AutoHideSnackBar from 'components/Alerts/AutoHideSnackBar'
 import CircularLoader from 'components/Loaders/CircularLoader'
 
+import useSmallerThanXS from 'hooks/mediaQueries/useSmallerThanXS'
+
 import createRequest from 'utils/createRequest'
 import { likePost, removeLikePost } from 'graphql/mutations/postMutations'
 
@@ -44,6 +46,8 @@ const LovePost = ({ totalLikes, postUserID, postID, hasLiked }: LoveProps) => {
 	const [error, setError] = useState(false)
 	const [message, setMessage] = useState('')
 	const [disableButton, setDisableButton] = useState(false)
+
+	const matches = useSmallerThanXS()
 
 	const clickHandeler = async () => {
 		setDisableButton(true)
@@ -104,6 +108,7 @@ const LovePost = ({ totalLikes, postUserID, postID, hasLiked }: LoveProps) => {
 				aria-label='love'
 				onClick={clickHandeler}
 				disabled={disableButton}
+				size={matches ? 'small' : undefined}
 			>
 				<FavoriteIcon className={style} />
 			</IconButton>

@@ -15,6 +15,7 @@ import Image from 'next/image'
 import { responseInterface } from 'swr'
 
 import { useGetTotalComment } from 'hooks/commentHooks'
+import useSmallerThanXS from 'hooks/mediaQueries/useSmallerThanXS'
 
 import CircularLoader from 'components/Loaders/CircularLoader'
 import MuiLink from 'components/Links/MuiLink'
@@ -83,6 +84,8 @@ const SinglePost = ({
 	date,
 	hasLiked,
 }: Props) => {
+	const matches = useSmallerThanXS()
+
 	const { push } = useRouter()
 
 	const {
@@ -195,6 +198,7 @@ const SinglePost = ({
 					<IconButton
 						aria-label='comment'
 						onClick={() => push(`/post/${postUserID}/${postID}`)}
+						size={matches ? 'small' : undefined}
 					>
 						<CommentIcon />
 					</IconButton>
