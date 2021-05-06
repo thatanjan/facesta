@@ -14,7 +14,7 @@ import { useStyles as useFormStyle } from 'components/Comment/CommentList'
 
 import { useGetSinglePost } from 'hooks/useGetPost'
 import { useGetPersonalData } from 'hooks/useGetProfileData'
-import { useOwnUserId } from 'hooks/userhooks'
+import { useUserID } from 'redux/hooks/stateHooks'
 
 import Post from 'interfaces/post'
 
@@ -54,7 +54,7 @@ const SinglePostPage = () => {
 	const { root } = useStyles()
 	const { listItemStyle } = useFormStyle()
 
-	const ownUserID = useOwnUserId()
+	const ownUserID = useUserID()
 	const {
 		query: { post: postID, postUser },
 	} = useRouter()

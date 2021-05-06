@@ -12,7 +12,7 @@ import Avatar from '@material-ui/core/Avatar'
 import CircularLoader from 'components/Loaders/CircularLoader'
 import MuiLink from 'components/Links/MuiLink'
 import { useDrawerState, useDrawerDispatch } from 'hooks/drawerHooks'
-import { useOwnUserId } from 'hooks/userhooks'
+import { useUserID } from 'redux/hooks/stateHooks'
 import { useGetPersonalData } from 'hooks/useGetProfileData'
 import {
 	screenSizeDrawer,
@@ -46,7 +46,7 @@ const useStyles = makeStyles({
 
 const NavigationDrawerList = () => {
 	const matches = useMediaQuery(screenSizeDrawer)
-	const ownUserID = useOwnUserId()
+	const ownUserID = useUserID()
 
 	const { data, error } = useGetPersonalData(ownUserID)
 

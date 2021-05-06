@@ -14,7 +14,8 @@ import { useRouter } from 'next/router'
 import CircularLoader from 'components/Loaders/CircularLoader'
 
 import MuiLink from 'components/Links/MuiLink'
-import { useOwnUserId } from 'hooks/userhooks'
+import { useUserID } from 'redux/hooks/stateHooks'
+
 import { useGetPersonalData } from 'hooks/useGetProfileData'
 import splitText from 'utils/splitText'
 import { cloudinaryURL } from 'variables/global'
@@ -39,7 +40,7 @@ const AppHeaderMenus = () => {
 
 	const { push } = useRouter()
 
-	const id = useOwnUserId()
+	const id = useUserID()
 
 	const shouldShowSearchBox = useMediaQuery('( min-width:600px )')
 
