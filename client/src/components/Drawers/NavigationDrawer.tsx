@@ -33,7 +33,9 @@ export const NavigationDrawer = () => {
 
 	useEffect(() => {
 		return () => {
-			dispatch(toggleDrawer())
+			if (isOpen) {
+				dispatch(toggleDrawer())
+			}
 		}
 	}, [])
 
