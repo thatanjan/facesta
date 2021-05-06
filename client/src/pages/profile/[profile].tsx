@@ -7,18 +7,16 @@ import { makeStyles } from '@material-ui/core/styles'
 
 import { LOGIN_URL } from 'variables/global'
 
-import PageWrapper from 'components/Layout/PageWrapper'
 import PageLayoutComponent from 'components/Layout/PageLayoutComponent'
 import ProfileCover from 'components/Profile/ProfileCover'
 import ProfileTabMenu from 'components/TabMenus/ProfileTabMenu'
 import CircularLoader from 'components/Loaders/CircularLoader'
 import PreLoader from 'components/Loaders/PreLoader'
 
-import { useIsSelf } from 'hooks/profileContextHooks'
 import { useGetPersonalData } from 'hooks/useGetProfileData'
 
 import useStoreID from 'redux/hooks/useStoreID'
-import { useAppDispatch } from 'redux/hooks/hooks'
+import { useAppDispatch, useAppSelector } from 'redux/hooks/hooks'
 import { addProfileUser, removeProfileUser } from 'redux/slices/profileSlice'
 
 import getToken from 'utils/getToken'
@@ -27,7 +25,6 @@ import shouldRedirectToAuth from 'utils/shouldRedirectToAuth'
 import createRedirectObject from 'utils/createRedirectObject'
 
 import Requset from 'interfaces/requsetResponse'
-import { PageProps } from 'interfaces/global'
 
 const FollowButton = dynamic(() => import('components/Buttons/FollowButton'), {
 	loading: () => <CircularLoader />,
@@ -43,7 +40,7 @@ const SwrErrorAlert = dynamic(() => import('components/Alerts/SwrErrorAlert'))
 
 const Content = () => {
 	const { buttonGridContainer } = useStyles()
-	const isSelf = useIsSelf()
+	const { isSelf } = useAppSelector(state => state.profile)
 	return (
 		<>
 			<ProfileCover />
@@ -93,9 +90,7 @@ const Profile = ({ id, profileUserID, isSelf }: Props) => {
 		<>
 			<NextSeo title={name} />
 
-			<PageWrapper id={id}>
-				<PageLayoutComponent Content={Content} />
-			</PageWrapper>
+			<PageLayoutComponent Content={Content} />
 		</>
 	)
 }

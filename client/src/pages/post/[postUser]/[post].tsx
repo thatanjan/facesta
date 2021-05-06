@@ -5,7 +5,6 @@ import { useRouter } from 'next/router'
 import { responseInterface } from 'swr'
 
 import SinglePostPage from 'components/Post/SinglePostPage'
-import PageWrapper from 'components/Layout/PageWrapper'
 import PageLayoutComponent from 'components/Layout/PageLayoutComponent'
 import decodeToken from 'utils/decodeToken'
 import Requset from 'interfaces/requsetResponse'
@@ -59,11 +58,8 @@ const PostPage = ({ id }: Props) => {
 	return (
 		<div>
 			<NextSeo title={`${headline} by ${name}`} />
-			<div>
-				<PageWrapper id={id}>
-					<PageLayoutComponent Content={SinglePostPage} />
-				</PageWrapper>
-			</div>
+
+			<PageLayoutComponent Content={SinglePostPage} />
 		</div>
 	)
 }

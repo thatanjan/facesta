@@ -5,7 +5,6 @@ import Typography from '@material-ui/core/Typography'
 import { Theme, makeStyles } from '@material-ui/core/styles'
 import { responseInterface } from 'swr'
 
-import PageWrapper from 'components/Layout/PageWrapper'
 import PageLayoutComponent from 'components/Layout/PageLayoutComponent'
 import CircularLoader from 'components/Loaders/CircularLoader'
 import SwrErrorAlert from 'components/Alerts/SwrErrorAlert'
@@ -100,11 +99,7 @@ const PageContent = () => {
 
 const SearchPage = ({ id }: PageProps) => {
 	useStoreID(id)
-	return (
-		<PageWrapper id={id}>
-			<PageLayoutComponent Content={PageContent} />
-		</PageWrapper>
-	)
+	return <PageLayoutComponent Content={PageContent} />
 }
 
 export default SearchPage
