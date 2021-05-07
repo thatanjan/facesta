@@ -14,13 +14,13 @@ interface Props {
 const PostContentForPage = ({ text }: { text: string }) => {
 	const paragraphs = text.split('\n')
 	return (
-		<CardContent>
+		<>
 			{paragraphs.map(paragraph => (
 				<Typography key={nanoid()} variant='body1' component='p'>
 					{paragraph}
 				</Typography>
 			))}
-		</CardContent>
+		</>
 	)
 }
 
