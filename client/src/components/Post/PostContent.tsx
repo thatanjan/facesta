@@ -48,7 +48,7 @@ const PostContent = ({ postPage, showMoreLink, text }: Props) => {
 						{isThereMore && (
 							<>
 								<span> ...</span>{' '}
-								<MuiLink href={showMoreLink} MuiComponent={Typography} variant='button'>
+								<MuiLink href={showMoreLink} MuiComponent={Typography} variant='body1'>
 									show more
 								</MuiLink>
 							</>
