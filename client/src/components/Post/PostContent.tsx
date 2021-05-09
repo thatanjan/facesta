@@ -25,35 +25,37 @@ const PostContentForPage = ({ text }: { text: string }) => {
 }
 
 const PostContent = ({ postPage, showMoreLink, text }: Props) => {
-	const idealLength = 500
+	const idealLength = 200
 
-	const firstTextSlice = text.split('\n')[0]
+	const visibleText = text.substr(0, idealLength - 1)
 
-	let visibleText = ''
+	const isThereMore = text.length > idealLength
 
-	const isThereMore =
-		firstTextSlice.length > idealLength || text.length > idealLength
-
-	if (isThereMore) {
-		visibleText = firstTextSlice.substr(0, idealLength - 1)
-	}
+	const paragraphs = visibleText.split('\n')
 
 	return (
 		<CardContent>
 			{!postPage && (
 				<>
-					<Typography variant='body1' color='textSecondary' component='span'>
-						{visibleText}
+					{paragraphs.map(paragraph => (
+						<Typography key={nanoid()} variant='body1' component='p'>
+							{paragraph}
+						</Typography>
+					))}
 
-						{isThereMore && (
-							<>
-								<span> ...</span>{' '}
-								<MuiLink href={showMoreLink} MuiComponent={Typography} variant='body1'>
-									show more
-								</MuiLink>
-							</>
-						)}
-					</Typography>
+					{isThereMore && (
+						<>
+							<span> ...</span>{' '}
+							<MuiLink
+								href={showMoreLink}
+								MuiComponent={Typography}
+								variant='body1'
+								align='center'
+							>
+								show more
+							</MuiLink>
+						</>
+					)}
 				</>
 			)}
 
