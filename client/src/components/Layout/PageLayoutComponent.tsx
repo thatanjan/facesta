@@ -47,13 +47,13 @@ const useStyles = makeStyles(theme => ({
 		scrollbarWidth: 'none',
 
 		'&::-webkit-scrollbar': {
-			display: 'none',
+			width: '8px',
 		},
 
-		'& .simplebar-vertical': {
-			'& .simplebar-scrollbar::before': {
-				background: '#d0d0d0',
-			},
+		'&::-webkit-scrollbar-thumb': {
+			borderRadius: '10px',
+			'-webkit-box-shadow': 'inset 0 0 6px rgba(0,0,0,0.3)',
+			background: '#454545',
 		},
 	},
 	contentContainerStyle: {
@@ -77,14 +77,7 @@ const PageLayoutComponent = ({ Content }: Props) => {
 					</Grid>
 				)}
 				{Content && typeof Content === 'function' && (
-					<Grid
-						component={SimpleBar}
-						id='scrollableDiv'
-						item
-						xs={12}
-						lg={6}
-						className={contentSection}
-					>
+					<Grid id='scrollableDiv' item xs={12} lg={6} className={contentSection}>
 						<Box className={contentContainerStyle}>
 							<Content />
 						</Box>
