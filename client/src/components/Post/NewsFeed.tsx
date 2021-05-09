@@ -35,33 +35,6 @@ const NewsFeed = () => {
 	const { asPath } = useRouter()
 	const { fab } = useStyles()
 
-	useEffect(() => {
-		const node = document.getElementsByClassName('simplebar-content-wrapper')[0]
-
-		if (asPath === '/') {
-			const sessionKeyName = 'newsfeedPosition'
-			const prevPosition = sessionStorage.getItem(sessionKeyName)
-
-			node.scrollBy(0, prevPosition ? parseInt(prevPosition, 10) : 0)
-
-			const handleScroll = (postion: number) => {
-				sessionStorage.setItem(sessionKeyName, postion.toString())
-			}
-
-			if (node) {
-				node.addEventListener('scroll', e =>
-					handleScroll((e.target as HTMLElement).scrollTop)
-				)
-			}
-		}
-
-		return () => {
-			if (node) {
-				node.removeEventListener('scroll', () => {})
-			}
-		}
-	}, [asPath])
-
 	if (!data)
 		return (
 			<Alert
