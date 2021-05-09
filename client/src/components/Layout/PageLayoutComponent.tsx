@@ -41,7 +41,7 @@ const useStyles = makeStyles(theme => ({
 	contentSection: {
 		maxHeight: '100vh',
 		overflowY: 'scroll',
-		padding: '0 2rem',
+		padding: '0 1rem',
 		[theme.breakpoints.down('xs')]: { padding: '0 .5rem' },
 		'-ms-overflow-style': 'none',
 		scrollbarWidth: 'none',
