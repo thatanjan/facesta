@@ -12,9 +12,7 @@ import { useGetPersonalData } from 'hooks/useGetProfileData'
 
 import { useProfileUserID } from 'redux/hooks/stateHooks'
 
-const SinglePost = dynamic(() => import('components/Post/SinglePost'), {
-	loading: () => <CircularLoader />,
-})
+const SinglePost = dynamic(() => import('components/Post/SinglePost'))
 
 const SwrErrorAlert = dynamic(() => import('components/Alerts/SwrErrorAlert'))
 

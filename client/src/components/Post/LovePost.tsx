@@ -8,7 +8,7 @@ import Typography from '@material-ui/core/Typography'
 import IconButton from '@material-ui/core/IconButton'
 
 import AutoHideSnackBar from 'components/Alerts/AutoHideSnackBar'
-import CircularLoader from 'components/Loaders/CircularLoader'
+import CustomBackdrop from 'components/Backdrops/CustomBackdrops'
 
 import useSmallerThanXS from 'hooks/mediaQueries/useSmallerThanXS'
 
@@ -16,7 +16,7 @@ import createRequest from 'utils/createRequest'
 import { likePost, removeLikePost } from 'graphql/mutations/postMutations'
 
 const AllLovedUser = dynamic(() => import('./AllLovedUser'), {
-	loading: () => <CircularLoader />,
+	loading: () => <CustomBackdrop />,
 })
 
 interface LoveProps {

@@ -18,21 +18,15 @@ import { useUserID } from 'redux/hooks/stateHooks'
 
 import Post from 'interfaces/post'
 
-const Alert = dynamic(() => import('components/Alerts/Alert'), {
-	loading: () => <CircularLoader />,
-})
+const Alert = dynamic(() => import('components/Alerts/Alert'))
 
 const CommentList = dynamic(() => import('components/Comment/CommentList'), {
 	loading: () => <CircularLoader />,
 })
 
-const CommentForm = dynamic(() => import('components/Forms/CommentForm'), {
-	loading: () => <CircularLoader />,
-})
+const CommentForm = dynamic(() => import('components/Forms/CommentForm'))
 
-const SinglePost = dynamic(() => import('./SinglePost'), {
-	loading: () => <CircularLoader />,
-})
+const SinglePost = dynamic(() => import('./SinglePost'))
 
 const SwrErrorAlert = dynamic(() => import('components/Alerts/SwrErrorAlert'))
 

@@ -24,8 +24,7 @@ const NavigationDrawer = dynamic(
 )
 
 const AppHeaderMenus = dynamic(
-	() => import('components/AppBars/AppHeaderMenus'),
-	{ loading: () => <CircularLoader /> }
+	() => import('components/AppBars/AppHeaderMenus')
 )
 
 const useStyles = makeStyles(theme => ({

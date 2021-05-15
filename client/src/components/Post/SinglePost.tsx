@@ -23,17 +23,12 @@ import MuiLink from 'components/Links/MuiLink'
 import { cloudinaryURL } from 'variables/global'
 import PostType from 'interfaces/post'
 
-const LovePost = dynamic(() => import('./LovePost'), {
-	loading: () => <CircularLoader />,
-})
+const LovePost = dynamic(() => import('./LovePost'))
 
-const PostContent = dynamic(() => import('./PostContent'), {
-	loading: () => <CircularLoader />,
-})
+const PostContent = dynamic(() => import('./PostContent'))
 
 const DropDownMenu = dynamic(
-	() => import('components/DropDownMenu/DropDownMenu'),
-	{ loading: () => <CircularLoader /> }
+	() => import('components/DropDownMenu/DropDownMenu')
 )
 
 const SwrErrorAlert = dynamic(() => import('components/Alerts/SwrErrorAlert'))

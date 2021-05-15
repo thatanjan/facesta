@@ -21,8 +21,7 @@ import splitText from 'utils/splitText'
 import { cloudinaryURL } from 'variables/global'
 
 const DropDownMenu = dynamic(
-	() => import('components/DropDownMenu/DropDownMenu'),
-	{ loading: () => <CircularLoader /> }
+	() => import('components/DropDownMenu/DropDownMenu')
 )
 
 const useStyles = makeStyles((theme: Theme) => ({

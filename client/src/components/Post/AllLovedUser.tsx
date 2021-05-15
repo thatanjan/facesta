@@ -9,18 +9,11 @@ import { useGetAllLikes } from 'hooks/likeHooks'
 import CircularLoader from 'components/Loaders/CircularLoader'
 import Alert from 'components/Alerts/Alert'
 
-const ListContainer = dynamic(
-	() => import('components/List/UserListContainer'),
-	{ loading: () => <CircularLoader /> }
-)
+const ListContainer = dynamic(() => import('components/List/UserListContainer'))
 
-const UserList = dynamic(() => import('components/List/UserList'), {
-	loading: () => <CircularLoader />,
-})
+const UserList = dynamic(() => import('components/List/UserList'))
 
-const UserListModal = dynamic(() => import('components/Modals/UserListModal'), {
-	loading: () => <CircularLoader />,
-})
+const UserListModal = dynamic(() => import('components/Modals/UserListModal'))
 
 const SwrErrorAlert = dynamic(() => import('components/Alerts/SwrErrorAlert'))
 

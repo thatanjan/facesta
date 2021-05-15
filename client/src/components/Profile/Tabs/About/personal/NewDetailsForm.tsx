@@ -24,8 +24,7 @@ import createRequest from 'utils/createRequest'
 import { personalDetailsField, generateField } from './PersonalDetails'
 
 const AutoExpandField = dynamic(
-	() => import('components/TextFields/AutoExpandField'),
-	{ loading: () => <CircularLoader /> }
+	() => import('components/TextFields/AutoExpandField')
 )
 
 const SwrErrorAlert = dynamic(() => import('components/Alerts/SwrErrorAlert'))
