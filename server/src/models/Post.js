@@ -16,12 +16,12 @@ const CommentedUserSchema = new Schema({
 })
 
 const schema = {
-	text: { type: String, required: true },
+	content: { type: String, required: true },
 	likes: [user],
 	totalLikes: { type: Number, default: 0 },
 	totalComments: { type: Number, default: 0 },
 	comments: [CommentedUserSchema],
-	headline: { type: String, required: true },
+	title: { type: String, required: true },
 	markdown: { type: Boolean, required: true },
 	public: {
 		type: Boolean,
