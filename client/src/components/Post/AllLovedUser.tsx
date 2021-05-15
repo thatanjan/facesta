@@ -8,6 +8,7 @@ import { useGetAllLikes } from 'hooks/likeHooks'
 
 import CircularLoader from 'components/Loaders/CircularLoader'
 import Alert from 'components/Alerts/Alert'
+import CustomBackDrop from 'components/Backdrops/CustomBackdrops'
 
 const ListContainer = dynamic(() => import('components/List/UserListContainer'))
 
@@ -51,7 +52,7 @@ const AllLovedUser = ({
 	}, [])
 
 	if (error) return <SwrErrorAlert />
-	if (!data) return <CircularLoader />
+	if (!data) return <CustomBackDrop />
 
 	let isLoadingMore = true
 
