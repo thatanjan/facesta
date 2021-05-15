@@ -14,7 +14,7 @@ const resolver = {
 	Mutation: {
 		createPost: async (
 			_,
-			{ Input: { headline, markdown, text, image } },
+			{ Input: { title, markdown, content, image } },
 			{ user: { id } }
 		) => {
 			try {
@@ -32,16 +32,12 @@ const resolver = {
 				let postObject
 
 				if (imagePublicID && typeof imagePublicID === 'string') {
-					postObject = { text, image: imagePublicID, headline, markdown }
+					postObject = { content, image: imagePublicID, title, markdown }
 				}
 
 				const newPost = new Post(postObject)
 
-				try {
-					await newPost.save()
-				} catch (error) {
-					return sendErrorMessage(error)
-				}
+				await newPost.save()
 
 				const { followers } = await Follow.findOne({ user: id }, FOLLOWERS)
 
