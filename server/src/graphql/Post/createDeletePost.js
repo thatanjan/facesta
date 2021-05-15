@@ -43,21 +43,12 @@ const resolver = {
 
 				followers.push(id)
 
-				const promises = []
-				for (let i = 0; i < followers.length; i++) {
-					const follower = followers[i]
-					// eslint-disable-next-line
+				const pushedObject = { user: id, post: newPost._id }
 
-					const pushedObject = { user: id, post: newPost._id }
-
-					promises.push(
-						NewsFeedModel.updateOne(
-							{ user: follower },
-							{ $push: { posts: pushedObject }, $inc: { totalPosts: 1 } }
-						)
-					)
-				}
-				await Promise.all(promises)
+				await NewsFeedModel.updateMany(
+					{ user: { $in: followers } },
+					{ $push: { posts: pushedObject }, $inc: { totalPosts: 1 } }
+				)
 
 				return sendMessage('post is published')
 			} catch (error) {
