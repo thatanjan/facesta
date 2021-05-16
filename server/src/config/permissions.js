@@ -19,6 +19,20 @@ const isAuthenticated = rule()(async (_, __, { user, error }) => {
 	return true
 })
 
+const doesOwnPostExist = rule()(async (_, { postID }, { user: { id } }) => {
+	try {
+		const PostModel = createPostModel(id)
+
+		const post = await PostModel.findById(postID, 'totalLikes')
+
+		if (!post) return new Error(POST_DOES_NOT_EXIST)
+
+		return true
+	} catch (__) {
+		return new Error('something went wrong')
+	}
+})
+
 const doesUserExist = rule()(async (_, __, { user }) => {
 	const userExist = await User.findById(user.id, 'email')
 
@@ -79,7 +93,7 @@ export default shield(
 	{
 		Mutation: {
 			createPost: and(isAuthenticated, doesUserExist),
-			deletePost: and(isAuthenticated, doesUserExist),
+			deletePost: and(isAuthenticated, doesUserExist, doesOwnPostExist),
 			likePost: and(
 				isAuthenticated,
 				doesUserExist,
