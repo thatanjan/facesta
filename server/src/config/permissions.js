@@ -9,6 +9,12 @@ const REMOVE_LIKE = 'removeLike'
 
 const somethingWentWrong = () => new Error('something went wrong')
 
+const areSameID = rule()(async (_, { user }, { user: { id } }) => {
+	if (user === id) return false
+
+	return true
+})
+
 const isAuthenticated = rule()(async (_, __, { user, error }) => {
 	if (error) {
 		return new Error(error)
@@ -128,8 +134,18 @@ export default shield(
 			updatePersonalData: and(isAuthenticated, doesUserExist),
 			uploadProfilePicture: and(isAuthenticated, doesUserExist),
 			removeProfilePicture: and(isAuthenticated, doesUserExist),
-			followUser: and(isAuthenticated, doesUserExist, doesOtherUserExist),
-			unfollowUser: and(isAuthenticated, doesUserExist, doesOtherUserExist),
+			followUser: and(
+				isAuthenticated,
+				doesUserExist,
+				areSameID,
+				doesOtherUserExist
+			),
+			unfollowUser: and(
+				isAuthenticated,
+				doesUserExist,
+				areSameID,
+				doesOtherUserExist
+			),
 		},
 		Query: {
 			getSinglePost: and(isAuthenticated, doesUserExist, doesPostExist),
