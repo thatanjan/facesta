@@ -140,7 +140,6 @@ export default shield(
 			getAllComments: and(isAuthenticated, doesUserExist, doesPostExist),
 			getAllLikes: and(isAuthenticated, doesUserExist, doesPostExist),
 			hasLiked: and(isAuthenticated, doesUserExist, doesPostExist),
-			getUser: and(isAuthenticated, doesUserExist),
 			getPersonalData: and(isAuthenticated, doesUserExist),
 			getProfilePicture: and(isAuthenticated, doesUserExist),
 			getFollowers: and(isAuthenticated, doesUserExist),

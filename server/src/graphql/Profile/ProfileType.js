@@ -11,7 +11,6 @@ const ProfileTypedefs = gql`
 		"""
 		UserNameIDPic type is from graphql/Follow/FollowType file
 		"""
-		getUser(userID: ID!): UserNameIDPic
 		getPersonalData(user: ID!): PersonalData!
 		getProfilePicture(user: ID!): ProfilePicture!
 	}
