@@ -7,6 +7,8 @@ import createPostModel from 'models/Post'
 const LIKE_POST = 'like'
 const REMOVE_LIKE = 'removeLike'
 
+const somethingWentWrong = () => new Error('something went wrong')
+
 const isAuthenticated = rule()(async (_, __, { user, error }) => {
 	if (error) {
 		return new Error(error)
@@ -29,63 +31,79 @@ const doesOwnPostExist = rule()(async (_, { postID }, { user: { id } }) => {
 
 		return true
 	} catch (__) {
-		return new Error('something went wrong')
+		return somethingWentWrong()
 	}
 })
 
 const doesUserExist = rule()(async (_, __, { user }) => {
-	const userExist = await User.findById(user.id, 'email')
+	try {
+		const userExist = await User.findById(user.id, 'email')
 
-	if (!userExist) return new Error(USER_DOES_NOT_EXIST)
+		if (!userExist) return new Error(USER_DOES_NOT_EXIST)
 
-	return true
+		return true
+	} catch (___) {
+		return somethingWentWrong()
+	}
 })
 
 const doesOtherUserExist = rule()(async (_, { user }) => {
-	const userExist = await User.findById(user, 'email')
+	try {
+		const userExist = await User.findById(user, 'email')
 
-	if (!userExist) return new Error(`other ${USER_DOES_NOT_EXIST}`)
+		if (!userExist) return new Error(`other ${USER_DOES_NOT_EXIST}`)
 
-	return true
+		return true
+	} catch (__) {
+		return somethingWentWrong()
+	}
 })
 
 const doesPostExist = rule()(async (_, { Input: { postID, user } }) => {
-	const postModel = createPostModel(user)
+	try {
+		const postModel = createPostModel(user)
 
-	const post = await postModel.findById(postID)
+		const post = await postModel.findById(postID)
 
-	if (!post) return new Error(POST_DOES_NOT_EXIST)
+		if (!post) return new Error(POST_DOES_NOT_EXIST)
 
-	return true
+		return true
+	} catch (__) {
+		return somethingWentWrong()
+	}
 })
 
 const doesPostAndLikeExist = operation => {
 	return rule()(async (_, { Input: { postID, user } }, { user: { id } }) => {
-		const PostModel = createPostModel(user.toString())
-		const post = await PostModel.findOne(
-			{ _id: postID },
-			{ likes: { $elemMatch: { $eq: id } } }
-		)
+		try {
+			const PostModel = createPostModel(user.toString())
+			const post = await PostModel.findOne(
+				{ _id: postID },
+				{ likes: { $elemMatch: { $eq: id } } }
+			)
 
-		if (!post) return new Error(POST_DOES_NOT_EXIST)
+			if (!post) return new Error(POST_DOES_NOT_EXIST)
 
-		switch (operation) {
-			case LIKE_POST:
-				if (post.likes.length !== 0)
-					return new Error('You have already liked this post')
+			switch (operation) {
+				case LIKE_POST:
+					if (post.likes.length !== 0)
+						return new Error('You have already liked this post')
 
-				break
+					break
 
-			case REMOVE_LIKE:
-				if (post.likes.length === 0)
-					return new Error('You have not liked this post')
+				case REMOVE_LIKE:
+					if (post.likes.length === 0)
+						return new Error('You have not liked this post')
 
-				break
-			default:
-				return false
+					break
+				default:
+					return false
+			}
+
+			return true
+		} catch (__) {
+			return somethingWentWrong()
 		}
-
-		return true
 	})
 }
 
