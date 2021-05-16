@@ -8,11 +8,11 @@ const MESSAGE = 'message'
 const ERROR = 'error'
 
 const postProjection = {
-	text: 1,
+	content: 1,
 	image: 1,
 	markdown: 1,
 	_id: 1,
-	headline: 1,
+	title: 1,
 	totalLikes: 1,
 	totalComments: 1,
 	date: 1,
