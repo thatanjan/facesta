@@ -40,10 +40,6 @@ const mainResolver = operation => {
 
 			const post = await findPost(Post, postID)
 
-			if (!post) {
-				return sendErrorMessage('no post found')
-			}
-
 			const { comments } = post
 
 			switch (operation) {
