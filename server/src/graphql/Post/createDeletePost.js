@@ -76,8 +76,10 @@ const resolver = {
 
 			const { followers } = followersQuery
 
+			followers.push(id)
+
 			const query = await NewsFeedModel.updateMany(
-				{},
+				{ user: { $in: followers } },
 				{
 					$pull: {
 						posts: { post: postID },
