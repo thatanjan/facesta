@@ -141,7 +141,6 @@ export default shield(
 			getAllLikes: and(isAuthenticated, doesUserExist, doesPostExist),
 			hasLiked: and(isAuthenticated, doesUserExist, doesPostExist),
 			getPersonalData: and(isAuthenticated, doesUserExist),
-			getProfilePicture: and(isAuthenticated, doesUserExist),
 			getFollowers: and(isAuthenticated, doesUserExist),
 			getFollowees: and(isAuthenticated, doesUserExist),
 			getIsFollowee: and(isAuthenticated, doesUserExist),

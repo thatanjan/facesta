@@ -11,30 +11,18 @@ const PROFILE_PICTUE = 'profilePicture'
 
 const UPLOAD = 'upload'
 const REMOVE = 'remove'
-const GET = 'get'
 
-const mainResolver = operation => async (
-	_,
-	{ image, userID },
-	{ user: { id } }
-) => {
+const mainResolver = operation => async (_, { image }, { user: { id } }) => {
 	try {
-		const profileData = await Profile.findOne(
-			{ user: userID || id },
-			PROFILE_PICTUE
-		)
+		const profileData = await Profile.findOne({ user: id }, PROFILE_PICTUE)
 
 		const currentImage = profileData[PROFILE_PICTUE]
 
-		if (!currentImage && (operation === REMOVE || operation === GET)) {
+		if (!currentImage && operation === REMOVE) {
 			return sendErrorMessage('no image found')
 		}
 
 		if (currentImage) {
-			if (operation === GET) {
-				return { image: currentImage }
-			}
-
 			await deleteImage(currentImage)
 
 			if (operation === REMOVE) {
@@ -64,9 +52,6 @@ const resolvers = {
 	Mutation: {
 		uploadProfilePicture: mainResolver(UPLOAD),
 		removeProfilePicture: mainResolver(REMOVE),
-	},
-	Query: {
-		getProfilePicture: mainResolver(GET),
 	},
 }
 
