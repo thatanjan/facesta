@@ -3,16 +3,16 @@ import { gql } from 'graphql-request'
 // eslint-disable-next-line
 export const createPost = gql`
 	mutation createPost(
-		$text: String!
+		$content: String!
 		$image: String!
-		$headline: String!
+		$title: String!
 		$markdown: Boolean!
 	) {
 		createPost(
 			Input: {
-				text: $text
+				content: $content
 				image: $image
-				headline: $headline
+				title: $title
 				markdown: $markdown
 			}
 		) {
@@ -50,11 +50,7 @@ export const commentPost = gql`
 `
 
 export const removeCommentPost = gql`
-	mutation removeCommentPost(
-		$postID: ID!
-		$user: ID!
-		$commentID: ID!
-	) {
+	mutation removeCommentPost($postID: ID!, $user: ID!, $commentID: ID!) {
 		removeCommentPost(
 			Input: { postID: $postID, user: $user, commentID: $commentID }
 		) {
@@ -67,17 +63,17 @@ export const removeCommentPost = gql`
 export const editPost = gql`
 	mutation editPost(
 		$postID: ID!
-		$text: String
+		$content: String
 		$image: String
-		$headline: String
+		$title: String
 		$markdown: Boolean
 	) {
 		editPost(
 			Input: {
 				postID: $postID
-				text: $text
+				content: $content
 				image: $image
-				headline: $headline
+				title: $title
 				markdown: $markdown
 			}
 		) {

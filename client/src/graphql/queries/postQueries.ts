@@ -4,10 +4,10 @@ export const getAllPost = gql`
 	query getAllPost($skip: Int!, $user: ID!) {
 		getAllPost(Input: { skip: $skip, user: $user }) {
 			posts {
-				text
+				content
 				_id
 				image
-				headline
+				title
 				markdown
 				totalLikes
 				totalComments
@@ -23,10 +23,10 @@ export const getSinglePost = gql`
 	query getSinglePost($postID: ID!, $user: ID!) {
 		getSinglePost(Input: { postID: $postID, user: $user }) {
 			post {
-				text
+				content
 				_id
 				image
-				headline
+				title
 				markdown
 				totalLikes
 				totalComments
@@ -50,10 +50,10 @@ export const getNewsFeedPost = gql`
 	query getNewsFeedPost($skip: Int!) {
 		getNewsFeedPost(skip: $skip) {
 			posts {
-				text
+				content
 				_id
 				image
-				headline
+				title
 				markdown
 				totalLikes
 				totalComments
