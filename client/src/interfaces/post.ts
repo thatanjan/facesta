@@ -2,8 +2,8 @@ import { User as PostUser } from './user'
 
 export default interface Post {
 	_id: string
-	text: string
-	headline: string
+	content: string
+	title: string
 	image: string
 	markdown: boolean
 	totalLikes: number
