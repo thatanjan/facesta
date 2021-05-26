@@ -65,9 +65,9 @@ interface Props extends PostType {
 }
 
 const SinglePost = ({
-	headline,
+	title,
 	image,
-	text,
+	content,
 	_id: postID,
 	user: {
 		_id: postUserID,
@@ -97,7 +97,7 @@ const SinglePost = ({
 
 	const loveProps = { postID, postUserID, totalLikes, hasLiked }
 
-	const postContentProps = { text, postPage, showMoreLink }
+	const postContentProps = { content, postPage, showMoreLink }
 
 	const redirectToPostPage = () => {
 		push(showMoreLink)
@@ -150,7 +150,7 @@ const SinglePost = ({
 						/>
 					</>
 				}
-				title={headline}
+				title={title}
 				titleTypographyProps={{
 					variant: 'h6',
 					component: 'h1',

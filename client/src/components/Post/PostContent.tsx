@@ -6,13 +6,13 @@ import { nanoid } from 'nanoid'
 import MuiLink from 'components/Links/MuiLink'
 
 interface Props {
-	text: string
+	content: string
 	showMoreLink: string
 	postPage: boolean
 }
 
-const PostContentForPage = ({ text }: { text: string }) => {
-	const paragraphs = text.split('\n')
+const PostContentForPage = ({ content }: { content: string }) => {
+	const paragraphs = content.split('\n')
 	return (
 		<>
 			{paragraphs.map(paragraph => (
@@ -24,12 +24,12 @@ const PostContentForPage = ({ text }: { text: string }) => {
 	)
 }
 
-const PostContent = ({ postPage, showMoreLink, text }: Props) => {
+const PostContent = ({ postPage, showMoreLink, content }: Props) => {
 	const idealLength = 200
 
-	const visibleText = text.substr(0, idealLength - 1)
+	const visibleText = content.substr(0, idealLength - 1)
 
-	const isThereMore = text.length > idealLength
+	const isThereMore = content.length > idealLength
 
 	const paragraphs = visibleText.split('\n')
 
@@ -59,7 +59,7 @@ const PostContent = ({ postPage, showMoreLink, text }: Props) => {
 				</>
 			)}
 
-			{postPage && <PostContentForPage text={text} />}
+			{postPage && <PostContentForPage {...{ content }} />}
 		</CardContent>
 	)
 }
