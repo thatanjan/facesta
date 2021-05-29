@@ -115,7 +115,9 @@ const useStyles = makeStyles((theme: any) => ({
 	tabsContainer: {
 		'& > .MuiTabs-scroller': {
 			'& > .MuiTabs-flexContainer': {
-				justifyContent: 'space-evenly',
+				[theme.breakpoints.up(370)]: {
+					justifyContent: 'space-evenly',
+				},
 			},
 		},
 	},
