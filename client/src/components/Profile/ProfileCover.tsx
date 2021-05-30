@@ -76,11 +76,7 @@ export const ProfileCover = () => {
 					</Typography>
 					<Grid container>
 						<Grid container item justify='center'>
-							{bio ? (
-								<Typography variant='h5'>{bio}</Typography>
-							) : (
-								<Button>Add Bio </Button>
-							)}
+							{bio && <Typography variant='h5'>{bio}</Typography>}
 						</Grid>
 					</Grid>
 					<Divider />
