@@ -108,9 +108,8 @@ const LovePost = ({ totalLikes, postUserID, postID, hasLiked }: LoveProps) => {
 				aria-label='love'
 				onClick={clickHandeler}
 				disabled={disableButton}
-				size={matches ? 'small' : undefined}
 			>
-				<FavoriteIcon className={style} />
+				<FavoriteIcon fontSize={matches ? 'small' : 'default'} className={style} />
 			</IconButton>
 
 			{error && <AutoHideSnackBar {...{ message, severity: 'error' }} />}
