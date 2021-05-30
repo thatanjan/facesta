@@ -28,7 +28,7 @@ interface Props {
 
 const QUERY_NAME = 'getAllLikes'
 
-const AllLovedUser = ({
+const AllLikedUser = ({
 	idOfPostUser,
 	idOfPost,
 	showUsers,
@@ -122,4 +122,4 @@ const AllLovedUser = ({
 	)
 }
 
-export default AllLovedUser
+export default AllLikedUser

@@ -22,7 +22,7 @@ import MuiLink from 'components/Links/MuiLink'
 import { cloudinaryURL } from 'variables/global'
 import PostType from 'interfaces/post'
 
-const LovePost = dynamic(() => import('./LovePost'))
+const LikePost = dynamic(() => import('./LikePost'))
 
 const PostContent = dynamic(() => import('./PostContent'))
 
@@ -182,7 +182,7 @@ const SinglePost = ({
 				onClick={redirectToPostPage}
 			/>
 			<CardActions disableSpacing className={CardActionsStyle}>
-				<LovePost {...loveProps} />
+				<LikePost {...loveProps} />
 
 				<Box>
 					<Typography variant='caption'>
