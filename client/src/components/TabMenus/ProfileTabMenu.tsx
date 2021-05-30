@@ -122,7 +122,7 @@ const useStyles = makeStyles((theme: any) => ({
 		},
 	},
 	tabStyle: {
-		fontSize: '0.8rem',
+		fontSize: '0.7rem',
 	},
 }))
 
