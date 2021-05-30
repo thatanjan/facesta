@@ -98,6 +98,10 @@ const NewDetailsForm = ({ setIsAdding, isAdding }: Props) => {
 						errors.website = 'Website url is not valid'
 					}
 
+					if (website === '') {
+						delete errors.website
+					}
+
 					if (dateOfBirth === '') return errors
 
 					const date = new Date(dateOfBirth)
