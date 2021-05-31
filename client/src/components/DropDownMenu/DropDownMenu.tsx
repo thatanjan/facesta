@@ -7,7 +7,13 @@ import { nanoid } from 'nanoid'
 
 import { AnyObject } from 'interfaces/global'
 
-const DropDownMenu = ({ options, IconComponent, ...props }: AnyObject) => {
+import { DropDownMenuOption } from 'components/AppBars/AppHeaderMenus'
+
+interface Props extends AnyObject {
+	options: DropDownMenuOption[]
+}
+
+const DropDownMenu = ({ options, IconComponent, ...props }: Props) => {
 	const [anchorEl, setAnchorEl] = useState(null)
 	const open: boolean = Boolean(anchorEl)
 
@@ -32,14 +38,14 @@ const DropDownMenu = ({ options, IconComponent, ...props }: AnyObject) => {
 				onClose={handleClose}
 				TransitionComponent={Fade}
 			>
-				{options.map((item: string) => (
+				{options.map(({ name, path }: DropDownMenuOption) => (
 					<MenuItem
 						key={nanoid()}
 						component='li'
 						onClick={handleClose}
 						style={{ textTransform: 'capitalize' }}
 					>
-						{item}
+						{name}
 					</MenuItem>
 				))}
 			</Menu>
