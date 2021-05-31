@@ -8,6 +8,7 @@ import { nanoid } from 'nanoid'
 import { AnyObject } from 'interfaces/global'
 
 import { DropDownMenuOption } from 'components/AppBars/AppHeaderMenus'
+import MuiLink from 'components/Links/MuiLink'
 
 interface Props extends AnyObject {
 	options: DropDownMenuOption[]
@@ -39,14 +40,16 @@ const DropDownMenu = ({ options, IconComponent, ...props }: Props) => {
 				TransitionComponent={Fade}
 			>
 				{options.map(({ name, path }: DropDownMenuOption) => (
-					<MenuItem
+					<MuiLink
+						MuiComponent={MenuItem}
 						key={nanoid()}
 						component='li'
+						href={path}
 						onClick={handleClose}
 						style={{ textTransform: 'capitalize' }}
 					>
 						{name}
-					</MenuItem>
+					</MuiLink>
 				))}
 			</Menu>
 		</>
