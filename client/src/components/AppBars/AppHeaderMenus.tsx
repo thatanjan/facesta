@@ -32,8 +32,23 @@ const useStyles = makeStyles((theme: Theme) => ({
 
 const SwrErrorAlert = dynamic(() => import('components/Alerts/SwrErrorAlert'))
 
+export class DropDownMenuOption {
+	name: string
+
+	path: string
+
+	constructor(name: string, path: string) {
+		this.name = name
+		this.path = path
+	}
+}
+
 const AppHeaderMenus = () => {
-	const options = ['settings & privacy', 'help and support', 'logout']
+	const options: DropDownMenuOption[] = [
+		new DropDownMenuOption('settings & privacy', '/settings'),
+		new DropDownMenuOption('help and support', '/help'),
+		new DropDownMenuOption('logout', '/logout'),
+	]
 
 	const { AccountIconTextStyle } = useStyles()
 
