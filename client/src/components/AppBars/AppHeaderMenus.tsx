@@ -47,7 +47,7 @@ const AppHeaderMenus = () => {
 	const options: DropDownMenuOption[] = [
 		new DropDownMenuOption('settings & privacy', '/settings'),
 		new DropDownMenuOption('help and support', '/help'),
-		new DropDownMenuOption('logout', '/logout'),
+		new DropDownMenuOption('logout', '/authentication/logout'),
 	]
 
 	const { AccountIconTextStyle } = useStyles()
