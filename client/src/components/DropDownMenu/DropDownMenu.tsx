@@ -43,7 +43,6 @@ const DropDownMenu = ({ options, IconComponent, ...props }: Props) => {
 					<MuiLink
 						MuiComponent={MenuItem}
 						key={nanoid()}
-						component='li'
 						href={path}
 						onClick={handleClose}
 						style={{ textTransform: 'capitalize' }}
