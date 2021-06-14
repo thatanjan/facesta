@@ -1,6 +1,4 @@
 import React from 'react'
-import SimpleBar from 'simplebar-react'
-import 'simplebar/dist/simplebar.min.css'
 
 import dynamic from 'next/dynamic'
 import useMediaQuery from '@material-ui/core/useMediaQuery'
