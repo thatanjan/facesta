@@ -18,6 +18,7 @@ import { useGetTotalComment } from 'hooks/commentHooks'
 import useSmallerThanXS from 'hooks/mediaQueries/useSmallerThanXS'
 
 import MuiLink from 'components/Links/MuiLink'
+import { DropDownMenuOption } from 'components/AppBars/AppHeaderMenus'
 
 import { cloudinaryURL } from 'variables/global'
 import PostType from 'interfaces/post'
@@ -90,7 +91,10 @@ const SinglePost = ({
 		cardHeaderStyle,
 	} = useStyles()
 
-	const moreOptions = ['save', 'Report']
+	const moreOptions: DropDownMenuOption[] = [
+		new DropDownMenuOption('save', '/development'),
+		new DropDownMenuOption('Report', '/development'),
+	]
 
 	const showMoreLink = `/post/${postUserID}/${postID}`
 
