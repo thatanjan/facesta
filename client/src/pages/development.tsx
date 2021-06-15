@@ -25,7 +25,7 @@ const Logout = () => {
 
 	return (
 		<>
-			<NextSeo title='404 | page not found' />
+			<NextSeo title='Page in Development' />
 			<Grid container className={container} alignContent='center'>
 				<Grid item xs={12}>
 					<Typography className={title} align='center' variant='h1'>

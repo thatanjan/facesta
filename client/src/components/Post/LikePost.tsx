@@ -8,18 +8,18 @@ import Typography from '@material-ui/core/Typography'
 import IconButton from '@material-ui/core/IconButton'
 
 import AutoHideSnackBar from 'components/Alerts/AutoHideSnackBar'
-import CircularLoader from 'components/Loaders/CircularLoader'
+import CustomBackdrop from 'components/Backdrops/CustomBackdrops'
 
 import useSmallerThanXS from 'hooks/mediaQueries/useSmallerThanXS'
 
 import createRequest from 'utils/createRequest'
 import { likePost, removeLikePost } from 'graphql/mutations/postMutations'
 
-const AllLovedUser = dynamic(() => import('./AllLovedUser'), {
-	loading: () => <CircularLoader />,
+const AllLikedUser = dynamic(() => import('./AllLikedUser'), {
+	loading: () => <CustomBackdrop />,
 })
 
-interface LoveProps {
+interface LikeProps {
 	postUserID: string
 	postID: string
 	totalLikes: number
@@ -27,7 +27,7 @@ interface LoveProps {
 }
 
 const useStyles = makeStyles({
-	loveStyle: {
+	likeStyle: {
 		fill: '#ea0000',
 	},
 	numberOfLikes: {
@@ -38,11 +38,11 @@ const useStyles = makeStyles({
 	},
 })
 
-const LovePost = ({ totalLikes, postUserID, postID, hasLiked }: LoveProps) => {
+const LikePost = ({ totalLikes, postUserID, postID, hasLiked }: LikeProps) => {
 	const [showUsers, setShowUsers] = useState(false)
 	const [isLiked, setIsLiked] = useState(hasLiked)
 	const [totalNumberOfLikes, setTotalNumberOfLikes] = useState(0)
-	const { loveStyle, numberOfLikes } = useStyles()
+	const { likeStyle, numberOfLikes } = useStyles()
 	const [error, setError] = useState(false)
 	const [message, setMessage] = useState('')
 	const [disableButton, setDisableButton] = useState(false)
@@ -93,7 +93,7 @@ const LovePost = ({ totalLikes, postUserID, postID, hasLiked }: LoveProps) => {
 		setIsLiked(hasLiked)
 	}, [totalLikes])
 
-	const style = clsx(isLiked && loveStyle)
+	const style = clsx(isLiked && likeStyle)
 
 	return (
 		<Box>
@@ -105,18 +105,17 @@ const LovePost = ({ totalLikes, postUserID, postID, hasLiked }: LoveProps) => {
 				{totalNumberOfLikes}
 			</Typography>
 			<IconButton
-				aria-label='love'
+				aria-label='like'
 				onClick={clickHandeler}
 				disabled={disableButton}
-				size={matches ? 'small' : undefined}
 			>
-				<FavoriteIcon className={style} />
+				<FavoriteIcon fontSize={matches ? 'small' : 'default'} className={style} />
 			</IconButton>
 
 			{error && <AutoHideSnackBar {...{ message, severity: 'error' }} />}
 
 			{showUsers && (
-				<AllLovedUser
+				<AllLikedUser
 					{...{
 						showUsers,
 						setShowUsers,
@@ -130,4 +129,4 @@ const LovePost = ({ totalLikes, postUserID, postID, hasLiked }: LoveProps) => {
 	)
 }
 
-export default LovePost
+export default LikePost

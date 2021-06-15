@@ -13,25 +13,8 @@ const checkIfUserExist = async (field, myID, otherUserID) => {
 	return query
 }
 
-const sameId = (id1, id2) => {
-	if (id1 === id2) {
-		return true
-	}
-	return false
-}
-
 const unfollowUser = async (_, { user }, { user: { id } }) => {
 	try {
-		if (sameId(user, id)) {
-			return sendErrorMessage('ownerId and other user id is same')
-		}
-
-		const doesUserExist = await User.findById(user, 'name')
-
-		if (!doesUserExist) {
-			return sendErrorMessage('user does not exist')
-		}
-
 		const filter = {}
 		filter.followees = { $in: user }
 
@@ -62,16 +45,6 @@ const unfollowUser = async (_, { user }, { user: { id } }) => {
 
 const followUser = async (_, { user }, { user: { id } }) => {
 	try {
-		if (sameId(user, id)) {
-			return sendErrorMessage('ownerId and other user id is same')
-		}
-
-		const doesUserExist = await User.findById(user, 'name')
-
-		if (!doesUserExist) {
-			return sendErrorMessage('user does not exist')
-		}
-
 		const filter = {}
 		filter.followees = { $in: user }
 

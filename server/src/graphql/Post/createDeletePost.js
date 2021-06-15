@@ -14,7 +14,7 @@ const resolver = {
 	Mutation: {
 		createPost: async (
 			_,
-			{ Input: { headline, markdown, text, image } },
+			{ Input: { title, markdown, content, image } },
 			{ user: { id } }
 		) => {
 			try {
@@ -32,36 +32,23 @@ const resolver = {
 				let postObject
 
 				if (imagePublicID && typeof imagePublicID === 'string') {
-					postObject = { text, image: imagePublicID, headline, markdown }
+					postObject = { content, image: imagePublicID, title, markdown }
 				}
 
 				const newPost = new Post(postObject)
 
-				try {
-					await newPost.save()
-				} catch (error) {
-					return sendErrorMessage(error)
-				}
+				await newPost.save()
 
 				const { followers } = await Follow.findOne({ user: id }, FOLLOWERS)
 
 				followers.push(id)
 
-				const promises = []
-				for (let i = 0; i < followers.length; i++) {
-					const follower = followers[i]
-					// eslint-disable-next-line
+				const pushedObject = { user: id, post: newPost._id }
 
-					const pushedObject = { user: id, post: newPost._id }
-
-					promises.push(
-						NewsFeedModel.updateOne(
-							{ user: follower },
-							{ $push: { posts: pushedObject }, $inc: { totalPosts: 1 } }
-						)
-					)
-				}
-				await Promise.all(promises)
+				await NewsFeedModel.updateMany(
+					{ user: { $in: followers } },
+					{ $push: { posts: pushedObject }, $inc: { totalPosts: 1 } }
+				)
 
 				return sendMessage('post is published')
 			} catch (error) {
@@ -89,8 +76,10 @@ const resolver = {
 
 			const { followers } = followersQuery
 
+			followers.push(id)
+
 			const query = await NewsFeedModel.updateMany(
-				{},
+				{ user: { $in: followers } },
 				{
 					$pull: {
 						posts: { post: postID },

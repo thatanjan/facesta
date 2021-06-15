@@ -17,23 +17,18 @@ import { responseInterface } from 'swr'
 import { useGetTotalComment } from 'hooks/commentHooks'
 import useSmallerThanXS from 'hooks/mediaQueries/useSmallerThanXS'
 
-import CircularLoader from 'components/Loaders/CircularLoader'
 import MuiLink from 'components/Links/MuiLink'
+import { DropDownMenuOption } from 'components/AppBars/AppHeaderMenus'
 
 import { cloudinaryURL } from 'variables/global'
 import PostType from 'interfaces/post'
 
-const LovePost = dynamic(() => import('./LovePost'), {
-	loading: () => <CircularLoader />,
-})
+const LikePost = dynamic(() => import('./LikePost'))
 
-const PostContent = dynamic(() => import('./PostContent'), {
-	loading: () => <CircularLoader />,
-})
+const PostContent = dynamic(() => import('./PostContent'))
 
 const DropDownMenu = dynamic(
-	() => import('components/DropDownMenu/DropDownMenu'),
-	{ loading: () => <CircularLoader /> }
+	() => import('components/DropDownMenu/DropDownMenu')
 )
 
 const SwrErrorAlert = dynamic(() => import('components/Alerts/SwrErrorAlert'))
@@ -70,9 +65,9 @@ interface Props extends PostType {
 }
 
 const SinglePost = ({
-	headline,
+	title,
 	image,
-	text,
+	content,
 	_id: postID,
 	user: {
 		_id: postUserID,
@@ -96,13 +91,16 @@ const SinglePost = ({
 		cardHeaderStyle,
 	} = useStyles()
 
-	const moreOptions = ['save', 'Report']
+	const moreOptions: DropDownMenuOption[] = [
+		new DropDownMenuOption('save', '/development'),
+		new DropDownMenuOption('Report', '/development'),
+	]
 
 	const showMoreLink = `/post/${postUserID}/${postID}`
 
 	const loveProps = { postID, postUserID, totalLikes, hasLiked }
 
-	const postContentProps = { text, postPage, showMoreLink }
+	const postContentProps = { content, postPage, showMoreLink }
 
 	const redirectToPostPage = () => {
 		push(showMoreLink)
@@ -155,7 +153,7 @@ const SinglePost = ({
 						/>
 					</>
 				}
-				title={headline}
+				title={title}
 				titleTypographyProps={{
 					variant: 'h6',
 					component: 'h1',
@@ -188,7 +186,7 @@ const SinglePost = ({
 				onClick={redirectToPostPage}
 			/>
 			<CardActions disableSpacing className={CardActionsStyle}>
-				<LovePost {...loveProps} />
+				<LikePost {...loveProps} />
 
 				<Box>
 					<Typography variant='caption'>
@@ -198,9 +196,8 @@ const SinglePost = ({
 					<IconButton
 						aria-label='comment'
 						onClick={() => push(`/post/${postUserID}/${postID}`)}
-						size={matches ? 'small' : undefined}
 					>
-						<CommentIcon />
+						<CommentIcon fontSize={matches ? 'small' : undefined} />
 					</IconButton>
 				</Box>
 			</CardActions>

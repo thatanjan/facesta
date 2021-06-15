@@ -10,10 +10,6 @@ const mainResolver = field => async (_, { Input: { postID, user } }) => {
 
 		const post = await PostModel.findById(postID, field)
 
-		if (!post) {
-			return sendErrorMessage('no post found')
-		}
-
 		const response = {}
 
 		response[field] = post[field]

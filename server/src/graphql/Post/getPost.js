@@ -1,6 +1,5 @@
 import User from 'models/User'
 import createPostModel from 'models/Post'
-import ifNullOrFalse from 'utils/checkNullFalse'
 import sendErrorMessage from 'utils/errorMessage'
 import { postProjection as projection } from 'variables/global'
 
@@ -18,10 +17,6 @@ const mainResolver = field => {
 						...projection,
 						likes: { $elemMatch: { $eq: id } },
 					})
-
-					if (ifNullOrFalse(post)) {
-						return sendErrorMessage('no post found')
-					}
 
 					const userInfo = await User.findById(user, 'profile').populate({
 						path: 'profile',

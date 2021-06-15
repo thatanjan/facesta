@@ -24,7 +24,7 @@ const darkTheme = responsiveFontSizes(
 darkTheme.typography.h6 = {
 	...darkTheme.typography.h6,
 	[darkTheme.breakpoints.down('xs')]: {
-		fontSize: '0.9rem',
+		fontSize: '1rem',
 	},
 }
 
@@ -32,6 +32,20 @@ darkTheme.typography.h4 = {
 	...darkTheme.typography.h4,
 	[darkTheme.breakpoints.down('xs')]: {
 		fontSize: '1.3rem',
+	},
+}
+
+darkTheme.typography.body1 = {
+	...darkTheme.typography.body1,
+	[darkTheme.breakpoints.down('xs')]: {
+		fontSize: darkTheme.typography.body2.fontSize,
+	},
+}
+
+darkTheme.typography.body2 = {
+	...darkTheme.typography.body2,
+	[darkTheme.breakpoints.down('xs')]: {
+		fontSize: darkTheme.typography.caption.fontSize,
 	},
 }
 

@@ -23,10 +23,10 @@ const PostTypedefs = gql`
 	}
 
 	type Post {
-		text: String!
+		content: String!
 		_id: ID!
 		image: String!
-		headline: String!
+		title: String!
 		markdown: Boolean!
 		totalLikes: Int!
 		totalComments: Int!
@@ -97,17 +97,17 @@ const PostTypedefs = gql`
 	}
 
 	input CreatePostInput {
-		text: String!
+		content: String!
 		image: String!
-		headline: String!
+		title: String!
 		markdown: Boolean!
 	}
 
 	input EditPostInput {
 		postID: ID!
-		text: String
+		content: String
 		image: String
-		headline: String
+		title: String
 		markdown: Boolean
 	}
 

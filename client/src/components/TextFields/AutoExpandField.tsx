@@ -6,7 +6,7 @@ import Cookies from 'js-cookie'
 import { FormEvent } from 'react'
 import clsx from 'clsx'
 
-import { POST_HEADER } from 'components/Post/CreatePost/CreatePostModal'
+import { POST_TITLE } from 'components/Post/CreatePost/CreatePostModal'
 
 interface Props extends TextFieldProps {
 	cookieName?: string
@@ -33,8 +33,8 @@ const informationForField = (name: string): InformationForField => {
 		case 'comment':
 			return { label: name, rows: '1' }
 
-		case POST_HEADER:
-			return { label: 'Header', rows: '1' }
+		case POST_TITLE:
+			return { label: 'title', rows: '1' }
 
 		default:
 			return { label: 'Write your feelings', rows: '3' }

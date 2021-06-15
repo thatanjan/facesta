@@ -58,12 +58,12 @@ const useStyles = makeStyles(theme => ({
 }))
 
 export interface Values {
-	postHeader: string
-	postText: string
+	postTitle: string
+	postContent: string
 }
 
-export const POST_TEXT = 'postText'
-export const POST_HEADER = 'postHeader'
+export const POST_CONTENT = 'postContent'
+export const POST_TITLE = 'postTitle'
 
 const CreatePostModal = () => {
 	const matches = useMediaQuery((theme: Theme) => theme.breakpoints.up('md'))
@@ -82,8 +82,8 @@ const CreatePostModal = () => {
 		dialogContentStyle,
 	} = useStyles()
 
-	const postHeader: string = Cookies.get(POST_HEADER) || ''
-	const postText: string = Cookies.get(POST_TEXT) || ''
+	const postTitle: string = Cookies.get(POST_TITLE) || ''
+	const postContent: string = Cookies.get(POST_CONTENT) || ''
 
 	const fullScreen = useMediaQuery((theme: Theme) =>
 		theme.breakpoints.down('xs')
@@ -107,21 +107,21 @@ const CreatePostModal = () => {
 			>
 				<Formik
 					initialValues={{
-						postHeader,
-						postText,
+						postTitle,
+						postContent,
 					}}
 					validate={(values: Values) => {
 						const errors: Partial<Values> = {}
 
-						const header = values[POST_HEADER]
-						const text = values[POST_TEXT]
+						const title = values[POST_TITLE]
+						const content = values[POST_CONTENT]
 
-						if (!header) {
-							errors.postHeader = 'Required' as ''
+						if (!title) {
+							errors.postTitle = 'Required' as ''
 						}
 
-						if (!text) {
-							errors.postText = 'Required' as ''
+						if (!content) {
+							errors.postContent = 'Required' as ''
 						}
 
 						return errors
@@ -149,10 +149,10 @@ const CreatePostModal = () => {
 
 								<Field
 									component={AutoExpandField}
-									name={POST_HEADER}
+									name={POST_TITLE}
 									className={titleStyle}
 								/>
-								<Field component={AutoExpandField} name={POST_TEXT} />
+								<Field component={AutoExpandField} name={POST_CONTENT} />
 							</DialogContent>
 
 							<DialogActions>

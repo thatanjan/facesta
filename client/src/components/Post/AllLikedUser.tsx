@@ -8,19 +8,13 @@ import { useGetAllLikes } from 'hooks/likeHooks'
 
 import CircularLoader from 'components/Loaders/CircularLoader'
 import Alert from 'components/Alerts/Alert'
+import CustomBackDrop from 'components/Backdrops/CustomBackdrops'
 
-const ListContainer = dynamic(
-	() => import('components/List/UserListContainer'),
-	{ loading: () => <CircularLoader /> }
-)
+const ListContainer = dynamic(() => import('components/List/UserListContainer'))
 
-const UserList = dynamic(() => import('components/List/UserList'), {
-	loading: () => <CircularLoader />,
-})
+const UserList = dynamic(() => import('components/List/UserList'))
 
-const UserListModal = dynamic(() => import('components/Modals/UserListModal'), {
-	loading: () => <CircularLoader />,
-})
+const UserListModal = dynamic(() => import('components/Modals/UserListModal'))
 
 const SwrErrorAlert = dynamic(() => import('components/Alerts/SwrErrorAlert'))
 
@@ -34,7 +28,7 @@ interface Props {
 
 const QUERY_NAME = 'getAllLikes'
 
-const AllLovedUser = ({
+const AllLikedUser = ({
 	idOfPostUser,
 	idOfPost,
 	showUsers,
@@ -58,7 +52,7 @@ const AllLovedUser = ({
 	}, [])
 
 	if (error) return <SwrErrorAlert />
-	if (!data) return <CircularLoader />
+	if (!data) return <CustomBackDrop />
 
 	let isLoadingMore = true
 
@@ -128,4 +122,4 @@ const AllLovedUser = ({
 	)
 }
 
-export default AllLovedUser
+export default AllLikedUser

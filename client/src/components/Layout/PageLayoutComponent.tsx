@@ -1,6 +1,4 @@
 import React from 'react'
-import SimpleBar from 'simplebar-react'
-import 'simplebar/dist/simplebar.min.css'
 
 import dynamic from 'next/dynamic'
 import useMediaQuery from '@material-ui/core/useMediaQuery'
@@ -41,19 +39,19 @@ const useStyles = makeStyles(theme => ({
 	contentSection: {
 		maxHeight: '100vh',
 		overflowY: 'scroll',
-		padding: '0 2rem',
+		padding: '0 1rem',
 		[theme.breakpoints.down('xs')]: { padding: '0 .5rem' },
 		'-ms-overflow-style': 'none',
 		scrollbarWidth: 'none',
 
 		'&::-webkit-scrollbar': {
-			display: 'none',
+			width: '8px',
 		},
 
-		'& .simplebar-vertical': {
-			'& .simplebar-scrollbar::before': {
-				background: '#d0d0d0',
-			},
+		'&::-webkit-scrollbar-thumb': {
+			borderRadius: '10px',
+			'-webkit-box-shadow': 'inset 0 0 6px rgba(0,0,0,0.3)',
+			background: '#454545',
 		},
 	},
 	contentContainerStyle: {
@@ -77,14 +75,7 @@ const PageLayoutComponent = ({ Content }: Props) => {
 					</Grid>
 				)}
 				{Content && typeof Content === 'function' && (
-					<Grid
-						component={SimpleBar}
-						id='scrollableDiv'
-						item
-						xs={12}
-						lg={6}
-						className={contentSection}
-					>
+					<Grid id='scrollableDiv' item xs={12} lg={6} className={contentSection}>
 						<Box className={contentContainerStyle}>
 							<Content />
 						</Box>

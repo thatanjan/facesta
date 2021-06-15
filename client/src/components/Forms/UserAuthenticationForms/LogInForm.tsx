@@ -81,11 +81,11 @@ const LogInForm = () => {
 					return errors
 				}}
 				onSubmit={async (values, { setSubmitting }) => {
-					loginUser(values)
+					const loginStatus = await loginUser(values)
 
-					setTimeout(() => {
+					if (!loginStatus || loginStatus) {
 						setSubmitting(false)
-					}, 500)
+					}
 				}}
 			>
 				{({ submitForm, isSubmitting }) => (

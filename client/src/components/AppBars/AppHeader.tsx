@@ -9,6 +9,7 @@ import TelegramIcon from '@material-ui/icons/Telegram'
 import useMediaQuery from '@material-ui/core/useMediaQuery'
 import Typography from '@material-ui/core/Typography'
 import IconButton from '@material-ui/core/IconButton'
+import Box from '@material-ui/core/Box'
 
 import CircularLoader from 'components/Loaders/CircularLoader'
 import MuiLink from 'components/Links/MuiLink'
@@ -24,8 +25,7 @@ const NavigationDrawer = dynamic(
 )
 
 const AppHeaderMenus = dynamic(
-	() => import('components/AppBars/AppHeaderMenus'),
-	{ loading: () => <CircularLoader /> }
+	() => import('components/AppBars/AppHeaderMenus')
 )
 
 const useStyles = makeStyles(theme => ({
@@ -113,9 +113,11 @@ const AppHeader = () => {
 						</>
 					)}
 
-					<MuiLink href='/' MuiComponent={Typography} variant='h6' className={title}>
-						{APP_NAME}
-					</MuiLink>
+					<Box className={title}>
+						<MuiLink href='/' MuiComponent={Typography} variant='h6'>
+							{APP_NAME}
+						</MuiLink>
+					</Box>
 
 					{!matches && (
 						<IconButton edge='end' onClick={() => push('/development')}>

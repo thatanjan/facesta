@@ -6,36 +6,30 @@ import { nanoid } from 'nanoid'
 import MuiLink from 'components/Links/MuiLink'
 
 interface Props {
-	text: string
+	content: string
 	showMoreLink: string
 	postPage: boolean
 }
 
-const PostContentForPage = ({ text }: { text: string }) => {
-	const paragraphs = text.split('\n')
+const PostContentForPage = ({ content }: { content: string }) => {
+	const paragraphs = content.split('\n')
 	return (
-		<CardContent>
+		<>
 			{paragraphs.map(paragraph => (
 				<Typography key={nanoid()} variant='body1' component='p'>
 					{paragraph}
 				</Typography>
 			))}
-		</CardContent>
+		</>
 	)
 }
 
-const PostContent = ({ postPage, showMoreLink, text }: Props) => {
-	const idealLength = 500
+const PostContent = ({ postPage, showMoreLink, content }: Props) => {
+	const idealLength = 200
 
-	let visibleText = text.substr(0, idealLength)
+	const visibleText = content.substr(0, idealLength - 1)
 
-	const visibleTextLength = visibleText.length
-
-	const lastTwoChar = visibleText.endsWith('\n')
-
-	if (lastTwoChar) {
-		visibleText = visibleText.substring(0, visibleTextLength - 2)
-	}
+	const isThereMore = content.length > idealLength
 
 	const paragraphs = visibleText.split('\n')
 
@@ -43,22 +37,29 @@ const PostContent = ({ postPage, showMoreLink, text }: Props) => {
 		<CardContent>
 			{!postPage && (
 				<>
-					<Typography variant='body1' color='textSecondary' component='span'>
-						{paragraphs[0]}
+					{paragraphs.map(paragraph => (
+						<Typography key={nanoid()} variant='body1' component='p'>
+							{paragraph}
+						</Typography>
+					))}
 
-						{paragraphs.length >= 1 || visibleText.length > idealLength - 2 ? (
-							<>
-								<span> ...</span>{' '}
-								<MuiLink href={showMoreLink} MuiComponent={Typography} variant='button'>
-									show more
-								</MuiLink>
-							</>
-						) : null}
-					</Typography>
+					{isThereMore && (
+						<>
+							<span> ...</span>{' '}
+							<MuiLink
+								href={showMoreLink}
+								MuiComponent={Typography}
+								variant='body1'
+								align='center'
+							>
+								show more
+							</MuiLink>
+						</>
+					)}
 				</>
 			)}
 
-			{postPage && <PostContentForPage text={text} />}
+			{postPage && <PostContentForPage {...{ content }} />}
 		</CardContent>
 	)
 }

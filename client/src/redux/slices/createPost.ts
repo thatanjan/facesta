@@ -39,14 +39,14 @@ const initialState: InitialState = {
 
 export const uploadPost = createAsyncThunk(
 	'createPost/uploadPostStatus',
-	async ({ postHeader, postText }: InputValues, { getState }) => {
+	async ({ postTitle, postContent }: InputValues, { getState }) => {
 		const state = getState() as RootState
 
 		const { file: image } = state.createPost
 
 		return createRequest({
 			key: createPost,
-			values: { image, markdown: false, headline: postHeader, text: postText },
+			values: { image, markdown: false, title: postTitle, content: postContent },
 		})
 	}
 )

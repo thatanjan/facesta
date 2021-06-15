@@ -102,10 +102,7 @@ const SignUpForm = () => {
 					return errors
 				}}
 				onSubmit={(values, { setSubmitting }) => {
-					registerUser(values)
-					setTimeout(() => {
-						setSubmitting(false)
-					}, 500)
+					registerUser(values).then(() => setSubmitting(false))
 				}}
 			>
 				{({ submitForm, isSubmitting }) => (

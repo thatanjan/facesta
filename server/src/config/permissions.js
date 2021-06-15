@@ -7,6 +7,14 @@ import createPostModel from 'models/Post'
 const LIKE_POST = 'like'
 const REMOVE_LIKE = 'removeLike'
 
+const somethingWentWrong = () => new Error('something went wrong')
+
+const areSameID = rule()(async (_, { user }, { user: { id } }) => {
+	if (user === id) return false
+
+	return true
+})
+
 const isAuthenticated = rule()(async (_, __, { user, error }) => {
 	if (error) {
 		return new Error(error)
@@ -19,59 +27,89 @@ const isAuthenticated = rule()(async (_, __, { user, error }) => {
 	return true
 })
 
+const doesOwnPostExist = rule()(async (_, { postID }, { user: { id } }) => {
+	try {
+		const PostModel = createPostModel(id)
+
+		const post = await PostModel.findById(postID, 'totalLikes')
+
+		if (!post) return new Error(POST_DOES_NOT_EXIST)
+
+		return true
+	} catch (__) {
+		return somethingWentWrong()
+	}
+})
+
 const doesUserExist = rule()(async (_, __, { user }) => {
-	const userExist = await User.findById(user.id, 'email')
+	try {
+		const userExist = await User.findById(user.id, 'email')
 
-	if (!userExist) return new Error(USER_DOES_NOT_EXIST)
+		if (!userExist) return new Error(USER_DOES_NOT_EXIST)
 
-	return true
+		return true
+	} catch (___) {
+		return somethingWentWrong()
+	}
 })
 
 const doesOtherUserExist = rule()(async (_, { user }) => {
-	const userExist = await User.findById(user, 'email')
+	try {
+		const userExist = await User.findById(user, 'email')
 
-	if (!userExist) return new Error(`other ${USER_DOES_NOT_EXIST}`)
+		if (!userExist) return new Error(`other ${USER_DOES_NOT_EXIST}`)
 
-	return true
+		return true
+	} catch (__) {
+		return somethingWentWrong()
+	}
 })
 
 const doesPostExist = rule()(async (_, { Input: { postID, user } }) => {
-	const postModel = createPostModel(user)
+	try {
+		const postModel = createPostModel(user)
 
-	const post = await postModel.findById(postID)
+		const post = await postModel.findById(postID)
 
-	if (!post) return new Error(POST_DOES_NOT_EXIST)
+		if (!post) return new Error(POST_DOES_NOT_EXIST)
 
-	return true
+		return true
+	} catch (__) {
+		return somethingWentWrong()
+	}
 })
 
 const doesPostAndLikeExist = operation => {
 	return rule()(async (_, { Input: { postID, user } }, { user: { id } }) => {
-		const PostModel = createPostModel(user.toString())
-		const post = await PostModel.findOne(
-			{ _id: postID },
-			{ likes: { $elemMatch: { $eq: id } } }
-		)
+		try {
+			const PostModel = createPostModel(user.toString())
+			const post = await PostModel.findOne(
+				{ _id: postID },
+				{ likes: { $elemMatch: { $eq: id } } }
+			)
 
-		if (!post) return new Error(POST_DOES_NOT_EXIST)
+			if (!post) return new Error(POST_DOES_NOT_EXIST)
 
-		switch (operation) {
-			case LIKE_POST:
-				if (post.likes.length !== 0)
-					return new Error('You have already liked this post')
+			switch (operation) {
+				case LIKE_POST:
+					if (post.likes.length !== 0)
+						return new Error('You have already liked this post')
 
-				break
+					break
 
-			case REMOVE_LIKE:
-				if (post.likes.length === 0)
-					return new Error('You have not liked this post')
+				case REMOVE_LIKE:
+					if (post.likes.length === 0)
+						return new Error('You have not liked this post')
 
-				break
-			default:
-				return false
+					break
+				default:
+					return false
+			}
+
+			return true
+		} catch (__) {
+			return somethingWentWrong()
 		}
-
-		return true
 	})
 }
 
@@ -79,7 +117,7 @@ export default shield(
 	{
 		Mutation: {
 			createPost: and(isAuthenticated, doesUserExist),
-			deletePost: and(isAuthenticated, doesUserExist),
+			deletePost: and(isAuthenticated, doesUserExist, doesOwnPostExist),
 			likePost: and(
 				isAuthenticated,
 				doesUserExist,
@@ -96,8 +134,18 @@ export default shield(
 			updatePersonalData: and(isAuthenticated, doesUserExist),
 			uploadProfilePicture: and(isAuthenticated, doesUserExist),
 			removeProfilePicture: and(isAuthenticated, doesUserExist),
-			followUser: and(isAuthenticated, doesUserExist, doesOtherUserExist),
-			unfollowUser: and(isAuthenticated, doesUserExist, doesOtherUserExist),
+			followUser: and(
+				isAuthenticated,
+				doesUserExist,
+				areSameID,
+				doesOtherUserExist
+			),
+			unfollowUser: and(
+				isAuthenticated,
+				doesUserExist,
+				areSameID,
+				doesOtherUserExist
+			),
 		},
 		Query: {
 			getSinglePost: and(isAuthenticated, doesUserExist, doesPostExist),
@@ -108,9 +156,7 @@ export default shield(
 			getAllComments: and(isAuthenticated, doesUserExist, doesPostExist),
 			getAllLikes: and(isAuthenticated, doesUserExist, doesPostExist),
 			hasLiked: and(isAuthenticated, doesUserExist, doesPostExist),
-			getUser: and(isAuthenticated, doesUserExist),
 			getPersonalData: and(isAuthenticated, doesUserExist),
-			getProfilePicture: and(isAuthenticated, doesUserExist),
 			getFollowers: and(isAuthenticated, doesUserExist),
 			getFollowees: and(isAuthenticated, doesUserExist),
 			getIsFollowee: and(isAuthenticated, doesUserExist),

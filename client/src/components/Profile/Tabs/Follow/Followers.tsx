@@ -17,9 +17,7 @@ import { cloudinaryURL } from 'variables/global'
 import Alert from 'components/Alerts/Alert'
 import CircularLoader from 'components/Loaders/CircularLoader'
 
-const SwrErrorAlert = dynamic(() => import('components/Alerts/SwrErrorAlert'), {
-	loading: () => <CircularLoader />,
-})
+const SwrErrorAlert = dynamic(() => import('components/Alerts/SwrErrorAlert'))
 
 const useStyles = makeStyles((theme: Theme) => ({
 	root: {

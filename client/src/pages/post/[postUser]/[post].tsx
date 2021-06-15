@@ -50,14 +50,14 @@ const PostPage = ({ id }: Props) => {
 				user: {
 					profile: { name },
 				},
-				headline,
+				title,
 			},
 		},
 	} = data
 
 	return (
 		<div>
-			<NextSeo title={`${headline} by ${name}`} />
+			<NextSeo title={`${title} by ${name}`} />
 
 			<PageLayoutComponent Content={SinglePostPage} />
 		</div>

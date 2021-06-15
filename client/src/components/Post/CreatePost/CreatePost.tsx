@@ -8,13 +8,14 @@ import IconButton from '@material-ui/core/IconButton'
 import AccountCircleIcon from '@material-ui/icons/AccountCircle'
 import Typography from '@material-ui/core/Typography'
 
-import CircularLoader from 'components/Loaders/CircularLoader'
+import CustomBackdrop from 'components/Backdrops/CustomBackdrops'
+
 
 import { useAppSelector, useAppDispatch } from 'redux/hooks/hooks'
 import { openPostModal } from 'redux/slices/createPost'
 
 const CreatePostModal = dynamic(() => import('./CreatePostModal'), {
-	loading: () => <CircularLoader />,
+	loading: () =><CustomBackdrop  /> 
 })
 
 const useStyles = makeStyles({

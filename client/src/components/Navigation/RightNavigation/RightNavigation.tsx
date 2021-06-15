@@ -17,7 +17,6 @@ const ListContainer = dynamic(
 )
 
 const UserList = dynamic(() => import('components/List/UserList'), {
-	loading: () => <CircularLoader />,
 })
 
 const SwrErrorAlert = dynamic(() => import('components/Alerts/SwrErrorAlert'))
