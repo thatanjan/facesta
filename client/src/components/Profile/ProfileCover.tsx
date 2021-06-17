@@ -6,7 +6,6 @@ import Grid from '@material-ui/core/Grid'
 import Typography from '@material-ui/core/Typography'
 import Divider from '@material-ui/core/Divider'
 import Card from '@material-ui/core/Card'
-import Button from '@material-ui/core/Button'
 import { makeStyles, Theme } from '@material-ui/core/styles'
 
 import ProfilePictureUpload from 'components/Upload/ProfilePictureUpload'
@@ -76,7 +75,11 @@ export const ProfileCover = () => {
 					</Typography>
 					<Grid container>
 						<Grid container item justify='center'>
-							{bio && <Typography variant='h5'>{bio}</Typography>}
+							{bio && (
+								<Typography variant='h5' align='center'>
+									{bio}
+								</Typography>
+							)}
 						</Grid>
 					</Grid>
 					<Divider />
