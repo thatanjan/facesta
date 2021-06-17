@@ -115,11 +115,11 @@ const NewDetailsForm = ({ setIsAdding, isAdding }: Props) => {
 
 					const FormValues = values
 
-					if (FormValues.dateOfBirth === '') {
-						delete FormValues.dateOfBirth
+					if (!FormValues.dateOfBirth) {
+						FormValues.dateOfBirth = null
+					} else {
+						FormValues.dateOfBirth = new Date(FormValues.dateOfBirth).toISOString()
 					}
-
-					FormValues.dateOfBirth = new Date(FormValues.dateOfBirth).toISOString()
 
 					const res = await createRequest({
 						key: updatePersonalData,
