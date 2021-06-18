@@ -37,7 +37,7 @@ export const generateField = (field: string): string => {
 const generateValue = (field: string, value: string): string | null => {
 	if (!value) return null
 
-	if (field === DATE_OF_BIRTH) {
+	if (field === DATE_OF_BIRTH && value !== null) {
 		const date = new Date(value)
 
 		return date.toDateString()

@@ -63,7 +63,9 @@ const NewDetailsForm = ({ setIsAdding, isAdding }: Props) => {
 		const value = initialData[item]
 		if (value === null) {
 			initialData[item] = ''
-		} else if (item === DATE_OF_BIRTH) {
+		}
+
+		if (item === DATE_OF_BIRTH && value) {
 			const date = new Date(initialData[item])
 
 			initialData[item] = date.toLocaleDateString()
