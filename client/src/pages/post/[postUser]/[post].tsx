@@ -51,13 +51,33 @@ const PostPage = ({ id }: Props) => {
 					profile: { name },
 				},
 				title,
+				content,
+				image,
 			},
 		},
 	} = data
 
 	return (
 		<div>
-			<NextSeo title={`${title} by ${name}`} />
+			<NextSeo
+				title={`${title} by ${name}`}
+				description={content}
+				openGraph={{
+					title,
+					description: content,
+					url: `https://con-fession.vercel.app/post/${postUser}/${post}`,
+					type: 'article',
+					article: {
+						authors: [`https://con-fession.vercel.app/profile/${postUser}`],
+					},
+					images: [
+						{
+							url: image,
+							alt: content,
+						},
+					],
+				}}
+			/>
 
 			<PageLayoutComponent Content={SinglePostPage} />
 		</div>
