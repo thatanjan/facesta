@@ -63,7 +63,9 @@ const NewDetailsForm = ({ setIsAdding, isAdding }: Props) => {
 		const value = initialData[item]
 		if (value === null) {
 			initialData[item] = ''
-		} else if (item === DATE_OF_BIRTH) {
+		}
+
+		if (item === DATE_OF_BIRTH && value) {
 			const date = new Date(initialData[item])
 
 			initialData[item] = date.toLocaleDateString()
@@ -115,11 +117,11 @@ const NewDetailsForm = ({ setIsAdding, isAdding }: Props) => {
 
 					const FormValues = values
 
-					if (FormValues.dateOfBirth === '') {
-						delete FormValues.dateOfBirth
+					if (!FormValues.dateOfBirth) {
+						FormValues.dateOfBirth = null
+					} else {
+						FormValues.dateOfBirth = new Date(FormValues.dateOfBirth).toISOString()
 					}
-
-					FormValues.dateOfBirth = new Date(FormValues.dateOfBirth).toISOString()
 
 					const res = await createRequest({
 						key: updatePersonalData,

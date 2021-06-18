@@ -13,13 +13,6 @@ const useStyles = makeStyles(() => ({
 		width: '100%',
 		textTransform: 'capitalize',
 	},
-	propertyField: {
-		flexBasis: '20%',
-		textTransform: 'capitalize',
-	},
-	colon: {
-		flexBasis: '10%',
-	},
 }))
 
 interface Props {
@@ -28,7 +21,7 @@ interface Props {
 }
 
 const EachField = ({ property, value }: Props) => {
-	const { fieldContainer, propertyField, colon } = useStyles()
+	const { fieldContainer } = useStyles()
 
 	if (!value) {
 		return null
@@ -36,14 +29,14 @@ const EachField = ({ property, value }: Props) => {
 
 	return (
 		<Grid container className={fieldContainer}>
-			<Grid item className={propertyField}>
+			<Grid item xs={3}>
 				<Typography>{property}</Typography>
 			</Grid>
-			<Grid item className={colon}>
+			<Grid item xs={2}>
 				<Typography>:</Typography>
 			</Grid>
 
-			<Grid item>
+			<Grid item xs={7}>
 				{property === 'website' ? (
 					<MuiLink
 						MuiComponent={Typography}
