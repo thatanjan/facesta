@@ -5,9 +5,9 @@ import { ServerStyleSheets } from '@material-ui/core/styles'
 export default class MyDocument extends Document {
 	render() {
 		return (
-			<Html lang='en'>
+			<Html lang='en' prefix='og: https://ogp.me/ns#'>
 				<Head>
-					<meta name='devbook' content='devbook' />
+					<meta name='confession' content='confession' />
 					<link
 						rel='stylesheet'
 						href='https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap'
