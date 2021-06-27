@@ -94,9 +94,28 @@ const UserAuthenticationPage = ({ authentication }: Props) => {
 
 	title = title.replace('-', ' ')
 
+	const url = 'https://con-fession.vercel.app/authentication/login'
 	return (
 		<>
-			<NextSeo title={title} />
+			<NextSeo
+				title={title}
+				canonical={url}
+				openGraph={{
+					type: 'website',
+					title,
+					description: `${title} to use confession`,
+					url,
+					site_name: APP_NAME,
+					images: [
+						{
+							url:
+								'https://res.cloudinary.com/anjancules/image/upload/v1624773419/confession/banner_mumzyz.png',
+							height: 1080,
+							width: 1920,
+						},
+					],
+				}}
+			/>
 
 			<Grid container className={containerStyle}>
 				<Grid item xs={12} md={6} className={headerStyle}>

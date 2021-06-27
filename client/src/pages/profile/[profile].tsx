@@ -83,12 +83,36 @@ const Profile = ({ id, profileUserID, isSelf }: Props) => {
 	if (error) return <SwrErrorAlert />
 
 	const {
-		getPersonalData: { name },
+		getPersonalData: { name, profilePicture },
 	} = data
+
+	const description = `Confession Profile of ${name}`
+
+	const splitedName = (name as string).split(' ')
 
 	return (
 		<>
-			<NextSeo title={name} />
+			<NextSeo
+				title={name}
+				description={description}
+				openGraph={{
+					title: name,
+					description,
+					url: `https://con-fession.vercel.app/profile/${profileUserID}`,
+					type: 'profile',
+					profile: {
+						firstName: splitedName[0],
+						lastName: splitedName[splitedName.length - 1],
+						username: splitedName[0],
+					},
+					images: [
+						{
+							url: profilePicture as string,
+							alt: `Profile of ${name}`,
+						},
+					],
+				}}
+			/>
 
 			<PageLayoutComponent Content={Content} />
 		</>

@@ -1,5 +1,6 @@
 import Head from 'next/head'
 import { GetServerSideProps } from 'next'
+import { NextSeo } from 'next-seo'
 
 import PageLayoutComponent from 'components/Layout/PageLayoutComponent'
 import Requset from 'interfaces/requsetResponse'
@@ -27,12 +28,31 @@ const PageContent = () => {
 const Home = ({ id }: PageProps) => {
 	useStoreID(id)
 
+	const description =
+		'A social media application to help people overcome their imposter syndrome'
+	const url = 'http://con-fession.vercel.app/'
 	return (
 		<>
-			<Head>
-				<title>{APP_NAME}</title>
-				<link rel='icon' href='/favicon.ico' />
-			</Head>
+			<NextSeo
+				title={APP_NAME}
+				description={description}
+				canonical={url}
+				openGraph={{
+					type: 'website',
+					title: APP_NAME,
+					description,
+					url,
+					site_name: APP_NAME,
+					images: [
+						{
+							url: '/banner.png',
+							alt: description,
+							height: 1080,
+							width: 1920,
+						},
+					],
+				}}
+			/>
 
 			<PageLayoutComponent Content={PageContent} />
 		</>
