@@ -5,8 +5,6 @@ import { GetServerSideProps } from 'next'
 import Grid from '@material-ui/core/Grid'
 import { makeStyles } from '@material-ui/core/styles'
 
-import { LOGIN_URL } from 'variables/global'
-
 import PageLayoutComponent from 'components/Layout/PageLayoutComponent'
 import ProfileCover from 'components/Profile/ProfileCover'
 import ProfileTabMenu from 'components/TabMenus/ProfileTabMenu'
@@ -22,7 +20,6 @@ import { addProfileUser, removeProfileUser } from 'redux/slices/profileSlice'
 import getToken from 'utils/getToken'
 import decodeToken from 'utils/decodeToken'
 import shouldRedirectToAuth from 'utils/shouldRedirectToAuth'
-import createRedirectObject from 'utils/createRedirectObject'
 
 import Requset from 'interfaces/requsetResponse'
 
@@ -127,7 +124,7 @@ export const getServerSideProps: GetServerSideProps = async ({
 
 	const shouldRedirect = await shouldRedirectToAuth(token)
 
-	if (shouldRedirect) return createRedirectObject(LOGIN_URL)
+	if (shouldRedirect) return { props: { profileUserID } }
 
 	const { id: ownUserID } = decodeToken(req as Requset)
 
