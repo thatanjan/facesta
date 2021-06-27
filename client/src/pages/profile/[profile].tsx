@@ -57,9 +57,9 @@ const Content = () => {
 }
 
 interface Props {
-	id: string
+	id?: string
 	profileUserID: string
-	isSelf: boolean
+	isSelf?: boolean
 }
 
 const Profile = ({ id, profileUserID, isSelf }: Props) => {
