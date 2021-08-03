@@ -4,6 +4,7 @@ const PostTypedefs = gql`
 	extend type Query {
 		getSinglePost(Input: GetPostInput!): SinglePost!
 		getAllPost(Input: GetAllPostInput!): ReturnAllPost!
+		getAllPostNoAuth(Input: GetAllPostInput!): ReturnAllPostNoAuth!
 		getNewsFeedPost(skip: Int!): ReturnAllPost!
 		getTotalLikes(Input: GetPostInput!): TotalLikes!
 		getTotalComments(Input: GetPostInput!): TotalComments!
@@ -38,6 +39,16 @@ const PostTypedefs = gql`
 		hasLiked: Boolean!
 	}
 
+	type PostNoAuth {
+		content: String!
+		_id: ID!
+		image: String!
+		title: String!
+		markdown: Boolean!
+		date: Date!
+		user: UserNameIDPic
+	}
+
 	type SinglePost {
 		post: Post
 		errorMessage: String
@@ -45,6 +56,11 @@ const PostTypedefs = gql`
 
 	type ReturnAllPost {
 		posts: [Post]
+		errorMessage: String
+	}
+
+	type ReturnAllPostNoAuth {
+		posts: [PostNoAuth]
 		errorMessage: String
 	}
 
