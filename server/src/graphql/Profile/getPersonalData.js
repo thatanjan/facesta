@@ -2,10 +2,10 @@ import Profile from 'models/Profile'
 import sendErrorMessage from 'utils/errorMessage'
 
 const resolverFunction = () => {
-	return async (_, { user }, { user: { id } }) => {
+	return async (_, { user }, { user: authUser }) => {
 		try {
 			const query = await Profile.findOne(
-				{ user: user || id },
+				{ user: user || authUser?.id },
 				'personal name profilePicture'
 			)
 
