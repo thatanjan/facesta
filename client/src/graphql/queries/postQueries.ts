@@ -19,6 +19,22 @@ export const getAllPost = gql`
 	}
 `
 
+export const getAllPostNoAuth = gql`
+	query getAllPost($skip: Int!, $user: ID!) {
+		getAllPost(Input: { skip: $skip, user: $user }) {
+			posts {
+				content
+				_id
+				image
+				title
+				markdown
+				date
+			}
+			errorMessage
+		}
+	}
+`
+
 export const getSinglePost = gql`
 	query getSinglePost($postID: ID!, $user: ID!) {
 		getSinglePost(Input: { postID: $postID, user: $user }) {

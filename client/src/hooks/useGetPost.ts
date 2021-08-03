@@ -2,6 +2,7 @@ import {
 	getAllPost,
 	getSinglePost,
 	getNewsFeedPost,
+	getAllPostNoAuth,
 } from 'graphql/queries/postQueries'
 import createRequest from 'utils/createRequest'
 import useSWRgql from 'hooks/useSWRgql'
@@ -12,19 +13,21 @@ import { useUserID, useProfileUserID } from 'redux/hooks/stateHooks'
 import { AnyObject } from 'interfaces/global'
 
 const useGetAllPost = () => {
-	const user = useProfileUserID()
+	const profileUser = useProfileUserID()
+	const user = useUserID()
 
 	const getKey = (index: number, previousPageData: AnyObject) => {
 		if (previousPageData && previousPageData.getAllPost.posts.length === 0)
 			return null
 		const skipnum: number = (index + 1) * 10
 
-		return [getAllPost, skipnum, user]
+		return [user ? getAllPost : getAllPostNoAuth, skipnum, profileUser]
 	}
 
 	return useSWRInfinite(
 		getKey,
-		async (key, num) => createRequest({ key, values: { skip: num, user } }),
+		async (key, num) =>
+			createRequest({ key, values: { skip: num, user: profileUser } }),
 		{ revalidateOnFocus: false }
 	)
 }
