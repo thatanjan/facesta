@@ -20,6 +20,7 @@ import { addProfileUser, removeProfileUser } from 'redux/slices/profileSlice'
 import getToken from 'utils/getToken'
 import decodeToken from 'utils/decodeToken'
 import shouldRedirectToAuth from 'utils/shouldRedirectToAuth'
+import checkValidJwt from 'utils/checkValidJwt'
 
 import Requset from 'interfaces/requsetResponse'
 
@@ -63,7 +64,7 @@ interface Props {
 }
 
 const Profile = ({ id, profileUserID, isSelf }: Props) => {
-	useStoreID(id)
+	useStoreID(id || '')
 	const { data, error } = useGetPersonalData(profileUserID)
 	const dispatch = useAppDispatch()
 
@@ -122,9 +123,13 @@ export const getServerSideProps: GetServerSideProps = async ({
 }) => {
 	const token = getToken(req as Requset)
 
-	const shouldRedirect = await shouldRedirectToAuth(token)
+	const props = { profileUserID, isSelf: false }
 
-	if (shouldRedirect) return { props: { profileUserID } }
+	if (!token) return { props }
+
+	const valid = await checkValidJwt(token)
+
+	if (!valid) return { props }
 
 	const { id: ownUserID } = decodeToken(req as Requset)
 
