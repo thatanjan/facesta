@@ -1,14 +1,13 @@
 import React from 'react'
-import { makeStyles, createStyles } from '@material-ui/core/styles'
+import { makeStyles, createStyles, Theme } from '@material-ui/core/styles'
+import Backdrop from '@material-ui/core/Backdrop'
+
 import CircularProgress from '@material-ui/core/CircularProgress'
 
-const useStyles = makeStyles(() =>
+const useStyles = makeStyles((theme: Theme) =>
 	createStyles({
 		root: {
-			display: 'grid',
-			placeItems: 'center',
-			minWidth: '100vw',
-			minHeight: '100vh',
+			zIndex: theme.zIndex.drawer + 1,
 		},
 	})
 )
@@ -17,8 +16,8 @@ export default function CircularLoader() {
 	const classes = useStyles()
 
 	return (
-		<div className={classes.root}>
+		<Backdrop open className={classes.root}>
 			<CircularProgress />
-		</div>
+		</Backdrop>
 	)
 }
