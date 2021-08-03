@@ -14,6 +14,7 @@ import PreLoader from 'components/Loaders/PreLoader'
 import { useGetPersonalData } from 'hooks/useGetProfileData'
 
 import useStoreID from 'redux/hooks/useStoreID'
+import { useUserID, useProfileUserID } from 'redux/hooks/stateHooks'
 import { useAppDispatch, useAppSelector } from 'redux/hooks/hooks'
 import { addProfileUser, removeProfileUser } from 'redux/slices/profileSlice'
 
@@ -39,11 +40,12 @@ const SwrErrorAlert = dynamic(() => import('components/Alerts/SwrErrorAlert'))
 const Content = () => {
 	const { buttonGridContainer } = useStyles()
 	const { isSelf } = useAppSelector(state => state.profile)
+	const userID = useUserID()
 	return (
 		<>
 			<ProfileCover />
 
-			{!isSelf && (
+			{!isSelf && userID && (
 				<Grid container className={buttonGridContainer} justify='flex-end'>
 					<Grid item>
 						{' '}
