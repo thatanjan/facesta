@@ -67,7 +67,7 @@ const Profile = ({ id, profileUserID, isSelf }: Props) => {
 	const { data, error } = useGetPersonalData(profileUserID)
 	const dispatch = useAppDispatch()
 
-	dispatch(addProfileUser({ profileUserID, isSelf }))
+	dispatch(addProfileUser({ profileUserID, isSelf: isSelf as boolean }))
 
 	useEffect(() => {
 		return () => {
