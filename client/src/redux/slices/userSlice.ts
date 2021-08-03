@@ -2,7 +2,7 @@
 
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
-export type UserIDState = string | undefined
+export type UserIDState = string
 
 export interface UserState {
 	id: UserIDState
