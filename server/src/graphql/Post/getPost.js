@@ -7,9 +7,11 @@ const SINGLE_POST = 'singlePost'
 const ALL_POST = 'allPost'
 
 const mainResolver = field => {
-	return async (_, { Input: { postID, user, skip } }, { user: { id } }) => {
+	return async (_, { Input: { postID, user, skip } }, { user: authUser }) => {
 		try {
 			const Post = createPostModel(user)
+
+			const id = authUser?.id || ''
 
 			switch (field) {
 				case SINGLE_POST:
@@ -35,21 +37,25 @@ const mainResolver = field => {
 
 				case ALL_POST:
 					const allPost = {}
+					const newProjection = {}
 
-					const posts = await Post.find(
-						{},
-						{
-							...projection,
+					if (id) {
+						newProjection = {
 							likes: { $elemMatch: { $eq: id } },
 						}
-					)
+					}
+
+					const posts = await Post.find({}, { ...newProjection, ...projection })
 						.skip(skip - 10)
 						.limit(10)
 						.sort({ _id: '-1' })
 
 					allPost.posts = posts.map(thePost => {
 						const newPost = thePost
-						newPost.hasLiked = newPost.likes.length === 1
+
+						if (id) {
+							newPost.hasLiked = newPost.likes.length === 1
+						}
 						return newPost
 					})
 
@@ -58,7 +64,6 @@ const mainResolver = field => {
 					}
 
 					return allPost
-
 				default:
 					return sendErrorMessage('nothing found')
 			}
@@ -71,6 +76,7 @@ const mainResolver = field => {
 const resolver = {
 	Query: {
 		getAllPost: mainResolver(ALL_POST),
+		getAllPostNoAuth: mainResolver(ALL_POST),
 		getSinglePost: mainResolver(SINGLE_POST),
 	},
 }
