@@ -94,7 +94,7 @@ const PageLayoutComponent = ({ Content }: Props) => {
 				)}
 			</BackgroundPaper>
 
-			{!matches && <BottomNavigation />}
+			{!matches && userID && <BottomNavigation />}
 		</>
 	)
 }
