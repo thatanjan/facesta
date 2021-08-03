@@ -14,6 +14,8 @@ import Box from '@material-ui/core/Box'
 import CircularLoader from 'components/Loaders/CircularLoader'
 import MuiLink from 'components/Links/MuiLink'
 
+import { useUserID, useProfileUserID } from 'redux/hooks/stateHooks'
+
 import { APP_NAME, screenSizeDrawer } from 'variables/global'
 
 import { useAppDispatch } from 'redux/hooks/hooks'
@@ -80,6 +82,8 @@ const useStyles = makeStyles(theme => ({
 const AppHeader = () => {
 	const matches = useMediaQuery(screenSizeDrawer)
 
+	const userID = useUserID()
+
 	const { push } = useRouter()
 
 	const { menuButton, title } = useStyles()
@@ -96,7 +100,7 @@ const AppHeader = () => {
 		<>
 			<AppBar>
 				<Toolbar>
-					{!matches && (
+					{!matches && userID && (
 						<>
 							<IconButton
 								edge='end'
@@ -119,13 +123,13 @@ const AppHeader = () => {
 						</MuiLink>
 					</Box>
 
-					{!matches && (
+					{!matches && userID && (
 						<IconButton edge='end' onClick={() => push('/development')}>
 							<TelegramIcon />
 						</IconButton>
 					)}
 
-					{matches && <AppHeaderMenus />}
+					{matches && userID && <AppHeaderMenus />}
 				</Toolbar>
 			</AppBar>
 		</>
