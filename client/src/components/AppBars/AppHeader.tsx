@@ -10,13 +10,14 @@ import useMediaQuery from '@material-ui/core/useMediaQuery'
 import Typography from '@material-ui/core/Typography'
 import IconButton from '@material-ui/core/IconButton'
 import Box from '@material-ui/core/Box'
+import Button from '@material-ui/core/Button'
 
 import CircularLoader from 'components/Loaders/CircularLoader'
 import MuiLink from 'components/Links/MuiLink'
 
 import { useUserID, useProfileUserID } from 'redux/hooks/stateHooks'
 
-import { APP_NAME, screenSizeDrawer } from 'variables/global'
+import { APP_NAME, screenSizeDrawer, LOGIN_URL } from 'variables/global'
 
 import { useAppDispatch } from 'redux/hooks/hooks'
 import { toggleDrawer } from 'redux/slices/drawerSlice'
@@ -130,6 +131,17 @@ const AppHeader = () => {
 					)}
 
 					{matches && userID && <AppHeaderMenus />}
+
+					{!userID && (
+						<MuiLink
+							href={LOGIN_URL}
+							MuiComponent={Typography}
+							variant='h6'
+							variant='button'
+						>
+							Log in
+						</MuiLink>
+					)}
 				</Toolbar>
 			</AppBar>
 		</>
