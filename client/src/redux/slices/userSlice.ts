@@ -19,10 +19,8 @@ export const userSlice = createSlice({
 	initialState,
 	reducers: {
 		login: (state, { payload }: PayloadAction<UserIDState>) => {
-			if (!payload) {
-				state.id = payload
-				state.isLoggedIn = true
-			}
+			state.id = payload
+			state.isLoggedIn = true
 		},
 		logout: state => {
 			state.id = ''
