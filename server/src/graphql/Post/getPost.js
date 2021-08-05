@@ -37,7 +37,7 @@ const mainResolver = field => {
 
 				case ALL_POST:
 					const allPost = {}
-					const newProjection = {}
+					let newProjection = {}
 
 					if (id) {
 						newProjection = {
