@@ -166,6 +166,7 @@ const SignUpForm = () => {
 				color='primary'
 				size='small'
 				href='/authentication/login'
+				disabled={disableInput}
 			>
 				have an account?
 			</MuiLink>
