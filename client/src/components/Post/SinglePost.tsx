@@ -19,6 +19,7 @@ import useSmallerThanXS from 'hooks/mediaQueries/useSmallerThanXS'
 
 import MuiLink from 'components/Links/MuiLink'
 import { DropDownMenuOption } from 'components/AppBars/AppHeaderMenus'
+import UserAvatar from 'components/Avatars/UserAvatar'
 
 import { cloudinaryURL } from 'variables/global'
 import PostType from 'interfaces/post'
@@ -139,11 +140,10 @@ const SinglePost = ({
 			<CardHeader
 				className={cardHeaderStyle}
 				avatar={
-					<MuiLink
-						MuiComponent={Avatar}
+					<UserAvatar
 						alt={name}
 						href={`/profile/${postUserID}`}
-						src={cloudinaryURL(profilePicture)}
+						imageID={profilePicture}
 					/>
 				}
 				action={

@@ -5,6 +5,8 @@ import ListItemAvatar from '@material-ui/core/ListItemAvatar'
 import Avatar from '@material-ui/core/Avatar'
 import { nanoid } from 'nanoid'
 
+import UserAvatar from 'components/Avatars/UserAvatar'
+
 import { cloudinaryURL } from 'variables/global'
 import MuiLink from 'components/Links/MuiLink'
 import { User, SearchedUser } from 'interfaces/user'
@@ -26,7 +28,7 @@ const UserList = ({ users, searching }: Props) => {
 						href={`/profile/${_id}`}
 					>
 						<ListItemAvatar>
-							<Avatar src={cloudinaryURL(profilePicture)} />
+							<UserAvatar imageID={profilePicture} href={`/profile/${_id}`} />
 						</ListItemAvatar>
 
 						<ListItemText primary={name} />

@@ -7,7 +7,6 @@ export default class MyDocument extends Document {
 		return (
 			<Html lang='en' prefix='og: https://ogp.me/ns#'>
 				<Head>
-					<meta name='confession' content='confession' />
 					<link
 						rel='stylesheet'
 						href='https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap'

@@ -115,6 +115,7 @@ export const getAllComments = gql`
 				date
 				text
 				user {
+					_id
 					profile {
 						name
 						profilePicture
