@@ -9,6 +9,7 @@ import ListItemText from '@material-ui/core/ListItemText'
 import useMediaQuery from '@material-ui/core/useMediaQuery'
 import Avatar from '@material-ui/core/Avatar'
 
+import UserAvatar from 'components/Avatars/UserAvatar'
 import CircularLoader from 'components/Loaders/CircularLoader'
 import MuiLink from 'components/Links/MuiLink'
 
@@ -108,7 +109,11 @@ const NavigationDrawerList = () => {
 					>
 						<ListItemIcon>
 							{index === 1 ? (
-								<Avatar alt={name} src={cloudinaryURL(profilePicture)} />
+								<UserAvatar
+									alt={name}
+									imageID={profilePicture}
+									href={linkModifier(title, link)}
+								/>
 							) : (
 								<Component
 									className={title === 'log out' ? logOutIconStyle : iconStyle}

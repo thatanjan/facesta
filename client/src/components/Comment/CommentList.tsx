@@ -18,6 +18,7 @@ import { Comment } from 'interfaces/post'
 import MuiLink from 'components/Links/MuiLink'
 import Alert from 'components/Alerts/Alert'
 import CircularLoader from 'components/Loaders/CircularLoader'
+import UserAvatar from 'components/Avatars/UserAvatar'
 
 import { cloudinaryURL } from 'variables/global'
 
@@ -134,10 +135,9 @@ const CommentList = ({ postID, postUserID, newCommentAdded }: Props) => {
 							<Box key={nanoid()}>
 								<ListItem alignItems='flex-start' className={listItemStyle}>
 									<ListItemAvatar>
-										<MuiLink
-											MuiComponent={Avatar}
+										<UserAvatar
 											alt={name}
-											src={cloudinaryURL(profilePicture)}
+											imageID={profilePicture}
 											href={`/profile/${_id}`}
 										/>
 									</ListItemAvatar>

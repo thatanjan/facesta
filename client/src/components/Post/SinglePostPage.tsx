@@ -11,6 +11,7 @@ import { cloudinaryURL } from 'variables/global'
 
 import CircularLoader from 'components/Loaders/CircularLoader'
 import { useStyles as useFormStyle } from 'components/Comment/CommentList'
+import UserAvatar from 'components/Avatars/UserAvatar'
 
 import { useGetSinglePost } from 'hooks/useGetPost'
 import { useGetPersonalData } from 'hooks/useGetProfileData'
@@ -104,7 +105,11 @@ const SinglePostPage = () => {
 			<List className={root}>
 				<ListItem alignItems='flex-start' className={listItemStyle}>
 					<ListItemAvatar>
-						<Avatar alt={name} src={cloudinaryURL(profilePicture)} />
+						<UserAvatar
+							alt={name}
+							imageID={profilePicture}
+							href={`/profile/${post.user._id}`}
+						/>
 					</ListItemAvatar>
 
 					<CommentForm {...commentFormProps} />

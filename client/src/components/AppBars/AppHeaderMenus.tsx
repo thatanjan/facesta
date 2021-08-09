@@ -12,6 +12,7 @@ import { makeStyles, Theme } from '@material-ui/core/styles'
 import { useRouter } from 'next/router'
 
 import CircularLoader from 'components/Loaders/CircularLoader'
+import UserAvatar from 'components/Avatars/UserAvatar'
 
 import MuiLink from 'components/Links/MuiLink'
 import { useUserID } from 'redux/hooks/stateHooks'
@@ -76,7 +77,7 @@ const AppHeaderMenus = () => {
 	return (
 		<>
 			<IconButton style={{ borderRadius: '10px' }}>
-				<Avatar alt={name} src={cloudinaryURL(profilePicture)} />
+				<UserAvatar alt={name} imageID={profilePicture} href={`/profile/${id}`} />
 				<MuiLink
 					MuiComponent={Typography}
 					href={`/profile/${id}`}
