@@ -5,8 +5,6 @@ import { GetServerSideProps } from 'next'
 import Grid from '@material-ui/core/Grid'
 import { makeStyles } from '@material-ui/core/styles'
 
-import { LOGIN_URL } from 'variables/global'
-
 import PageLayoutComponent from 'components/Layout/PageLayoutComponent'
 import ProfileCover from 'components/Profile/ProfileCover'
 import ProfileTabMenu from 'components/TabMenus/ProfileTabMenu'
@@ -16,13 +14,14 @@ import PreLoader from 'components/Loaders/PreLoader'
 import { useGetPersonalData } from 'hooks/useGetProfileData'
 
 import useStoreID from 'redux/hooks/useStoreID'
+import { useUserID, useProfileUserID } from 'redux/hooks/stateHooks'
 import { useAppDispatch, useAppSelector } from 'redux/hooks/hooks'
 import { addProfileUser, removeProfileUser } from 'redux/slices/profileSlice'
 
 import getToken from 'utils/getToken'
 import decodeToken from 'utils/decodeToken'
 import shouldRedirectToAuth from 'utils/shouldRedirectToAuth'
-import createRedirectObject from 'utils/createRedirectObject'
+import checkValidJwt from 'utils/checkValidJwt'
 
 import Requset from 'interfaces/requsetResponse'
 
@@ -41,11 +40,12 @@ const SwrErrorAlert = dynamic(() => import('components/Alerts/SwrErrorAlert'))
 const Content = () => {
 	const { buttonGridContainer } = useStyles()
 	const { isSelf } = useAppSelector(state => state.profile)
+	const userID = useUserID()
 	return (
 		<>
 			<ProfileCover />
 
-			{!isSelf && (
+			{!isSelf && userID && (
 				<Grid container className={buttonGridContainer} justify='flex-end'>
 					<Grid item>
 						{' '}
@@ -60,17 +60,17 @@ const Content = () => {
 }
 
 interface Props {
-	id: string
+	id?: string
 	profileUserID: string
-	isSelf: boolean
+	isSelf?: boolean
 }
 
 const Profile = ({ id, profileUserID, isSelf }: Props) => {
-	useStoreID(id)
+	useStoreID(id || '')
 	const { data, error } = useGetPersonalData(profileUserID)
 	const dispatch = useAppDispatch()
 
-	dispatch(addProfileUser({ profileUserID, isSelf }))
+	dispatch(addProfileUser({ profileUserID, isSelf: isSelf as boolean }))
 
 	useEffect(() => {
 		return () => {
@@ -125,9 +125,13 @@ export const getServerSideProps: GetServerSideProps = async ({
 }) => {
 	const token = getToken(req as Requset)
 
-	const shouldRedirect = await shouldRedirectToAuth(token)
+	const props = { profileUserID, isSelf: false }
 
-	if (shouldRedirect) return createRedirectObject(LOGIN_URL)
+	if (!token) return { props }
+
+	const valid = await checkValidJwt(token)
+
+	if (!valid) return { props }
 
 	const { id: ownUserID } = decodeToken(req as Requset)
 

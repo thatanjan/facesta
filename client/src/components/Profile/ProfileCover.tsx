@@ -53,7 +53,7 @@ export const ProfileCover = () => {
 		getPersonalData: { name, bio, profilePicture },
 	} = data
 
-	const avatar = 'confession/profile/Please_add_a_profile_picture.png'
+	const avatar = 'confession/profile/Please_add_a_profile_picture.jpg'
 
 	return (
 		<>

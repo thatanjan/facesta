@@ -9,6 +9,8 @@ import dotenv from 'dotenv'
 import cors from 'cors'
 import jwtToken from 'jsonwebtoken'
 
+import User from 'models/User'
+
 import permissions from 'config/permissions'
 
 import typeDefs from 'graphql/typedefs'
@@ -75,20 +77,30 @@ const removeBearer = token => {
 	return token
 }
 
-app.post('/validate', ({ body }, res) => {
-	const {
-		data: { jwt: token },
-	} = body
+app.post('/validate', async ({ body }, res) => {
+	try {
+		const {
+			data: { jwt: token },
+		} = body
 
-	const newToken = removeBearer(token)
+		const newToken = removeBearer(token)
 
-	jwtToken.verify(newToken, process.env.SECRET_KEY, err => {
-		if (err) {
-			res.status(401).send(err)
-		} else {
-			res.status(200).send('calm down')
-		}
-	})
+		jwtToken.verify(newToken, process.env.SECRET_KEY, err => {
+			if (err) {
+				return res.status(401).send(err)
+			}
+		})
+
+		const decoded = jwtToken.decode(newToken)
+
+		const user = await User.findById(decoded.id)
+
+		if (user) return res.send('calm baby')
+
+		return res.status(401).send('error baby')
+	} catch (err) {
+		return res.status(401).send('error baby')
+	}
 })
 
 const server = new ApolloServer({

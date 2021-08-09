@@ -23,6 +23,8 @@ import { DropDownMenuOption } from 'components/AppBars/AppHeaderMenus'
 import { cloudinaryURL } from 'variables/global'
 import PostType from 'interfaces/post'
 
+import { useUserID, useProfileUserID } from 'redux/hooks/stateHooks'
+
 const LikePost = dynamic(() => import('./LikePost'))
 
 const PostContent = dynamic(() => import('./PostContent'))
@@ -80,6 +82,7 @@ const SinglePost = ({
 	hasLiked,
 }: Props) => {
 	const matches = useSmallerThanXS()
+	const userID = useUserID()
 
 	const { push } = useRouter()
 
@@ -144,14 +147,16 @@ const SinglePost = ({
 					/>
 				}
 				action={
-					<>
-						<DropDownMenu
-							aria-controls='fade-menu'
-							aria-haspopup='true'
-							options={moreOptions}
-							IconComponent={MoreVertIcon}
-						/>
-					</>
+					userID && (
+						<>
+							<DropDownMenu
+								aria-controls='fade-menu'
+								aria-haspopup='true'
+								options={moreOptions}
+								IconComponent={MoreVertIcon}
+							/>
+						</>
+					)
 				}
 				title={title}
 				titleTypographyProps={{
@@ -185,22 +190,25 @@ const SinglePost = ({
 				quality={50}
 				onClick={redirectToPostPage}
 			/>
-			<CardActions disableSpacing className={CardActionsStyle}>
-				<LikePost {...loveProps} />
 
-				<Box>
-					<Typography variant='caption'>
-						{totalNumberOfComments || totalComments}
-					</Typography>
+			{userID && (
+				<CardActions disableSpacing className={CardActionsStyle}>
+					<LikePost {...loveProps} />
 
-					<IconButton
-						aria-label='comment'
-						onClick={() => push(`/post/${postUserID}/${postID}`)}
-					>
-						<CommentIcon fontSize={matches ? 'small' : undefined} />
-					</IconButton>
-				</Box>
-			</CardActions>
+					<Box>
+						<Typography variant='caption'>
+							{totalNumberOfComments || totalComments}
+						</Typography>
+
+						<IconButton
+							aria-label='comment'
+							onClick={() => push(`/post/${postUserID}/${postID}`)}
+						>
+							<CommentIcon fontSize={matches ? 'small' : undefined} />
+						</IconButton>
+					</Box>
+				</CardActions>
+			)}
 
 			<PostContent {...postContentProps} />
 		</Card>

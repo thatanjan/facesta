@@ -8,6 +8,9 @@ import { makeStyles } from '@material-ui/core/styles'
 
 import CircularLoader from 'components/Loaders/CircularLoader'
 import { screenSizeDrawer } from 'variables/global'
+
+import { useUserID, useProfileUserID } from 'redux/hooks/stateHooks'
+
 import BackgroundPaper from './BackgroundPaper'
 
 const NavigationDrawerList = dynamic(
@@ -64,12 +67,14 @@ const PageLayoutComponent = ({ Content }: Props) => {
 
 	const { contentSection, contentContainerStyle } = useStyles()
 
+	const userID = useUserID()
+
 	return (
 		<>
 			<AppHeader />
 
 			<BackgroundPaper>
-				{matches && (
+				{matches && userID && (
 					<Grid item lg={3}>
 						<NavigationDrawerList />
 					</Grid>
@@ -82,14 +87,14 @@ const PageLayoutComponent = ({ Content }: Props) => {
 					</Grid>
 				)}
 
-				{matches && (
+				{matches && userID && (
 					<Grid item xs={12} lg={3}>
 						<RightNavigation />
 					</Grid>
 				)}
 			</BackgroundPaper>
 
-			{!matches && <BottomNavigation />}
+			{!matches && userID && <BottomNavigation />}
 		</>
 	)
 }

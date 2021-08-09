@@ -17,6 +17,7 @@ import MuiLink from 'components/Links/MuiLink'
 const Alert = dynamic(() => import('@material-ui/lab/Alert'))
 
 const LogInForm = () => {
+	const [disableInput, setDisableInput] = useState(false)
 	const { push } = useRouter()
 
 	const [AlertMessage, setAlertMessage] = useState('')
@@ -81,7 +82,10 @@ const LogInForm = () => {
 					return errors
 				}}
 				onSubmit={async (values, { setSubmitting }) => {
+					setDisableInput(true)
 					const loginStatus = await loginUser(values)
+
+					if (!loginStatus) setDisableInput(false)
 
 					if (!loginStatus || loginStatus) {
 						setSubmitting(false)
@@ -90,9 +94,16 @@ const LogInForm = () => {
 			>
 				{({ submitForm, isSubmitting }) => (
 					<Form>
-						<Field component={TextField} name='email' type='email' label='Email' />
+						<Field
+							component={TextField}
+							name='email'
+							type='email'
+							label='Email'
+							disabled={disableInput}
+						/>
 						<br />
 						<Field
+							disabled={disableInput}
 							component={TextField}
 							type='password'
 							label='Password'
@@ -103,7 +114,7 @@ const LogInForm = () => {
 						<Button
 							variant='contained'
 							color='primary'
-							disabled={isSubmitting}
+							disabled={isSubmitting || disableInput}
 							onClick={submitForm}
 						>
 							Log In
@@ -113,7 +124,12 @@ const LogInForm = () => {
 					</Form>
 				)}
 			</Formik>
-			<MuiLink MuiComponent={Button} size='small' href='/authentication/sign-up'>
+			<MuiLink
+				MuiComponent={Button}
+				size='small'
+				href='/authentication/sign-up'
+				disabled={disableInput}
+			>
 				Don&apos;t have an account?
 			</MuiLink>
 

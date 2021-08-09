@@ -17,6 +17,7 @@ import { registerMutation } from 'graphql/mutations/authMutations'
 const Alert = dynamic(() => import('@material-ui/lab/Alert'))
 
 const SignUpForm = () => {
+	const [disableInput, setDisableInput] = useState(false)
 	const router = useRouter()
 
 	const [AlertMessage, setAlertMessage] = useState('')
@@ -102,25 +103,46 @@ const SignUpForm = () => {
 					return errors
 				}}
 				onSubmit={(values, { setSubmitting }) => {
-					registerUser(values).then(() => setSubmitting(false))
+					setDisableInput(true)
+
+					registerUser(values)
+						.then(res => {
+							if (!res) setDisableInput(false)
+							setSubmitting(false)
+						})
+						.catch(() => setDisableInput(false))
 				}}
 			>
 				{({ submitForm, isSubmitting }) => (
 					<Form>
-						<Field component={TextField} name='name' type='text' label='User Name' />
-						<Field component={TextField} name='email' type='email' label='Email' />
+						<Field
+							component={TextField}
+							name='name'
+							type='text'
+							label='User Name'
+							disabled={disableInput}
+						/>
+						<Field
+							component={TextField}
+							name='email'
+							type='email'
+							label='Email'
+							disabled={disableInput}
+						/>
 						<br />
 						<Field
 							component={TextField}
 							type='password'
 							label='Password'
 							name='password'
+							disabled={disableInput}
 						/>
 						<Field
 							component={TextField}
 							type='password'
 							label='Confirm Password'
 							name='confirmPassword'
+							disabled={disableInput}
 						/>
 
 						{isSubmitting && <LinearProgress />}
@@ -128,7 +150,7 @@ const SignUpForm = () => {
 						<Button
 							variant='contained'
 							color='primary'
-							disabled={isSubmitting}
+							disabled={isSubmitting || disableInput}
 							onClick={submitForm}
 						>
 							Register
@@ -144,6 +166,7 @@ const SignUpForm = () => {
 				color='primary'
 				size='small'
 				href='/authentication/login'
+				disabled={disableInput}
 			>
 				have an account?
 			</MuiLink>

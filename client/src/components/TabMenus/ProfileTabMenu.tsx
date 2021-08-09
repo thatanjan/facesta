@@ -10,6 +10,8 @@ import { useRouter } from 'next/router'
 import { FOLLOWEES, FOLLOWERS } from 'variables/global'
 import { useGetFollowers, useGetFollowees } from 'hooks/followHooks'
 
+import { useUserID } from 'redux/hooks/stateHooks'
+
 import CircularLoader from 'components/Loaders/CircularLoader'
 
 const PostsSection = dynamic(
@@ -134,6 +136,8 @@ const HorizontalMenu = () => {
 	const { root, tabsContainer, tabStyle } = useStyles()
 	const [value, setValue] = React.useState(0)
 
+	const userID = useUserID()
+
 	useEffect(() => {
 		if (!show) {
 			setValue(0)
@@ -151,6 +155,16 @@ const HorizontalMenu = () => {
 		setValue(index)
 	}
 
+	const ShowTabs = (item: TabBuilder, index: number) => (
+		<Tab
+			className={tabStyle}
+			key={nanoid()}
+			label={item.name}
+			{...a11yProps(index)}
+			onClick={() => handleClick(index)}
+		/>
+	)
+
 	return (
 		<div className={root}>
 			<AppBar position='static' color='default'>
@@ -163,15 +177,7 @@ const HorizontalMenu = () => {
 					scrollButtons='auto'
 					aria-label='scrollable auto tabs example'
 				>
-					{tabs.map((item, index) => (
-						<Tab
-							className={tabStyle}
-							key={nanoid()}
-							label={item.name}
-							{...a11yProps(index)}
-							onClick={() => handleClick(index)}
-						/>
-					))}
+					{userID ? tabs.map(ShowTabs) : [Posts].map(ShowTabs)}
 				</Tabs>
 			</AppBar>
 

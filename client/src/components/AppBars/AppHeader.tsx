@@ -10,11 +10,14 @@ import useMediaQuery from '@material-ui/core/useMediaQuery'
 import Typography from '@material-ui/core/Typography'
 import IconButton from '@material-ui/core/IconButton'
 import Box from '@material-ui/core/Box'
+import Button from '@material-ui/core/Button'
 
 import CircularLoader from 'components/Loaders/CircularLoader'
 import MuiLink from 'components/Links/MuiLink'
 
-import { APP_NAME, screenSizeDrawer } from 'variables/global'
+import { useUserID, useProfileUserID } from 'redux/hooks/stateHooks'
+
+import { APP_NAME, screenSizeDrawer, LOGIN_URL } from 'variables/global'
 
 import { useAppDispatch } from 'redux/hooks/hooks'
 import { toggleDrawer } from 'redux/slices/drawerSlice'
@@ -80,6 +83,8 @@ const useStyles = makeStyles(theme => ({
 const AppHeader = () => {
 	const matches = useMediaQuery(screenSizeDrawer)
 
+	const userID = useUserID()
+
 	const { push } = useRouter()
 
 	const { menuButton, title } = useStyles()
@@ -96,7 +101,7 @@ const AppHeader = () => {
 		<>
 			<AppBar>
 				<Toolbar>
-					{!matches && (
+					{!matches && userID && (
 						<>
 							<IconButton
 								edge='end'
@@ -119,13 +124,19 @@ const AppHeader = () => {
 						</MuiLink>
 					</Box>
 
-					{!matches && (
+					{!matches && userID && (
 						<IconButton edge='end' onClick={() => push('/development')}>
 							<TelegramIcon />
 						</IconButton>
 					)}
 
-					{matches && <AppHeaderMenus />}
+					{matches && userID && <AppHeaderMenus />}
+
+					{!userID && (
+						<MuiLink href={LOGIN_URL} MuiComponent={Typography} variant='button'>
+							Log in
+						</MuiLink>
+					)}
 				</Toolbar>
 			</AppBar>
 		</>
