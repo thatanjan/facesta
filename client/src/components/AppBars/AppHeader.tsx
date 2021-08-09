@@ -133,12 +133,7 @@ const AppHeader = () => {
 					{matches && userID && <AppHeaderMenus />}
 
 					{!userID && (
-						<MuiLink
-							href={LOGIN_URL}
-							MuiComponent={Typography}
-							variant='h6'
-							variant='button'
-						>
+						<MuiLink href={LOGIN_URL} MuiComponent={Typography} variant='button'>
 							Log in
 						</MuiLink>
 					)}
