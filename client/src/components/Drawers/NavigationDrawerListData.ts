@@ -4,6 +4,7 @@ import SettingsIcon from '@material-ui/icons/Settings'
 import VideoLibraryIcon from '@material-ui/icons/VideoLibrary'
 import HomeIcon from '@material-ui/icons/Home'
 import FaceIcon from '@material-ui/icons/Face'
+import GitHubIcon from '@material-ui/icons/GitHub'
 
 import { LOGOUT_URL, FOLLOWERS, FOLLOWING } from 'variables/global'
 
@@ -49,6 +50,11 @@ const listComponents: List = [
 		title: 'Settings',
 		Component: SettingsIcon,
 		link: '/development',
+	},
+	{
+		title: 'Contribute to Github',
+		Component: GitHubIcon,
+		link: 'https://github.com/thatanjan/confession',
 	},
 	{
 		title: 'Log Out',
