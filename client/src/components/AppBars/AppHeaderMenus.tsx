@@ -5,6 +5,7 @@ import IconButton from '@material-ui/core/IconButton'
 import NotificationsIcon from '@material-ui/icons/Notifications'
 import Avatar from '@material-ui/core/Avatar'
 import TelegramIcon from '@material-ui/icons/Telegram'
+import GitHubIcon from '@material-ui/icons/GitHub'
 import useMediaQuery from '@material-ui/core/useMediaQuery'
 import ArrowDropDownCircleIcon from '@material-ui/icons/ArrowDropDownCircle'
 import SearchIcon from '@material-ui/icons/Search'
@@ -99,6 +100,13 @@ const AppHeaderMenus = () => {
 			<IconButton>
 				<NotificationsIcon />
 			</IconButton>
+
+			<MuiLink
+				MuiComponent={IconButton}
+				href='https://github.com/thatanjan/confession'
+			>
+				<GitHubIcon />
+			</MuiLink>
 
 			<DropDownMenu
 				options={options}
