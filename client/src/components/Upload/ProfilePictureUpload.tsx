@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import IconButton from '@material-ui/core/IconButton'
 import EditIcon from '@material-ui/icons/Edit'
-import { makeStyles } from '@material-ui/core/styles'
+import { makeStyles, Theme } from '@material-ui/core/styles'
 import { mutate } from 'swr'
 
 import { getPersonalData } from 'graphql/queries/profileQueries'
@@ -21,8 +21,12 @@ import {
 	resetState,
 } from 'redux/slices/profilePictureUpload'
 
-const useStyles = makeStyles(() => ({
-	editIconStyle: { marginLeft: '100%', transform: 'translate(-100%, -100%)' },
+const useStyles = makeStyles((theme: Theme) => ({
+	editIconStyle: {
+		marginLeft: '100%',
+		transform: 'translate(-100%, -100%)',
+		backgroundColor: theme.palette.primary.main,
+	},
 }))
 
 export type Base64 = ArrayBuffer | string | null
