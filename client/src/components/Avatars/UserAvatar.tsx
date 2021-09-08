@@ -10,7 +10,7 @@ interface Props {
 }
 
 const UserAvatar = ({ href, imageID, alt }: Props) => {
-	const url = `https://res.cloudinary.com/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/q_40,ar_1.0,c_fill,w_50,g_face/r_max/${imageID}.webp`
+	const url = `${process.env.NEXT_PUBLIC_CLOUDINARY_URL}/q_40,ar_1.0,c_fill,w_50,g_face/r_max/${imageID}.webp`
 
 	return <MuiLink MuiComponent={Avatar} src={url} href={href} alt={alt || ''} />
 }
