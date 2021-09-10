@@ -31,7 +31,7 @@ const FOLLOWING = 'following'
 
 const APP_NAME = 'Confession'
 
-const screenSizeDrawer = (theme: Theme) => theme.breakpoints.up('lg')
+const screenSizeDrawer = (theme: Theme) => theme.breakpoints.up('md')
 
 const ERROR_MESSAGE = 'errorMessage'
 const MESSAGE = 'message'
