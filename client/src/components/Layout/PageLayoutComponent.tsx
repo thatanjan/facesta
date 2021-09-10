@@ -75,12 +75,12 @@ const PageLayoutComponent = ({ Content }: Props) => {
 
 			<BackgroundPaper>
 				{matches && userID && (
-					<Grid item lg={3}>
+					<Grid item md={3}>
 						<NavigationDrawerList />
 					</Grid>
 				)}
 				{Content && typeof Content === 'function' && (
-					<Grid id='scrollableDiv' item xs={12} lg={6} className={contentSection}>
+					<Grid id='scrollableDiv' item xs={12} md={6} className={contentSection}>
 						<Box className={contentContainerStyle}>
 							<Content />
 						</Box>
@@ -88,7 +88,7 @@ const PageLayoutComponent = ({ Content }: Props) => {
 				)}
 
 				{matches && userID && (
-					<Grid item xs={12} lg={3}>
+					<Grid item xs={12} md={3}>
 						<RightNavigation />
 					</Grid>
 				)}
