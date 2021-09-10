@@ -64,7 +64,7 @@ export default function LabelBottomNavigation() {
 				<BottomNavigationAction
 					key={nanoid()}
 					{...props}
-					icon={<Icon />}
+					icon={<Icon fontSize='small' />}
 					onClick={() => handleClick(props.value)}
 				/>
 			))}
