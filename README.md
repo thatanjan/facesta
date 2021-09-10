@@ -27,6 +27,14 @@ behind the scene. And they won't have the imposter syndrome.
 - Follow and unfollow
 - Love and comment to post
 
+## Screenshots
+
+### Home page
+
+![Homepage](https://raw.githubusercontent.com/thatanjan/confession/master/screenshots/homepage.png)
+
+[More screenshots](https://github.com/thatanjan/confession/blob/master/screenshots.md)
+
 ## Tech Stack
 
 **Client:**
