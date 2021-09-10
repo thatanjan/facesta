@@ -76,7 +76,12 @@ export const ProfileCover = () => {
 					<Grid container>
 						<Grid container item justify='center'>
 							{bio && (
-								<Typography variant='h5' align='center'>
+								<Typography
+									variant='h6'
+									component='p'
+									align='center'
+									style={{ fontWeight: 300, padding: '.5rem 0' }}
+								>
 									{bio}
 								</Typography>
 							)}
