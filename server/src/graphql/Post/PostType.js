@@ -24,9 +24,9 @@ const PostTypedefs = gql`
 	}
 
 	type Post {
-		content: String!
+		text: String!
 		_id: ID!
-		image: String!
+		images: [String!]!
 		title: String!
 		markdown: Boolean!
 		totalLikes: Int!
