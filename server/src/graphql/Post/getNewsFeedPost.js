@@ -1,7 +1,7 @@
 import NewsFeedModel from 'models/NewsFeed'
-import createPostModel from 'models/Post'
+import Post from 'models/Post'
 import sendErrorMessage from 'utils/errorMessage'
-import { postProjection as projection } from 'variables/global'
+import convertToObjectId from 'utils/convertToObjectID'
 import skippingList from 'utils/skippingList'
 
 const resolvers = {
@@ -36,17 +36,34 @@ const resolvers = {
 						},
 					})
 
-				console.log(JSON.stringify(newsFeedPosts, null, 4))
 				const { posts } = newsFeedPosts
 
 				posts.reverse()
 
-				// const post = PostModel.findById(postID.toString(), {
-				// 	likes: { $elemMatch: { $eq: id } },
-				// 	...projection,
-				// })
+				const postIDs = posts.map(post => convertToObjectId(post._id))
 
-				return posts
+				let hasLiked = await Post.find(
+					{
+						$and: [
+							{
+								_id: { $in: postIDs },
+								likes: { $elemMatch: { $eq: id } },
+							},
+						],
+					},
+					'_id'
+				)
+
+				hasLiked = new Set(hasLiked.map(post => post._id.toString()))
+
+				const response = posts.map(post => {
+					const newPost = { ...post.toObject(), hasLiked: false }
+
+					if (hasLiked.has(newPost._id.toString())) newPost.hasLiked = true
+					return newPost
+				})
+
+				return { posts: response }
 			} catch (err) {
 				return sendErrorMessage(err)
 			}
