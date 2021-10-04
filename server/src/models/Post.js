@@ -1,5 +1,6 @@
-import { Schema, createConnection } from 'mongoose'
+import { Schema, model } from 'mongoose'
 
+import { stringRequired } from 'variables/global'
 import User from 'models/User'
 
 const objectId = Schema.Types.ObjectId
@@ -16,32 +17,27 @@ const CommentedUserSchema = new Schema({
 })
 
 const schema = {
-	content: { type: String, required: true },
+	text: stringRequired,
+	images: [stringRequired],
 	likes: [user],
-	totalLikes: { type: Number, default: 0 },
-	totalComments: { type: Number, default: 0 },
-	comments: [CommentedUserSchema],
-	title: { type: String, required: true },
-	markdown: { type: Boolean, required: true },
-	public: {
-		type: Boolean,
-		default: true,
+	totalLikes: {
+		type: Number,
+		default: 0,
 	},
-	image: { type: String },
-	date: { type: Date, default: Date.now() },
+	comments: [CommentedUserSchema],
+	totalComments: {
+		type: Number,
+		default: 0,
+	},
+	user,
+	date: {
+		type: Date,
+		default: Date.now(),
+	},
 }
 
 export const PostSchema = new Schema(schema)
 
-const PostModel = modelName => {
-	const PostConnection = createConnection(process.env.POSTS_DB_URI, {
-		useNewUrlParser: true,
-		useFindAndModify: false,
-		useUnifiedTopology: true,
-	})
-	const Post = PostConnection.model(modelName, PostSchema)
-
-	return Post
-}
+const PostModel = model('Post', PostSchema)
 
 export default PostModel
