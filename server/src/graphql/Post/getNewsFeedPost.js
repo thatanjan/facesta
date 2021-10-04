@@ -25,56 +25,28 @@ const resolvers = {
 					.slice('posts', [-Math.abs(newSkip), returnNumber])
 					.populate({
 						path: 'posts',
+						select: '-comments -likes',
 						populate: {
 							path: 'user',
 							select: 'profile',
 							populate: {
 								path: 'profile',
-								select: 'profilePicture name',
+								select: 'profilePicture name -_id',
 							},
 						},
 					})
 
+				console.log(JSON.stringify(newsFeedPosts, null, 4))
 				const { posts } = newsFeedPosts
 
 				posts.reverse()
 
-				const postsUsers = posts.map(({ user }) => user)
+				// const post = PostModel.findById(postID.toString(), {
+				// 	likes: { $elemMatch: { $eq: id } },
+				// 	...projection,
+				// })
 
-				const resolvePost = async () => {
-					const postPromises = posts.map(
-						({ post: postID, user: { _id: userID } }) => {
-							const PostModel = createPostModel(userID.toString())
-
-							const post = PostModel.findById(postID.toString(), {
-								likes: { $elemMatch: { $eq: id } },
-								...projection,
-							})
-
-							return post
-						}
-					)
-
-					const resolved = await Promise.all(postPromises)
-
-					return resolved
-				}
-
-				const resolvedPosts = await resolvePost()
-
-				const response = { posts: [] }
-
-				response.posts = postsUsers.map((user, index) => {
-					const newObject = {
-						...resolvedPosts[index].toObject(),
-						user: user.toObject(),
-						hasLiked: resolvedPosts[index].likes.length !== 0,
-					}
-
-					return newObject
-				})
-
-				return response
+				return posts
 			} catch (err) {
 				return sendErrorMessage(err)
 			}
