@@ -18,6 +18,11 @@ const postProjection = {
 	date: 1,
 }
 
+const stringRequired = {
+	type: String,
+	required: true,
+}
+
 export {
 	FOLLOWERS,
 	FOLLOWEE,
@@ -28,4 +33,5 @@ export {
 	ERROR_MESSAGE,
 	ERROR,
 	postProjection,
+	stringRequired,
 }
