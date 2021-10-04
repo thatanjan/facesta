@@ -31,28 +31,24 @@ const resolver = {
 
 				const publicIDs = await Promise.all(uploadImagePromises)
 
-				console.log(publicIDs)
-
 				newPost.images = publicIDs
-
-				console.log(newPost)
 
 				await newPost.save()
 
-				// const { followers } = await Follow.findOne({ user: id }, FOLLOWERS)
+				const { followers } = await Follow.findOne({ user: id }, FOLLOWERS)
 
-				// followers.push(id)
+				followers.push(id)
 
-				// const pushedObject = { user: id, post: newPost._id }
+				const pushedObject = { user: id, post: newPost._id }
 
-				// await NewsFeedModel.updateMany(
-				// 	{ user: { $in: followers } },
-				// 	{ $push: { posts: pushedObject }, $inc: { totalPosts: 1 } }
-				// )
+				await NewsFeedModel.updateMany(
+					{ user: { $in: followers } },
+					{ $push: { posts: pushedObject }, $inc: { totalPosts: 1 } }
+				)
 
 				return sendMessage('post is published')
 			} catch (error) {
-				return sendErrorMessage(error)
+				return sendErrorMessage()
 			}
 		},
 	},
