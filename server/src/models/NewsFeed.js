@@ -11,16 +11,9 @@ const user = {
 }
 
 const post = {
-	user: {
-		type: objectId,
-		required: true,
-		ref: User,
-	},
-	post: {
-		type: objectId,
-		required: true,
-		ref: Post,
-	},
+	type: objectId,
+	required: true,
+	ref: Post,
 }
 
 const schema = {
