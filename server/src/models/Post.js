@@ -30,7 +30,7 @@ const schema = {
 		type: Number,
 		default: 0,
 	},
-	user,
+	user: { ...user, required: true },
 	date: {
 		type: Date,
 		default: Date.now(),
