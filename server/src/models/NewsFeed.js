@@ -7,6 +7,7 @@ const objectId = Schema.Types.ObjectId
 const user = {
 	type: objectId,
 	ref: User,
+	required: true,
 }
 
 const post = {
