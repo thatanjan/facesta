@@ -34,6 +34,7 @@ const schema = {
 		type: Date,
 		default: Date.now(),
 	},
+	markdown: { type: Boolean, default: false },
 }
 
 export const PostSchema = new Schema(schema)
