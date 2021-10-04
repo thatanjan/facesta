@@ -17,6 +17,7 @@ const CommentedUserSchema = new Schema({
 })
 
 const schema = {
+	title: stringRequired,
 	text: stringRequired,
 	images: [stringRequired],
 	likes: [user],
