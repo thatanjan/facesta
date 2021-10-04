@@ -39,11 +39,9 @@ const resolver = {
 
 				followers.push(id)
 
-				const pushedObject = { user: id, post: newPost._id }
-
 				await NewsFeedModel.updateMany(
 					{ user: { $in: followers } },
-					{ $push: { posts: pushedObject }, $inc: { totalPosts: 1 } }
+					{ $push: { posts: newPost._id }, $inc: { totalPosts: 1 } }
 				)
 
 				return sendMessage('post is published')
