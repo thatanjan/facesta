@@ -8,8 +8,8 @@ const MESSAGE = 'message'
 const ERROR = 'error'
 
 const postProjection = {
-	content: 1,
-	image: 1,
+	text: 1,
+	images: 1,
 	markdown: 1,
 	_id: 1,
 	title: 1,
@@ -23,6 +23,15 @@ const stringRequired = {
 	required: true,
 }
 
+const populateObjectOfUser = {
+	path: 'user',
+	select: 'profile',
+	populate: {
+		path: 'profile',
+		select: 'profilePicture name -_id',
+	},
+}
+
 export {
 	FOLLOWERS,
 	FOLLOWEE,
@@ -34,4 +43,5 @@ export {
 	ERROR,
 	postProjection,
 	stringRequired,
+	populateObjectOfUser,
 }
