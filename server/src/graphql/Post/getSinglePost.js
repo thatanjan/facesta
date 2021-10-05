@@ -1,9 +1,6 @@
 import Post from 'models/Post'
 import sendErrorMessage from 'utils/errorMessage'
-import {
-	populateObjectOfUser,
-	postProjection as projection,
-} from 'variables/global'
+import { populateObjectOfUser, getPostProjection } from 'variables/global'
 
 const resolver = {
 	Query: {
@@ -11,10 +8,10 @@ const resolver = {
 			try {
 				const authUserID = user.id || ''
 
-				let post = await Post.findById(postID, {
-					...projection,
-					likes: { $elemMatch: { $eq: authUserID } },
-				}).populate(populateObjectOfUser)
+				let post = await Post.findById(
+					postID,
+					getPostProjection(authUserID)
+				).populate(populateObjectOfUser)
 
 				post = post.toObject()
 
