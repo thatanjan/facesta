@@ -7,7 +7,7 @@ const ERROR_MESSAGE = 'errorMessage'
 const MESSAGE = 'message'
 const ERROR = 'error'
 
-const postProjection = {
+const getPostProjection = userID => ({
 	text: 1,
 	images: 1,
 	markdown: 1,
@@ -16,7 +16,8 @@ const postProjection = {
 	totalLikes: 1,
 	totalComments: 1,
 	date: 1,
-}
+	likes: { $elemMatch: { $eq: userID } },
+})
 
 const stringRequired = {
 	type: String,
@@ -41,7 +42,7 @@ export {
 	MESSAGE,
 	ERROR_MESSAGE,
 	ERROR,
-	postProjection,
+	getPostProjection,
 	stringRequired,
 	populateObjectOfUser,
 }
