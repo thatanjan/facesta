@@ -102,12 +102,10 @@ const PostTypedefs = gql`
 	input CommentPostInput {
 		text: String!
 		postID: ID!
-		user: ID!
 	}
 
 	input RemoveCommentInput {
 		postID: ID!
-		user: ID!
 		commentID: ID!
 	}
 
