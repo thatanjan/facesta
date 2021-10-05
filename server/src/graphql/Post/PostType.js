@@ -14,19 +14,19 @@ const PostTypedefs = gql`
 	}
 
 	extend type Mutation {
-		createPost(Input: CreatePostInput!): ErrorOrMessage!
-		deletePost(postID: ID!): ErrorOrMessage!
-		likePost(Input: GetPostInput!): ErrorOrMessage!
-		removeLikePost(Input: GetPostInput!): ErrorOrMessage!
-		commentPost(Input: CommentPostInput!): ErrorOrMessage!
-		removeCommentPost(Input: RemoveCommentInput!): ErrorOrMessage!
-		editPost(Input: EditPostInput!): ErrorOrMessage!
+		createPost(Input: CreatePostInput!): Response!
+		deletePost(postID: ID!): Response!
+		likePost(Input: GetPostInput!): Response!
+		removeLikePost(Input: GetPostInput!): Response!
+		commentPost(Input: CommentPostInput!): Response!
+		removeCommentPost(Input: RemoveCommentInput!): Response!
+		editPost(Input: EditPostInput!): Response!
 	}
 
 	type Post {
-		content: String!
+		text: String!
 		_id: ID!
-		image: String!
+		images: [String!]!
 		title: String!
 		markdown: Boolean!
 		totalLikes: Int!
@@ -113,8 +113,8 @@ const PostTypedefs = gql`
 	}
 
 	input CreatePostInput {
-		content: String!
-		image: String!
+		text: String!
+		images: [String!]!
 		title: String!
 		markdown: Boolean!
 	}
