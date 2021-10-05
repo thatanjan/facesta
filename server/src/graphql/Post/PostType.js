@@ -97,7 +97,6 @@ const PostTypedefs = gql`
 
 	input GetPostInput {
 		postID: ID!
-		user: ID!
 	}
 
 	input CommentPostInput {
