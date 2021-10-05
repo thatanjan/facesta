@@ -27,6 +27,30 @@ const resolver = {
 				return sendErrorMessage(e)
 			}
 		},
+		removeCommentPost: async (
+			_,
+			{ Input: { postID, commentID } },
+			{ user: { id } }
+		) => {
+			const update = await Post.updateOne(
+				{ _id: postID },
+				{
+					$pull: {
+						comments: {
+							_id: commentID,
+							user: id,
+						},
+					},
+					$inc: {
+						totalComments: -1,
+					},
+				}
+			)
+
+			console.log(update)
+
+			return sendMessage(REMOVE_COMMENT_MESSAGE)
+		},
 	},
 }
 
