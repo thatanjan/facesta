@@ -1,22 +1,19 @@
-import createPostModel from 'models/Post'
+import Post from 'models/Post'
 import sendErrorMessage from 'utils/errorMessage'
 import skippingList from 'utils/skippingList'
 
 const resolvers = {
 	Query: {
-		getAllComments: async (_, { Input: { skip, postID, user } }) => {
+		getAllComments: async (_, { Input: { skip, postID } }) => {
 			try {
-				const PostModel = createPostModel(user)
-
-				const { totalComments } = await PostModel.findById(postID, 'totalComments')
+				const { totalComments } = await Post.findById(postID, 'totalComments')
 
 				const { newSkip, returnNumber, empty } = skippingList(skip, totalComments)
 
 				if (empty) return { comments: [] }
 
-				const post = await PostModel.findById(postID)
+				const post = await Post.findById(postID)
 					.slice('comments', [-Math.abs(newSkip), returnNumber])
-					.slice('likes', 0)
 					.populate({
 						path: 'comments',
 						populate: {
@@ -34,17 +31,15 @@ const resolvers = {
 				return sendErrorMessage(error)
 			}
 		},
-		getAllLikes: async (_, { Input: { skip, postID, user } }) => {
+		getAllLikes: async (_, { Input: { skip, postID } }) => {
 			try {
-				const PostModel = createPostModel(user)
-
-				const { totalLikes } = await PostModel.findById(postID, 'totalLikes')
+				const { totalLikes } = await Post.findById(postID, 'totalLikes')
 
 				const { newSkip, returnNumber, empty } = skippingList(skip, totalLikes)
 
 				if (empty) return { users: [] }
 
-				const post = await PostModel.findById(postID, {
+				const post = await Post.findById(postID, {
 					likes: { $slice: [-Math.abs(newSkip), returnNumber] },
 					comments: { $slice: 0 },
 				}).populate({
