@@ -1,10 +1,9 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { nanoid } from 'nanoid'
 import InfiniteScroll from 'react-infinite-scroll-component'
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles'
 import RefreshIcon from '@material-ui/icons/Refresh'
 import Fab from '@material-ui/core/Fab'
-import { useRouter } from 'next/router'
 import useMediaQuery from '@material-ui/core/useMediaQuery'
 
 import Post from 'interfaces/post'
@@ -32,7 +31,6 @@ const NewsFeed = () => {
 	const { data, error, setSize, size, mutate } = useGetNewsFeedPost()
 	const matches = useMediaQuery(screenSizeDrawer)
 
-	const { asPath } = useRouter()
 	const { fab } = useStyles()
 
 	if (!data)

@@ -10,7 +10,6 @@ import IconButton from '@material-ui/core/IconButton'
 import MoreVertIcon from '@material-ui/icons/MoreVert'
 import CommentIcon from '@material-ui/icons/Comment'
 import Typography from '@material-ui/core/Typography'
-import Avatar from '@material-ui/core/Avatar'
 import Image from 'next/image'
 import { responseInterface } from 'swr'
 
@@ -21,10 +20,9 @@ import MuiLink from 'components/Links/MuiLink'
 import { DropDownMenuOption } from 'components/AppBars/AppHeaderMenus'
 import UserAvatar from 'components/Avatars/UserAvatar'
 
-import { cloudinaryURL } from 'variables/global'
 import PostType from 'interfaces/post'
 
-import { useUserID, useProfileUserID } from 'redux/hooks/stateHooks'
+import { useUserID } from 'redux/hooks/stateHooks'
 
 const LikePost = dynamic(() => import('./LikePost'))
 
@@ -69,8 +67,8 @@ interface Props extends PostType {
 
 const SinglePost = ({
 	title,
-	image,
-	content,
+	images,
+	text,
 	_id: postID,
 	user: {
 		_id: postUserID,
@@ -104,7 +102,7 @@ const SinglePost = ({
 
 	const loveProps = { postID, postUserID, totalLikes, hasLiked }
 
-	const postContentProps = { content, postPage, showMoreLink }
+	const postContentProps = { text, postPage, showMoreLink }
 
 	const redirectToPostPage = () => {
 		push(showMoreLink)
@@ -117,7 +115,6 @@ const SinglePost = ({
 		any
 	> | null = useGetTotalComment({
 		postPage,
-		postUserID,
 		postID,
 	})
 
@@ -181,7 +178,7 @@ const SinglePost = ({
 				}
 			/>
 			<Image
-				src={image}
+				src={images[0]}
 				className={imageHover}
 				layout='responsive'
 				height={720}
