@@ -19,7 +19,7 @@ const useGetAllPost = () => {
 	const getKey = (index: number, previousPageData: AnyObject) => {
 		if (previousPageData && previousPageData.getAllPost.posts.length === 0)
 			return null
-		const skipnum: number = (index + 1) * 10
+		const skipnum: number = index * 10
 
 		return [user ? getAllPost : getAllPostNoAuth, skipnum, profileUser]
 	}

@@ -18,7 +18,7 @@ export const useHasLiked = ({ postID }: Input) => {
 
 export const useGetAllLikes = ({ postID }: Input) => {
 	const getKey = (index: number) => {
-		const skipnum: number = (index + 1) * 10
+		const skipnum: number = index * 10
 
 		return [getAllLikes, skipnum, postID]
 	}
