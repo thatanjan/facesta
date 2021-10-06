@@ -59,7 +59,7 @@ const PostContent = ({ postPage, showMoreLink, text }: Props) => {
 				</>
 			)}
 
-			{postPage && <PostContentForPage {...{ content: text }} />}
+			{postPage && <PostContentForPage {...{ text }} />}
 		</CardContent>
 	)
 }
