@@ -10,7 +10,7 @@ const PostTypedefs = gql`
 		getTotalComments(Input: GetPostInput!): TotalComments!
 		getAllComments(Input: GetAllCommentsLikesInput!): GetAllComments!
 		getAllLikes(Input: GetAllCommentsLikesInput!): GetAllLikes!
-		hasLiked(Input: GetPostInput!): Boolean!
+		hasLiked(Input: GetPostInput!): HasLikedResponse!
 	}
 
 	extend type Mutation {
@@ -87,6 +87,11 @@ const PostTypedefs = gql`
 
 	type TotalLikes {
 		totalLikes: Int
+		errorMessage: String
+	}
+
+	type HasLikedResponse {
+		hasLiked: Boolean
 		errorMessage: String
 	}
 

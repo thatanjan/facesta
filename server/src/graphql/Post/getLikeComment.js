@@ -55,6 +55,25 @@ const resolvers = {
 				return sendErrorMessage(error)
 			}
 		},
+		hasLiked: async (_, { Input: { postID } }, { user: { id } }) => {
+			try {
+				const post = await Post.findById(postID, {
+					likes: {
+						$elemMatch: {
+							$eq: id,
+						},
+					},
+				})
+
+				const response = { hasLiked: false }
+
+				if (post.likes.length) response.hasLiked = true
+
+				return response
+			} catch (e) {
+				return sendErrorMessage()
+			}
+		},
 	},
 }
 

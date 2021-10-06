@@ -1,14 +1,12 @@
-import createPostModel from 'models/Post'
+import Post from 'models/Post'
 import sendErrorMessage from 'utils/errorMessage'
 
 const TOTAL_LIKES = 'totalLikes'
 const TOTAL_COMMENTS = 'totalComments'
 
-const mainResolver = field => async (_, { Input: { postID, user } }) => {
+const mainResolver = field => async (_, { Input: { postID } }) => {
 	try {
-		const PostModel = createPostModel(user)
-
-		const post = await PostModel.findById(postID, field)
+		const post = await Post.findById(postID, field)
 
 		const response = {}
 
