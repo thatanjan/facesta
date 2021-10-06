@@ -127,7 +127,6 @@ const PostTypedefs = gql`
 	input GetAllCommentsLikesInput {
 		skip: Int!
 		postID: ID!
-		user: ID!
 	}
 `
 export default PostTypedefs
