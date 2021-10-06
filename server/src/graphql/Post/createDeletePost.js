@@ -24,13 +24,13 @@ const resolver = {
 				const uploadImagePromises = images.map(image =>
 					uploadImage(image, {
 						folder: postPath(id, newPost._id),
-						async: true,
-						...imageConfig,
+						imageConfig,
 					})
 				)
 
 				const publicIDs = await Promise.all(uploadImagePromises)
 
+				console.log(publicIDs)
 				newPost.images = publicIDs
 
 				await newPost.save()
