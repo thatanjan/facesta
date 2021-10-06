@@ -122,6 +122,7 @@ export const getAllComments = gql`
 					}
 				}
 			}
+			errorMessage
 		}
 	}
 `
