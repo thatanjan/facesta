@@ -22,7 +22,7 @@ const resolvers = {
 				const newsFeedPosts = await NewsFeedModel.findOne({
 					user: id,
 				})
-					.slice('posts', [-Math.abs(newSkip), returnNumber])
+					.slice('posts', [newSkip, returnNumber])
 					.populate({
 						path: 'posts',
 						select: '-comments -likes',
