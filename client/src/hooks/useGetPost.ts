@@ -33,12 +33,11 @@ const useGetAllPost = () => {
 }
 
 interface SinglePost {
-	user: string
 	postID: string
 }
 
-export const useGetSinglePost = ({ user, postID }: SinglePost) => {
-	const values = { user, postID }
+export const useGetSinglePost = ({ postID }: SinglePost) => {
+	const values = { postID }
 	return useSWRgql({
 		key: getSinglePost,
 		values,
