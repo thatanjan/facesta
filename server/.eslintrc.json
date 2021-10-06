@@ -16,7 +16,6 @@
 				"js": "never"
 			}
 		],
-		"prettier/prettier": "error",
 		"no-underscore-dangle": "off",
 		"no-plusplus": "off",
 		"no-case-declarations": "off",
