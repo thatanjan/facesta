@@ -118,8 +118,7 @@ const PostTypedefs = gql`
 
 	input EditPostInput {
 		postID: ID!
-		content: String
-		image: String
+		text: String
 		title: String
 		markdown: Boolean
 	}
