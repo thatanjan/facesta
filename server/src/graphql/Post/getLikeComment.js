@@ -13,7 +13,7 @@ const resolvers = {
 				if (empty) return { comments: [] }
 
 				const post = await Post.findById(postID)
-					.slice('comments', [-Math.abs(newSkip), returnNumber])
+					.slice('comments', [newSkip, returnNumber])
 					.populate({
 						path: 'comments',
 						populate: {
@@ -40,8 +40,7 @@ const resolvers = {
 				if (empty) return { users: [] }
 
 				const post = await Post.findById(postID, {
-					likes: { $slice: [-Math.abs(newSkip), returnNumber] },
-					comments: { $slice: 0 },
+					likes: { $slice: [newSkip, returnNumber] },
 				}).populate({
 					path: 'likes',
 					select: '_id',
