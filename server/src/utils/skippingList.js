@@ -7,7 +7,7 @@ const skippingList = (skip, total) => {
 	if (rest < -10) return { empty: true }
 
 	if (rest < 0) {
-		return { newSkip: total * -1, returnNumber: Math.abs(rest) }
+		return { newSkip: total * -1, returnNumber: total }
 	}
 
 	if (rest < 10) {
