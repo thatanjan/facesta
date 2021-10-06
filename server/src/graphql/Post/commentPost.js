@@ -32,24 +32,47 @@ const resolver = {
 			{ Input: { postID, commentID } },
 			{ user: { id } }
 		) => {
-			const update = await Post.updateOne(
-				{ _id: postID },
-				{
-					$pull: {
+			try {
+				const post = await Post.findOne(
+					{ _id: postID },
+					{
 						comments: {
-							_id: commentID,
-							user: id,
+							$elemMatch: {
+								_id: commentID,
+								user: id,
+							},
 						},
-					},
-					$inc: {
-						totalComments: -1,
-					},
-				}
-			)
+					}
+				)
 
-			console.log(update)
+				if (
+					!post ||
+					!post.comments.length ||
+					post.comments[0].user.toString() !== id
+				)
+					return sendErrorMessage()
 
-			return sendMessage(REMOVE_COMMENT_MESSAGE)
+				const update = await Post.updateOne(
+					{ _id: postID },
+					{
+						$pull: {
+							comments: {
+								_id: commentID,
+								user: id,
+							},
+						},
+						$inc: {
+							totalComments: -1,
+						},
+					}
+				)
+
+				if (!update || !update.nModified) return sendErrorMessage()
+
+				return sendMessage(REMOVE_COMMENT_MESSAGE)
+			} catch (e) {
+				return sendErrorMessage(e)
+			}
 		},
 	},
 }
