@@ -5,7 +5,6 @@ import ListItem from '@material-ui/core/ListItem'
 import Divider from '@material-ui/core/Divider'
 import ListItemText from '@material-ui/core/ListItemText'
 import ListItemAvatar from '@material-ui/core/ListItemAvatar'
-import Avatar from '@material-ui/core/Avatar'
 import Typography from '@material-ui/core/Typography'
 import ReactInfiniteScroll from 'react-infinite-scroll-component'
 import { nanoid } from 'nanoid'
@@ -19,8 +18,6 @@ import MuiLink from 'components/Links/MuiLink'
 import Alert from 'components/Alerts/Alert'
 import CircularLoader from 'components/Loaders/CircularLoader'
 import UserAvatar from 'components/Avatars/UserAvatar'
-
-import { cloudinaryURL } from 'variables/global'
 
 const SwrErrorAlert = dynamic(() => import('components/Alerts/SwrErrorAlert'))
 
@@ -50,12 +47,11 @@ interface Props extends HookInput {
 
 const QUERY_NAME = 'getAllComments'
 
-const CommentList = ({ postID, postUserID, newCommentAdded }: Props) => {
+const CommentList = ({ postID, newCommentAdded }: Props) => {
 	const { root, listItemStyle, dividerStyle } = useStyles()
 
 	const { data, error, setSize, size, mutate } = useGetAllComments({
 		postID,
-		postUserID,
 	})
 
 	useEffect(() => {
