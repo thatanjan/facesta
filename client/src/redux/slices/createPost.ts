@@ -46,7 +46,12 @@ export const uploadPost = createAsyncThunk(
 
 		return createRequest({
 			key: createPost,
-			values: { image, markdown: false, title: postTitle, content: postContent },
+			values: {
+				images: [image],
+				markdown: false,
+				title: postTitle,
+				text: postContent,
+			},
 		})
 	}
 )
