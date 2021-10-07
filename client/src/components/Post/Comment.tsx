@@ -1,4 +1,5 @@
 import React from 'react'
+import { mutate } from 'swr'
 import { useRouter } from 'next/router'
 import { createStyles, Theme, makeStyles } from '@material-ui/core/styles'
 import ListItem from '@material-ui/core/ListItem'
@@ -18,6 +19,7 @@ import MuiLink from 'components/Links/MuiLink'
 import UserAvatar from 'components/Avatars/UserAvatar'
 
 import { removeCommentPost } from 'graphql/mutations/postMutations'
+import { getAllComments, getTotalComments } from 'graphql/queries/postQueries'
 
 import createRequest from 'utils/createRequest'
 
@@ -40,14 +42,28 @@ const useStyles = makeStyles((theme: Theme) =>
 interface CommentActionProps {
 	userID: string
 	postID: string
+	commentID: string
+	mutateCommentsList: Function
 }
 
-const CommentAction = ({ userID, postID }: CommentActionProps) => {
-	const handleDelete = async (commentID: string) => {
-		const res = await createRequest({
+const CommentAction = ({
+	userID,
+	postID,
+	commentID,
+	mutateCommentsList,
+}: CommentActionProps) => {
+	const handleDelete = async () => {
+		const {
+			removeCommentPost: { message, errorMessage },
+		} = await createRequest({
 			values: { commentID, postID },
 			key: removeCommentPost,
 		})
+
+		if (message) {
+			mutate([getTotalComments, postID])
+			mutateCommentsList()
+		}
 	}
 
 	return (
@@ -56,13 +72,16 @@ const CommentAction = ({ userID, postID }: CommentActionProps) => {
 				<EditIcon />
 			</IconButton>
 
-			<IconButton edge='end' onClick={() => handleDelete}>
+			<IconButton edge='end' onClick={handleDelete}>
 				<DeleteIcon />
 			</IconButton>
 		</ListItemSecondaryAction>
 	)
 }
 
+interface Props extends Comment {
+	mutateCommentsList: Function
+}
 const SingleComment = ({
 	date,
 	text,
@@ -70,7 +89,9 @@ const SingleComment = ({
 		_id,
 		profile: { name, profilePicture },
 	},
-}: Comment) => {
+	_id: commentID,
+	mutateCommentsList,
+}: Props) => {
 	const { listItemStyle, dividerStyle } = useStyles()
 
 	const {
@@ -80,7 +101,12 @@ const SingleComment = ({
 	return (
 		<>
 			<ListItem alignItems='flex-start' className={listItemStyle}>
-				<CommentAction userID={_id} postID={postID as string} />
+				<CommentAction
+					userID={_id}
+					postID={postID as string}
+					commentID={commentID}
+					mutateCommentsList={mutateCommentsList}
+				/>
 				<ListItemAvatar>
 					<UserAvatar alt={name} imageID={profilePicture} href={`/profile/${_id}`} />
 				</ListItemAvatar>
