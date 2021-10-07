@@ -21,6 +21,7 @@ const PostTypedefs = gql`
 		commentPost(Input: CommentPostInput!): Response!
 		removeCommentPost(Input: RemoveCommentInput!): Response!
 		editPost(Input: EditPostInput!): Response!
+		editComment(Input: EditCommentInput!): Response!
 	}
 
 	type Post {
@@ -131,6 +132,12 @@ const PostTypedefs = gql`
 
 	input GetAllCommentsLikesInput {
 		skip: Int!
+		postID: ID!
+	}
+
+	input EditCommentInput {
+		commentID: ID!
+		text: String!
 		postID: ID!
 	}
 `
