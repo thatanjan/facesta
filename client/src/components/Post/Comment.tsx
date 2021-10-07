@@ -32,6 +32,24 @@ const useStyles = makeStyles((theme: Theme) =>
 	})
 )
 
+interface CommentActionProps {
+	userID: string
+}
+
+const CommentAction = ({ userID }: CommentActionProps) => {
+	return (
+		<ListItemSecondaryAction>
+			<IconButton edge='end'>
+				<EditIcon />
+			</IconButton>
+
+			<IconButton edge='end'>
+				<DeleteIcon />
+			</IconButton>
+		</ListItemSecondaryAction>
+	)
+}
+
 const SingleComment = ({
 	date,
 	text,
@@ -45,15 +63,7 @@ const SingleComment = ({
 	return (
 		<>
 			<ListItem alignItems='flex-start' className={listItemStyle}>
-				<ListItemSecondaryAction>
-					<IconButton edge='end' aria-label='delete'>
-						<EditIcon />
-					</IconButton>
-
-					<IconButton edge='end' aria-label='delete'>
-						<DeleteIcon />
-					</IconButton>
-				</ListItemSecondaryAction>
+				<CommentAction userID={_id} />
 				<ListItemAvatar>
 					<UserAvatar alt={name} imageID={profilePicture} href={`/profile/${_id}`} />
 				</ListItemAvatar>
