@@ -18,6 +18,8 @@ import { Comment } from 'interfaces/post'
 import MuiLink from 'components/Links/MuiLink'
 import UserAvatar from 'components/Avatars/UserAvatar'
 
+import { useUserID } from 'redux/hooks/stateHooks'
+
 const DeleteComment = dynamic(() => import('./DeleteComment'))
 
 export const Transition = React.forwardRef(function Transition(
@@ -81,15 +83,19 @@ const SingleComment = ({
 		query: { post: postID },
 	} = useRouter()
 
+	const userID = useUserID()
 	return (
 		<>
 			<ListItem alignItems='flex-start' className={listItemStyle}>
-				<CommentAction
-					userID={_id}
-					postID={postID as string}
-					commentID={commentID}
-					mutateCommentsList={mutateCommentsList}
-				/>
+				{userID === _id && (
+					<CommentAction
+						userID={_id}
+						postID={postID as string}
+						commentID={commentID}
+						mutateCommentsList={mutateCommentsList}
+					/>
+				)}
+
 				<ListItemAvatar>
 					<UserAvatar alt={name} imageID={profilePicture} href={`/profile/${_id}`} />
 				</ListItemAvatar>
