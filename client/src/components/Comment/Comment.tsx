@@ -21,6 +21,7 @@ import UserAvatar from 'components/Avatars/UserAvatar'
 import { useUserID } from 'redux/hooks/stateHooks'
 
 const DeleteComment = dynamic(() => import('./DeleteComment'))
+const EditComment = dynamic(() => import('./EditComment'))
 
 export const Transition = React.forwardRef(function Transition(
 	props: SlideProps,
@@ -50,14 +51,13 @@ export interface CommentActionProps {
 	postID: string
 	commentID: string
 	mutateCommentsList: Function
+	text: string
 }
 
 const CommentAction = (props: CommentActionProps) => {
 	return (
 		<ListItemSecondaryAction>
-			<IconButton edge='end'>
-				<EditIcon />
-			</IconButton>
+			<EditComment {...props} />
 
 			<DeleteComment {...props} />
 		</ListItemSecondaryAction>
@@ -93,6 +93,7 @@ const SingleComment = ({
 						postID={postID as string}
 						commentID={commentID}
 						mutateCommentsList={mutateCommentsList}
+						text={text}
 					/>
 				)}
 
