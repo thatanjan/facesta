@@ -147,7 +147,7 @@ const CommentList = ({ postID, newCommentAdded }: Props) => {
 										}}
 										primary={
 											<MuiLink
-												href={`/profile/${postUserID}`}
+												href={`/profile/${_id}`}
 												MuiComponent={Typography}
 												color='textPrimary'
 											>
