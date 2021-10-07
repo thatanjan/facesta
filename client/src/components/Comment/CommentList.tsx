@@ -117,6 +117,7 @@ const CommentList = ({ postID, newCommentAdded }: Props) => {
 				next={() => setSize(size + 1)}
 				hasMore={isLoadingMore as boolean}
 				loader={<h4>Loading...</h4>}
+				scrollableTarget='scrollableDiv'
 			>
 				{Array.isArray(data) &&
 					allComments.map(
