@@ -73,6 +73,7 @@ const PostTypedefs = gql`
 		user: UserNameIDPic!
 		text: String!
 		date: Date!
+		_id: String!
 	}
 
 	type GetAllComments {
