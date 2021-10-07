@@ -63,7 +63,7 @@ function CommentForm({
 					if (message) {
 						setNewCommentAdded(true)
 						resetForm()
-						mutate([getTotalComments, postUserID])
+						mutate([getTotalComments, postID])
 					}
 
 					if (errorMessage) {
