@@ -46,7 +46,7 @@ interface CommentActionProps {
 	mutateCommentsList: Function
 }
 
-const CommentAction = ({
+const DeleteButton = ({
 	userID,
 	postID,
 	commentID,
@@ -67,14 +67,20 @@ const CommentAction = ({
 	}
 
 	return (
+		<IconButton edge='end' onClick={handleDelete}>
+			<DeleteIcon />
+		</IconButton>
+	)
+}
+
+const CommentAction = (props: CommentActionProps) => {
+	return (
 		<ListItemSecondaryAction>
 			<IconButton edge='end'>
 				<EditIcon />
 			</IconButton>
 
-			<IconButton edge='end' onClick={handleDelete}>
-				<DeleteIcon />
-			</IconButton>
+			<DeleteButton {...props} />
 		</ListItemSecondaryAction>
 	)
 }
