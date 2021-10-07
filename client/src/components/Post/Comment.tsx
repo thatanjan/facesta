@@ -1,4 +1,5 @@
 import React from 'react'
+import { useRouter } from 'next/router'
 import { createStyles, Theme, makeStyles } from '@material-ui/core/styles'
 import ListItem from '@material-ui/core/ListItem'
 import Divider from '@material-ui/core/Divider'
@@ -15,6 +16,10 @@ import { Comment } from 'interfaces/post'
 
 import MuiLink from 'components/Links/MuiLink'
 import UserAvatar from 'components/Avatars/UserAvatar'
+
+import { removeCommentPost } from 'graphql/mutations/postMutations'
+
+import createRequest from 'utils/createRequest'
 
 const useStyles = makeStyles((theme: Theme) =>
 	createStyles({
@@ -34,16 +39,24 @@ const useStyles = makeStyles((theme: Theme) =>
 
 interface CommentActionProps {
 	userID: string
+	postID: string
 }
 
-const CommentAction = ({ userID }: CommentActionProps) => {
+const CommentAction = ({ userID, postID }: CommentActionProps) => {
+	const handleDelete = async (commentID: string) => {
+		const res = await createRequest({
+			values: { commentID, postID },
+			key: removeCommentPost,
+		})
+	}
+
 	return (
 		<ListItemSecondaryAction>
 			<IconButton edge='end'>
 				<EditIcon />
 			</IconButton>
 
-			<IconButton edge='end'>
+			<IconButton edge='end' onClick={() => handleDelete}>
 				<DeleteIcon />
 			</IconButton>
 		</ListItemSecondaryAction>
@@ -60,10 +73,14 @@ const SingleComment = ({
 }: Comment) => {
 	const { listItemStyle, dividerStyle } = useStyles()
 
+	const {
+		query: { post: postID },
+	} = useRouter()
+
 	return (
 		<>
 			<ListItem alignItems='flex-start' className={listItemStyle}>
-				<CommentAction userID={_id} />
+				<CommentAction userID={_id} postID={postID as string} />
 				<ListItemAvatar>
 					<UserAvatar alt={name} imageID={profilePicture} href={`/profile/${_id}`} />
 				</ListItemAvatar>
