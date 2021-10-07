@@ -107,7 +107,7 @@ const CommentList = ({ postID, newCommentAdded }: Props) => {
 				{Array.isArray(data) &&
 					allComments.map((comment: Comment) => (
 						<Box key={nanoid()}>
-							<SingleComment {...comment} />{' '}
+							<SingleComment {...comment} mutateCommentsList={mutate} />{' '}
 						</Box>
 					))}
 			</List>
