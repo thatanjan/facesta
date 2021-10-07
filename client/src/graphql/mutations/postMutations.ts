@@ -3,18 +3,13 @@ import { gql } from 'graphql-request'
 // eslint-disable-next-line
 export const createPost = gql`
 	mutation createPost(
-		$content: String!
+		$text: String!
 		$images: [String!]!
 		$title: String!
 		$markdown: Boolean!
 	) {
 		createPost(
-			Input: {
-				content: $content
-				image: $images
-				title: $title
-				markdown: $markdown
-			}
+			Input: { text: $text, images: $images, title: $title, markdown: $markdown }
 		) {
 			errorMessage
 			message
