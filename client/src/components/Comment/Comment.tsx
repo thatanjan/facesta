@@ -30,7 +30,7 @@ import { getTotalComments } from 'graphql/queries/postQueries'
 
 import createRequest from 'utils/createRequest'
 
-const Transition = React.forwardRef(function Transition(
+export const Transition = React.forwardRef(function Transition(
 	props: SlideProps,
 	ref: React.Ref<unknown>
 ) {
