@@ -53,6 +53,15 @@ export const removeCommentPost = gql`
 	}
 `
 
+export const editCommentPost = gql`
+	mutation editComment($postID: ID!, $commentID: ID!, $text: String!) {
+		editComment(Input: { postID: $postID, commentID: $commentID, text: $text }) {
+			errorMessage
+			message
+		}
+	}
+`
+
 export const editPost = gql`
 	mutation editPost(
 		$postID: ID!
