@@ -74,6 +74,43 @@ const resolver = {
 				return sendErrorMessage(e)
 			}
 		},
+		editComment: async (
+			_,
+			{ Input: { commentID, postID, text } },
+			{ user: { id } }
+		) => {
+			const post = await Post.findOne(
+				{ _id: postID },
+				{
+					comments: {
+						$elemMatch: {
+							_id: commentID,
+							user: id,
+						},
+					},
+				}
+			)
+
+			if (
+				!post ||
+				!post.comments.length ||
+				post.comments[0].user.toString() !== id
+			)
+				return sendErrorMessage()
+
+			const update = await Post.updateOne(
+				{ _id: postID, 'comments._id': commentID },
+				{
+					$set: {
+						'comments.$.text': text,
+					},
+				}
+			)
+
+			if (!update || !update.nModified) return sendErrorMessage()
+
+			return sendMessage('Comment updated successfully')
+		},
 	},
 }
 
