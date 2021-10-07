@@ -12,6 +12,7 @@ import Typography from '@material-ui/core/Typography'
 import EditIcon from '@material-ui/icons/Edit'
 import Box from '@material-ui/core/Box'
 import Slide, { SlideProps } from '@material-ui/core/Slide'
+import { nanoid } from 'nanoid'
 
 import { Comment } from 'interfaces/post'
 
@@ -83,6 +84,8 @@ const SingleComment = ({
 		query: { post: postID },
 	} = useRouter()
 
+	const lines = text.split('\n')
+
 	const userID = useUserID()
 	return (
 		<>
@@ -122,9 +125,11 @@ const SingleComment = ({
 							<Typography variant='body2' color='textPrimary'>
 								{new Date(date).toDateString()}
 							</Typography>
-							<Typography variant='subtitle1' color='textPrimary'>
-								{text}
-							</Typography>
+							{lines.map(line => (
+								<Typography key={nanoid()} variant='subtitle1' color='textPrimary'>
+									{line}
+								</Typography>
+							))}
 						</>
 					}
 				/>
