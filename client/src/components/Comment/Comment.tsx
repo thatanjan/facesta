@@ -122,11 +122,20 @@ const SingleComment = ({
 					}
 					secondary={
 						<>
-							<Typography variant='body2' color='textPrimary'>
+							<Typography
+								variant='body2'
+								color='textPrimary'
+								style={{ marginBottom: '0.5rem', color: '#908e8e' }}
+							>
 								{new Date(date).toDateString()}
 							</Typography>
 							{lines.map(line => (
-								<Typography key={nanoid()} variant='subtitle1' color='textPrimary'>
+								<Typography
+									key={nanoid()}
+									variant='subtitle1'
+									color='textPrimary'
+									style={{ lineHeight: '1.35' }}
+								>
 									{line}
 								</Typography>
 							))}
