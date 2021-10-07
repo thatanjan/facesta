@@ -13,7 +13,7 @@ import Alert from 'components/Alerts/Alert'
 import CircularLoader from 'components/Loaders/CircularLoader'
 
 const SwrErrorAlert = dynamic(() => import('components/Alerts/SwrErrorAlert'))
-const SingleComment = dynamic(() => import('components/Post/Comment'))
+const SingleComment = dynamic(() => import('./Comment'))
 
 export const useStyles = makeStyles((theme: Theme) =>
 	createStyles({
