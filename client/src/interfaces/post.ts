@@ -17,4 +17,5 @@ export interface Comment {
 	text: string
 	date: Date
 	user: PostUser
+	_id: string
 }
