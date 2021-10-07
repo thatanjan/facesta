@@ -121,6 +121,7 @@ export const getAllComments = gql`
 						profilePicture
 					}
 				}
+				_id
 			}
 			errorMessage
 		}
