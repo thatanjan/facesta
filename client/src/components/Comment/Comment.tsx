@@ -53,7 +53,7 @@ const useStyles = makeStyles((theme: Theme) =>
 	})
 )
 
-interface CommentActionProps {
+export interface CommentActionProps {
 	userID: string
 	postID: string
 	commentID: string
