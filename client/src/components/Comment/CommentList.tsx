@@ -65,15 +65,6 @@ const CommentList = ({ postID, newCommentAdded }: Props) => {
 
 	let isLoadingMore = true
 
-	if (!data)
-		return (
-			<Alert
-				checked
-				severity='info'
-				message='Please wait we are loading your news feed'
-			/>
-		)
-
 	let errorFromServer = false
 
 	let allComments: Comment[] = []
@@ -116,8 +107,8 @@ const CommentList = ({ postID, newCommentAdded }: Props) => {
 				dataLength={allComments.length}
 				next={() => setSize(size + 1)}
 				hasMore={isLoadingMore as boolean}
-				loader={<h4>Loading...</h4>}
 				scrollableTarget='scrollableDiv'
+				loader={<CircularLoader />}
 			>
 				{Array.isArray(data) &&
 					allComments.map(
