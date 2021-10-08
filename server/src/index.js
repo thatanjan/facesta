@@ -38,6 +38,7 @@ mongoose
 		useCreateIndex: true,
 	})
 	.then(() => {
+		// eslint-disable-next-line no-console
 		console.log('DB connected')
 	})
 	.catch(error => {
@@ -131,4 +132,5 @@ server.applyMiddleware({ app })
 
 const port = process.env.PORT || 9000
 
+// eslint-disable-next-line no-console
 app.listen({ port }, () => console.log(`server is running at ${port}`))

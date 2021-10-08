@@ -27,7 +27,7 @@ const isAuthenticated = rule()(async (_, __, { user, error }) => {
 	return true
 })
 
-const doesOwnPostExist = rule()(async (_, { postID }, { user: { id } }) => {
+const doesOwnPostExist = rule()(async (_, { postID }) => {
 	try {
 		const post = await Post.findById(postID, 'totalLikes')
 
@@ -75,8 +75,8 @@ const doesPostExist = rule()(async (_, { Input: { postID } }) => {
 	}
 })
 
-const doesPostAndLikeExist = operation => {
-	return rule()(async (_, { Input: { postID, user } }, { user: { id } }) => {
+const doesPostAndLikeExist = operation =>
+	rule()(async (_, { Input: { postID } }, { user: { id } }) => {
 		try {
 			const post = await Post.findOne(
 				{ _id: postID },
@@ -106,7 +106,6 @@ const doesPostAndLikeExist = operation => {
 			return somethingWentWrong()
 		}
 	})
-}
 
 export default shield(
 	{

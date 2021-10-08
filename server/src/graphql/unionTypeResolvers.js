@@ -1,4 +1,4 @@
-import { ERROR_MESSAGE, MESSAGE, ERROR } from 'variables/global'
+import { ERROR_MESSAGE, ERROR } from 'variables/global'
 
 const checkIfErroType = obj => obj[ERROR_MESSAGE]
 

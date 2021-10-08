@@ -30,7 +30,6 @@ const resolver = {
 
 				const publicIDs = await Promise.all(uploadImagePromises)
 
-				console.log(publicIDs)
 				newPost.images = publicIDs
 
 				await newPost.save()
