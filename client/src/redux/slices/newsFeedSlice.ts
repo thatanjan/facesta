@@ -2,6 +2,7 @@ import { createSlice } from '@reduxjs/toolkit'
 
 const initialState = {
 	mutateNewsFeed: false,
+	mutateAllPost: false,
 }
 const slice = createSlice({
 	name: 'newsfeed',
@@ -10,9 +11,12 @@ const slice = createSlice({
 		mutateNewsFeed: state => {
 			state.mutateNewsFeed = !state.mutateNewsFeed
 		},
+		mutateAllPost: state => {
+			state.mutateAllPost = !state.mutateAllPost
+		},
 	},
 })
 
-export const { mutateNewsFeed } = slice.actions
+export const { mutateNewsFeed, mutateAllPost } = slice.actions
 
 export default slice.reducer
