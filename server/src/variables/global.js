@@ -7,15 +7,30 @@ const ERROR_MESSAGE = 'errorMessage'
 const MESSAGE = 'message'
 const ERROR = 'error'
 
-const postProjection = {
-	content: 1,
-	image: 1,
+const getPostProjection = userID => ({
+	text: 1,
+	images: 1,
 	markdown: 1,
 	_id: 1,
 	title: 1,
 	totalLikes: 1,
 	totalComments: 1,
 	date: 1,
+	likes: { $elemMatch: { $eq: userID } },
+})
+
+const stringRequired = {
+	type: String,
+	required: true,
+}
+
+const populateObjectOfUser = {
+	path: 'user',
+	select: 'profile',
+	populate: {
+		path: 'profile',
+		select: 'profilePicture name -_id',
+	},
 }
 
 export {
@@ -27,5 +42,7 @@ export {
 	MESSAGE,
 	ERROR_MESSAGE,
 	ERROR,
-	postProjection,
+	getPostProjection,
+	stringRequired,
+	populateObjectOfUser,
 }

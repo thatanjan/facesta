@@ -6,21 +6,19 @@ import { Comment } from 'interfaces/post'
 
 export interface Input {
 	postID: string
-	postUserID: string
 }
 
 // eslint-disable-next-line
-export const useGetAllComments = ({ postUserID, postID }: Input) => {
+export const useGetAllComments = ({ postID }: Input) => {
 	const getKey = (index: number) => {
-		const skipnum: number = (index + 1) * 10
+		const skipnum: number = index * 10
 
-		return [getAllComments, skipnum, postUserID, postID]
+		return [getAllComments, skipnum, postID]
 	}
 
 	return useSWRInfinite(
 		getKey,
-		async (key, num, user) =>
-			createRequest({ key, values: { skip: num, postID, user } }),
+		async (key, num) => createRequest({ key, values: { skip: num, postID } }),
 		{ revalidateOnFocus: false }
 	) as SWRInfiniteResponseInterface<
 		{
@@ -37,18 +35,14 @@ interface TotalComment extends Input {
 	postPage: boolean
 }
 
-export const useGetTotalComment = ({
-	postUserID,
-	postID,
-	postPage,
-}: TotalComment) => {
+export const useGetTotalComment = ({ postID, postPage }: TotalComment) => {
 	if (!postPage) return null
 
-	const values = { postID, user: postUserID }
+	const values = { postID }
 
 	return useSWRgql({
 		key: getTotalComments,
-		swrDependencies: postUserID,
+		swrDependencies: postID,
 		values,
 	})
 }

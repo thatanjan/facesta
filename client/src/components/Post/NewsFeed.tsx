@@ -4,12 +4,15 @@ import InfiniteScroll from 'react-infinite-scroll-component'
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles'
 import RefreshIcon from '@material-ui/icons/Refresh'
 import Fab from '@material-ui/core/Fab'
-import { useRouter } from 'next/router'
 import useMediaQuery from '@material-ui/core/useMediaQuery'
 
 import Post from 'interfaces/post'
 import SinglePost from 'components/Post/SinglePost'
 import { useGetNewsFeedPost } from 'hooks/useGetPost'
+import {
+	useShouldMutateNewsFeed,
+	useMutateNewsFeed,
+} from 'redux/hooks/useNewsFeed'
 
 import CircularLoader from 'components/Loaders/CircularLoader'
 import Alert from 'components/Alerts/Alert'
@@ -31,8 +34,16 @@ const useStyles = makeStyles((theme: Theme) =>
 const NewsFeed = () => {
 	const { data, error, setSize, size, mutate } = useGetNewsFeedPost()
 	const matches = useMediaQuery(screenSizeDrawer)
+	const shouldMutateNewsFeed = useShouldMutateNewsFeed()
+	const mutateNewsFeed = useMutateNewsFeed()
 
-	const { asPath } = useRouter()
+	useEffect(() => {
+		if (shouldMutateNewsFeed) {
+			mutate()
+			mutateNewsFeed()
+		}
+	}, [shouldMutateNewsFeed])
+
 	const { fab } = useStyles()
 
 	if (!data)

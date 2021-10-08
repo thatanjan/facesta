@@ -39,7 +39,7 @@ const PostPage = ({ id }: Props) => {
 			}
 		},
 		any
-	> = useGetSinglePost({ user: postUser as string, postID: post as string })
+	> = useGetSinglePost({ postID: post as string })
 
 	if (!data) return <PreLoader />
 	if (error) return <SwrErrorAlert />
@@ -51,8 +51,8 @@ const PostPage = ({ id }: Props) => {
 					profile: { name },
 				},
 				title,
-				content,
-				image,
+				text,
+				images,
 			},
 		},
 	} = data
@@ -61,21 +61,16 @@ const PostPage = ({ id }: Props) => {
 		<div>
 			<NextSeo
 				title={`${title} by ${name}`}
-				description={content}
+				description={text}
 				openGraph={{
 					title,
-					description: content,
+					description: text,
 					url: `https://con-fession.vercel.app/post/${postUser}/${post}`,
 					type: 'article',
 					article: {
 						authors: [`https://con-fession.vercel.app/profile/${postUser}`],
 					},
-					images: [
-						{
-							url: image,
-							alt: content,
-						},
-					],
+					images: images.map(image => ({ url: image, alt: text })),
 				}}
 			/>
 

@@ -2,9 +2,9 @@ import { gql } from 'apollo-server-express'
 
 const ProfileTypedefs = gql`
 	extend type Mutation {
-		updatePersonalData(Input: PersonalDataInput): ErrorOrMessage!
-		uploadProfilePicture(image: String!): ErrorOrMessage!
-		removeProfilePicture: ErrorOrMessage!
+		updatePersonalData(Input: PersonalDataInput): Response!
+		uploadProfilePicture(image: String!): Response!
+		removeProfilePicture: Response!
 	}
 
 	extend type Query {

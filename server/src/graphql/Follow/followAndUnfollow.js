@@ -1,5 +1,4 @@
 import Follow from 'models/Follow'
-import User from 'models/User'
 import sendErrorMessage from 'utils/errorMessage'
 import sendMessage from 'utils/message'
 import { FOLLOWEES } from 'variables/global'

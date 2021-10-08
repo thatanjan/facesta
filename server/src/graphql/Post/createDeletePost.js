@@ -1,41 +1,36 @@
-import createPostModel from 'models/Post'
+import Post from 'models/Post'
 import Follow from 'models/Follow'
 import sendErrorMessage from 'utils/errorMessage'
 import sendMessage from 'utils/message'
 import { FOLLOWERS } from 'variables/global'
 import NewsFeedModel from 'models/NewsFeed'
 import uploadImage from 'utils/uploadToCloudinary'
-import deleteImage from 'utils/deleteImageFromCloudinary'
 import imageConfig from 'variables/cloudinaryVariables'
 
-export const postPath = id => `confession/post/${id}/`
+export const postPath = (user, id) => `confession/post/${user}/${id}/`
 
 const resolver = {
 	Mutation: {
 		createPost: async (
 			_,
-			{ Input: { title, markdown, content, image } },
+			{ Input: { title, markdown, text, images } },
 			{ user: { id } }
 		) => {
 			try {
-				const Post = createPostModel(id)
-
-				const imagePublicID = await uploadImage(image, {
-					folder: postPath(id),
-					...imageConfig,
-				})
-
-				if (imagePublicID.message) {
-					return sendErrorMessage(imagePublicID)
-				}
-
-				let postObject
-
-				if (imagePublicID && typeof imagePublicID === 'string') {
-					postObject = { content, image: imagePublicID, title, markdown }
-				}
+				const postObject = { text, images: [], title, markdown, user: id }
 
 				const newPost = new Post(postObject)
+
+				const uploadImagePromises = images.map(image =>
+					uploadImage(image, {
+						folder: postPath(id, newPost._id),
+						imageConfig,
+					})
+				)
+
+				const publicIDs = await Promise.all(uploadImagePromises)
+
+				newPost.images = publicIDs
 
 				await newPost.save()
 
@@ -43,59 +38,15 @@ const resolver = {
 
 				followers.push(id)
 
-				const pushedObject = { user: id, post: newPost._id }
-
 				await NewsFeedModel.updateMany(
 					{ user: { $in: followers } },
-					{ $push: { posts: pushedObject }, $inc: { totalPosts: 1 } }
+					{ $push: { posts: newPost._id }, $inc: { totalPosts: 1 } }
 				)
 
 				return sendMessage('post is published')
 			} catch (error) {
-				return sendErrorMessage(error)
+				return sendErrorMessage()
 			}
-		},
-		deletePost: async (_, { postID }, { user: { id } }) => {
-			const Post = createPostModel(id)
-
-			const actualPost = await Post.findByIdAndRemove(postID, {
-				projection: 'image',
-			})
-
-			if (!actualPost) {
-				return sendErrorMessage('no post found')
-			}
-
-			const imageDeleted = await deleteImage(actualPost.image)
-
-			if (!imageDeleted || imageDeleted.result !== 'ok') {
-				return sendErrorMessage('something went wrong')
-			}
-
-			const followersQuery = await Follow.findOne({ user: id }, FOLLOWERS)
-
-			const { followers } = followersQuery
-
-			followers.push(id)
-
-			const query = await NewsFeedModel.updateMany(
-				{ user: { $in: followers } },
-				{
-					$pull: {
-						posts: { post: postID },
-					},
-					$inc: { totalPosts: -1 },
-				}
-			)
-
-			if (
-				query.nModified > 0 ||
-				(followers.length === 0 && query.nModified === 0)
-			) {
-				return sendMessage('post deleted')
-			}
-
-			return sendErrorMessage('error')
 		},
 	},
 }

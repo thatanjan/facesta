@@ -3,7 +3,7 @@
 		"browser": true,
 		"es2021": true
 	},
-	"extends": ["airbnb-base", "plugin:prettier/recommended"],
+	"extends": ["airbnb-base", "prettier"],
 	"parserOptions": {
 		"ecmaVersion": 12,
 		"sourceType": "module"
@@ -16,7 +16,6 @@
 				"js": "never"
 			}
 		],
-		"prettier/prettier": "error",
 		"no-underscore-dangle": "off",
 		"no-plusplus": "off",
 		"no-case-declarations": "off",

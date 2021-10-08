@@ -1,13 +1,10 @@
 import React, { useState, useEffect } from 'react'
 import dynamic from 'next/dynamic'
 import { useRouter } from 'next/router'
-import Avatar from '@material-ui/core/Avatar/Avatar'
 import ListItem from '@material-ui/core/ListItem'
 import List from '@material-ui/core/List'
 import ListItemAvatar from '@material-ui/core/ListItemAvatar'
 import { makeStyles, Theme } from '@material-ui/core/styles'
-
-import { cloudinaryURL } from 'variables/global'
 
 import CircularLoader from 'components/Loaders/CircularLoader'
 import { useStyles as useFormStyle } from 'components/Comment/CommentList'
@@ -55,7 +52,6 @@ const SinglePostPage = () => {
 	} = useRouter()
 
 	const { data, error } = useGetSinglePost({
-		user: postUser as string,
 		postID: postID as string,
 	})
 

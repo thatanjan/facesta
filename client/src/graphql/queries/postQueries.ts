@@ -4,9 +4,9 @@ export const getAllPost = gql`
 	query getAllPost($skip: Int!, $user: ID!) {
 		getAllPost(Input: { skip: $skip, user: $user }) {
 			posts {
-				content
+				text
 				_id
-				image
+				images
 				title
 				markdown
 				totalLikes
@@ -23,9 +23,9 @@ export const getAllPostNoAuth = gql`
 	query getAllPost($skip: Int!, $user: ID!) {
 		getAllPost(Input: { skip: $skip, user: $user }) {
 			posts {
-				content
+				text
 				_id
-				image
+				images
 				title
 				markdown
 				date
@@ -36,12 +36,12 @@ export const getAllPostNoAuth = gql`
 `
 
 export const getSinglePost = gql`
-	query getSinglePost($postID: ID!, $user: ID!) {
-		getSinglePost(Input: { postID: $postID, user: $user }) {
+	query getSinglePost($postID: ID!) {
+		getSinglePost(Input: { postID: $postID }) {
 			post {
-				content
+				text
 				_id
-				image
+				images
 				title
 				markdown
 				totalLikes
@@ -66,9 +66,9 @@ export const getNewsFeedPost = gql`
 	query getNewsFeedPost($skip: Int!) {
 		getNewsFeedPost(skip: $skip) {
 			posts {
-				content
+				text
 				_id
-				image
+				images
 				title
 				markdown
 				totalLikes
@@ -91,8 +91,8 @@ export const getNewsFeedPost = gql`
 `
 
 export const getTotalLikes = gql`
-	query getTotalLikes($postID: ID!, $user: ID!) {
-		getTotalLikes(Input: { postID: $postID, user: $user }) {
+	query getTotalLikes($postID: ID!) {
+		getTotalLikes(Input: { postID: $postID }) {
 			totalLikes
 			errorMessage
 		}
@@ -100,8 +100,8 @@ export const getTotalLikes = gql`
 `
 
 export const getTotalComments = gql`
-	query getTotalComments($postID: ID!, $user: ID!) {
-		getTotalComments(Input: { postID: $postID, user: $user }) {
+	query getTotalComments($postID: ID!) {
+		getTotalComments(Input: { postID: $postID }) {
 			totalComments
 			errorMessage
 		}
@@ -109,8 +109,8 @@ export const getTotalComments = gql`
 `
 
 export const getAllComments = gql`
-	query getAllComments($postID: ID!, $user: ID!, $skip: Int!) {
-		getAllComments(Input: { postID: $postID, user: $user, skip: $skip }) {
+	query getAllComments($postID: ID!, $skip: Int!) {
+		getAllComments(Input: { postID: $postID, skip: $skip }) {
 			comments {
 				date
 				text
@@ -121,14 +121,16 @@ export const getAllComments = gql`
 						profilePicture
 					}
 				}
+				_id
 			}
+			errorMessage
 		}
 	}
 `
 
 export const getAllLikes = gql`
-	query getAllLikes($postID: ID!, $user: ID!, $skip: Int!) {
-		getAllLikes(Input: { postID: $postID, user: $user, skip: $skip }) {
+	query getAllLikes($postID: ID!, $skip: Int!) {
+		getAllLikes(Input: { postID: $postID, skip: $skip }) {
 			users {
 				_id
 
@@ -143,7 +145,7 @@ export const getAllLikes = gql`
 `
 
 export const hasLiked = gql`
-	query hasLiked($postID: ID!, $user: ID!) {
-		hasLiked(Input: { postID: $postID, user: $user })
+	query hasLiked($postID: ID!) {
+		hasLiked(Input: { postID: $postID })
 	}
 `

@@ -10,8 +10,8 @@ const FollowType = gql`
 	}
 
 	extend type Mutation {
-		followUser(user: ID!): ErrorOrMessage!
-		unfollowUser(user: ID!): ErrorOrMessage!
+		followUser(user: ID!): Response!
+		unfollowUser(user: ID!): Response!
 	}
 
 	type Profile {

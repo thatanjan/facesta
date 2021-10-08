@@ -1,7 +1,7 @@
 import NewsFeedModel from 'models/NewsFeed'
-import createPostModel from 'models/Post'
+import Post from 'models/Post'
 import sendErrorMessage from 'utils/errorMessage'
-import { postProjection as projection } from 'variables/global'
+import convertToObjectId from 'utils/convertToObjectID'
 import skippingList from 'utils/skippingList'
 
 const resolvers = {
@@ -22,15 +22,16 @@ const resolvers = {
 				const newsFeedPosts = await NewsFeedModel.findOne({
 					user: id,
 				})
-					.slice('posts', [-Math.abs(newSkip), returnNumber])
+					.slice('posts', [newSkip, returnNumber])
 					.populate({
 						path: 'posts',
+						select: '-comments -likes',
 						populate: {
 							path: 'user',
 							select: 'profile',
 							populate: {
 								path: 'profile',
-								select: 'profilePicture name',
+								select: 'profilePicture name -_id',
 							},
 						},
 					})
@@ -39,42 +40,30 @@ const resolvers = {
 
 				posts.reverse()
 
-				const postsUsers = posts.map(({ user }) => user)
+				const postIDs = posts.map(post => convertToObjectId(post._id))
 
-				const resolvePost = async () => {
-					const postPromises = posts.map(
-						({ post: postID, user: { _id: userID } }) => {
-							const PostModel = createPostModel(userID.toString())
-
-							const post = PostModel.findById(postID.toString(), {
+				let hasLiked = await Post.find(
+					{
+						$and: [
+							{
+								_id: { $in: postIDs },
 								likes: { $elemMatch: { $eq: id } },
-								...projection,
-							})
+							},
+						],
+					},
+					'_id'
+				)
 
-							return post
-						}
-					)
+				hasLiked = new Set(hasLiked.map(post => post._id.toString()))
 
-					const resolved = await Promise.all(postPromises)
+				const response = posts.map(post => {
+					const newPost = { ...post.toObject(), hasLiked: false }
 
-					return resolved
-				}
-
-				const resolvedPosts = await resolvePost()
-
-				const response = { posts: [] }
-
-				response.posts = postsUsers.map((user, index) => {
-					const newObject = {
-						...resolvedPosts[index].toObject(),
-						user: user.toObject(),
-						hasLiked: resolvedPosts[index].likes.length !== 0,
-					}
-
-					return newObject
+					if (hasLiked.has(newPost._id.toString())) newPost.hasLiked = true
+					return newPost
 				})
 
-				return response
+				return { posts: response }
 			} catch (err) {
 				return sendErrorMessage(err)
 			}

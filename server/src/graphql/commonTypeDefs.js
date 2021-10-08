@@ -1,21 +1,18 @@
 import { gql } from 'apollo-server-express'
-import { ERROR_MESSAGE, MESSAGE } from 'variables/global'
-import { ERROR_OR_MESSAGE_TYPE } from 'variables/commonText'
 
 const types = gql`
-  type Error {
-    ${ERROR_MESSAGE}: String! 
-  }
+	type Error {
+		errorMessage: String!
+	}
 
-  type Message {
-    ${MESSAGE}: String! 
-  }
+	type Message {
+		message: String!
+	}
 
-
-  type ErrorOrMessage {
-    ${ERROR_OR_MESSAGE_TYPE} 
-  }
-  
+	type Response {
+		errorMessage: String
+		message: String
+	}
 `
 
 export default types

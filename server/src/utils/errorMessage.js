@@ -1,4 +1,5 @@
 const theErrorMessage = errorMessage => {
+	if (errorMessage === undefined) return 'Something went wrong'
 	if (
 		errorMessage instanceof Error ||
 		(errorMessage === 'object' && errorMessage.message)

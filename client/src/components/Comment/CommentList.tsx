@@ -1,12 +1,6 @@
 import React, { useEffect } from 'react'
 import { createStyles, Theme, makeStyles } from '@material-ui/core/styles'
 import List from '@material-ui/core/List'
-import ListItem from '@material-ui/core/ListItem'
-import Divider from '@material-ui/core/Divider'
-import ListItemText from '@material-ui/core/ListItemText'
-import ListItemAvatar from '@material-ui/core/ListItemAvatar'
-import Avatar from '@material-ui/core/Avatar'
-import Typography from '@material-ui/core/Typography'
 import ReactInfiniteScroll from 'react-infinite-scroll-component'
 import { nanoid } from 'nanoid'
 import Box from '@material-ui/core/Box'
@@ -15,14 +9,11 @@ import dynamic from 'next/dynamic'
 import { useGetAllComments, Input as HookInput } from 'hooks/commentHooks'
 import { Comment } from 'interfaces/post'
 
-import MuiLink from 'components/Links/MuiLink'
 import Alert from 'components/Alerts/Alert'
 import CircularLoader from 'components/Loaders/CircularLoader'
-import UserAvatar from 'components/Avatars/UserAvatar'
-
-import { cloudinaryURL } from 'variables/global'
 
 const SwrErrorAlert = dynamic(() => import('components/Alerts/SwrErrorAlert'))
+const SingleComment = dynamic(() => import('./Comment'))
 
 export const useStyles = makeStyles((theme: Theme) =>
 	createStyles({
@@ -50,12 +41,11 @@ interface Props extends HookInput {
 
 const QUERY_NAME = 'getAllComments'
 
-const CommentList = ({ postID, postUserID, newCommentAdded }: Props) => {
-	const { root, listItemStyle, dividerStyle } = useStyles()
+const CommentList = ({ postID, newCommentAdded }: Props) => {
+	const { root } = useStyles()
 
 	const { data, error, setSize, size, mutate } = useGetAllComments({
 		postID,
-		postUserID,
 	})
 
 	useEffect(() => {
@@ -68,15 +58,6 @@ const CommentList = ({ postID, postUserID, newCommentAdded }: Props) => {
 	if (error) return <SwrErrorAlert />
 
 	let isLoadingMore = true
-
-	if (!data)
-		return (
-			<Alert
-				checked
-				severity='info'
-				message='Please wait we are loading your news feed'
-			/>
-		)
 
 	let errorFromServer = false
 
@@ -120,60 +101,15 @@ const CommentList = ({ postID, postUserID, newCommentAdded }: Props) => {
 				dataLength={allComments.length}
 				next={() => setSize(size + 1)}
 				hasMore={isLoadingMore as boolean}
-				loader={<h4>Loading...</h4>}
+				scrollableTarget='scrollableDiv'
+				loader={<CircularLoader />}
 			>
 				{Array.isArray(data) &&
-					allComments.map(
-						({
-							text,
-							date,
-							user: {
-								_id,
-								profile: { name, profilePicture },
-							},
-						}: Comment) => (
-							<Box key={nanoid()}>
-								<ListItem alignItems='flex-start' className={listItemStyle}>
-									<ListItemAvatar>
-										<UserAvatar
-											alt={name}
-											imageID={profilePicture}
-											href={`/profile/${_id}`}
-										/>
-									</ListItemAvatar>
-
-									<ListItemText
-										primaryTypographyProps={{
-											variant: 'h6',
-										}}
-										secondaryTypographyProps={{
-											component: Box,
-										}}
-										primary={
-											<MuiLink
-												href={`/profile/${postUserID}`}
-												MuiComponent={Typography}
-												color='textPrimary'
-											>
-												{name}
-											</MuiLink>
-										}
-										secondary={
-											<>
-												<Typography variant='body2' color='textPrimary'>
-													{new Date(date).toDateString()}
-												</Typography>
-												<Typography variant='subtitle1' color='textPrimary'>
-													{text}
-												</Typography>
-											</>
-										}
-									/>
-								</ListItem>
-								<Divider variant='inset' component='li' className={dividerStyle} />
-							</Box>
-						)
-					)}
+					allComments.map((comment: Comment) => (
+						<Box key={nanoid()}>
+							<SingleComment {...comment} mutateCommentsList={mutate} />{' '}
+						</Box>
+					))}
 			</List>
 
 			{(error || errorFromServer) && (

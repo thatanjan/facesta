@@ -19,7 +19,7 @@ const useGetAllPost = () => {
 	const getKey = (index: number, previousPageData: AnyObject) => {
 		if (previousPageData && previousPageData.getAllPost.posts.length === 0)
 			return null
-		const skipnum: number = (index + 1) * 10
+		const skipnum: number = index * 10
 
 		return [user ? getAllPost : getAllPostNoAuth, skipnum, profileUser]
 	}
@@ -33,12 +33,11 @@ const useGetAllPost = () => {
 }
 
 interface SinglePost {
-	user: string
 	postID: string
 }
 
-export const useGetSinglePost = ({ user, postID }: SinglePost) => {
-	const values = { user, postID }
+export const useGetSinglePost = ({ postID }: SinglePost) => {
+	const values = { postID }
 	return useSWRgql({
 		key: getSinglePost,
 		values,
@@ -58,7 +57,7 @@ export const useGetNewsFeedPost = () => {
 		if (previousPageData && previousPageData.getNewsFeedPost.errorMessage)
 			return null
 
-		const skipnum: number = (index + 1) * 10
+		const skipnum: number = index * 10
 
 		return [getNewsFeedPost, skipnum, userID]
 	}

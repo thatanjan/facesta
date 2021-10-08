@@ -1,28 +1,24 @@
 import { Schema, model } from 'mongoose'
 import User from 'models/User'
+import Post from 'models/Post'
 
 const objectId = Schema.Types.ObjectId
 
 const user = {
 	type: objectId,
 	ref: User,
+	required: true,
 }
 
-const posts = {
-	user: {
-		type: objectId,
-		required: true,
-		ref: User,
-	},
-	post: {
-		type: objectId,
-		required: true,
-	},
+const post = {
+	type: objectId,
+	required: true,
+	ref: Post,
 }
 
 const schema = {
 	user,
-	posts: [posts],
+	posts: [post],
 	totalPosts: { type: Number, default: 0 },
 }
 

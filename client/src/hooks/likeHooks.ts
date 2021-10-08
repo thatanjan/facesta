@@ -6,29 +6,28 @@ import useSWRgql from './useSWRgql'
 
 interface Input {
 	postID: string
-	user: string
 }
 
-export const useHasLiked = ({ postID, user }: Input) => {
+export const useHasLiked = ({ postID }: Input) => {
 	return useSWRgql({
 		key: hasLiked,
 		swrDependencies: postID,
-		values: { postID, user },
+		values: { postID },
 	})
 }
 
-export const useGetAllLikes = ({ user, postID }: Input) => {
+export const useGetAllLikes = ({ postID }: Input) => {
 	const getKey = (index: number) => {
-		const skipnum: number = (index + 1) * 10
+		const skipnum: number = index * 10
 
-		return [getAllLikes, skipnum, user, postID]
+		return [getAllLikes, skipnum, postID]
 	}
 
 	return useSWRInfinite(
 		getKey,
 		// eslint-disable-next-line
-		async (key, num, user, postID) =>
-			createRequest({ key, values: { skip: num, postID, user } }),
+		async (key, num, postID) =>
+			createRequest({ key, values: { skip: num, postID } }),
 		{ revalidateOnFocus: false }
 	)
 }

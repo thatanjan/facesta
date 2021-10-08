@@ -10,7 +10,7 @@ const UserType = gql`
     extend type Mutation {
         loginUser(Input: LoginInput!): Login!
         registerUser(Input: RegisterInput!): Login!
-        deleteUser: ErrorOrMessage!
+        deleteUser: Response!
     }
 
     type ValidationErrorMessages{

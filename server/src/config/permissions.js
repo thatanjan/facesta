@@ -2,7 +2,7 @@ import { and, rule, shield } from 'graphql-shield'
 
 import { USER_DOES_NOT_EXIST, POST_DOES_NOT_EXIST } from 'variables/errors'
 import User from 'models/User'
-import createPostModel from 'models/Post'
+import Post from 'models/Post'
 
 const LIKE_POST = 'like'
 const REMOVE_LIKE = 'removeLike'
@@ -27,11 +27,9 @@ const isAuthenticated = rule()(async (_, __, { user, error }) => {
 	return true
 })
 
-const doesOwnPostExist = rule()(async (_, { postID }, { user: { id } }) => {
+const doesOwnPostExist = rule()(async (_, { postID }) => {
 	try {
-		const PostModel = createPostModel(id)
-
-		const post = await PostModel.findById(postID, 'totalLikes')
+		const post = await Post.findById(postID, 'totalLikes')
 
 		if (!post) return new Error(POST_DOES_NOT_EXIST)
 
@@ -65,11 +63,9 @@ const doesOtherUserExist = rule()(async (_, { user }) => {
 	}
 })
 
-const doesPostExist = rule()(async (_, { Input: { postID, user } }) => {
+const doesPostExist = rule()(async (_, { Input: { postID } }) => {
 	try {
-		const postModel = createPostModel(user)
-
-		const post = await postModel.findById(postID)
+		const post = await Post.findById(postID, '_id')
 
 		if (!post) return new Error(POST_DOES_NOT_EXIST)
 
@@ -79,11 +75,10 @@ const doesPostExist = rule()(async (_, { Input: { postID, user } }) => {
 	}
 })
 
-const doesPostAndLikeExist = operation => {
-	return rule()(async (_, { Input: { postID, user } }, { user: { id } }) => {
+const doesPostAndLikeExist = operation =>
+	rule()(async (_, { Input: { postID } }, { user: { id } }) => {
 		try {
-			const PostModel = createPostModel(user.toString())
-			const post = await PostModel.findOne(
+			const post = await Post.findOne(
 				{ _id: postID },
 				{ likes: { $elemMatch: { $eq: id } } }
 			)
@@ -111,7 +106,6 @@ const doesPostAndLikeExist = operation => {
 			return somethingWentWrong()
 		}
 	})
-}
 
 export default shield(
 	{

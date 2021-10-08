@@ -10,23 +10,24 @@ const PostTypedefs = gql`
 		getTotalComments(Input: GetPostInput!): TotalComments!
 		getAllComments(Input: GetAllCommentsLikesInput!): GetAllComments!
 		getAllLikes(Input: GetAllCommentsLikesInput!): GetAllLikes!
-		hasLiked(Input: GetPostInput!): Boolean!
+		hasLiked(Input: GetPostInput!): HasLikedResponse!
 	}
 
 	extend type Mutation {
-		createPost(Input: CreatePostInput!): ErrorOrMessage!
-		deletePost(postID: ID!): ErrorOrMessage!
-		likePost(Input: GetPostInput!): ErrorOrMessage!
-		removeLikePost(Input: GetPostInput!): ErrorOrMessage!
-		commentPost(Input: CommentPostInput!): ErrorOrMessage!
-		removeCommentPost(Input: RemoveCommentInput!): ErrorOrMessage!
-		editPost(Input: EditPostInput!): ErrorOrMessage!
+		createPost(Input: CreatePostInput!): Response!
+		deletePost(postID: ID!): Response!
+		likePost(Input: GetPostInput!): Response!
+		removeLikePost(Input: GetPostInput!): Response!
+		commentPost(Input: CommentPostInput!): Response!
+		removeCommentPost(Input: RemoveCommentInput!): Response!
+		editPost(Input: EditPostInput!): Response!
+		editComment(Input: EditCommentInput!): Response!
 	}
 
 	type Post {
-		content: String!
+		text: String!
 		_id: ID!
-		image: String!
+		images: [String!]!
 		title: String!
 		markdown: Boolean!
 		totalLikes: Int!
@@ -73,6 +74,7 @@ const PostTypedefs = gql`
 		user: UserNameIDPic!
 		text: String!
 		date: Date!
+		_id: String!
 	}
 
 	type GetAllComments {
@@ -90,6 +92,11 @@ const PostTypedefs = gql`
 		errorMessage: String
 	}
 
+	type HasLikedResponse {
+		hasLiked: Boolean
+		errorMessage: String
+	}
+
 	input GetAllPostInput {
 		user: ID!
 		skip: Int!
@@ -97,32 +104,28 @@ const PostTypedefs = gql`
 
 	input GetPostInput {
 		postID: ID!
-		user: ID!
 	}
 
 	input CommentPostInput {
 		text: String!
 		postID: ID!
-		user: ID!
 	}
 
 	input RemoveCommentInput {
 		postID: ID!
-		user: ID!
 		commentID: ID!
 	}
 
 	input CreatePostInput {
-		content: String!
-		image: String!
+		text: String!
+		images: [String!]!
 		title: String!
 		markdown: Boolean!
 	}
 
 	input EditPostInput {
 		postID: ID!
-		content: String
-		image: String
+		text: String
 		title: String
 		markdown: Boolean
 	}
@@ -130,7 +133,12 @@ const PostTypedefs = gql`
 	input GetAllCommentsLikesInput {
 		skip: Int!
 		postID: ID!
-		user: ID!
+	}
+
+	input EditCommentInput {
+		commentID: ID!
+		text: String!
+		postID: ID!
 	}
 `
 export default PostTypedefs

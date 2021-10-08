@@ -2,9 +2,9 @@ import { User as PostUser } from './user'
 
 export default interface Post {
 	_id: string
-	content: string
+	text: string
 	title: string
-	image: string
+	images: string[]
 	markdown: boolean
 	totalLikes: number
 	totalComments: number
@@ -17,4 +17,5 @@ export interface Comment {
 	text: string
 	date: Date
 	user: PostUser
+	_id: string
 }

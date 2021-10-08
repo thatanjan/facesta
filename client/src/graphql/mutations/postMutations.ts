@@ -3,18 +3,13 @@ import { gql } from 'graphql-request'
 // eslint-disable-next-line
 export const createPost = gql`
 	mutation createPost(
-		$content: String!
-		$image: String!
+		$text: String!
+		$images: [String!]!
 		$title: String!
 		$markdown: Boolean!
 	) {
 		createPost(
-			Input: {
-				content: $content
-				image: $image
-				title: $title
-				markdown: $markdown
-			}
+			Input: { text: $text, images: $images, title: $title, markdown: $markdown }
 		) {
 			errorMessage
 			message
@@ -23,8 +18,8 @@ export const createPost = gql`
 `
 
 export const likePost = gql`
-	mutation likePost($postID: ID!, $user: ID!) {
-		likePost(Input: { postID: $postID, user: $user }) {
+	mutation likePost($postID: ID!) {
+		likePost(Input: { postID: $postID }) {
 			errorMessage
 			message
 		}
@@ -32,8 +27,8 @@ export const likePost = gql`
 `
 
 export const removeLikePost = gql`
-	mutation removeLikePost($postID: ID!, $user: ID!) {
-		removeLikePost(Input: { postID: $postID, user: $user }) {
+	mutation removeLikePost($postID: ID!) {
+		removeLikePost(Input: { postID: $postID }) {
 			errorMessage
 			message
 		}
@@ -41,8 +36,8 @@ export const removeLikePost = gql`
 `
 
 export const commentPost = gql`
-	mutation commentPost($postID: ID!, $user: ID!, $text: String!) {
-		commentPost(Input: { postID: $postID, user: $user, text: $text }) {
+	mutation commentPost($postID: ID!, $text: String!) {
+		commentPost(Input: { postID: $postID, text: $text }) {
 			errorMessage
 			message
 		}
@@ -50,10 +45,17 @@ export const commentPost = gql`
 `
 
 export const removeCommentPost = gql`
-	mutation removeCommentPost($postID: ID!, $user: ID!, $commentID: ID!) {
-		removeCommentPost(
-			Input: { postID: $postID, user: $user, commentID: $commentID }
-		) {
+	mutation removeCommentPost($postID: ID!, $commentID: ID!) {
+		removeCommentPost(Input: { postID: $postID, commentID: $commentID }) {
+			errorMessage
+			message
+		}
+	}
+`
+
+export const editCommentPost = gql`
+	mutation editComment($postID: ID!, $commentID: ID!, $text: String!) {
+		editComment(Input: { postID: $postID, commentID: $commentID, text: $text }) {
 			errorMessage
 			message
 		}
@@ -63,20 +65,22 @@ export const removeCommentPost = gql`
 export const editPost = gql`
 	mutation editPost(
 		$postID: ID!
-		$content: String
-		$image: String
+		$text: String
 		$title: String
 		$markdown: Boolean
 	) {
 		editPost(
-			Input: {
-				postID: $postID
-				content: $content
-				image: $image
-				title: $title
-				markdown: $markdown
-			}
+			Input: { postID: $postID, text: $text, title: $title, markdown: $markdown }
 		) {
+			errorMessage
+			message
+		}
+	}
+`
+
+export const deletePost = gql`
+	mutation deletePost($postID: ID!) {
+		deletePost(postID: $postID) {
 			errorMessage
 			message
 		}

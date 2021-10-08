@@ -7,7 +7,6 @@ import ListItem from '@material-ui/core/ListItem'
 import ListItemIcon from '@material-ui/core/ListItemIcon'
 import ListItemText from '@material-ui/core/ListItemText'
 import useMediaQuery from '@material-ui/core/useMediaQuery'
-import Avatar from '@material-ui/core/Avatar'
 
 import UserAvatar from 'components/Avatars/UserAvatar'
 import CircularLoader from 'components/Loaders/CircularLoader'
@@ -18,12 +17,7 @@ import { useUserID } from 'redux/hooks/stateHooks'
 import { useAppSelector, useAppDispatch } from 'redux/hooks/hooks'
 
 import { useGetPersonalData } from 'hooks/useGetProfileData'
-import {
-	screenSizeDrawer,
-	FOLLOWERS,
-	FOLLOWING,
-	cloudinaryURL,
-} from 'variables/global'
+import { screenSizeDrawer, FOLLOWERS, FOLLOWING } from 'variables/global'
 import listComponents, { Components } from './NavigationDrawerListData'
 
 const SwrErrorAlert = dynamic(() => import('components/Alerts/SwrErrorAlert'))

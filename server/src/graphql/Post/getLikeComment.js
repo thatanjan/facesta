@@ -1,22 +1,19 @@
-import createPostModel from 'models/Post'
+import Post from 'models/Post'
 import sendErrorMessage from 'utils/errorMessage'
 import skippingList from 'utils/skippingList'
 
 const resolvers = {
 	Query: {
-		getAllComments: async (_, { Input: { skip, postID, user } }) => {
+		getAllComments: async (_, { Input: { skip, postID } }) => {
 			try {
-				const PostModel = createPostModel(user)
-
-				const { totalComments } = await PostModel.findById(postID, 'totalComments')
+				const { totalComments } = await Post.findById(postID, 'totalComments')
 
 				const { newSkip, returnNumber, empty } = skippingList(skip, totalComments)
 
 				if (empty) return { comments: [] }
 
-				const post = await PostModel.findById(postID)
-					.slice('comments', [-Math.abs(newSkip), returnNumber])
-					.slice('likes', 0)
+				const post = await Post.findById(postID)
+					.slice('comments', [newSkip, returnNumber])
 					.populate({
 						path: 'comments',
 						populate: {
@@ -34,19 +31,16 @@ const resolvers = {
 				return sendErrorMessage(error)
 			}
 		},
-		getAllLikes: async (_, { Input: { skip, postID, user } }) => {
+		getAllLikes: async (_, { Input: { skip, postID } }) => {
 			try {
-				const PostModel = createPostModel(user)
-
-				const { totalLikes } = await PostModel.findById(postID, 'totalLikes')
+				const { totalLikes } = await Post.findById(postID, 'totalLikes')
 
 				const { newSkip, returnNumber, empty } = skippingList(skip, totalLikes)
 
 				if (empty) return { users: [] }
 
-				const post = await PostModel.findById(postID, {
-					likes: { $slice: [-Math.abs(newSkip), returnNumber] },
-					comments: { $slice: 0 },
+				const post = await Post.findById(postID, {
+					likes: { $slice: [newSkip, returnNumber] },
 				}).populate({
 					path: 'likes',
 					select: '_id',
@@ -59,6 +53,25 @@ const resolvers = {
 				return { users: post.likes.reverse() }
 			} catch (error) {
 				return sendErrorMessage(error)
+			}
+		},
+		hasLiked: async (_, { Input: { postID } }, { user: { id } }) => {
+			try {
+				const post = await Post.findById(postID, {
+					likes: {
+						$elemMatch: {
+							$eq: id,
+						},
+					},
+				})
+
+				const response = { hasLiked: false }
+
+				if (post.likes.length) response.hasLiked = true
+
+				return response
+			} catch (e) {
+				return sendErrorMessage()
 			}
 		},
 	},
