@@ -8,11 +8,7 @@ const slice = createSlice({
 	initialState,
 	reducers: {
 		mutateNewsFeed: state => {
-			state.mutateNewsFeed = true
-
-			setTimeout(() => {
-				state.mutateNewsFeed = false
-			}, 0)
+			state.mutateNewsFeed = !state.mutateNewsFeed
 		},
 	},
 })
