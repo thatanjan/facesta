@@ -5,6 +5,7 @@ import userReducer from 'redux/slices/userSlice'
 import profilePictureUploadReducer from './slices/profilePictureUpload'
 import drawerReducer from './slices/drawerSlice'
 import profileReducer from './slices/profileSlice'
+import newsfeedReducer from './slices/newsFeedSlice'
 
 const store = configureStore({
 	reducer: {
@@ -13,6 +14,7 @@ const store = configureStore({
 		createPost: createPostReducer,
 		drawer: drawerReducer,
 		profile: profileReducer,
+		newsfeed: newsfeedReducer,
 	},
 })
 
