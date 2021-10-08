@@ -33,7 +33,6 @@ interface Props {
 const DeletePost = ({ postID }: Props) => {
 	const [showDialog, setShowDialog] = useState(false)
 
-	console.log(useRouter())
 	const mutateNewsFeed = useMutateNewsFeed()
 	const mutateAllPost = useMutateAllPost()
 
@@ -49,12 +48,11 @@ const DeletePost = ({ postID }: Props) => {
 
 		if (message) {
 			setShowDialog(false)
-			if (pathname === '/') mutateNewsFeed()
 
-			if (pathname === '/profile/[profile]') mutateAllPost()
+			mutateNewsFeed()
+			mutateAllPost()
 
 			if (pathname === '/post/[postUser]/[post]') {
-				mutateNewsFeed()
 				push('/')
 			}
 		}
