@@ -77,3 +77,12 @@ export const editPost = gql`
 		}
 	}
 `
+
+export const deletePost = gql`
+	mutation deletePost($postID: ID!) {
+		deletePost(postID: $postID) {
+			errorMessage
+			message
+		}
+	}
+`
