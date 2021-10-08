@@ -37,7 +37,7 @@ const DeletePost = ({ postID }: Props) => {
 	const mutateNewsFeed = useMutateNewsFeed()
 	const mutateAllPost = useMutateAllPost()
 
-	const { pathname } = useRouter()
+	const { pathname, push } = useRouter()
 
 	const handleDelete = async () => {
 		const {
@@ -52,6 +52,11 @@ const DeletePost = ({ postID }: Props) => {
 			if (pathname === '/') mutateNewsFeed()
 
 			if (pathname === '/profile/[profile]') mutateAllPost()
+
+			if (pathname === '/post/[postUser]/[post]') {
+				mutateNewsFeed()
+				push('/')
+			}
 		}
 	}
 
