@@ -1,16 +1,13 @@
 import React, { useState } from 'react'
 import Menu from '@material-ui/core/Menu'
-import MenuItem from '@material-ui/core/MenuItem'
 import Fade from '@material-ui/core/Fade'
 import IconButton from '@material-ui/core/IconButton'
-import ListItemIcon from '@material-ui/core/ListItemIcon'
-import ListItemText from '@material-ui/core/ListItemText'
-import { nanoid } from 'nanoid'
 
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz'
-import DeleteForeverIcon from '@material-ui/icons/DeleteForever'
 
 import { AnyObject } from 'interfaces/global'
+
+import DeletePost from 'components/Post/DeletePost'
 
 interface Props {
 	postID: string
@@ -41,12 +38,7 @@ const DropDownMenu = ({ postID }: Props) => {
 				onClose={handleClose}
 				TransitionComponent={Fade}
 			>
-				<MenuItem onClick={() => console.log(postID)}>
-					<ListItemIcon>
-						<DeleteForeverIcon />
-					</ListItemIcon>
-					<ListItemText primary='Delete Post' />
-				</MenuItem>
+				<DeletePost postID={postID} />
 			</Menu>
 		</>
 	)
