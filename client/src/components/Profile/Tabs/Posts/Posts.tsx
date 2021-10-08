@@ -10,6 +10,10 @@ import Post from 'interfaces/post'
 import useGetAllPosts from 'hooks/useGetPost'
 import { useGetPersonalData } from 'hooks/useGetProfileData'
 
+import {
+	useShouldMutateAllPost,
+	useMutateAllPost,
+} from 'redux/hooks/useNewsFeed'
 import { useProfileUserID } from 'redux/hooks/stateHooks'
 
 const SinglePost = dynamic(() => import('components/Post/SinglePost'))
@@ -25,12 +29,22 @@ const Posts = () => {
 		profileID
 	)
 
+	const shouldMutateAllPost = useShouldMutateAllPost()
+	const mutateAllPost = useMutateAllPost()
+
 	useEffect(() => {
 		mutate()
 		return () => {
 			mutate(data, false)
 		}
 	}, [])
+
+	useEffect(() => {
+		if (shouldMutateAllPost) {
+			mutate()
+			mutateAllPost()
+		}
+	}, [mutateAllPost])
 
 	if (!data || !profileData)
 		return (
