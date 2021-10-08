@@ -137,7 +137,7 @@ const SinglePost = ({
 					/>
 				}
 				action={
-					userID && (
+					userID === postUserID && (
 						<>
 							<PostDropDownMenu postID={postID} />
 						</>
