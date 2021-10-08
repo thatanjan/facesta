@@ -15,9 +15,9 @@ import Button from '@material-ui/core/Button'
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever'
 
 import { deletePost } from 'graphql/mutations/postMutations'
-import { getTotalComments } from 'graphql/queries/postQueries'
 
 import createRequest from 'utils/createRequest'
+import { useMutateNewsFeed } from 'redux/hooks/useNewsFeed'
 
 const Transition = React.forwardRef(function Transition(
 	props: SlideProps,
@@ -32,6 +32,12 @@ interface Props {
 
 const DeletePost = ({ postID }: Props) => {
 	const [showDialog, setShowDialog] = useState(false)
+
+	console.log(useRouter())
+	const mutateNewsFeed = useMutateNewsFeed()
+
+	const { pathname } = useRouter()
+
 	const handleDelete = async () => {
 		const {
 			deletePost: { message },
@@ -42,6 +48,7 @@ const DeletePost = ({ postID }: Props) => {
 
 		if (message) {
 			setShowDialog(false)
+			if (pathname === '/') mutateNewsFeed()
 		}
 	}
 
