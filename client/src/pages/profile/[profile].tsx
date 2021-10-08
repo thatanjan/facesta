@@ -14,13 +14,12 @@ import PreLoader from 'components/Loaders/PreLoader'
 import { useGetPersonalData } from 'hooks/useGetProfileData'
 
 import useStoreID from 'redux/hooks/useStoreID'
-import { useUserID, useProfileUserID } from 'redux/hooks/stateHooks'
+import { useUserID } from 'redux/hooks/stateHooks'
 import { useAppDispatch, useAppSelector } from 'redux/hooks/hooks'
 import { addProfileUser, removeProfileUser } from 'redux/slices/profileSlice'
 
 import getToken from 'utils/getToken'
 import decodeToken from 'utils/decodeToken'
-import shouldRedirectToAuth from 'utils/shouldRedirectToAuth'
 import checkValidJwt from 'utils/checkValidJwt'
 
 import Requset from 'interfaces/requsetResponse'

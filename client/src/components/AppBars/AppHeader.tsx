@@ -10,12 +10,11 @@ import useMediaQuery from '@material-ui/core/useMediaQuery'
 import Typography from '@material-ui/core/Typography'
 import IconButton from '@material-ui/core/IconButton'
 import Box from '@material-ui/core/Box'
-import Button from '@material-ui/core/Button'
 
 import CircularLoader from 'components/Loaders/CircularLoader'
 import MuiLink from 'components/Links/MuiLink'
 
-import { useUserID, useProfileUserID } from 'redux/hooks/stateHooks'
+import { useUserID } from 'redux/hooks/stateHooks'
 
 import { APP_NAME, screenSizeDrawer, LOGIN_URL } from 'variables/global'
 

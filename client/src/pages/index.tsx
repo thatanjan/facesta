@@ -1,4 +1,3 @@
-import Head from 'next/head'
 import { GetServerSideProps } from 'next'
 import { NextSeo } from 'next-seo'
 

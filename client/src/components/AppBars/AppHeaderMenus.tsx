@@ -3,7 +3,6 @@ import dynamic from 'next/dynamic'
 import Typography from '@material-ui/core/Typography'
 import IconButton from '@material-ui/core/IconButton'
 import NotificationsIcon from '@material-ui/icons/Notifications'
-import Avatar from '@material-ui/core/Avatar'
 import TelegramIcon from '@material-ui/icons/Telegram'
 import GitHubIcon from '@material-ui/icons/GitHub'
 import useMediaQuery from '@material-ui/core/useMediaQuery'
@@ -20,7 +19,6 @@ import { useUserID } from 'redux/hooks/stateHooks'
 
 import { useGetPersonalData } from 'hooks/useGetProfileData'
 import splitText from 'utils/splitText'
-import { cloudinaryURL } from 'variables/global'
 
 const DropDownMenu = dynamic(
 	() => import('components/DropDownMenu/DropDownMenu')

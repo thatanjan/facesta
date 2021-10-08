@@ -9,7 +9,7 @@ import { makeStyles } from '@material-ui/core/styles'
 import CircularLoader from 'components/Loaders/CircularLoader'
 import { screenSizeDrawer } from 'variables/global'
 
-import { useUserID, useProfileUserID } from 'redux/hooks/stateHooks'
+import { useUserID } from 'redux/hooks/stateHooks'
 
 import BackgroundPaper from './BackgroundPaper'
 

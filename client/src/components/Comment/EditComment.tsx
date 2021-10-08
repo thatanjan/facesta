@@ -5,7 +5,6 @@ import { mutate } from 'swr'
 import Dialog from '@material-ui/core/Dialog'
 import DialogActions from '@material-ui/core/DialogActions'
 import DialogContent from '@material-ui/core/DialogContent'
-import DialogContentText from '@material-ui/core/DialogContentText'
 import DialogTitle from '@material-ui/core/DialogTitle'
 import Button from '@material-ui/core/Button'
 import IconButton from '@material-ui/core/IconButton'
@@ -51,7 +50,7 @@ const EditComment = ({
 
 						return errors
 					}}
-					onSubmit={async ({ comment }, { resetForm }) => {
+					onSubmit={async ({ comment }) => {
 						const {
 							editComment: { message },
 						} = await createRequest({
