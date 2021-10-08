@@ -55,7 +55,6 @@ const SinglePostPage = () => {
 	} = useRouter()
 
 	const { data, error } = useGetSinglePost({
-		user: postUser as string,
 		postID: postID as string,
 	})
 
