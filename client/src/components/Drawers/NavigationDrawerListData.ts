@@ -32,11 +32,6 @@ const listComponents: List = [
 		link: '/profile',
 	},
 	{
-		title: 'Videos',
-		Component: VideoLibraryIcon,
-		link: '/development',
-	},
-	{
 		title: FOLLOWERS,
 		Component: FaceIcon,
 		link: '',
