@@ -7,6 +7,7 @@ import ListItemText from '@material-ui/core/ListItemText'
 import Button from '@material-ui/core/Button'
 import DeleteIcon from '@material-ui/icons/Delete'
 
+import InDevelopmentMenu from 'components/Menus/InDevelopmentMenu'
 import PageLayoutComponent from 'components/Layout/PageLayoutComponent'
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -45,14 +46,18 @@ const Content = () => {
 					}}
 				/>
 				<ListItemSecondaryAction className={listIconStyle}>
-					<Button
-						variant='contained'
-						startIcon={<DeleteIcon />}
-						className={buttonStyle}
-						size='small'
-					>
-						Delete
-					</Button>
+					<InDevelopmentMenu
+						ClickComponent={
+							<Button
+								variant='contained'
+								startIcon={<DeleteIcon />}
+								className={buttonStyle}
+								size='small'
+							>
+								Delete
+							</Button>
+						}
+					/>
 				</ListItemSecondaryAction>
 			</ListItem>
 		</List>
