@@ -44,7 +44,7 @@ const listComponents: List = [
 	{
 		title: 'Settings',
 		Component: SettingsIcon,
-		link: '/development',
+		link: '/settings',
 	},
 	{
 		title: 'Contribute to Github',
