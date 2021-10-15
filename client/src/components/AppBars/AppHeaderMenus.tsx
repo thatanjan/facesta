@@ -46,7 +46,6 @@ export class DropDownMenuOption {
 const AppHeaderMenus = () => {
 	const options: DropDownMenuOption[] = [
 		new DropDownMenuOption('settings & privacy', '/settings'),
-		new DropDownMenuOption('help and support', '/help'),
 		new DropDownMenuOption('logout', '/authentication/logout'),
 	]
 
