@@ -1,5 +1,6 @@
 import React from 'react'
 import { makeStyles, Theme } from '@material-ui/core/styles'
+import Typography from '@material-ui/core/Typography'
 import List from '@material-ui/core/List'
 import ListItem from '@material-ui/core/ListItem'
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction'
@@ -17,8 +18,6 @@ import decodeToken from 'utils/decodeToken'
 import getToken from 'utils/getToken'
 import createRedirectObject from 'utils/createRedirectObject'
 import { LOGIN_URL, APP_NAME } from 'variables/global'
-import CreatePost from 'components/Post/CreatePost/CreatePost'
-import NewsFeed from 'components/Post/NewsFeed'
 import { PageProps } from 'interfaces/global'
 
 import useStoreID from 'redux/hooks/useStoreID'
@@ -38,6 +37,7 @@ const useStyles = makeStyles((theme: Theme) => ({
 	listIconStyle: {
 		maxWidth: '30%',
 	},
+	titleStyle: { margin: '1rem 0' },
 }))
 
 const Content = () => {
@@ -46,34 +46,40 @@ const Content = () => {
 		listItemStyle,
 		listIconStyle,
 		listTextStyle,
+		titleStyle,
 	} = useStyles()
 	return (
-		<List dense>
-			<ListItem ContainerProps={{ className: listItemStyle }}>
-				<ListItemText
-					primary='Delete Account'
-					secondary='If you delete your account, you will never be able to recover your account.'
-					className={listTextStyle}
-					primaryTypographyProps={{
-						variant: 'body1',
-					}}
-				/>
-				<ListItemSecondaryAction className={listIconStyle}>
-					<InDevelopmentMenu
-						ClickComponent={
-							<Button
-								variant='contained'
-								startIcon={<DeleteIcon />}
-								className={buttonStyle}
-								size='small'
-							>
-								Delete
-							</Button>
-						}
+		<>
+			<Typography align='center' variant='h3' className={titleStyle}>
+				Settings
+			</Typography>
+			<List dense>
+				<ListItem ContainerProps={{ className: listItemStyle }}>
+					<ListItemText
+						primary='Delete Account'
+						secondary='If you delete your account, you will never be able to recover your account.'
+						className={listTextStyle}
+						primaryTypographyProps={{
+							variant: 'body1',
+						}}
 					/>
-				</ListItemSecondaryAction>
-			</ListItem>
-		</List>
+					<ListItemSecondaryAction className={listIconStyle}>
+						<InDevelopmentMenu
+							ClickComponent={
+								<Button
+									variant='contained'
+									startIcon={<DeleteIcon />}
+									className={buttonStyle}
+									size='small'
+								>
+									Delete
+								</Button>
+							}
+						/>
+					</ListItemSecondaryAction>
+				</ListItem>
+			</List>
+		</>
 	)
 }
 
