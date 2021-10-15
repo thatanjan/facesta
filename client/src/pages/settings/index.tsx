@@ -79,8 +79,30 @@ const Content = () => {
 
 const SettingsPage = ({ id }: PageProps) => {
 	useStoreID(id)
+	const description = 'Settings for user Account'
+	const url = 'http://con-fession.vercel.app/settings'
 	return (
 		<>
+			<NextSeo
+				title={`Settings | ${APP_NAME}`}
+				description={description}
+				canonical={url}
+				openGraph={{
+					type: 'website',
+					title: APP_NAME,
+					description,
+					url,
+					site_name: APP_NAME,
+					images: [
+						{
+							url: '/banner.png',
+							alt: description,
+							height: 1080,
+							width: 1920,
+						},
+					],
+				}}
+			/>
 			<PageLayoutComponent Content={Content} />
 		</>
 	)
