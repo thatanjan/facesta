@@ -13,6 +13,7 @@ import { useRouter } from 'next/router'
 
 import CircularLoader from 'components/Loaders/CircularLoader'
 import UserAvatar from 'components/Avatars/UserAvatar'
+import InDevelopmentMenu from 'components/Menus/InDevelopmentMenu'
 
 import MuiLink from 'components/Links/MuiLink'
 import { useUserID } from 'redux/hooks/stateHooks'
@@ -85,18 +86,26 @@ const AppHeaderMenus = () => {
 				</MuiLink>
 			</IconButton>
 
-			<IconButton edge='end' onClick={() => push('/message')}>
-				<TelegramIcon />
-			</IconButton>
+			<InDevelopmentMenu
+				ClickComponent={
+					<IconButton edge='end'>
+						<TelegramIcon />
+					</IconButton>
+				}
+			/>
 
 			{shouldShowSearchBox && (
 				<IconButton edge='end' onClick={() => push('/search')}>
 					<SearchIcon />
 				</IconButton>
 			)}
-			<IconButton>
-				<NotificationsIcon />
-			</IconButton>
+			<InDevelopmentMenu
+				ClickComponent={
+					<IconButton>
+						<NotificationsIcon />
+					</IconButton>
+				}
+			/>
 
 			<MuiLink
 				MuiComponent={IconButton}
