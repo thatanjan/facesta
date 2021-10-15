@@ -32,11 +32,6 @@ const listComponents: List = [
 		link: '/profile',
 	},
 	{
-		title: 'Videos',
-		Component: VideoLibraryIcon,
-		link: '/development',
-	},
-	{
 		title: FOLLOWERS,
 		Component: FaceIcon,
 		link: '',
@@ -49,7 +44,7 @@ const listComponents: List = [
 	{
 		title: 'Settings',
 		Component: SettingsIcon,
-		link: '/development',
+		link: '/settings',
 	},
 	{
 		title: 'Contribute to Github',
