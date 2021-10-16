@@ -27,6 +27,7 @@ const PostPage = ({ id }: Props) => {
 	useStoreID(id)
 	const {
 		query: { postUser, post },
+		push,
 	} = useRouter()
 
 	const {
@@ -41,8 +42,12 @@ const PostPage = ({ id }: Props) => {
 		any
 	> = useGetSinglePost({ postID: post as string })
 
+	if (error) {
+		push('/404')
+		return null
+	}
+
 	if (!data) return <PreLoader />
-	if (error) return <SwrErrorAlert />
 
 	const {
 		getSinglePost: {
