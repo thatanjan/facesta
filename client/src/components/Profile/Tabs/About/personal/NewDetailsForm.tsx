@@ -38,6 +38,7 @@ const useStyles = makeStyles(() =>
 	createStyles({
 		inputStyle: {
 			width: '100%',
+			marginBottom: '1rem',
 		},
 	})
 )
