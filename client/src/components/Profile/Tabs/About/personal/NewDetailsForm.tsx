@@ -39,6 +39,7 @@ const useStyles = makeStyles(() =>
 		inputStyle: {
 			width: '100%',
 			marginBottom: '1rem',
+			'& label': { textTransform: 'capitalize' },
 		},
 	})
 )
