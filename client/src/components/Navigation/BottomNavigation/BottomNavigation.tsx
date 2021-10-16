@@ -9,6 +9,7 @@ import { useGetNewsFeedPost } from 'hooks/useGetPost'
 
 import { useAppDispatch } from 'redux/hooks/hooks'
 import { openPostModal } from 'redux/slices/createPost'
+import { useUserID } from 'redux/hooks/stateHooks'
 
 import navigationItems, {
 	NavigationItem,
@@ -28,6 +29,7 @@ const useStyles = makeStyles({
 export default function LabelBottomNavigation() {
 	const { mutate } = useGetNewsFeedPost()
 	const { push, asPath } = useRouter()
+	const userID = useUserID()
 
 	const dispatch = useAppDispatch()
 
@@ -54,7 +56,7 @@ export default function LabelBottomNavigation() {
 				break
 
 			default:
-				return push('/development')
+				return push(`/profile/${userID}`)
 		}
 	}
 
