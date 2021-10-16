@@ -61,7 +61,7 @@ const AppHeaderMenus = () => {
 	const { data, error } = useGetPersonalData(id)
 
 	if (error) return <SwrErrorAlert />
-	if (!data) return <CircularLoader />
+	if (!data) return null
 
 	const {
 		getPersonalData: { profilePicture, name },
