@@ -123,12 +123,6 @@ const AppHeader = () => {
 						</MuiLink>
 					</Box>
 
-					{!matches && userID && (
-						<IconButton edge='end' onClick={() => push('/development')}>
-							<TelegramIcon />
-						</IconButton>
-					)}
-
 					{matches && userID && <AppHeaderMenus />}
 
 					{!userID && (
