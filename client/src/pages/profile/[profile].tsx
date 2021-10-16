@@ -2,6 +2,7 @@ import { NextSeo } from 'next-seo'
 import React, { useEffect } from 'react'
 import dynamic from 'next/dynamic'
 import { GetServerSideProps } from 'next'
+import { useRouter } from 'next/router'
 import Grid from '@material-ui/core/Grid'
 import { makeStyles } from '@material-ui/core/styles'
 
@@ -10,6 +11,7 @@ import ProfileCover from 'components/Profile/ProfileCover'
 import ProfileTabMenu from 'components/TabMenus/ProfileTabMenu'
 import CircularLoader from 'components/Loaders/CircularLoader'
 import PreLoader from 'components/Loaders/PreLoader'
+import Alert from 'components/Alerts/Alert'
 
 import { useGetPersonalData } from 'hooks/useGetProfileData'
 
@@ -68,6 +70,7 @@ const Profile = ({ id, profileUserID, isSelf }: Props) => {
 	useStoreID(id || '')
 	const { data, error } = useGetPersonalData(profileUserID)
 	const dispatch = useAppDispatch()
+	const { push } = useRouter()
 
 	dispatch(addProfileUser({ profileUserID, isSelf: isSelf as boolean }))
 
@@ -79,11 +82,19 @@ const Profile = ({ id, profileUserID, isSelf }: Props) => {
 
 	if (!data) return <PreLoader />
 
-	if (error) return <SwrErrorAlert />
+	if (error) {
+		push('/404')
+		return null
+	}
 
 	const {
-		getPersonalData: { name, profilePicture },
+		getPersonalData: { name, profilePicture, errorMessage },
 	} = data
+
+	if (errorMessage) {
+		push('/404')
+		return null
+	}
 
 	const description = `Confession Profile of ${name}`
 
