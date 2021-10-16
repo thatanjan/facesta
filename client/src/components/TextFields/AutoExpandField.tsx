@@ -34,7 +34,7 @@ const informationForField = (name: string): InformationForField => {
 			return { label: name, rows: '1' }
 
 		case POST_TITLE:
-			return { label: 'title', rows: '1' }
+			return { label: 'Title', rows: '1' }
 
 		default:
 			return { label: 'Write your feelings', rows: '3' }
