@@ -51,7 +51,7 @@ export const ProfileCover = () => {
 	return (
 		<>
 			<Paper elevation={0}>
-				<Card className={container}>
+				<Card elevation={0} className={container}>
 					<Image
 						layout='responsive'
 						height={720}
@@ -79,7 +79,6 @@ export const ProfileCover = () => {
 							)}
 						</Grid>
 					</Grid>
-					<Divider />
 				</Card>
 			</Paper>
 		</>
