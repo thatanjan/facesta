@@ -1,10 +1,15 @@
 import React, { useEffect } from 'react'
+import cookie from 'js-cookie'
 import IconButton from '@material-ui/core/IconButton'
 import EditIcon from '@material-ui/icons/Edit'
 import { makeStyles } from '@material-ui/core/styles'
 
 import ImageUploadModal from 'components/Modals/ImageUploadModal'
 import ImagePreview from 'components/Images/ImagePreview'
+import {
+	POST_CONTENT,
+	POST_TITLE,
+} from 'components/Post/CreatePost/CreatePostModal'
 
 import { useGetNewsFeedPost } from 'hooks/useGetPost'
 
@@ -46,6 +51,8 @@ const ProfilePictureUpload = () => {
 	useEffect(() => {
 		if (successful) {
 			mutate()
+			cookie.remove(POST_TITLE)
+			cookie.remove(POST_CONTENT)
 		}
 
 		if (successful || failed) {
