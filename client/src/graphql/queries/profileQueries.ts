@@ -10,6 +10,7 @@ export const getPersonalData = gql`
 			status
 			location
 			profilePicture
+			errorMessage
 		}
 	}
 `
