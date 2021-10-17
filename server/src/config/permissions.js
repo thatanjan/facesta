@@ -27,11 +27,13 @@ const isAuthenticated = rule()(async (_, __, { user, error }) => {
 	return true
 })
 
-const doesOwnPostExist = rule()(async (_, { postID }) => {
+const doesOwnThePost = rule()(async (_, { postID }, {user: {id}}) => {
 	try {
-		const post = await Post.findById(postID, 'totalLikes')
+		const post = await Post.findById(postID, 'user')
 
 		if (!post) return new Error(POST_DOES_NOT_EXIST)
+
+		if (post.user !== id) return new Error("You don't own the post")
 
 		return true
 	} catch (__) {
@@ -111,7 +113,7 @@ export default shield(
 	{
 		Mutation: {
 			createPost: and(isAuthenticated, doesUserExist),
-			deletePost: and(isAuthenticated, doesUserExist, doesOwnPostExist),
+			deletePost: and(isAuthenticated, doesUserExist, doesOwnThePost),
 			likePost: and(
 				isAuthenticated,
 				doesUserExist,
