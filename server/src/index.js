@@ -88,11 +88,11 @@ app.post('/validate', async ({ body }, res) => {
 
 		const newToken = removeBearer(token)
 
-		jwtToken.verify(newToken, process.env.SECRET_KEY, err => {
-			if (err) {
-				return res.status(401).send(err)
-			}
-		})
+		try {
+			jwtToken.verify(newToken, process.env.SECRET_KEY)
+		} catch (err) {
+			return res.status(401).send(err)
+		}
 
 		const decoded = jwtToken.decode(newToken)
 
