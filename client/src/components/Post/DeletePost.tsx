@@ -31,6 +31,7 @@ interface Props {
 
 const DeletePost = ({ postID }: Props) => {
 	const [showDialog, setShowDialog] = useState(false)
+	const [disableButton, setDisableButton ]  = useState(false)
 
 	const mutateNewsFeed = useMutateNewsFeed()
 	const mutateAllPost = useMutateAllPost()
@@ -38,6 +39,7 @@ const DeletePost = ({ postID }: Props) => {
 	const { pathname, push } = useRouter()
 
 	const handleDelete = async () => {
+		setDisableButton(true)
 		const {
 			deletePost: { message },
 		} = await createRequest({
@@ -76,10 +78,10 @@ const DeletePost = ({ postID }: Props) => {
 					</DialogContentText>
 				</DialogContent>
 				<DialogActions>
-					<Button onClick={() => setShowDialog(false)} color='primary'>
+					<Button onClick={() => setShowDialog(false)} color='primary' disabled={disableButton}>
 						Cancel
 					</Button>
-					<Button onClick={handleDelete} color='primary'>
+					<Button onClick={handleDelete} color='primary'disabled={disableButton}>
 						Yes
 					</Button>
 				</DialogActions>
