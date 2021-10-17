@@ -33,7 +33,7 @@ const doesOwnThePost = rule()(async (_, { postID }, { user: { id } }) => {
 
 		if (!post) return new Error(POST_DOES_NOT_EXIST)
 
-		if (post.user !== id) return new Error("You don't own the post")
+		if (post.user.toString() !== id) return new Error("You don't own the post")
 
 		return true
 	} catch (__) {
