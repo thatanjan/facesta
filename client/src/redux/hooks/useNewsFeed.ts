@@ -7,11 +7,13 @@ export const useMutateNewsFeed = () => {
 }
 
 export const useShouldMutateNewsFeed = () => {
+	// eslint-disable-next-line no-shadow
 	const { mutateNewsFeed } = useAppSelector(state => state.newsfeed)
 	return mutateNewsFeed
 }
 
 export const useShouldMutateAllPost = () => {
+	// eslint-disable-next-line no-shadow
 	const { mutateAllPost } = useAppSelector(state => state.newsfeed)
 	return mutateAllPost
 }

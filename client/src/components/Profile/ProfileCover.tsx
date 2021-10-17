@@ -4,7 +4,6 @@ import Image from 'next/image'
 import Paper from '@material-ui/core/Paper'
 import Grid from '@material-ui/core/Grid'
 import Typography from '@material-ui/core/Typography'
-import Divider from '@material-ui/core/Divider'
 import Card from '@material-ui/core/Card'
 import { makeStyles, Theme } from '@material-ui/core/styles'
 

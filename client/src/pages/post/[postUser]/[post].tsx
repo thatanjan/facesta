@@ -16,7 +16,6 @@ import { PageProps } from 'interfaces/global'
 import Post from 'interfaces/post'
 
 import PreLoader from 'components/Loaders/PreLoader'
-import SwrErrorAlert from 'components/Alerts/SwrErrorAlert'
 
 import { useGetSinglePost } from 'hooks/useGetPost'
 import useStoreID from 'redux/hooks/useStoreID'

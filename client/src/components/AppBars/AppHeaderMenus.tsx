@@ -11,7 +11,6 @@ import SearchIcon from '@material-ui/icons/Search'
 import { makeStyles, Theme } from '@material-ui/core/styles'
 import { useRouter } from 'next/router'
 
-import CircularLoader from 'components/Loaders/CircularLoader'
 import UserAvatar from 'components/Avatars/UserAvatar'
 import InDevelopmentMenu from 'components/Menus/InDevelopmentMenu'
 

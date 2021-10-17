@@ -11,7 +11,6 @@ import ProfileCover from 'components/Profile/ProfileCover'
 import ProfileTabMenu from 'components/TabMenus/ProfileTabMenu'
 import CircularLoader from 'components/Loaders/CircularLoader'
 import PreLoader from 'components/Loaders/PreLoader'
-import Alert from 'components/Alerts/Alert'
 
 import { useGetPersonalData } from 'hooks/useGetProfileData'
 
@@ -35,8 +34,6 @@ const useStyles = makeStyles(({ spacing }) => ({
 		margin: spacing(2, '0'),
 	},
 }))
-
-const SwrErrorAlert = dynamic(() => import('components/Alerts/SwrErrorAlert'))
 
 const Content = () => {
 	const { buttonGridContainer } = useStyles()
