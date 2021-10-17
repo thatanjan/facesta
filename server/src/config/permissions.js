@@ -27,7 +27,7 @@ const isAuthenticated = rule()(async (_, __, { user, error }) => {
 	return true
 })
 
-const doesOwnThePost = rule()(async (_, { postID }, {user: {id}}) => {
+const doesOwnThePost = rule()(async (_, { postID }, { user: { id } }) => {
 	try {
 		const post = await Post.findById(postID, 'user')
 
@@ -124,9 +124,9 @@ export default shield(
 				doesUserExist,
 				doesPostAndLikeExist(REMOVE_LIKE)
 			),
-			commentPost: and(isAuthenticated, doesUserExist, doesPostExist),
+			commentPost: and(isAuthenticated, doesUserExist),
 			removeCommentPost: and(isAuthenticated, doesUserExist, doesPostExist),
-			editPost: and(isAuthenticated, doesUserExist, doesPostExist),
+			editPost: and(isAuthenticated, doesUserExist, doesOwnThePost),
 			updatePersonalData: and(isAuthenticated, doesUserExist),
 			uploadProfilePicture: and(isAuthenticated, doesUserExist),
 			removeProfilePicture: and(isAuthenticated, doesUserExist),
