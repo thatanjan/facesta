@@ -1,7 +1,6 @@
 import AccountCircleIcon from '@material-ui/icons/AccountCircle'
 import ExitToAppIcon from '@material-ui/icons/ExitToApp'
 import SettingsIcon from '@material-ui/icons/Settings'
-import VideoLibraryIcon from '@material-ui/icons/VideoLibrary'
 import HomeIcon from '@material-ui/icons/Home'
 import FaceIcon from '@material-ui/icons/Face'
 import GitHubIcon from '@material-ui/icons/GitHub'
@@ -47,7 +46,7 @@ const listComponents: List = [
 		link: '/settings',
 	},
 	{
-		title: 'Contribute to Github',
+		title: 'Contribute',
 		Component: GitHubIcon,
 		link: 'https://github.com/thatanjan/confession',
 	},

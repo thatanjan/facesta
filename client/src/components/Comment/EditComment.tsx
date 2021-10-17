@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import cookie from 'js-cookie'
 import dynamic from 'next/dynamic'
 import { Formik, Form, Field } from 'formik'
 import { mutate } from 'swr'
@@ -32,6 +33,7 @@ const EditComment = ({
 	text,
 }: CommentActionProps) => {
 	const [showDialog, setShowDialog] = useState(false)
+	const fieldName = 'comment'
 
 	return (
 		<>
@@ -62,6 +64,7 @@ const EditComment = ({
 							mutate([getTotalComments, postID])
 							mutateCommentsList()
 							setShowDialog(false)
+							cookie.remove(fieldName)
 						}
 					}}
 				>
@@ -76,11 +79,14 @@ const EditComment = ({
 							>
 								<DialogTitle id='alert-dialog-slide-title'>Edit Comment</DialogTitle>
 								<DialogContent>
-									<Field component={AutoExpandField} name='comment' />
+									<Field component={AutoExpandField} name={fieldName} />
 								</DialogContent>
 								<DialogActions>
 									<Button
-										onClick={() => setShowDialog(false)}
+										onClick={() => {
+											setShowDialog(false)
+											cookie.remove(fieldName)
+										}}
 										color='primary'
 										disabled={isSubmitting}
 									>

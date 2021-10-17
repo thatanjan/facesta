@@ -38,6 +38,8 @@ const useStyles = makeStyles(() =>
 	createStyles({
 		inputStyle: {
 			width: '100%',
+			marginBottom: '1rem',
+			'& label': { textTransform: 'capitalize' },
 		},
 	})
 )
@@ -68,7 +70,7 @@ const NewDetailsForm = ({ setIsAdding, isAdding }: Props) => {
 		if (item === DATE_OF_BIRTH && value) {
 			const date = new Date(initialData[item])
 
-			initialData[item] = date.toLocaleDateString()
+			initialData[item] = date.toLocaleDateString().split('/').join('-')
 		}
 	})
 
@@ -106,10 +108,12 @@ const NewDetailsForm = ({ setIsAdding, isAdding }: Props) => {
 
 					const date = new Date(dateOfBirth)
 
+					if (date.toDateString() === 'Invalid Date')
+						errors.dateOfBirth = 'Invalid Date'
+
 					if (!(date instanceof Date && !Number.isNaN(date))) {
 						errors.dateOfBirth = "Invalid date. Try using 'mm-dd-yyyy'"
 					}
-
 					return errors
 				}}
 				onSubmit={async (values, { setSubmitting }) => {

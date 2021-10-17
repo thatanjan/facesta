@@ -2,6 +2,7 @@ import { NextSeo } from 'next-seo'
 import React, { useEffect } from 'react'
 import dynamic from 'next/dynamic'
 import { GetServerSideProps } from 'next'
+import { useRouter } from 'next/router'
 import Grid from '@material-ui/core/Grid'
 import { makeStyles } from '@material-ui/core/styles'
 
@@ -33,8 +34,6 @@ const useStyles = makeStyles(({ spacing }) => ({
 		margin: spacing(2, '0'),
 	},
 }))
-
-const SwrErrorAlert = dynamic(() => import('components/Alerts/SwrErrorAlert'))
 
 const Content = () => {
 	const { buttonGridContainer } = useStyles()
@@ -68,6 +67,7 @@ const Profile = ({ id, profileUserID, isSelf }: Props) => {
 	useStoreID(id || '')
 	const { data, error } = useGetPersonalData(profileUserID)
 	const dispatch = useAppDispatch()
+	const { push } = useRouter()
 
 	dispatch(addProfileUser({ profileUserID, isSelf: isSelf as boolean }))
 
@@ -79,11 +79,19 @@ const Profile = ({ id, profileUserID, isSelf }: Props) => {
 
 	if (!data) return <PreLoader />
 
-	if (error) return <SwrErrorAlert />
+	if (error) {
+		push('/404')
+		return null
+	}
 
 	const {
-		getPersonalData: { name, profilePicture },
+		getPersonalData: { name, profilePicture, errorMessage },
 	} = data
+
+	if (errorMessage) {
+		push('/404')
+		return null
+	}
 
 	const description = `Confession Profile of ${name}`
 

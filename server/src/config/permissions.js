@@ -27,11 +27,13 @@ const isAuthenticated = rule()(async (_, __, { user, error }) => {
 	return true
 })
 
-const doesOwnPostExist = rule()(async (_, { postID }) => {
+const doesOwnThePost = rule()(async (_, { postID }, { user: { id } }) => {
 	try {
-		const post = await Post.findById(postID, 'totalLikes')
+		const post = await Post.findById(postID, 'user')
 
 		if (!post) return new Error(POST_DOES_NOT_EXIST)
+
+		if (post.user !== id) return new Error("You don't own the post")
 
 		return true
 	} catch (__) {
@@ -111,7 +113,7 @@ export default shield(
 	{
 		Mutation: {
 			createPost: and(isAuthenticated, doesUserExist),
-			deletePost: and(isAuthenticated, doesUserExist, doesOwnPostExist),
+			deletePost: and(isAuthenticated, doesUserExist, doesOwnThePost),
 			likePost: and(
 				isAuthenticated,
 				doesUserExist,
@@ -122,9 +124,9 @@ export default shield(
 				doesUserExist,
 				doesPostAndLikeExist(REMOVE_LIKE)
 			),
-			commentPost: and(isAuthenticated, doesUserExist, doesPostExist),
+			commentPost: and(isAuthenticated, doesUserExist),
 			removeCommentPost: and(isAuthenticated, doesUserExist, doesPostExist),
-			editPost: and(isAuthenticated, doesUserExist, doesPostExist),
+			editPost: and(isAuthenticated, doesUserExist, doesOwnThePost),
 			updatePersonalData: and(isAuthenticated, doesUserExist),
 			uploadProfilePicture: and(isAuthenticated, doesUserExist),
 			removeProfilePicture: and(isAuthenticated, doesUserExist),
@@ -142,12 +144,7 @@ export default shield(
 			),
 		},
 		Query: {
-			getSinglePost: and(doesPostExist),
 			getNewsFeedPost: and(isAuthenticated, doesUserExist),
-			getTotalLikes: and(doesPostExist),
-			getTotalComments: and(doesPostExist),
-			getAllComments: and(doesPostExist),
-			getAllLikes: and(doesPostExist),
 			hasLiked: and(isAuthenticated, doesUserExist, doesPostExist),
 			getFollowers: and(isAuthenticated, doesUserExist),
 			getFollowees: and(isAuthenticated, doesUserExist),

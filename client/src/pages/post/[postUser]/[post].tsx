@@ -16,7 +16,6 @@ import { PageProps } from 'interfaces/global'
 import Post from 'interfaces/post'
 
 import PreLoader from 'components/Loaders/PreLoader'
-import SwrErrorAlert from 'components/Alerts/SwrErrorAlert'
 
 import { useGetSinglePost } from 'hooks/useGetPost'
 import useStoreID from 'redux/hooks/useStoreID'
@@ -27,6 +26,7 @@ const PostPage = ({ id }: Props) => {
 	useStoreID(id)
 	const {
 		query: { postUser, post },
+		push,
 	} = useRouter()
 
 	const {
@@ -41,8 +41,12 @@ const PostPage = ({ id }: Props) => {
 		any
 	> = useGetSinglePost({ postID: post as string })
 
+	if (error) {
+		push('/404')
+		return null
+	}
+
 	if (!data) return <PreLoader />
-	if (error) return <SwrErrorAlert />
 
 	const {
 		getSinglePost: {

@@ -1,17 +1,14 @@
 import React from 'react'
 import dynamic from 'next/dynamic'
-import { useRouter } from 'next/router'
 import { makeStyles, fade } from '@material-ui/core/styles'
 import AppBar from '@material-ui/core/AppBar'
 import Toolbar from '@material-ui/core/Toolbar'
 import MenuIcon from '@material-ui/icons/Menu'
-import TelegramIcon from '@material-ui/icons/Telegram'
 import useMediaQuery from '@material-ui/core/useMediaQuery'
 import Typography from '@material-ui/core/Typography'
 import IconButton from '@material-ui/core/IconButton'
 import Box from '@material-ui/core/Box'
 
-import CircularLoader from 'components/Loaders/CircularLoader'
 import MuiLink from 'components/Links/MuiLink'
 
 import { useUserID } from 'redux/hooks/stateHooks'
@@ -22,8 +19,7 @@ import { useAppDispatch } from 'redux/hooks/hooks'
 import { toggleDrawer } from 'redux/slices/drawerSlice'
 
 const NavigationDrawer = dynamic(
-	() => import('components/Drawers/NavigationDrawer'),
-	{ loading: () => <CircularLoader /> }
+	() => import('components/Drawers/NavigationDrawer')
 )
 
 const AppHeaderMenus = dynamic(
@@ -84,8 +80,6 @@ const AppHeader = () => {
 
 	const userID = useUserID()
 
-	const { push } = useRouter()
-
 	const { menuButton, title } = useStyles()
 
 	const dispatch = useAppDispatch()
@@ -122,12 +116,6 @@ const AppHeader = () => {
 							{APP_NAME}
 						</MuiLink>
 					</Box>
-
-					{!matches && userID && (
-						<IconButton edge='end' onClick={() => push('/development')}>
-							<TelegramIcon />
-						</IconButton>
-					)}
 
 					{matches && userID && <AppHeaderMenus />}
 

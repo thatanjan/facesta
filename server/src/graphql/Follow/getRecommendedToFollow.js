@@ -8,7 +8,8 @@ const resolvers = {
 				const aggregate = Follow.aggregate()
 
 				const aggregateResult = await aggregate
-					.sort('totalFollowers')
+					.match({ totalFollowers: { $gt: 0 } })
+					.sort('-totalFollowers')
 					.limit(10)
 					.project('user')
 
