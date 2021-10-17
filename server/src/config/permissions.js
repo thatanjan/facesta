@@ -142,12 +142,7 @@ export default shield(
 			),
 		},
 		Query: {
-			getSinglePost: and(doesPostExist),
 			getNewsFeedPost: and(isAuthenticated, doesUserExist),
-			getTotalLikes: and(doesPostExist),
-			getTotalComments: and(doesPostExist),
-			getAllComments: and(doesPostExist),
-			getAllLikes: and(doesPostExist),
 			hasLiked: and(isAuthenticated, doesUserExist, doesPostExist),
 			getFollowers: and(isAuthenticated, doesUserExist),
 			getFollowees: and(isAuthenticated, doesUserExist),
