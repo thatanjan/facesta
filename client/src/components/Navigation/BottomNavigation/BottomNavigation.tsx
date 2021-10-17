@@ -5,9 +5,11 @@ import BottomNavigation from '@material-ui/core/BottomNavigation'
 import BottomNavigationAction from '@material-ui/core/BottomNavigationAction'
 import { nanoid } from 'nanoid'
 
+import CreatePostModal from 'components/Post/CreatePost/CreatePostModal'
+
 import { useGetNewsFeedPost } from 'hooks/useGetPost'
 
-import { useAppDispatch } from 'redux/hooks/hooks'
+import { useAppDispatch, useAppSelector } from 'redux/hooks/hooks'
 import { openPostModal } from 'redux/slices/createPost'
 import { useUserID } from 'redux/hooks/stateHooks'
 
@@ -32,6 +34,7 @@ export default function LabelBottomNavigation() {
 	const userID = useUserID()
 
 	const dispatch = useAppDispatch()
+	const isPostModalOpen = useAppSelector(state => state.createPost.postModal)
 
 	const { root } = useStyles()
 	const [value, setValue] = React.useState(asPath.substring(1) || HOME)
@@ -70,6 +73,7 @@ export default function LabelBottomNavigation() {
 					onClick={() => handleClick(props.value)}
 				/>
 			))}
+			{isPostModalOpen && <CreatePostModal />}
 		</BottomNavigation>
 	)
 }
