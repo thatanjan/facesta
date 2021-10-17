@@ -108,10 +108,12 @@ const NewDetailsForm = ({ setIsAdding, isAdding }: Props) => {
 
 					const date = new Date(dateOfBirth)
 
+					if (date.toDateString() === 'Invalid Date')
+						errors.dateOfBirth = 'Invalid Date'
+
 					if (!(date instanceof Date && !Number.isNaN(date))) {
 						errors.dateOfBirth = "Invalid date. Try using 'mm-dd-yyyy'"
 					}
-
 					return errors
 				}}
 				onSubmit={async (values, { setSubmitting }) => {
