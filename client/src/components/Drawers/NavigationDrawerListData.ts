@@ -46,7 +46,7 @@ const listComponents: List = [
 		link: '/settings',
 	},
 	{
-		title: 'Contribute to Github',
+		title: 'Contribute',
 		Component: GitHubIcon,
 		link: 'https://github.com/thatanjan/confession',
 	},
