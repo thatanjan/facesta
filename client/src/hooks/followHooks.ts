@@ -12,6 +12,7 @@ import { useAppSelector } from 'redux/hooks/hooks'
 import createRequest from 'utils/createRequest'
 import { AnyObject } from 'interfaces/global'
 import useSWRgql from './useSWRgql'
+import { getSkipNum } from './useGetPost'
 
 export const useGetFollowers = () => {
 	const user = useAppSelector(state => state.profile.profileUserID)
@@ -19,7 +20,7 @@ export const useGetFollowers = () => {
 	const getKey = (index: number, previousPageData: AnyObject) => {
 		if (previousPageData && previousPageData.getFollowers.followers.length === 0)
 			return null
-		const skipnum: number = (index + 1) * 10
+		const skipnum: number = getSkipNum(index)
 
 		return [getFollowers, skipnum, user]
 	}
@@ -37,7 +38,7 @@ export const useGetFollowees = () => {
 	const getKey = (index: number, previousPageData: AnyObject) => {
 		if (previousPageData && previousPageData.getFollowees?.followees.length === 0)
 			return null
-		const skipnum: number = (index + 1) * 10
+		const skipnum: number = getSkipNum(index)
 
 		return [getFollowees, skipnum, user]
 	}

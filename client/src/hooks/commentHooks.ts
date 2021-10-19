@@ -1,8 +1,10 @@
 import { getAllComments, getTotalComments } from 'graphql/queries/postQueries'
 import createRequest from 'utils/createRequest'
 import { useSWRInfinite, SWRInfiniteResponseInterface } from 'swr'
+
 import useSWRgql from 'hooks/useSWRgql'
 import { Comment } from 'interfaces/post'
+import { getSkipNum } from './useGetPost'
 
 export interface Input {
 	postID: string
@@ -11,7 +13,7 @@ export interface Input {
 // eslint-disable-next-line
 export const useGetAllComments = ({ postID }: Input) => {
 	const getKey = (index: number) => {
-		const skipnum: number = index * 10
+		const skipnum: number = getSkipNum(index)
 
 		return [getAllComments, skipnum, postID]
 	}
