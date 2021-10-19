@@ -3,6 +3,7 @@ import { useSWRInfinite } from 'swr'
 import createRequest from 'utils/createRequest'
 import { hasLiked, getAllLikes } from 'graphql/queries/postQueries'
 import useSWRgql from './useSWRgql'
+import { getSkipNum } from './useGetPost'
 
 interface Input {
 	postID: string
@@ -18,7 +19,7 @@ export const useHasLiked = ({ postID }: Input) => {
 
 export const useGetAllLikes = ({ postID }: Input) => {
 	const getKey = (index: number) => {
-		const skipnum: number = index * 10
+		const skipnum: number = getSkipNum(index)
 
 		return [getAllLikes, skipnum, postID]
 	}

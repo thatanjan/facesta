@@ -12,6 +12,8 @@ import { useUserID, useProfileUserID } from 'redux/hooks/stateHooks'
 
 import { AnyObject } from 'interfaces/global'
 
+export const getSkipNum = (index: number): number => index + 1
+
 const useGetAllPost = () => {
 	const profileUser = useProfileUserID()
 	const user = useUserID()
@@ -19,7 +21,7 @@ const useGetAllPost = () => {
 	const getKey = (index: number, previousPageData: AnyObject) => {
 		if (previousPageData && previousPageData.getAllPost.posts.length === 0)
 			return null
-		const skipnum: number = index * 10
+		const skipnum: number = getSkipNum(index)
 
 		return [user ? getAllPost : getAllPostNoAuth, skipnum, profileUser]
 	}
@@ -57,7 +59,7 @@ export const useGetNewsFeedPost = () => {
 		if (previousPageData && previousPageData.getNewsFeedPost.errorMessage)
 			return null
 
-		const skipnum: number = index + 1
+		const skipnum: number = getSkipNum(index)
 
 		return [getNewsFeedPost, skipnum, userID]
 	}
