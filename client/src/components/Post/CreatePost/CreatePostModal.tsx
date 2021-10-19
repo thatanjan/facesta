@@ -116,13 +116,22 @@ const CreatePostModal = () => {
 						const title = values[POST_TITLE]
 						const content = values[POST_CONTENT]
 
+						const titleLength = title.length
+						const contentLength = content.length
+
 						if (!title) {
 							errors.postTitle = 'Required' as ''
 						}
 
+						if (titleLength > 100)
+							errors.postTitle = 'Title should be under 100 characters long'
+
 						if (!content) {
 							errors.postContent = 'Required' as ''
 						}
+
+						if (contentLength > 5000)
+							errors.postTitle = 'Content should be under 5000 characters long'
 
 						return errors
 					}}
