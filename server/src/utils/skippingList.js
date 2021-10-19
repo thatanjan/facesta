@@ -1,25 +1,25 @@
 const skippingList = (skip, total) => {
 	const empty = { empty: true }
 
-	const rest = total - skip
+	if (!total || skip < 1) return empty
 
-	if (!total || !rest) return empty
+	const returnNumber = 10
+	const newSkip = skip * -10
 
-	let newSkip = (skip + 10) * -1
-	let returnNumber = 10
+	let result = { newSkip, returnNumber }
 
-	if (rest < -10) return empty
+	const absOfNewSkip = Math.abs(newSkip)
 
-	if (rest < 0) {
-		return { newSkip: total * -1, returnNumber: total }
-	}
+	const extra = absOfNewSkip - total
 
-	if (rest < 10) {
-		newSkip += rest
-		returnNumber = rest
-	}
+	if (extra < 0) return result
 
-	return { newSkip, returnNumber }
+	if (extra >= 10) return empty
+
+	if (extra > 0)
+		result = { newSkip: (absOfNewSkip - extra) * -1, returnNumber: 10 - extra }
+
+	return result
 }
 
 export default skippingList
