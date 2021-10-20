@@ -147,6 +147,7 @@ const SinglePost = ({
 				titleTypographyProps={{
 					variant: 'h6',
 					component: 'h1',
+					style: { wordBreak: 'break-all' },
 				}}
 				subheader={
 					<>
