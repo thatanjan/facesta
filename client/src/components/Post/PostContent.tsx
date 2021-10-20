@@ -16,7 +16,12 @@ const PostContentForPage = ({ text }: { text: string }) => {
 	return (
 		<>
 			{paragraphs.map(paragraph => (
-				<Typography key={nanoid()} variant='body1' component='p'>
+				<Typography
+					key={nanoid()}
+					variant='body1'
+					component='p'
+					style={{ marginBottom: '1rem' }}
+				>
 					{paragraph}
 				</Typography>
 			))}
