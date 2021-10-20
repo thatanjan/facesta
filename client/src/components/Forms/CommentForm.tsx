@@ -20,7 +20,7 @@ const AutoExpandField = dynamic(
 )
 
 interface Values {
-	comment: ''
+	comment: string
 }
 
 interface Props {
@@ -45,9 +45,13 @@ function CommentForm({
 			}}
 			validate={(values: Values) => {
 				const errors: Partial<Values> = {}
-				if (!values.comment) {
-					errors.comment = 'Required' as ''
-				}
+				const { comment } = values
+
+				if (!comment) errors.comment = 'Required'
+
+				if (comment.length > 1000)
+					errors.comment = 'Comment has to be under 1000 characters long'
+
 				return errors
 			}}
 			onSubmit={async ({ comment }, { resetForm }) => {
