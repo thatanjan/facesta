@@ -42,6 +42,10 @@ const useStyles = makeStyles((theme: Theme) =>
 				marginLeft: '61px',
 			},
 		},
+		actionContainerStyle: {
+			position: 'relative',
+			transform: 'none',
+		},
 	})
 )
 
@@ -54,8 +58,9 @@ export interface CommentActionProps {
 }
 
 const CommentAction = (props: CommentActionProps) => {
+	const { actionContainerStyle } = useStyles()
 	return (
-		<ListItemSecondaryAction>
+		<ListItemSecondaryAction className={actionContainerStyle}>
 			<EditComment {...props} />
 
 			<DeleteComment {...props} />
@@ -88,16 +93,6 @@ const SingleComment = ({
 	return (
 		<>
 			<ListItem alignItems='flex-start' className={listItemStyle}>
-				{userID === _id && (
-					<CommentAction
-						userID={_id}
-						postID={postID as string}
-						commentID={commentID}
-						mutateCommentsList={mutateCommentsList}
-						text={text}
-					/>
-				)}
-
 				<ListItemAvatar>
 					<UserAvatar alt={name} imageID={profilePicture} href={`/profile/${_id}`} />
 				</ListItemAvatar>
@@ -136,10 +131,19 @@ const SingleComment = ({
 								>
 									{line}
 								</Typography>
-							))}
+							))}{' '}
 						</>
 					}
 				/>
+				{userID === _id && (
+					<CommentAction
+						userID={_id}
+						postID={postID as string}
+						commentID={commentID}
+						mutateCommentsList={mutateCommentsList}
+						text={text}
+					/>
+				)}
 			</ListItem>
 			<Divider variant='inset' component='li' className={dividerStyle} />
 		</>
