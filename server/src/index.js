@@ -25,26 +25,11 @@ cloudinary.config({
 	api_key: process.env.CLOUDINARY_API_KEY,
 	api_secret: process.env.CLOUDINARY_API_SECRET,
 })
+
 const app = express()
 
 app.use(express.json({ limit: '50mb' }))
 app.use(express.urlencoded({ limit: '50mb', extended: true }))
-
-mongoose
-	.connect(process.env.USERS_DB_URI, {
-		useNewUrlParser: true,
-		useFindAndModify: false,
-		useUnifiedTopology: true,
-		useCreateIndex: true,
-	})
-	.then(() => {
-		// eslint-disable-next-line no-console
-		console.log('DB connected')
-	})
-	.catch(error => {
-		// eslint-disable-next-line
-		console.log(error)
-	})
 
 app.use(cors())
 
@@ -53,7 +38,7 @@ app.use(
 		secret: process.env.SECRET_KEY,
 		algorithms: ['HS256'],
 		credentialsRequired: false,
-	})
+	}),
 )
 
 app.use((err, req, _, next) => {
@@ -109,7 +94,7 @@ app.post('/validate', async ({ body }, res) => {
 const server = new ApolloServer({
 	schema: applyMiddleware(
 		makeExecutableSchema({ typeDefs, resolvers }),
-		permissions
+		permissions,
 	),
 	context: ctx => {
 		const {
@@ -132,5 +117,21 @@ server.applyMiddleware({ app })
 
 const port = process.env.PORT || 9000
 
-// eslint-disable-next-line no-console
-app.listen({ port }, () => console.log(`server is running at ${port}`))
+mongoose
+	.connect(process.env.USERS_DB_URI, {
+		useNewUrlParser: true,
+		useFindAndModify: false,
+		useUnifiedTopology: true,
+		useCreateIndex: true,
+	})
+	.then(() => {
+		// eslint-disable-next-line no-console
+		console.log('DB connected')
+
+		// eslint-disable-next-line no-console
+		app.listen({ port }, () => console.log(`server is running at ${port}`))
+	})
+	.catch(error => {
+		// eslint-disable-next-line
+		console.log(error)
+	})
