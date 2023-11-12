@@ -2,21 +2,9 @@
 
 [![MIT License](https://img.shields.io/apm/l/atomic-design-ui.svg?)](https://github.com/tterb/atomic-design-ui/blob/master/LICENSEs)
 
-A social media for helping people overcome their imposter syndrome.
+A social media application inspired from Facebook and Instagram
 
 ## [Visit Confession](https://con-fession.vercel.app/)
-
-## Why Confession?
-
-Imposter syndrome happens to all of us. Because we share our success stories.
-And others think that they are not capeable of anything. But the don't see the
-failures.
-
-## How Confession will solve Imposter Syndrome?
-
-This where Confession will come into play. In this application, people will share
-not only their success but also their failures. Then others will know about
-behind the scene. And they won't have the imposter syndrome.
 
 ## Features
 
@@ -83,16 +71,13 @@ confession is [MIT](https://github.com/thatanjan/confession/blob/master/LICENSE)
 
 Here are some related projects. Feel free to contribute to them too.
 
-[Cules Coding Blog](https://www.culescoding.space/)
+[Cules Coding Blog](https://github.com/thatanjan/cules-coding)
 
 ## Feedback
 
 If you have any feedback, please reach out to me at thatanjan@gmail.com.
 Or Dm me on any social media as @thatanjan
 
-## Support
-
-Share this application to others so that we don't have to face imposter syndrome.
 
 ## Shameless Plug
 
