@@ -66,17 +66,17 @@ const useStyles = makeStyles((theme: Theme) =>
 				textAlign: 'start',
 			},
 		},
-	})
+	}),
 )
 
 const LogInForm = dynamic(
 	() => import('components/Forms/UserAuthenticationForms/LogInForm'),
-	{ loading: () => <CircularLoader /> }
+	{ loading: () => <CircularLoader /> },
 )
 
 const SignUpForm = dynamic(
 	() => import('components/Forms/UserAuthenticationForms/SignUpForm'),
-	{ loading: () => <CircularLoader /> }
+	{ loading: () => <CircularLoader /> },
 )
 
 interface Props {
@@ -103,13 +103,12 @@ const UserAuthenticationPage = ({ authentication }: Props) => {
 				openGraph={{
 					type: 'website',
 					title,
-					description: `${title} to use confession`,
+					description: `${title} to use ${APP_NAME}`,
 					url,
 					site_name: APP_NAME,
 					images: [
 						{
-							url:
-								'https://res.cloudinary.com/anjancules/image/upload/v1624773419/confession/banner_mumzyz.png',
+							url: 'https://res.cloudinary.com/anjancules/image/upload/v1624773419/confession/banner_mumzyz.png',
 							height: 1080,
 							width: 1920,
 						},

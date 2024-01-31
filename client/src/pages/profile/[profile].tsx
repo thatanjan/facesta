@@ -24,6 +24,7 @@ import decodeToken from 'utils/decodeToken'
 import checkValidJwt from 'utils/checkValidJwt'
 
 import Requset from 'interfaces/requsetResponse'
+import { APP_NAME } from 'variables/global'
 
 const FollowButton = dynamic(() => import('components/Buttons/FollowButton'), {
 	loading: () => <CircularLoader />,
@@ -93,7 +94,7 @@ const Profile = ({ id, profileUserID, isSelf }: Props) => {
 		return null
 	}
 
-	const description = `Confession Profile of ${name}`
+	const description = `${APP_NAME} Profile of ${name}`
 
 	const splitedName = (name as string).split(' ')
 
