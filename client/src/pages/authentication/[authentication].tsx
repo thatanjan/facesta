@@ -120,7 +120,7 @@ const UserAuthenticationPage = ({ authentication }: Props) => {
 				<Grid item xs={12} md={6} className={headerStyle}>
 					<Typography variant='h1'> {APP_NAME}</Typography>
 					<Typography variant='h4'>
-						Let your Imposter Syndrome come from your brain
+						A social media application inspired from Facebook and Instagram
 					</Typography>
 				</Grid>
 
