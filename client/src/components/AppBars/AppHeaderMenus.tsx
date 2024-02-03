@@ -19,9 +19,10 @@ import { useUserID } from 'redux/hooks/stateHooks'
 
 import { useGetPersonalData } from 'hooks/useGetProfileData'
 import splitText from 'utils/splitText'
+import { APP_NAME } from 'variables/global'
 
 const DropDownMenu = dynamic(
-	() => import('components/DropDownMenu/DropDownMenu')
+	() => import('components/DropDownMenu/DropDownMenu'),
 )
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -108,7 +109,7 @@ const AppHeaderMenus = () => {
 
 			<MuiLink
 				MuiComponent={IconButton}
-				href='https://github.com/thatanjan/confession'
+				href={`https://github.com/thatanjan/${APP_NAME.toLowerCase()}`}
 			>
 				<GitHubIcon />
 			</MuiLink>

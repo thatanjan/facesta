@@ -1,10 +1,10 @@
-# [Confession](https://con-fession.vercel.app/)
+# [Facesta](https://facesta.vercel.app/)
 
 [![MIT License](https://img.shields.io/apm/l/atomic-design-ui.svg?)](https://github.com/tterb/atomic-design-ui/blob/master/LICENSEs)
 
 A social media application inspired from Facebook and Instagram
 
-## [Visit Confession](https://con-fession.vercel.app/)
+## [Visit Facesta](https://facesta.vercel.app/)
 
 ## Features
 
@@ -19,9 +19,9 @@ A social media application inspired from Facebook and Instagram
 
 ### Home page
 
-![Homepage](https://raw.githubusercontent.com/thatanjan/confession/master/screenshots/homepage.png)
+![Homepage](https://raw.githubusercontent.com/thatanjan/facesta/master/screenshots/homepage.png)
 
-[More screenshots](https://github.com/thatanjan/confession/blob/master/screenshots.md)
+[More screenshots](https://github.com/thatanjan/facesta/blob/master/screenshots.md)
 
 ## Tech Stack
 
@@ -61,7 +61,7 @@ Contributions are always welcome!
 
 ## License
 
-confession is [MIT](https://github.com/thatanjan/confession/blob/master/LICENSE) Licensed
+Facesta is [MIT](https://github.com/thatanjan/facesta/blob/master/LICENSE) Licensed
 
 ## Authors
 
@@ -77,7 +77,6 @@ Here are some related projects. Feel free to contribute to them too.
 
 If you have any feedback, please reach out to me at thatanjan@gmail.com.
 Or Dm me on any social media as @thatanjan
-
 
 ## Shameless Plug
 

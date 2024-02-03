@@ -29,7 +29,7 @@ const FOLLOWERS = 'followers'
 const FOLLOWEES = 'followees'
 const FOLLOWING = 'following'
 
-const APP_NAME = 'Confession'
+const APP_NAME = 'Facesta'
 
 const screenSizeDrawer = (theme: Theme) => theme.breakpoints.up('md')
 

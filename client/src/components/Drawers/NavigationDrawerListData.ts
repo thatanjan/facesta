@@ -5,7 +5,7 @@ import HomeIcon from '@material-ui/icons/Home'
 import FaceIcon from '@material-ui/icons/Face'
 import GitHubIcon from '@material-ui/icons/GitHub'
 
-import { LOGOUT_URL, FOLLOWERS, FOLLOWING } from 'variables/global'
+import { LOGOUT_URL, FOLLOWERS, FOLLOWING, APP_NAME } from 'variables/global'
 
 export interface Components {
 	title: string
@@ -48,7 +48,7 @@ const listComponents: List = [
 	{
 		title: 'Contribute',
 		Component: GitHubIcon,
-		link: 'https://github.com/thatanjan/confession',
+		link: `https://github.com/thatanjan/${APP_NAME.toLowerCase()}`,
 	},
 	{
 		title: 'Log Out',

@@ -45,6 +45,8 @@ const UploadModal = ({
 		onDrop: acceptedFiles => {
 			const realFile = acceptedFiles[0]
 
+			if (!realFile) return
+
 			const fileWithPreviewLink = Object.assign(realFile, {
 				previewLink: URL.createObjectURL(realFile),
 				valid: true,
